@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Information about the user.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique ID of the user." },
+        "email": { "type": "string", "format": "email", "description": "The email of the user." },
+        "displayName": { "type": "string", "description": "The display name of the user." },
+        "photoURL": { "type": "string", "format": "uri", "description": "The photo URL of the user." },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "The role of the user." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the user was created." }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "A branding project.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the project." },
+        "ownerId": { "type": "string", "description": "The UID of the owner." },
+        "name": { "type": "string", "description": "The name of the project." },
+        "client": { "type": "string", "description": "The client name." },
+        "discovery": { "type": "object", "description": "Brand discovery data." },
+        "strategy": { "type": "object", "description": "Brand strategy data." },
+        "system": { "type": "object", "description": "Brand system data." },
+        "logoAssistant": { "type": "object", "description": "Logo assistant data." },
+        "tasks": { "type": "array", "items": { "type": "object" }, "description": "List of tasks." },
+        "tracking": { "type": "object", "description": "Project tracking data." },
+        "selectedTools": { "type": "array", "items": { "type": "string" }, "description": "Tools selected for the project." },
+        "createdAt": { "type": "number", "description": "Timestamp when the project was created." }
+      },
+      "required": ["id", "ownerId", "name", "selectedTools", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data."
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Brand projects."
+    }
+  }
+}

@@ -1,0 +1,847 @@
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../AuthContext';
+import { BrandProject, AppNotification, Task } from '../types';
+import { Card, Button, Input } from './UI';
+import { 
+  Plus, 
+  Folder, 
+  Clock, 
+  CheckCircle2, 
+  MoreVertical, 
+  LayoutGrid, 
+  Users, 
+  Calendar,
+  Compass,
+  Sparkles,
+  Palette,
+  FileText,
+  X,
+  BookOpen,
+  Edit,
+  Copy,
+  Trash,
+  Eye,
+  RotateCcw,
+  AlertTriangle
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { cn } from '../lib/utils';
+
+interface Props {
+  projects: BrandProject[];
+  onSelectProject: (project: BrandProject) => void;
+  onCreateProject: (name: string, client: string, tools: any[]) => void;
+  onRenameProject?: (projectId: string, currentName: string) => void;
+  onDuplicateProject?: (project: BrandProject) => void;
+  onDeleteProject?: (projectId: string) => void;
+  onRestoreProject: (id: string) => Promise<void>;
+  onPermanentDeleteProject: (id: string) => Promise<void>;
+  addNotification: (n: Omit<AppNotification, 'id' | 'timestamp' | 'read'>) => Promise<void>;
+}
+
+export const Dashboard = ({ 
+  projects, 
+  onSelectProject, 
+  onCreateProject, 
+  onRenameProject, 
+  onDuplicateProject, 
+  onDeleteProject,
+  onRestoreProject,
+  onPermanentDeleteProject,
+  addNotification
+}: Props) => {
+  const { user } = useAuth();
+  const [greeting, setGreeting] = useState<string | null>(null);
+  const [userName, setUserName] = useState("Designer");
+
+  useEffect(() => {
+    const isNewUser = localStorage.getItem('brandforge_just_signed_up');
+    if (isNewUser) {
+      setGreeting("Welcome");
+      localStorage.removeItem('brandforge_just_signed_up');
+    } else {
+      setGreeting("Welcome back");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user?.displayName) {
+      setUserName(user.displayName);
+    }
+  }, [user]);
+  const [showNewModal, setShowNewModal] = useState(false);
+  const [activeTab, setActiveTab] = useState<'active' | 'trash'>('active');
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [projectToRename, setProjectToRename] = useState<{id: string, name: string} | null>(null);
+  const [projectToDelete, setProjectToDelete] = useState<{id: string, name: string} | null>(null);
+  const [projectToPermanentDelete, setProjectToPermanentDelete] = useState<{id: string, name: string} | null>(null);
+  const [projectDetails, setProjectDetails] = useState<BrandProject | null>(null);
+  const [newProject, setNewProject] = useState({ name: '', client: '', tools: ['discovery', 'strategy', 'logo', 'system', 'guide'] });
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+
+  React.useEffect(() => {
+    const handleClickOutside = () => setOpenMenuId(null);
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
+
+  const TOOL_OPTIONS = [
+    { id: 'discovery', label: 'Brand Discovery', icon: Compass, desc: 'Intelligence Gathering' },
+    { id: 'strategy', label: 'Brand Strategy', icon: BookOpen, desc: 'Archetypes & Narrative' },
+    { id: 'logo', label: 'Logo Assistant', icon: Sparkles, desc: 'AI Brainstorming' },
+    { id: 'system', label: 'Brand System', icon: Palette, desc: 'Visual Language' },
+    { id: 'guide', label: 'Usage Guide', icon: FileText, desc: 'Documentation' },
+  ];
+
+  const activeProjects = projects.filter(p => !p.isDeleted);
+  const trashedProjects = projects.filter(p => !!p.isDeleted);
+  const allTasks = activeProjects.flatMap(p => p.tasks);
+  const pendingTasks = allTasks.filter(t => !t.completed);
+  
+  const displayProjects = activeTab === 'active' ? activeProjects : trashedProjects;
+
+  const handleRestoreAll = async () => {
+    for (const p of trashedProjects) {
+      await onRestoreProject(p.id);
+    }
+    addNotification({
+      title: 'Bulk Restoration Successful',
+      type: 'success',
+      message: `Successfully restored ${trashedProjects.length} projects to your workspace.`
+    });
+  };
+
+  const handleBatchRestore = async () => {
+    for (const id of selectedIds) {
+      await onRestoreProject(id);
+    }
+    addNotification({
+      title: 'Projects Restored',
+      type: 'success',
+      message: `Successfully restored ${selectedIds.size} selected projects.`
+    });
+    setSelectedIds(new Set());
+  };
+
+  const handleBatchDelete = async () => {
+    for (const id of selectedIds) {
+      await onPermanentDeleteProject(id);
+    }
+    addNotification({
+      title: 'Projects Deleted',
+      type: 'info',
+      message: `Permanently deleted ${selectedIds.size} projects.`
+    });
+    setSelectedIds(new Set());
+  };
+
+  console.log('Dashboard Render:', { 
+    total: projects.length, 
+    active: activeProjects.length, 
+    trashed: trashedProjects.length,
+    tab: activeTab 
+  });
+
+  return (
+    <div className="space-y-10">
+      {/* Welcome Section */}
+      <div className="flex items-center justify-between">
+        <div className="space-y-1">
+          <h2 className="text-3xl font-bold text-slate-900">{greeting}, {userName}</h2>
+          <p className="text-slate-500">You have {pendingTasks.length} pending tasks across {activeProjects.length} projects.</p>
+        </div>
+        <Button onClick={() => setShowNewModal(true)} size="lg" className="gap-2 shadow-lg shadow-brand-200">
+          <Plus className="w-5 h-5" />
+          New Project
+        </Button>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="flex items-center gap-4 p-5">
+          <div className="w-12 h-12 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-600">
+            <Folder className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-slate-900">{activeProjects.length}</div>
+            <div className="text-xs font-medium text-slate-500 uppercase tracking-wider">Active Projects</div>
+          </div>
+        </Card>
+        <Card className="flex items-center gap-4 p-5">
+          <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
+            <CheckCircle2 className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-slate-900">{allTasks.filter(t => t.completed).length}</div>
+            <div className="text-xs font-medium text-slate-500 uppercase tracking-wider">Tasks Completed</div>
+          </div>
+        </Card>
+        <Card className="flex items-center gap-4 p-5">
+          <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600">
+            <Clock className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="text-2xl font-bold text-slate-900">{pendingTasks.length}</div>
+            <div className="text-xs font-medium text-slate-500 uppercase tracking-wider">Pending Tasks</div>
+          </div>
+        </Card>
+      </div>
+
+      {/* Projects List */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center bg-slate-100 p-1 rounded-xl">
+            <button
+              onClick={() => setActiveTab('active')}
+              className={cn(
+                "px-4 py-2 text-sm font-bold rounded-lg transition-all cursor-pointer",
+                activeTab === 'active' 
+                  ? "bg-white text-slate-900 shadow-sm" 
+                  : "text-slate-500 hover:text-slate-700"
+              )}
+            >
+              Recent Projects
+            </button>
+            <button
+              onClick={() => { setActiveTab('trash'); setSelectedIds(new Set()); }}
+              className={cn(
+                "px-4 py-2 text-sm font-bold rounded-lg transition-all flex items-center gap-2 cursor-pointer",
+                activeTab === 'trash' 
+                  ? "bg-white text-slate-900 shadow-sm" 
+                  : "text-slate-500 hover:text-slate-700"
+              )}
+            >
+              Trash
+              {trashedProjects.length > 0 && (
+                <span className="w-5 h-5 bg-slate-200 text-slate-600 rounded-full text-[10px] flex items-center justify-center">
+                  {trashedProjects.length}
+                </span>
+              )}
+            </button>
+          </div>
+          {activeTab === 'active' ? (
+            <Button variant="ghost" className="text-sm">View All</Button>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="secondary" 
+                className="text-[10px] font-bold uppercase tracking-widest h-8 px-3"
+                onClick={handleRestoreAll}
+              >
+                <RotateCcw className="w-3 h-3 mr-1.5" /> Restore All
+              </Button>
+              <Button 
+                variant="secondary" 
+                className="text-[10px] font-bold uppercase tracking-widest h-8 px-3 text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+                onClick={() => setShowBulkDeleteModal(true)}
+              >
+                <Trash className="w-3 h-3 mr-1.5" /> Delete All
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Selection Toolbar (Floating) */}
+        <AnimatePresence>
+          {activeTab === 'trash' && selectedIds.size > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="bg-slate-900 text-white rounded-2xl p-4 flex items-center justify-between shadow-2xl shadow-slate-200"
+            >
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-bold ml-2">{selectedIds.size} projects selected</span>
+                <div className="w-px h-4 bg-slate-700" />
+                <button 
+                  onClick={() => setSelectedIds(new Set())}
+                  className="text-xs font-medium text-slate-400 hover:text-white transition-colors"
+                >
+                  Deselect all
+                </button>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button 
+                  variant="ghost"
+                  size="sm"
+                  className="font-bold uppercase tracking-widest hover:bg-slate-800 text-white"
+                  onClick={handleBatchRestore}
+                >
+                  <RotateCcw className="w-3.5 h-3.5 mr-1.5 text-brand-400" /> Restore Selected
+                </Button>
+                <Button 
+                  variant="ghost"
+                  size="sm"
+                  className="font-bold uppercase tracking-widest hover:bg-rose-900/30 text-rose-400"
+                  onClick={handleBatchDelete}
+                >
+                  <Trash className="w-3.5 h-3.5 mr-1.5" /> Delete Selected
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {displayProjects.map(project => (
+            <Card 
+              key={project.id} 
+              className={cn(
+                "group transition-all p-0 overflow-visible relative",
+                activeTab === 'active' ? "hover:border-brand-300 cursor-pointer" : "cursor-default"
+              )} 
+            >
+              {/* Clickable Area for Navigation */}
+              {activeTab === 'active' ? (
+                <div 
+                  className="absolute inset-0 z-0" 
+                  onClick={() => onSelectProject(project)}
+                />
+              ) : (
+                <div className="absolute top-0 left-0 w-12 h-12 flex items-center justify-center z-20 group-hover:bg-slate-50/50 rounded-tl-2xl transition-colors">
+                  <div className="relative flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      id={`select-${project.id}`}
+                      checked={selectedIds.has(project.id)}
+                      onChange={(e) => {
+                        e.stopPropagation();
+                        const next = new Set(selectedIds);
+                        if (next.has(project.id)) {
+                          next.delete(project.id);
+                        } else {
+                          next.add(project.id);
+                        }
+                        setSelectedIds(next);
+                      }}
+                      className="peer w-5 h-5 rounded-md border-slate-200 text-brand-600 focus:ring-brand-500/20 cursor-pointer pointer-events-auto transition-all bg-white"
+                    />
+                    <div className="absolute inset-0 pointer-events-none border-2 border-transparent peer-checked:border-brand-600 rounded-md transition-all scale-110 opacity-0 peer-checked:opacity-100" />
+                  </div>
+                </div>
+              )}
+              
+              <div className="p-6 space-y-4 relative z-10 pointer-events-none">
+                <div className="flex items-start justify-between pointer-events-auto">
+                  <div className={cn("space-y-1 transition-all", activeTab === 'trash' && "pl-10")}>
+                    <h4 className="font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-1">{project.name}</h4>
+                    <p className="text-xs text-slate-500 flex items-center gap-1">
+                      <Users className="w-3 h-3" />
+                      {project.client || 'Internal Project'}
+                    </p>
+                  </div>
+                  <div className="relative">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenMenuId(openMenuId === project.id ? null : project.id);
+                      }}
+                      className="p-1 hover:bg-slate-100 rounded-md text-slate-400 cursor-pointer"
+                    >
+                      <MoreVertical className="w-4 h-4" />
+                    </button>
+                    <AnimatePresence>
+                      {openMenuId === project.id && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.95, originY: 0, originX: 1 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          className="absolute right-0 top-full mt-1 w-36 bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 py-1 z-50 fixed-inside-flow"
+                        >
+                          {activeTab === 'active' && (
+                            <>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setOpenMenuId(null);
+                                  setProjectDetails(project);
+                                }}
+                                className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors"
+                              >
+                                <Eye className="w-3.5 h-3.5 mr-2" /> Details
+                              </button>
+                              {onRenameProject && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpenMenuId(null);
+                                    setProjectToRename({ id: project.id, name: project.name });
+                                  }}
+                                  className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors cursor-pointer"
+                                >
+                                  <Edit className="w-3.5 h-3.5 mr-2" /> Rename
+                                </button>
+                              )}
+                              {onDuplicateProject && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpenMenuId(null);
+                                    onDuplicateProject(project);
+                                  }}
+                                  className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors cursor-pointer"
+                                >
+                                  <Copy className="w-3.5 h-3.5 mr-2" /> Duplicate
+                                </button>
+                              )}
+                              <div className="h-px bg-slate-100 my-1 mx-2" />
+                              {onDeleteProject && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setOpenMenuId(null);
+                                    setProjectToDelete({ id: project.id, name: project.name });
+                                  }}
+                                  className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-500 hover:bg-slate-50 hover:text-orange-600 flex items-center transition-colors"
+                                >
+                                  <Trash className="w-3.5 h-3.5 mr-2" /> Move to Trash
+                                </button>
+                              )}
+                            </>
+                          )}
+                          {activeTab === 'trash' && (
+                            <>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setOpenMenuId(null);
+                                  onRestoreProject(project.id);
+                                }}
+                                className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors"
+                              >
+                                <RotateCcw className="w-3.5 h-3.5 mr-2" /> Restore
+                              </button>
+                              <div className="h-px bg-slate-100 my-1 mx-2" />
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setOpenMenuId(null);
+                                  setProjectToPermanentDelete({ id: project.id, name: project.name });
+                                }}
+                                className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-rose-600 hover:bg-rose-50 flex items-center transition-colors"
+                              >
+                                <Trash className="w-3.5 h-3.5 mr-2" /> Delete Permanently
+                              </button>
+                            </>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs font-medium">
+                    <span className="text-slate-500">Progress</span>
+                    <span className="text-brand-600">{project.tracking.progress}%</span>
+                  </div>
+                  <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-brand-500" style={{ width: `${project.tracking.progress}%` }} />
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-2">
+                  <div className="flex -space-x-2">
+                    {project.selectedTools.map(tool => {
+                      const Icon = TOOL_OPTIONS.find(t => t.id === tool)?.icon || Folder;
+                      return (
+                        <div key={tool} className="w-7 h-7 rounded-full bg-white border-2 border-slate-50 flex items-center justify-center text-slate-400 shadow-sm">
+                          <Icon className="w-3 h-3" />
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    {new Date(project.createdAt).toLocaleDateString()}
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+
+          {displayProjects.length === 0 && (
+            <div className="col-span-full py-20 flex flex-col items-center justify-center bg-white rounded-2xl border border-dashed border-slate-200">
+              <Folder className="w-12 h-12 text-slate-200 mb-4" />
+              <p className="text-slate-400 font-medium">
+                {activeTab === 'active' ? "No projects yet. Create your first one!" : "Trash is empty."}
+              </p>
+              {activeTab === 'active' && <Button variant="ghost" className="mt-4" onClick={() => setShowNewModal(true)}>Get Started</Button>}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* New Project Modal */}
+      <AnimatePresence>
+        {showNewModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowNewModal(false)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden"
+            >
+              <div className="p-8 space-y-8">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-bold text-slate-900">Create New Project</h3>
+                  <button onClick={() => setShowNewModal(false)} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 cursor-pointer">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Project Name</label>
+                      <Input 
+                        placeholder="e.g. Acme Rebrand" 
+                        value={newProject.name}
+                        onChange={e => setNewProject({ ...newProject, name: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Client Name</label>
+                      <Input 
+                        placeholder="e.g. Acme Corp" 
+                        value={newProject.client}
+                        onChange={e => setNewProject({ ...newProject, client: e.target.value })}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Select Tools</label>
+                    <div className="grid grid-cols-1 gap-2">
+                      {TOOL_OPTIONS.map(tool => (
+                        <button
+                          key={tool.id}
+                          onClick={() => {
+                            const tools = newProject.tools.includes(tool.id)
+                              ? newProject.tools.filter(t => t !== tool.id)
+                              : [...newProject.tools, tool.id];
+                            setNewProject({ ...newProject, tools });
+                          }}
+                          className={cn(
+                            "flex items-center gap-3 p-3 rounded-xl border text-left transition-all",
+                            newProject.tools.includes(tool.id)
+                              ? "bg-brand-50 border-brand-200 text-brand-700"
+                              : "border-slate-100 hover:border-slate-200 text-slate-500"
+                          )}
+                        >
+                          <div className={cn(
+                            "w-8 h-8 rounded-lg flex items-center justify-center",
+                            newProject.tools.includes(tool.id) ? "bg-brand-600 text-white" : "bg-slate-100 text-slate-400"
+                          )}>
+                            <tool.icon className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-bold">{tool.label}</div>
+                            <div className="text-[10px] opacity-70">{tool.desc}</div>
+                          </div>
+                          {newProject.tools.includes(tool.id) && (
+                            <CheckCircle2 className="w-4 h-4 ml-auto text-brand-600" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end gap-3 pt-4">
+                  <Button variant="secondary" onClick={() => setShowNewModal(false)}>Cancel</Button>
+                  <Button 
+                    disabled={!newProject.name || newProject.tools.length === 0}
+                    onClick={() => {
+                      onCreateProject(newProject.name, newProject.client, newProject.tools);
+                      setShowNewModal(false);
+                      setNewProject({ name: '', client: '', tools: ['discovery', 'logo', 'system', 'guide'] });
+                    }}
+                    className="px-8"
+                  >
+                    Create Project
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* Rename Project Modal */}
+      <AnimatePresence>
+        {projectToRename && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setProjectToRename(null)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
+            >
+              <div className="p-8 space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-bold text-slate-900">Rename Project</h3>
+                  <button onClick={() => setProjectToRename(null)} className="p-2 hover:bg-slate-100 rounded-full text-slate-400">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold text-slate-700 mb-1.5 block">Project Name</label>
+                  <Input 
+                    autoFocus
+                    placeholder="Enter short name" 
+                    value={projectToRename.name}
+                    onChange={e => setProjectToRename({ ...projectToRename, name: e.target.value })}
+                  />
+                </div>
+
+                <div className="flex justify-end gap-3 pt-2">
+                  <Button variant="secondary" onClick={() => setProjectToRename(null)}>Cancel</Button>
+                  <Button 
+                    disabled={!projectToRename.name.trim()}
+                    onClick={() => {
+                      if (onRenameProject) {
+                        onRenameProject(projectToRename.id, projectToRename.name);
+                      }
+                      setProjectToRename(null);
+                    }}
+                    className="px-6"
+                  >
+                    Save Changes
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* Project Details Modal */}
+      <AnimatePresence>
+        {projectDetails && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setProjectDetails(null)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
+            >
+              <div className="p-8 space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-bold text-slate-900">Project Details</h3>
+                  <button onClick={() => setProjectDetails(null)} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-colors">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="p-4 bg-slate-50 rounded-2xl space-y-3">
+                    <div className="flex flex-col">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Project Name</span>
+                      <span className="text-slate-900 font-medium">{projectDetails.name}</span>
+                    </div>
+                    <div className="h-px bg-slate-200" />
+                    <div className="flex flex-col">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Client</span>
+                      <span className="text-slate-900 font-medium">{projectDetails.client || 'Internal Project'}</span>
+                    </div>
+                    <div className="h-px bg-slate-200" />
+                    <div className="flex flex-col">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Date Created</span>
+                      <span className="text-slate-900 font-medium">{new Date(projectDetails.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                    <div className="h-px bg-slate-200" />
+                    <div className="flex flex-col">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Project Status</span>
+                      <span className="inline-flex items-center self-start px-2 py-1 mt-1 rounded text-xs font-bold uppercase tracking-wider bg-brand-100 text-brand-700">
+                        {projectDetails.tracking.status}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <Button onClick={() => setProjectDetails(null)} className="px-6">Close</Button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* Delete Project Modal */}
+      <AnimatePresence>
+        {projectToDelete && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setProjectToDelete(null)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden"
+            >
+              <div className="p-8 flex flex-col items-center text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center text-rose-600 mb-2">
+                  <Trash className="w-6 h-6" />
+                </div>
+                
+                <h3 className="text-xl font-bold text-slate-900">Move to Trash?</h3>
+                <p className="text-sm text-slate-500 pb-4">
+                  Are you sure you want to move <strong className="text-slate-700">{projectToDelete.name}</strong> to the Trash? You can restore it later.
+                </p>
+
+                <div className="flex w-full gap-3">
+                  <Button variant="secondary" className="flex-1" onClick={() => setProjectToDelete(null)}>Cancel</Button>
+                  <Button 
+                    className="flex-1 bg-amber-600 hover:bg-amber-700 focus:ring-amber-200"
+                    onClick={() => {
+                      if (onDeleteProject) {
+                        onDeleteProject(projectToDelete.id);
+                      }
+                      setProjectToDelete(null);
+                    }}
+                  >
+                    Move to Trash
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* Permanent Delete Modal */}
+      <AnimatePresence>
+        {projectToPermanentDelete && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setProjectToPermanentDelete(null)}
+              className="absolute inset-0 bg-red-900/40 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-red-100"
+            >
+              <div className="p-8 flex flex-col items-center text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-600 mb-2">
+                  <AlertTriangle className="w-6 h-6" />
+                </div>
+                
+                <h3 className="text-xl font-bold text-slate-900">Permanent Delete?</h3>
+                <p className="text-sm text-slate-500 pb-4">
+                  This will permanently delete <strong className="text-slate-700">{projectToPermanentDelete.name}</strong> and all its associated data. This action is irreversible.
+                </p>
+
+                <div className="flex w-full gap-3">
+                  <Button variant="secondary" className="flex-1" onClick={() => setProjectToPermanentDelete(null)}>Cancel</Button>
+                  <Button 
+                    className="flex-1 bg-red-600 hover:bg-red-700 focus:ring-red-200"
+                    onClick={() => {
+                      onPermanentDeleteProject(projectToPermanentDelete.id);
+                      setProjectToPermanentDelete(null);
+                    }}
+                  >
+                    Delete Forever
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* Bulk Delete Confirm Modal */}
+      <AnimatePresence>
+        {showBulkDeleteModal && (
+          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowBulkDeleteModal(false)}
+              className="absolute inset-0 bg-red-900/40 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-red-50"
+            >
+              <div className="p-8 flex flex-col items-center text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-600 mb-2">
+                  <AlertTriangle className="w-6 h-6" />
+                </div>
+                
+                <h3 className="text-xl font-bold text-slate-900">
+                  {selectedIds.size > 0 ? `Delete ${selectedIds.size} projects?` : "Delete All Forever?"}
+                </h3>
+                <p className="text-sm text-slate-500 pb-4 text-pretty">
+                  This will PERMANENTLY remove {selectedIds.size > 0 ? 'the selected' : 'ALL trashed'} projects and their associated data. This action cannot be reversed.
+                </p>
+
+                <div className="flex w-full gap-3">
+                  <Button variant="secondary" className="flex-1" onClick={() => setShowBulkDeleteModal(false)}>Cancel</Button>
+                  <Button 
+                    className="flex-1 bg-red-600 hover:bg-red-700 shadow-lg shadow-red-100"
+                    onClick={async () => {
+                      if (selectedIds.size > 0) {
+                        await handleBatchDelete();
+                      } else {
+                        for (const p of trashedProjects) {
+                          await onPermanentDeleteProject(p.id);
+                        }
+                        addNotification({
+                          title: 'Trash Emptied',
+                          type: 'info',
+                          message: `Permanently deleted ${trashedProjects.length} items from the trash.`
+                        });
+                      }
+                      setShowBulkDeleteModal(false);
+                    }}
+                  >
+                    Delete Forever
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};

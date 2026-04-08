@@ -1,0 +1,150 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { BrandDiscovery, BrandSystem, BrandStrategy, AppNotification } from '../types';
+import { Card, Button, Input } from './UI';
+import { Palette, Type, CheckCircle2, Sparkles } from 'lucide-react';
+
+interface Props {
+  discovery: BrandDiscovery;
+  strategy: BrandStrategy;
+  initialData?: BrandSystem;
+  onUpdate?: (data: BrandSystem) => void;
+  onComplete: (data: BrandSystem) => Promise<void>;
+  addNotification: (n: Omit<AppNotification, 'id' | 'timestamp' | 'read'>) => Promise<void>;
+}
+
+const PRESET_PALETTES = [
+  ['#0ea5e9', '#0c4a6e', '#f0f9ff', '#64748b'],
+  ['#f43f5e', '#881337', '#fff1f2', '#4b5563'],
+  ['#10b981', '#064e3b', '#ecfdf5', '#374151'],
+  ['#f59e0b', '#78350f', '#fffbeb', '#45474a'],
+  ['#8b5cf6', '#4c1d95', '#f5f3ff', '#334155'],
+];
+
+const FONTS = [
+  'Inter', 'Space Grotesk', 'Playfair Display', 'Outfit', 'Montserrat', 'Roboto', 'Lora'
+];
+
+export const BrandSystemDesigner = ({ discovery, strategy, initialData, onUpdate, onComplete, addNotification }: Props) => {
+  const [data, setData] = useState<BrandSystem>(initialData || {
+    colors: strategy.identitySystem.colors.map(c => c.color).slice(0, 4) || PRESET_PALETTES[0],
+    typography: {
+      primary: strategy.identitySystem.typography.primary.name || 'Space Grotesk',
+      secondary: strategy.identitySystem.typography.secondary.name || 'Inter'
+    }
+  });
+
+  const renderRef = useRef(true);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Auto-save whenever data changes (Debounced to save quota)
+  useEffect(() => {
+    if (renderRef.current) {
+      renderRef.current = false;
+      return;
+    }
+    
+    if (onUpdate && data) {
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+      saveTimeoutRef.current = setTimeout(() => {
+        onUpdate(data);
+      }, 3000); // 3 second debounce
+    }
+
+    return () => {
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    };
+  }, [data, onUpdate]);
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-8">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold text-slate-900">Brand System</h2>
+        <p className="text-slate-500">Define your visual language.</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card title="Color Palette" icon={Palette}>
+          <div className="space-y-6">
+            <div className="flex gap-2">
+              {data.colors.map((color, i) => (
+                <div key={i} className="flex-1 space-y-2">
+                  <div 
+                    className="h-16 rounded-lg shadow-inner border border-slate-200" 
+                    style={{ backgroundColor: color }}
+                  />
+                  <Input 
+                    value={color} 
+                    onChange={e => {
+                      const newColors = [...data.colors];
+                      newColors[i] = e.target.value;
+                      setData({ ...data, colors: newColors });
+                    }}
+                    className="text-[10px] px-1 py-1 h-8 text-center"
+                  />
+                </div>
+              ))}
+            </div>
+            
+            <div className="space-y-2">
+              <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Presets</p>
+              <div className="flex gap-3">
+                {PRESET_PALETTES.map((palette, i) => (
+                  <button 
+                    key={i} 
+                    onClick={() => setData({ ...data, colors: palette })}
+                    className="flex -space-x-2 hover:scale-110 transition-transform"
+                  >
+                    {palette.map((c, j) => (
+                      <div key={j} className="w-6 h-6 rounded-full border border-white shadow-sm" style={{ backgroundColor: c }} />
+                    ))}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        <Card title="Typography" icon={Type}>
+          <div className="space-y-6">
+            <div>
+              <label className="text-sm font-medium text-slate-700 mb-2 block">Primary Font (Headings)</label>
+              <select 
+                className="w-full px-4 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                value={data.typography.primary}
+                onChange={e => setData({ ...data, typography: { ...data.typography, primary: e.target.value } })}
+              >
+                {FONTS.map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-slate-700 mb-2 block">Secondary Font (Body)</label>
+              <select 
+                className="w-full px-4 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                value={data.typography.secondary}
+                onChange={e => setData({ ...data, typography: { ...data.typography, secondary: e.target.value } })}
+              >
+                {FONTS.map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
+            </div>
+
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+              <h4 className="text-xl font-bold" style={{ fontFamily: data.typography.primary }}>The quick brown fox</h4>
+              <p className="text-sm text-slate-600" style={{ fontFamily: data.typography.secondary }}>
+                Jumps over the lazy dog. This is how your brand typography will look in practice.
+              </p>
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      <div className="flex justify-center pt-8">
+        <Button 
+          className="px-12 py-4 text-lg" 
+          onClick={() => onComplete(data)}
+        >
+          Generate Usage Guide
+        </Button>
+      </div>
+    </div>
+  );
+};
