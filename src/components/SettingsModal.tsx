@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { Card, Button, Input } from './UI';
-import { 
-  X, 
-  Settings, 
-  Key, 
-  Cpu, 
-  CheckCircle2, 
+import {
+  X,
+  Settings,
+  Key,
+  Cpu,
+  CheckCircle2,
   AlertCircle,
   Shield,
   Zap,
@@ -52,15 +52,15 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
   const handleAISave = () => {
     setSaveStatus('saving');
     const isCurrentlyActive = activeAIProvider === keys.activeProvider;
-    
+
     // Toggle active provider: if already active, deactivate it (set to empty)
     // if not active, set it as the active one
     const newActiveProvider = isCurrentlyActive ? '' : activeAIProvider;
-    
+
     const newKeys = { ...keys, activeProvider: newActiveProvider };
     saveAIKeys(newKeys);
     setKeys(newKeys);
-    
+
     if (newActiveProvider === '') {
       addNotification({
         title: 'AI Service Disconnected',
@@ -74,7 +74,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
         message: `${AI_PROVIDERS.find(p => p.id === activeAIProvider)?.name} is now your active strategy engine.`
       });
     }
-    
+
     setTimeout(() => {
       setSaveStatus('saved');
       if (onUpdate) onUpdate();
@@ -102,7 +102,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
       });
 
       const response = await provider.generateContent("Respond with 'OK' if you can hear me.");
-      
+
       if (response && response.length > 0) {
         setTestStatus('success');
         addNotification({
@@ -162,10 +162,16 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
   return (
     <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" />
-      <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} onClick={(e) => e.stopPropagation()} className="relative w-full max-w-6xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden h-[750px] flex">
-        
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95, y: 20 }} 
+        animate={{ opacity: 1, scale: 1, y: 0 }} 
+        exit={{ opacity: 0, scale: 0.95, y: 20 }} 
+        onClick={(e) => e.stopPropagation()} 
+        className="relative w-[95%] max-w-[700px] bg-white rounded-3xl lg:rounded-[2.5rem] shadow-2xl overflow-hidden h-[75vh] min-h-[550px] max-h-[850px] flex flex-col md:flex-row"
+      >
+
         {/* Sidebar Nav */}
-        <div className="w-80 bg-slate-50 border-r border-slate-100 p-8 flex flex-col">
+        <div className="w-full md:w-64 bg-slate-50 border-r border-slate-100 p-6 lg:p-8 flex flex-col overflow-y-auto border-b md:border-b-0 shrink-0">
           <div className="flex items-center gap-3 mb-10 px-2">
             <div className="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-100">
               <Settings className="w-5 h-5" />
@@ -204,7 +210,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
           </nav>
 
           <div className="mt-auto pt-6 border-t border-slate-200">
-            <button 
+            <button
               onClick={() => { signOut(); onClose(); }}
               className="w-full flex items-center gap-3 p-3 rounded-2xl text-rose-600 hover:bg-rose-50 transition-all font-bold text-xs"
             >
@@ -249,7 +255,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="p-6 bg-brand-50 rounded-3xl border border-brand-100 space-y-3">
                       <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-600">
                         <ShieldCheck className="w-5 h-5" />
@@ -293,77 +299,77 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   {AI_PROVIDERS.map(p => activeAIProvider === p.id && (
                     <div key={p.id} className="space-y-6">
                       <div className="space-y-4">
-                          <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex items-center justify-between">
-                            <div className="space-y-1">
-                              <h4 className="font-bold text-slate-900 flex items-center gap-2">
-                                {p.name}
-                                {(() => {
-                                  const isActive = keys.activeProvider === p.id && keys[p.id] && keys[p.id].length > 0;
-                                  const isConnecting = saveStatus === 'saving' && activeAIProvider === p.id;
-                                  
-                                  if (isConnecting) return (
-                                    <div className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[9px] font-bold uppercase tracking-wider animate-pulse">
-                                      Connecting...
-                                    </div>
-                                  );
-                                  
-                                  if (isActive) return (
-                                    <div className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[9px] font-bold uppercase tracking-wider">
-                                      Status: Active
-                                    </div>
-                                  )
+                        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex items-center justify-between">
+                          <div className="space-y-1">
+                            <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                              {p.name}
+                              {(() => {
+                                const isActive = keys.activeProvider === p.id && keys[p.id] && keys[p.id].length > 0;
+                                const isConnecting = saveStatus === 'saving' && activeAIProvider === p.id;
 
-                                  return (
-                                    <div className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[9px] font-bold uppercase tracking-wider">
-                                      Status: Inactive
-                                    </div>
-                                  );
-                                })()}
-                              </h4>
-                              <p className="text-xs text-slate-500 leading-relaxed font-medium">{p.description}</p>
-                            </div>
-                            {(keys.activeProvider === p.id || testStatus === 'success') && (
-                              <div className={cn(
-                                "w-8 h-8 rounded-full flex items-center justify-center transition-all",
-                                testStatus === 'success' ? "bg-emerald-100 text-emerald-500 animate-pulse" : "bg-slate-900 text-white shadow-lg shadow-brand-100"
-                              )}>
-                                <ShieldCheck className="w-5 h-5" />
-                              </div>
-                            )}
-                          </div>
+                                if (isConnecting) return (
+                                  <div className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[9px] font-bold uppercase tracking-wider animate-pulse">
+                                    Connecting...
+                                  </div>
+                                );
 
-                          {/* Provider Specific Billing Alert */}
-                          <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl flex gap-3 text-blue-700">
-                            <Info className="w-5 h-5 shrink-0 mt-0.5" />
-                            <div className="space-y-1">
-                              <p className="text-[10px] leading-relaxed font-bold uppercase tracking-wider">Provider Billing Info</p>
-                              <p className="text-[10px] leading-relaxed font-medium">
-                                {p.id === 'openai' && (
-                                  <>OpenAI API usage is billed separately from ChatGPT Plus. Please check your balance at <a href="https://platform.openai.com/settings/organization/billing" target="_blank" className="underline font-bold hover:text-blue-900">platform.openai.com</a>.</>
-                                )}
-                                {p.id === 'gemini' && (
-                                  <>Google Gemini provides a generous free tier for developers. Check your limits and plans at <a href="https://aistudio.google.com/app/plan_management" target="_blank" className="underline font-bold hover:text-blue-900">aistudio.google.com</a>.</>
-                                )}
-                                {p.id === 'anthropic' && (
-                                  <>Anthropic API requires pre-purchased credits to operate. Manage your account at <a href="https://console.anthropic.com/settings/plans" target="_blank" className="underline font-bold hover:text-blue-900">console.anthropic.com</a>.</>
-                                )}
-                              </p>
-                            </div>
+                                if (isActive) return (
+                                  <div className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[9px] font-bold uppercase tracking-wider">
+                                    Status: Active
+                                  </div>
+                                )
+
+                                return (
+                                  <div className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[9px] font-bold uppercase tracking-wider">
+                                    Status: Inactive
+                                  </div>
+                                );
+                              })()}
+                            </h4>
+                            <p className="text-xs text-slate-500 leading-relaxed font-medium">{p.description}</p>
                           </div>
-                        
+                          {(keys.activeProvider === p.id || testStatus === 'success') && (
+                            <div className={cn(
+                              "w-8 h-8 rounded-full flex items-center justify-center transition-all",
+                              testStatus === 'success' ? "bg-emerald-100 text-emerald-500 animate-pulse" : "bg-slate-900 text-white shadow-lg shadow-brand-100"
+                            )}>
+                              <ShieldCheck className="w-5 h-5" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Provider Specific Billing Alert */}
+                        <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl flex gap-3 text-blue-700">
+                          <Info className="w-5 h-5 shrink-0 mt-0.5" />
+                          <div className="space-y-1">
+                            <p className="text-[10px] leading-relaxed font-bold uppercase tracking-wider">Provider Billing Info</p>
+                            <p className="text-[10px] leading-relaxed font-medium">
+                              {p.id === 'openai' && (
+                                <>OpenAI API usage is billed separately from ChatGPT Plus. Please check your balance at <a href="https://platform.openai.com/settings/organization/billing" target="_blank" className="underline font-bold hover:text-blue-900">platform.openai.com</a>.</>
+                              )}
+                              {p.id === 'gemini' && (
+                                <>Google Gemini provides a generous free tier for developers. Check your limits and plans at <a href="https://aistudio.google.com/app/plan_management" target="_blank" className="underline font-bold hover:text-blue-900">aistudio.google.com</a>.</>
+                              )}
+                              {p.id === 'anthropic' && (
+                                <>Anthropic API requires pre-purchased credits to operate. Manage your account at <a href="https://console.anthropic.com/settings/plans" target="_blank" className="underline font-bold hover:text-blue-900">console.anthropic.com</a>.</>
+                              )}
+                            </p>
+                          </div>
+                        </div>
+
                         <div className="space-y-4">
                           <div>
                             <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">API Secret Key</label>
                             <div className="relative group">
-                              <Input 
-                                type="password" 
-                                placeholder={`Enter ${p.name} Key`} 
-                                value={keys[p.id]} 
+                              <Input
+                                type="password"
+                                placeholder={`Enter ${p.name} Key`}
+                                value={keys[p.id]}
                                 className="pr-12"
                                 onChange={(e) => setKeys({ ...keys, [p.id]: e.target.value })}
                               />
                               {keys[p.id] && (
-                                <button 
+                                <button
                                   onClick={() => setKeys({ ...keys, [p.id]: '' })}
                                   className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
                                   title="Clear Key"
@@ -376,7 +382,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                           <div>
                             <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Enterprise Model</label>
                             <div className="relative">
-                              <select 
+                              <select
                                 className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 outline-none focus:ring-2 focus:ring-brand-100 appearance-none"
                                 value={keys.models[p.id]}
                                 onChange={(e) => setKeys({ ...keys, models: { ...keys.models, [p.id]: e.target.value } })}
@@ -393,8 +399,8 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                         {(() => {
                           const isActive = keys.activeProvider === activeAIProvider && keys[activeAIProvider]?.length > 0;
                           return (
-                            <Button 
-                              onClick={handleAISave} 
+                            <Button
+                              onClick={handleAISave}
                               size="md"
                               className={cn(
                                 "flex-1 transition-all",
@@ -403,13 +409,13 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                               disabled={saveStatus === 'saving' || !keys[activeAIProvider]}
                             >
                               {saveStatus === 'saved' ? <CheckCircle2 className="w-4 h-4" /> : isActive ? <X className="w-4 h-4" /> : <ShieldCheck className="w-4 h-4" />}
-                              {saveStatus === 'saving' ? 'Processing...' : 
-                               saveStatus === 'saved' ? 'Settings Resolved' : 
-                               isActive ? 'Deactivate & Disconnect' : 'Save & Activate'}
+                              {saveStatus === 'saving' ? 'Processing...' :
+                                saveStatus === 'saved' ? 'Settings Resolved' :
+                                  isActive ? 'Deactivate & Disconnect' : 'Save & Activate'}
                             </Button>
                           );
                         })()}
-                        <Button 
+                        <Button
                           onClick={handleAITest}
                           disabled={testStatus === 'testing' || !keys[activeAIProvider]}
                           variant="secondary"
@@ -417,12 +423,12 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                           className={cn(
                             "font-bold uppercase tracking-wider",
                             testStatus === 'success' ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
-                            testStatus === 'error' ? "bg-rose-50 text-rose-600 border-rose-100" :
-                            "bg-slate-50 text-slate-600 border-slate-100 hover:bg-slate-100"
+                              testStatus === 'error' ? "bg-rose-50 text-rose-600 border-rose-100" :
+                                "bg-slate-50 text-slate-600 border-slate-100 hover:bg-slate-100"
                           )}
                         >
-                          {testStatus === 'testing' ? <div className="w-3 h-3 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> : 
-                           testStatus === 'success' ? <CheckCircle2 className="w-3 h-3" /> : <Zap className="w-3 h-3" />}
+                          {testStatus === 'testing' ? <div className="w-3 h-3 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> :
+                            testStatus === 'success' ? <CheckCircle2 className="w-3 h-3" /> : <Zap className="w-3 h-3" />}
                           {testStatus === 'testing' ? 'Testing...' : testStatus === 'success' ? 'Alive' : 'Test Pulse'}
                         </Button>
                       </div>
@@ -442,7 +448,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Card className="p-6 hover:shadow-lg transition-all border-slate-100 hover:border-brand-100 group cursor-pointer" onClick={() => exportProjects(projects)}>
                       <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors mb-4">
                         <Download className="w-6 h-6" />
@@ -463,7 +469,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
 
                   <div className="pt-6 border-t border-slate-100">
                     <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">Critical Actions</h5>
-                    <Button 
+                    <Button
                       variant="secondary"
                       size="lg"
                       className="w-full text-rose-600 border-rose-100 hover:bg-rose-50 uppercase tracking-widest font-bold"
