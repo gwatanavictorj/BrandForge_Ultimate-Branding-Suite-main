@@ -117,8 +117,8 @@ This is the official record of all BrandForge features and UI refinements that h
 ### 📊 Optimized Mobile Scale
 - **Accessibility Floor**: Standardized all mobile buttons to comply with **WCAG 2.2 Success Criterion 2.5.8** (Minimum Target Size) and **2.5.5** (Enhanced Target Size).
 - **Final Heights**:
-  - **Hero (`lg`)**: Consolidated to **48px** (Level AAA+).
-  - **Primary (`md`)**: Optimized at **44px** (Apple HIG Standard / Level AAA).
+  - **Hero (`lg`)**: Consolidated to **44px** (Level AAA standard).
+  - **Primary (`md`)**: Optimized at **40px** for ultra-compact precision.
   - **Secondary (`sm`)**: Precision-tuned at **36px** (AA floor).
   - **Utility (`micro`)**: High-density **32px** (AA floor).
 

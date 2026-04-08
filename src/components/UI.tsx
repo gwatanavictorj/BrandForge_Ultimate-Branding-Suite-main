@@ -51,8 +51,8 @@ const buttonVariants = cva(
       size: {
         micro: "h-8 px-3 text-[10px] gap-1 rounded-lg font-bold",
         sm: "h-9 px-4 text-xs gap-1.5",
-        md: "h-11 px-6 text-sm gap-2",
-        lg: "h-12 px-8 text-base gap-3 font-bold",
+        md: "h-10 px-5 text-sm gap-2",
+        lg: "h-11 px-6 text-base gap-2 font-bold",
       },
     },
     defaultVariants: {
