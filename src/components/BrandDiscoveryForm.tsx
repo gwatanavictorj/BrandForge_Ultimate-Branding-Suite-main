@@ -1159,7 +1159,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
   return (
     <div className="w-full pb-20 px-0 sm:px-4">
       {currentStep >= 2 && currentStep <= 9 && (
-        <div className="sticky -top-4 sm:-top-8 z-[60] bg-white/80 sm:bg-slate-50/95 backdrop-blur-md border-b border-slate-200 py-3 sm:py-4 mb-6 md:mb-10 px-4 md:px-6 shadow-sm">
+        <div className="sticky top-0 z-30 bg-white/80 sm:bg-slate-50/95 backdrop-blur-md border-b border-slate-200 py-3 sm:py-4 mb-4 px-4 md:px-6">
           <div className="max-w-5xl mx-auto">
             <div className="relative flex items-center justify-between w-full gap-1">
               {PHASES.map((phase, idx) => {
@@ -1221,7 +1221,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
         </div>
       )}
 
-      <div className={cn("max-w-5xl mx-auto", currentStep >= 2 && "mt-8")}>
+      <div className={cn("max-w-5xl mx-auto", currentStep >= 2 && "mt-4 md:mt-8")}>
         {error && (
           <div className="mb-6 p-4 bg-rose-50 border border-rose-100 rounded-[32px] flex items-center gap-3 text-rose-700">
             <AlertTriangle className="w-5 h-5" />
@@ -1243,21 +1243,18 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
       </div>
 
       {currentStep > 0 && (
-        <div className="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4 px-4 bg-slate-50 sm:bg-transparent py-6 sm:py-0 border-t sm:border-t-0 border-slate-200 sm:border-slate-0">
-          <Button variant="ghost" onClick={handleBack} size="md" className="w-full sm:w-auto gap-2 text-slate-500 order-2 sm:order-1">
-            <ArrowLeft className="w-4 h-4" /> Back
+        <div className="mt-8 flex flex-row justify-between items-center gap-4 px-4 sm:px-0 py-6 sm:py-0 border-t sm:border-t-0 border-slate-200 sm:border-slate-0">
+          <Button variant="ghost" onClick={handleBack} size="md" className="flex-1 sm:flex-none gap-2 text-slate-500">
+            <ArrowLeft className="w-4 h-4" /> <span className="hidden sm:inline">Back</span>
           </Button>
-          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto order-1 sm:order-2">
-            {currentStep === 1 && (
-              <p className="text-[10px] sm:text-xs text-slate-400 font-medium italic">You can skip import and fill manually</p>
-            )}
+          <div className="flex flex-row items-center gap-4 sm:gap-6 flex-1 sm:flex-none justify-end">
             <Button 
               onClick={handleNext} 
               disabled={!isStepValid()}
               size="lg"
-              className="w-full sm:w-auto gap-2 bg-brand-600 text-white shadow-xl shadow-brand-100 group"
+              className="w-full sm:w-auto gap-2 bg-brand-600 text-white shadow-xl shadow-brand-100 group px-8"
             >
-              {currentStep === 9 ? 'Complete Discovery' : 'Next'} 
+              {currentStep === 9 ? 'Finish' : 'Next'} 
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>

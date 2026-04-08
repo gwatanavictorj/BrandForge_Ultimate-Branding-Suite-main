@@ -414,7 +414,7 @@ export default function App() {
         "fixed inset-y-0 left-0 w-72 bg-white border-r border-slate-200 flex flex-col h-screen z-[60] shadow-2xl transition-transform duration-300 md:translate-x-0 md:static md:w-64 md:shadow-none md:z-50",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="p-6 border-b border-slate-100 flex items-center justify-between gap-3">
+        <div className="h-16 border-b border-slate-100 flex items-center justify-between px-6 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-brand-600 rounded-xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-brand-200">
               <LayoutGrid className="w-5 h-5" />
@@ -550,10 +550,10 @@ export default function App() {
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Top Bar */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 shrink-0 z-40">
-          <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex items-center gap-1.5 md:gap-4 min-w-0">
             <button 
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 hover:bg-slate-50 rounded-lg text-slate-500 md:hidden mr-1"
+              className="p-2 hover:bg-slate-50 rounded-xl text-slate-500 md:hidden"
               aria-label="Toggle Menu"
             >
               <Menu className="w-6 h-6" />
@@ -561,22 +561,25 @@ export default function App() {
             {currentStep !== 'dashboard' && (
               <button 
                 onClick={() => setCurrentStep('dashboard')}
-                className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 transition-colors"
+                className="p-1.5 hover:bg-slate-100 rounded-xl text-slate-400 transition-colors shrink-0"
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
             )}
-            <h2 className="text-base md:text-lg font-semibold text-slate-800 truncate max-w-[120px] md:max-w-none">
+            <h2 className={cn(
+              "text-base md:text-lg font-bold text-slate-900 truncate",
+              currentStep === 'dashboard' ? "ml-1" : "ml-0"
+            )}>
               {ALL_STEPS.find(s => s.id === currentStep)?.label}
             </h2>
             {activeProject && currentStep !== 'dashboard' && (
-              <span className="px-2 py-0.5 bg-brand-50 text-brand-600 rounded text-xs font-bold uppercase tracking-wider">
+              <span className="hidden sm:inline-block px-2 py-0.5 bg-brand-50 text-brand-600 rounded text-[10px] font-bold uppercase tracking-wider truncate max-w-[100px]">
                 {activeProject.name}
               </span>
             )}
           </div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 md:gap-3 shrink-0">
             <div className="flex items-center gap-3 relative">
               <button 
                 onClick={() => setShowNotifications(!showNotifications)}
@@ -606,11 +609,11 @@ export default function App() {
               <Settings className="w-5 h-5" />
             </button>
             {currentStep !== 'dashboard' && (
-              <>
-                <div className="h-8 w-px bg-slate-200 mx-2"></div>
-                <Button variant="secondary" className="h-9 text-sm">Export</Button>
-                <Button className="h-9 text-sm" onClick={() => updateProjectData({})}>Save</Button>
-              </>
+              <div className="flex items-center gap-1.5 md:gap-3">
+                <div className="hidden md:block h-8 w-px bg-slate-200 mx-1"></div>
+                <Button variant="secondary" className="h-9 px-3 md:px-5 text-xs md:text-sm">Export</Button>
+                <Button className="h-9 px-3 md:px-5 text-xs md:text-sm" onClick={() => updateProjectData({})}>Save</Button>
+              </div>
             )}
           </div>
         </header>
