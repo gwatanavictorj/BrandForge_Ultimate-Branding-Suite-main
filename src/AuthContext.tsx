@@ -12,6 +12,7 @@ interface AuthContextType {
   signOut: () => Promise<void>;
   login: (email: string, pass: string) => Promise<void>;
   register: (email: string, pass: string, name: string) => Promise<void>;
+  updateUser: (data: Partial<any>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -91,6 +92,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await logout();
     } catch (error) {
       console.error('Sign out error:', error);
+    }
+  };
+
+  const updateUser = async (data: Partial<any>) => {
+    if (!user) return;
+    try {
+      const updatedUser = { ...user, ...data };
+      
+      // Update primary user state
+      localStorage.setItem('brandforge_user', JSON.stringify(updatedUser));
+      
+      // Update users list in sync
+      const users = JSON.parse(localStorage.getItem('brandforge_users') || '[]');
+      const userIndex = users.findIndex((u: any) => u.uid === user.uid);
+      if (userIndex !== -1) {
+        users[userIndex] = { ...users[userIndex], ...data };
+        localStorage.setItem('brandforge_users', JSON.stringify(users));
+      }
+
+      setUser(updatedUser);
+      window.dispatchEvent(new Event('storage'));
+    } catch (err) {
+      console.error('Update user error:', err);
+      throw err;
     }
   };
 
@@ -251,7 +276,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, signOut, login, register }}>
+    <AuthContext.Provider value={{ user, loading, signIn, signOut, login, register, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
