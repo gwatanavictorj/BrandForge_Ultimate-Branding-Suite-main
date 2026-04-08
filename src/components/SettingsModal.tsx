@@ -238,7 +238,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
         </div>
 
         {/* Sidebar Nav */}
-        <div className="w-full md:w-64 bg-slate-50 border-r border-slate-100 p-2 md:p-8 flex flex-col md:overflow-y-auto border-b md:border-b-0 shrink-0">
+        <div className="w-full md:w-64 bg-slate-50 border-r border-slate-100 p-2 md:p-8 flex flex-col md:overflow-y-auto border-b md:border-b-0 shrink-0 overflow-x-auto no-scrollbar">
           <div className="hidden md:flex items-center gap-3 mb-4 px-2">
             <div className="w-8 h-8 bg-brand-600 rounded-[var(--radius-control)] flex items-center justify-center text-white shadow-lg shadow-brand-100">
               <Settings className="w-4 h-4" />
@@ -249,7 +249,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
             </div>
           </div>
 
-          <nav className="grid grid-cols-5 md:flex md:flex-col gap-1 md:gap-1">
+          <nav className="flex flex-row md:flex-col gap-1 md:gap-1.5 min-w-max md:min-w-0">
             {CATEGORIES.map(cat => {
               const Icon = cat.icon;
               const isActive = activeCategory === cat.id;
@@ -268,7 +268,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   )}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <span className={cn("text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-colors", isActive ? "text-slate-900" : "text-slate-500")}>
+                  <span className={cn("text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-colors shrink-0", isActive ? "text-slate-900" : "text-slate-500")}>
                     {cat.name}
                   </span>
                 </button>
