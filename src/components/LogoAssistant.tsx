@@ -301,7 +301,8 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
           <Button 
             onClick={generateNouns} 
             disabled={loading.nouns} 
-            className="w-full shadow-md hover:shadow-lg transition-all h-12 text-sm"
+            size="lg"
+            className="w-full"
           >
             {loading.nouns ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Generate 50 Brand Nouns'}
           </Button>
@@ -314,7 +315,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">Clever pairings synthesized from your toolkit.</p>
-              <Button onClick={generateSmushes} disabled={loading.smushes || !data.nouns.realWords.length} size="sm" className="w-full sm:w-auto bg-brand-600 hover:bg-brand-700">
+              <Button onClick={generateSmushes} disabled={loading.smushes || !data.nouns.realWords.length} size="sm" className="w-full sm:w-auto">
                 {loading.smushes ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Smush Concepts'}
               </Button>
             </div>
@@ -446,7 +447,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Button variant="secondary" className="text-xs" onClick={() => window.open(data.inspirationUrl)}>View Full</Button>
+                <Button variant="secondary" size="micro" onClick={() => window.open(data.inspirationUrl)}>View Full</Button>
               </div>
             </div>
           ) : (
@@ -459,6 +460,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
           <Button 
             onClick={generateInspiration} 
             disabled={loading.inspiration || !data.nouns.realWords.length} 
+            size="md"
             className="w-full"
           >
             {loading.inspiration ? <Loader2 className="animate-spin" /> : 'Generate Visuals'}
@@ -542,7 +544,8 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
 
       <div className="flex justify-center pt-8">
         <Button 
-          className="px-12 py-4 text-lg font-bold" 
+          size="lg"
+          className="px-12" 
           onClick={() => onComplete(data)}
         >
           Continue to Brand System

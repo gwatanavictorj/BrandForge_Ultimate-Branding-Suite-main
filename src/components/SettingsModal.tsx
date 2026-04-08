@@ -409,7 +409,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                           className="h-8 text-xs flex-1"
                           placeholder="email@example.com"
                         />
-                        <Button onClick={handleSaveAccount} disabled={saveStatus === 'saving'} className="h-8 px-2.5 text-[9px] font-bold shadow-sm">Save</Button>
+                        <Button onClick={handleSaveAccount} disabled={saveStatus === 'saving'} size="micro">Save</Button>
                       </div>
                     </div>
                     <div className="space-y-1">
@@ -422,7 +422,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                           className="h-8 text-xs flex-1"
                           placeholder="••••••••"
                         />
-                        <Button onClick={handleSaveAccount} disabled={saveStatus === 'saving'} className="h-8 px-2.5 text-[9px] font-bold shadow-sm bg-slate-800 hover:bg-slate-700">Save</Button>
+                        <Button onClick={handleSaveAccount} disabled={saveStatus === 'saving'} size="micro" className="bg-slate-800 hover:bg-slate-700">Save</Button>
                       </div>
                     </div>
                   </div>
@@ -509,7 +509,8 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                     <Button 
                       onClick={handleSaveAccount}
                       disabled={saveStatus === 'saving'}
-                      className="w-full text-xs h-9 shadow-lg shadow-brand-100"
+                      size="sm"
+                      className="w-full"
                     >
                       {saveStatus === 'saving' ? 'Synchronizing...' : 
                        saveStatus === 'saved' ? 'Account Updated' : 'Save Account Settings'}

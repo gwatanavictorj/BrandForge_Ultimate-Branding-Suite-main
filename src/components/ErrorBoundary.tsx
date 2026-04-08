@@ -76,10 +76,10 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
 
             <div className="grid grid-cols-1 gap-3 pt-4">
-              <Button onClick={this.handleReset} className="w-full py-3">
+              <Button onClick={this.handleReset} size="md" className="w-full">
                 <RefreshCcw className="w-4 h-4 mr-2" /> Retry Application
               </Button>
-              <Button variant="secondary" onClick={this.handleGoHome} className="w-full py-3">
+              <Button variant="secondary" onClick={this.handleGoHome} size="md" className="w-full">
                 <Home className="w-4 h-4 mr-2" /> Back to Home
               </Button>
             </div>

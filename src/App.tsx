@@ -544,6 +544,19 @@ export default function App() {
           </div>
           
           <div className="flex items-center gap-1.5 md:gap-3 shrink-0">
+            {currentStep !== 'dashboard' && (
+              <div className="flex items-center gap-1.5 md:gap-3">
+                <Button variant="secondary" size="micro" className="md:h-9 md:px-5 md:text-sm">Export</Button>
+                <Button size="micro" className="md:h-9 md:px-5 md:text-sm" onClick={() => updateProjectData({})}>Save</Button>
+                <div className="hidden md:block h-8 w-px bg-slate-200 mx-1"></div>
+              </div>
+            )}
+            <button 
+              onClick={() => setShowSettings(true)}
+              className="p-2 hover:bg-slate-100 rounded-xl text-slate-400 transition-colors cursor-pointer"
+            >
+              <Settings className="w-5 h-5" />
+            </button>
             <div className="flex items-center gap-3 relative">
               <button 
                 onClick={() => setShowNotifications(!showNotifications)}
@@ -566,19 +579,6 @@ export default function App() {
                 onClearAll={onClearAll}
               />
             </div>
-            <button 
-              onClick={() => setShowSettings(true)}
-              className="p-2 hover:bg-slate-100 rounded-xl text-slate-400 transition-colors cursor-pointer"
-            >
-              <Settings className="w-5 h-5" />
-            </button>
-            {currentStep !== 'dashboard' && (
-              <div className="flex items-center gap-1.5 md:gap-3">
-                <div className="hidden md:block h-8 w-px bg-slate-200 mx-1"></div>
-                <Button variant="secondary" className="h-9 px-3 md:px-5 text-xs md:text-sm">Export</Button>
-                <Button className="h-9 px-3 md:px-5 text-xs md:text-sm" onClick={() => updateProjectData({})}>Save</Button>
-              </div>
-            )}
           </div>
         </header>
 

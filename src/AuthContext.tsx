@@ -230,8 +230,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
               <Button 
                 type="submit"
+                size="lg"
                 disabled={submitting}
-                className="w-full h-12 text-base gap-3 shadow-lg shadow-brand-100 mt-2"
+                className="w-full mt-2"
               >
                 {submitting ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

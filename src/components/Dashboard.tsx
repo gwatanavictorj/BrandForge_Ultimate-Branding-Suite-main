@@ -151,9 +151,10 @@ export const Dashboard = ({
           <h2 className="text-xl sm:text-3xl font-bold text-slate-900 truncate">{greeting}, {userName}</h2>
           <p className="text-[10px] sm:text-base text-slate-500 truncate">You have {pendingTasks.length} pending tasks across {activeProjects.length} projects.</p>
         </div>
-        <Button onClick={() => setShowNewModal(true)} size="sm" className="sm:size-lg gap-1.5 sm:gap-2 shadow-lg shadow-brand-200 shrink-0 px-3 sm:px-4">
-          <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span className="text-[10px] sm:text-base">New Project</span>
+        <Button onClick={() => setShowNewModal(true)} size="lg" className="gap-2 shadow-brand-200 shrink-0">
+          <Plus className="w-5 h-5" />
+          <span className="hidden sm:inline">New Project</span>
+          <span className="sm:hidden text-xs">New</span>
         </Button>
       </div>
 
@@ -222,19 +223,21 @@ export const Dashboard = ({
           </div>
           <div className="flex items-center gap-2 shrink-0">
             {activeTab === 'active' ? (
-              <Button variant="ghost" className="text-[10px] sm:text-sm h-8 px-2 sm:px-4">View All</Button>
+              <Button variant="ghost" size="micro">View All</Button>
             ) : (
               <div className="flex items-center gap-2">
                 <Button 
                   variant="secondary" 
-                  className="text-[8px] font-bold uppercase tracking-widest h-7 px-2"
+                  size="micro"
+                  className="uppercase tracking-widest"
                   onClick={handleRestoreAll}
                 >
                   <RotateCcw className="w-2.5 h-2.5 mr-1" /> Restore
                 </Button>
                 <Button 
                   variant="secondary" 
-                  className="text-[8px] font-bold uppercase tracking-widest h-7 px-2 text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+                  size="micro"
+                  className="uppercase tracking-widest text-rose-600 hover:text-rose-700 hover:bg-rose-50"
                   onClick={() => setShowBulkDeleteModal(true)}
                 >
                   <Trash className="w-2.5 h-2.5 mr-1" /> Clear
@@ -469,7 +472,7 @@ export const Dashboard = ({
               <p className="text-slate-400 font-medium">
                 {activeTab === 'active' ? "No projects yet. Create your first one!" : "Trash is empty."}
               </p>
-              {activeTab === 'active' && <Button variant="ghost" className="mt-4" onClick={() => setShowNewModal(true)}>Get Started</Button>}
+              {activeTab === 'active' && <Button variant="ghost" size="md" className="mt-4" onClick={() => setShowNewModal(true)}>Get Started</Button>}
             </div>
           )}
         </div>
@@ -560,9 +563,10 @@ export const Dashboard = ({
                 </div>
 
                 <div className="flex justify-end gap-3 pt-4">
-                  <Button variant="secondary" onClick={() => setShowNewModal(false)}>Cancel</Button>
+                  <Button variant="secondary" size="md" onClick={() => setShowNewModal(false)}>Cancel</Button>
                   <Button 
                     disabled={!newProject.name || newProject.tools.length === 0}
+                    size="md"
                     onClick={() => {
                       onCreateProject(newProject.name, newProject.client, newProject.tools);
                       setShowNewModal(false);
@@ -615,9 +619,10 @@ export const Dashboard = ({
                 </div>
 
                 <div className="flex justify-end gap-3 pt-2">
-                  <Button variant="secondary" onClick={() => setProjectToRename(null)}>Cancel</Button>
+                  <Button variant="secondary" size="md" onClick={() => setProjectToRename(null)}>Cancel</Button>
                   <Button 
                     disabled={!projectToRename.name.trim()}
+                    size="md"
                     onClick={() => {
                       if (onRenameProject) {
                         onRenameProject(projectToRename.id, projectToRename.name);
@@ -687,7 +692,7 @@ export const Dashboard = ({
                 </div>
 
                 <div className="flex justify-end pt-2">
-                  <Button onClick={() => setProjectDetails(null)} className="px-6">Close</Button>
+                  <Button size="md" onClick={() => setProjectDetails(null)} className="px-6">Close</Button>
                 </div>
               </div>
             </motion.div>
@@ -723,8 +728,9 @@ export const Dashboard = ({
                 </p>
 
                 <div className="flex w-full gap-3">
-                  <Button variant="secondary" className="flex-1" onClick={() => setProjectToDelete(null)}>Cancel</Button>
+                  <Button variant="secondary" size="md" className="flex-1" onClick={() => setProjectToDelete(null)}>Cancel</Button>
                   <Button 
+                    size="md"
                     className="flex-1 bg-amber-600 hover:bg-amber-700 focus:ring-amber-200"
                     onClick={() => {
                       if (onDeleteProject) {
@@ -770,8 +776,9 @@ export const Dashboard = ({
                 </p>
 
                 <div className="flex w-full gap-3">
-                  <Button variant="secondary" className="flex-1" onClick={() => setProjectToPermanentDelete(null)}>Cancel</Button>
+                  <Button variant="secondary" size="md" className="flex-1" onClick={() => setProjectToPermanentDelete(null)}>Cancel</Button>
                   <Button 
+                    size="md"
                     className="flex-1 bg-red-600 hover:bg-red-700 focus:ring-red-200"
                     onClick={() => {
                       onPermanentDeleteProject(projectToPermanentDelete.id);

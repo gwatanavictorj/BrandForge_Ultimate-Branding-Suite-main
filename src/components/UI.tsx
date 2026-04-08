@@ -40,18 +40,19 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { Slot } from '@radix-ui/react-slot';
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-xl font-medium transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none tracking-wide cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 focus-visible:ring-offset-2",
+  "inline-flex items-center justify-center rounded-xl font-medium transition-all active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none tracking-wide cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 focus-visible:ring-offset-2",
   {
     variants: {
       variant: {
-        primary: "bg-brand-600 text-white hover:bg-brand-700 shadow-sm border border-brand-700/10",
-        secondary: "bg-white text-slate-700 border border-slate-200 shadow-sm hover:bg-slate-50",
+        primary: "bg-gradient-to-b from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white shadow-md shadow-brand-500/20 border border-brand-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]",
+        secondary: "bg-white text-slate-700 border border-slate-200 shadow-sm hover:bg-slate-50 hover:border-slate-300",
         ghost: "bg-transparent text-slate-600 hover:bg-slate-100",
       },
       size: {
-        sm: "px-3 py-1.5 text-xs gap-1.5",
-        md: "px-5 py-2.5 text-sm gap-2",
-        lg: "px-8 py-4 text-base gap-3 font-bold",
+        micro: "h-8 px-3 text-[10px] gap-1 rounded-lg font-bold",
+        sm: "h-9 px-4 text-xs gap-1.5",
+        md: "h-11 px-6 text-sm gap-2",
+        lg: "h-12 px-8 text-base gap-3 font-bold",
       },
     },
     defaultVariants: {
