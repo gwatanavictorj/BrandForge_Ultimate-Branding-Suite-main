@@ -182,13 +182,13 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
 
         {/* Sidebar Nav */}
         <div className="w-full md:w-64 bg-slate-50 border-r border-slate-100 p-2 md:p-8 flex flex-col md:overflow-y-auto border-b md:border-b-0 shrink-0">
-          <div className="hidden md:flex items-center gap-3 mb-10 px-2">
-            <div className="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-100">
-              <Settings className="w-5 h-5" />
+          <div className="hidden md:flex items-center gap-3 mb-4 px-2">
+            <div className="w-8 h-8 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-100">
+              <Settings className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Settings</h2>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Configuration Suite</p>
+              <h2 className="text-sm font-bold text-slate-900 leading-tight">Settings</h2>
+              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Configuration</p>
             </div>
           </div>
 
@@ -241,24 +241,24 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-8 pt-4">
+          <div className="flex-1 overflow-y-auto p-5 pt-4">
             <AnimatePresence mode="wait">
               {activeCategory === 'general' && (
-                <motion.div key="gen" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-8">
-                  <div className="flex items-center gap-6 p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                <motion.div key="gen" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-6">
+                  <div className="flex items-center gap-5 p-5 bg-slate-50 rounded-3xl border border-slate-100">
                     <div className="relative">
-                      <div className="w-20 h-20 rounded-2xl bg-brand-100 flex items-center justify-center border-4 border-white shadow-sm overflow-hidden">
+                      <div className="w-16 h-16 rounded-2xl bg-brand-100 flex items-center justify-center border-4 border-white shadow-sm overflow-hidden">
                         {user?.photoURL ? (
                           <img src={user.photoURL} alt={user.displayName} className="w-full h-full object-cover" />
-                        ) : <User className="w-10 h-10 text-brand-600" />}
+                        ) : <User className="w-8 h-8 text-brand-600" />}
                       </div>
-                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center">
+                      <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center">
                         <CheckCircle2 className="w-3 h-3 text-white" />
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <h4 className="text-xl font-bold text-slate-900">{user?.displayName || 'BrandForge User'}</h4>
-                      <p className="text-sm text-slate-500 flex items-center gap-2">
+                      <h4 className="text-lg font-bold text-slate-900">{user?.displayName || 'BrandForge User'}</h4>
+                      <p className="text-xs text-slate-500 flex items-center gap-2">
                         <Mail className="w-3.5 h-3.5" />
                         {user?.email}
                       </p>
@@ -266,26 +266,26 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="p-6 bg-brand-50 rounded-3xl border border-brand-100 space-y-3">
-                      <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-600">
+                    <div className="p-5 bg-brand-50 rounded-3xl border border-brand-100 space-y-3">
+                      <div className="w-9 h-9 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-600">
                         <ShieldCheck className="w-5 h-5" />
                       </div>
-                      <h5 className="font-bold text-brand-900">Security Mode</h5>
-                      <p className="text-[10px] text-brand-700 leading-relaxed font-medium">Your session is encrypted and authenticated via Firebase. All platform tools are restricted to your verified identity.</p>
+                      <h5 className="font-bold text-brand-900 text-sm">Security Mode</h5>
+                      <p className="text-[10px] text-brand-700 leading-relaxed font-medium">Session encrypted via Firebase. Platform tools restricted to verified identity.</p>
                     </div>
-                    <div className="p-6 bg-indigo-50 rounded-3xl border border-indigo-100 space-y-3">
-                      <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600">
+                    <div className="p-5 bg-indigo-50 rounded-3xl border border-indigo-100 space-y-3">
+                      <div className="w-9 h-9 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600">
                         <ExternalLink className="w-5 h-5" />
                       </div>
-                      <h5 className="font-bold text-indigo-900">App Version</h5>
-                      <p className="text-[10px] text-indigo-700 leading-relaxed font-medium">BrandForge Suite v1.4.2 Enterprise. Running on secure local-cloud hybrid architecture.</p>
+                      <h5 className="font-bold text-indigo-900 text-sm">App Version</h5>
+                      <p className="text-[10px] text-indigo-700 leading-relaxed font-medium">BrandForge Suite v1.4.2 Enterprise. Running on hybrid architecture.</p>
                     </div>
                   </div>
                 </motion.div>
               )}
 
               {activeCategory === 'ai' && (
-                <motion.div key="ai" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-8">
+                <motion.div key="ai" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-6">
                   <div className="flex gap-2 p-1.5 bg-slate-100 rounded-2xl">
                     {AI_PROVIDERS.map(p => {
                       const Icon = p.icon;
@@ -295,11 +295,11 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                           key={p.id}
                           onClick={() => setActiveAIProvider(p.id as AIProviderType)}
                           className={cn(
-                            "flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold transition-all",
+                            "flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-[10px] font-bold transition-all",
                             isActive ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
                           )}
                         >
-                          <Icon className={cn("w-3.5 h-3.5", isActive ? p.color : "text-slate-400")} />
+                          <Icon className={cn("w-3 h-3", isActive ? p.color : "text-slate-400")} />
                           {p.name.split(' (')[0]}
                         </button>
                       )
@@ -307,99 +307,82 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   </div>
 
                   {AI_PROVIDERS.map(p => activeAIProvider === p.id && (
-                    <div key={p.id} className="space-y-6">
-                      <div className="space-y-4">
-                        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 flex items-center justify-between">
-                          <div className="space-y-1">
-                            <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                    <div key={p.id} className="space-y-3">
+                      <div className="space-y-2">
+                        <div className="bg-slate-50 rounded-2xl p-2.5 border border-slate-100 flex items-center justify-between">
+                          <div className="space-y-0.5">
+                            <h4 className="font-bold text-slate-900 flex items-center gap-2 text-xs">
                               {p.name}
                               {(() => {
                                 const isActive = keys.activeProvider === p.id && keys[p.id] && keys[p.id].length > 0;
                                 const isConnecting = saveStatus === 'saving' && activeAIProvider === p.id;
 
                                 if (isConnecting) return (
-                                  <div className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[9px] font-bold uppercase tracking-wider animate-pulse">
+                                  <div className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[8px] font-bold uppercase tracking-wider animate-pulse">
                                     Connecting...
                                   </div>
                                 );
 
                                 if (isActive) return (
-                                  <div className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[9px] font-bold uppercase tracking-wider">
-                                    Status: Active
+                                  <div className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[8px] font-bold uppercase tracking-wider">
+                                    Active
                                   </div>
                                 )
 
                                 return (
-                                  <div className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[9px] font-bold uppercase tracking-wider">
-                                    Status: Inactive
+                                  <div className="px-1.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[8px] font-bold uppercase tracking-wider">
+                                    Inactive
                                   </div>
                                 );
                               })()}
                             </h4>
-                            <p className="text-xs text-slate-500 leading-relaxed font-medium">{p.description}</p>
+                            <p className="text-[10px] text-slate-500 leading-relaxed font-medium">{p.description}</p>
                           </div>
                           {(keys.activeProvider === p.id || testStatus === 'success') && (
                             <div className={cn(
-                              "w-8 h-8 rounded-full flex items-center justify-center transition-all",
+                              "w-6 h-6 rounded-full flex items-center justify-center transition-all",
                               testStatus === 'success' ? "bg-emerald-100 text-emerald-500 animate-pulse" : "bg-slate-900 text-white shadow-lg shadow-brand-100"
                             )}>
-                              <ShieldCheck className="w-5 h-5" />
+                              <ShieldCheck className="w-3.5 h-3.5" />
                             </div>
                           )}
                         </div>
 
-                        {/* Provider Specific Billing Alert */}
-                        <div className="p-4 bg-blue-50 border border-blue-100 rounded-2xl flex gap-3 text-blue-700">
-                          <Info className="w-5 h-5 shrink-0 mt-0.5" />
-                          <div className="space-y-1">
-                            <p className="text-[10px] leading-relaxed font-bold uppercase tracking-wider">Provider Billing Info</p>
-                            <p className="text-[10px] leading-relaxed font-medium">
-                              {p.id === 'openai' && (
-                                <>OpenAI API usage is billed separately from ChatGPT Plus. Please check your balance at <a href="https://platform.openai.com/settings/organization/billing" target="_blank" className="underline font-bold hover:text-blue-900">platform.openai.com</a>.</>
-                              )}
-                              {p.id === 'gemini' && (
-                                <>Google Gemini provides a generous free tier for developers. Check your limits and plans at <a href="https://aistudio.google.com/app/plan_management" target="_blank" className="underline font-bold hover:text-blue-900">aistudio.google.com</a>.</>
-                              )}
-                              {p.id === 'anthropic' && (
-                                <>Anthropic API requires pre-purchased credits to operate. Manage your account at <a href="https://console.anthropic.com/settings/plans" target="_blank" className="underline font-bold hover:text-blue-900">console.anthropic.com</a>.</>
-                              )}
-                            </p>
-                          </div>
-                        </div>
 
-                        <div className="space-y-4">
+
+                        <div className="space-y-3">
                           <div>
-                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">API Secret Key</label>
+                            <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">API Secret Key</label>
                             <div className="relative group">
                               <Input
                                 type="password"
                                 placeholder={`Enter ${p.name} Key`}
                                 value={keys[p.id]}
-                                className="pr-12"
+                                className="pr-12 h-9 text-xs"
                                 onChange={(e) => setKeys({ ...keys, [p.id]: e.target.value })}
                               />
                               {keys[p.id] && (
                                 <button
                                   onClick={() => setKeys({ ...keys, [p.id]: '' })}
-                                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
                                   title="Clear Key"
                                 >
-                                  <Trash2 className="w-4 h-4" />
+                                  <Trash2 className="w-3.5 h-3.5" />
                                 </button>
                               )}
                             </div>
                           </div>
                           <div>
-                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 block">Enterprise Model</label>
+                            <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Enterprise Model</label>
                             <div className="relative">
                               <select
-                                className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 outline-none focus:ring-2 focus:ring-brand-100 appearance-none"
+                                className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-xs font-medium text-slate-700 outline-none focus:ring-2 focus:ring-brand-100 appearance-none"
                                 value={keys.models[p.id]}
                                 onChange={(e) => setKeys({ ...keys, models: { ...keys.models, [p.id]: e.target.value } })}
                               >
                                 {p.models.map(m => <option key={m} value={m}>{m}</option>)}
                               </select>
-                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                             </div>
                           </div>
                         </div>
@@ -442,6 +425,25 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                           {testStatus === 'testing' ? 'Testing...' : testStatus === 'success' ? 'Alive' : 'Test Pulse'}
                         </Button>
                       </div>
+
+                      {/* Provider Specific Billing Alert */}
+                      <div className="p-3 bg-blue-50 border border-blue-100 rounded-2xl flex gap-3 text-blue-700">
+                        <Info className="w-4 h-4 shrink-0 mt-0.5" />
+                        <div className="space-y-0.5">
+                          <p className="text-[9px] leading-relaxed font-black uppercase tracking-widest">Billing Info</p>
+                          <p className="text-[10px] leading-relaxed font-medium opacity-90">
+                            {p.id === 'openai' && (
+                              <>API billed separately from ChatGPT Plus. Manage at <a href="https://platform.openai.com/settings/organization/billing" target="_blank" className="underline font-bold hover:text-blue-900">platform.openai.com</a>.</>
+                            )}
+                            {p.id === 'gemini' && (
+                              <>Generous free tier available for developers. Check limits at <a href="https://aistudio.google.com/app/plan_management" target="_blank" className="underline font-bold hover:text-blue-900">aistudio.google.com</a>.</>
+                            )}
+                            {p.id === 'anthropic' && (
+                              <>Requires pre-purchased credits. Manage account at <a href="https://console.anthropic.com/settings/plans" target="_blank" className="underline font-bold hover:text-blue-900">console.anthropic.com</a>.</>
+                            )}
+                          </p>
+                        </div>
+                      </div>
                       {testError && <p className="text-[10px] text-rose-500 font-bold text-center px-4">{testError}</p>}
                     </div>
                   ))}
@@ -450,44 +452,44 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
 
               {activeCategory === 'data' && (
                 <motion.div key="data" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-6">
-                  <div className="p-6 bg-amber-50 rounded-3xl border border-amber-100 flex items-start gap-4">
-                    <Info className="w-5 h-5 text-amber-600 shrink-0 mt-1" />
-                    <div className="space-y-1">
-                      <h4 className="font-bold text-amber-900 text-sm">Library Portability</h4>
-                      <p className="text-[11px] text-amber-800 leading-relaxed opacity-80">Export your brand projects to a universal format for backup or migration to another workstation. Import previously saved files to restore your local strategy library.</p>
+                  <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-4">
+                    <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <div className="space-y-0.5">
+                      <h4 className="font-bold text-amber-900 text-xs">Library Portability</h4>
+                      <p className="text-[10px] text-amber-800 leading-tight opacity-90 font-medium">Export projects for backup. Import files to restore library.</p>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Card className="p-6 hover:shadow-lg transition-all border-slate-100 hover:border-brand-100 group cursor-pointer" onClick={() => exportProjects(projects)}>
-                      <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors mb-4">
-                        <Download className="w-6 h-6" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Card className="p-4 hover:shadow-lg transition-all border-slate-100 hover:border-brand-100 group cursor-pointer" onClick={() => exportProjects(projects)}>
+                      <div className="w-9 h-9 bg-white shadow-sm rounded-xl flex items-center justify-center text-slate-400 group-hover:text-brand-600 transition-colors mb-2">
+                        <Download className="w-4 h-4" />
                       </div>
-                      <h5 className="font-bold text-slate-900 mb-1">Export Library</h5>
-                      <p className="text-[10px] text-slate-500">Download {projects.length} brand projects as a secure backup JSON file.</p>
+                      <h5 className="font-bold text-slate-900 mb-0.5 text-xs">Export Library</h5>
+                      <p className="text-[9px] text-slate-500 font-medium leading-tight">Backup {projects.length} projects as JSON.</p>
                     </Card>
 
-                    <Card className="p-6 hover:shadow-lg transition-all border-slate-100 hover:border-indigo-100 group cursor-pointer" onClick={handleImportClick}>
+                    <Card className="p-4 hover:shadow-lg transition-all border-slate-100 hover:border-indigo-100 group cursor-pointer" onClick={handleImportClick}>
                       <input type="file" ref={fileInputRef} className="hidden" accept=".json" onChange={handleFileChange} />
-                      <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors mb-4">
-                        <Upload className="w-6 h-6" />
+                      <div className="w-9 h-9 bg-white shadow-sm rounded-xl flex items-center justify-center text-slate-400 group-hover:text-indigo-600 transition-colors mb-2">
+                        <Upload className="w-4 h-4" />
                       </div>
-                      <h5 className="font-bold text-slate-900 mb-1">Import Library</h5>
-                      <p className="text-[10px] text-slate-500">Restore or merge brand projects from an external BrandForge export.</p>
+                      <h5 className="font-bold text-slate-900 mb-0.5 text-xs">Import Library</h5>
+                      <p className="text-[9px] text-slate-500 font-medium leading-tight">Restore from external export.</p>
                     </Card>
                   </div>
 
-                  <div className="pt-6 border-t border-slate-100">
-                    <h5 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">Critical Actions</h5>
+                  <div className="pt-4 border-t border-slate-100">
+                    <h5 className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5">Critical Actions</h5>
                     <Button
                       variant="secondary"
-                      size="lg"
-                      className="w-full text-rose-600 border-rose-100 hover:bg-rose-50 uppercase tracking-widest font-bold"
+                      size="md"
+                      className="w-full text-rose-600 border-rose-100 hover:bg-rose-50 uppercase tracking-widest font-black text-[10px] py-2"
                     >
-                      <Trash2 className="w-5 h-5" />
-                      Wipe Local Strategy Cache
+                      <Trash2 className="w-4 h-4" />
+                      Wipe Cache
                     </Button>
-                    <p className="text-[9px] text-slate-400 text-center mt-3 leading-normal px-8 italic font-medium">Wiping the cache will delete all local project data. Ensure you have exported a backup first.</p>
+                    <p className="text-[8px] text-slate-400 text-center mt-2 leading-tight px-8 italic font-bold">Wiping cache deletes all data. Export a backup first.</p>
                   </div>
                 </motion.div>
               )}
