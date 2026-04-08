@@ -416,14 +416,14 @@ export default function App() {
       )}>
         <div className="p-6 border-b border-slate-100 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white shrink-0 shadow-lg shadow-brand-200">
+            <div className="w-8 h-8 bg-brand-600 rounded-xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-brand-200">
               <LayoutGrid className="w-5 h-5" />
             </div>
             <h1 className="text-xl font-bold text-slate-900 tracking-tight">BrandForge</h1>
           </div>
           <button 
             onClick={() => setIsSidebarOpen(false)}
-            className="p-2 hover:bg-slate-50 rounded-lg text-slate-400 md:hidden"
+            className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 md:hidden"
           >
             <X className="w-5 h-5" />
           </button>
@@ -537,7 +537,7 @@ export default function App() {
             </div>
             <button 
               onClick={() => signOut()}
-              className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 transition-colors cursor-pointer"
+              className="p-1.5 hover:bg-slate-100 rounded-xl text-slate-400 transition-colors cursor-pointer"
               title="Sign Out"
             >
               <LogOut className="w-4 h-4" />
@@ -581,7 +581,7 @@ export default function App() {
               <button 
                 onClick={() => setShowNotifications(!showNotifications)}
                 className={cn(
-                  "p-2 hover:bg-slate-100 rounded-lg text-slate-400 relative transition-colors cursor-pointer",
+                  "p-2 hover:bg-slate-100 rounded-xl text-slate-400 relative transition-colors cursor-pointer",
                   showNotifications && "bg-slate-100 text-brand-600"
                 )}
               >
@@ -601,7 +601,7 @@ export default function App() {
             </div>
             <button 
               onClick={() => setShowSettings(true)}
-              className="p-2 hover:bg-slate-100 rounded-lg text-slate-400 transition-colors cursor-pointer"
+              className="p-2 hover:bg-slate-100 rounded-xl text-slate-400 transition-colors cursor-pointer"
             >
               <Settings className="w-5 h-5" />
             </button>
@@ -619,7 +619,7 @@ export default function App() {
         <main className="flex-1 overflow-y-auto bg-slate-50/50 p-4 md:p-8">
           <div className="max-w-7xl mx-auto w-full">
             {error && (
-              <div className="mb-8 p-4 bg-rose-50 border border-rose-100 rounded-2xl flex items-center gap-3 text-rose-700">
+              <div className="mb-8 p-4 bg-rose-50 border border-rose-100 rounded-[32px] flex items-center gap-3 text-rose-700">
                 <AlertTriangle className="w-5 h-5" />
                 <p className="text-sm font-medium">{error}</p>
               </div>
@@ -779,7 +779,7 @@ export default function App() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden p-8 space-y-6"
+              className="relative w-full max-w-md bg-white rounded-[32px] shadow-2xl overflow-hidden p-8 space-y-6"
             >
               <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 mx-auto">
                 <AlertTriangle className="w-8 h-8" />

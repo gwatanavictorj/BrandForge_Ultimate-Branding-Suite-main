@@ -113,15 +113,15 @@ export const UsageGuideGenerator = ({ discovery, strategy, system, addNotificati
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="p-4 bg-brand-50 rounded-xl border border-brand-100 flex items-center gap-3">
-          <div className="w-10 h-10 bg-brand-100 rounded-full flex items-center justify-center text-brand-600 font-bold">1</div>
+          <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 font-bold">1</div>
           <div className="text-sm font-medium text-brand-900">Consistent Strategy</div>
         </div>
         <div className="p-4 bg-brand-50 rounded-xl border border-brand-100 flex items-center gap-3">
-          <div className="w-10 h-10 bg-brand-100 rounded-full flex items-center justify-center text-brand-600 font-bold">2</div>
+          <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 font-bold">2</div>
           <div className="text-sm font-medium text-brand-900">Visual Harmony</div>
         </div>
         <div className="p-4 bg-brand-50 rounded-xl border border-brand-100 flex items-center gap-3">
-          <div className="w-10 h-10 bg-brand-100 rounded-full flex items-center justify-center text-brand-600 font-bold">3</div>
+          <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center text-brand-600 font-bold">3</div>
           <div className="text-sm font-medium text-brand-900">Professional Handoff</div>
         </div>
       </div>

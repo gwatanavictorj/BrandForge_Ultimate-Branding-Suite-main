@@ -195,7 +195,7 @@ export const Dashboard = ({
             <button
               onClick={() => setActiveTab('active')}
               className={cn(
-                "px-3 py-1.5 text-[10px] sm:text-sm font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap",
+                "px-3 py-1.5 text-[10px] sm:text-sm font-bold rounded-xl transition-all cursor-pointer whitespace-nowrap",
                 activeTab === 'active' 
                   ? "bg-white text-slate-900 shadow-sm" 
                   : "text-slate-500 hover:text-slate-700"
@@ -206,7 +206,7 @@ export const Dashboard = ({
             <button
               onClick={() => { setActiveTab('trash'); setSelectedIds(new Set()); }}
               className={cn(
-                "px-3 py-1.5 text-[10px] sm:text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap",
+                "px-3 py-1.5 text-[10px] sm:text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap",
                 activeTab === 'trash' 
                   ? "bg-white text-slate-900 shadow-sm" 
                   : "text-slate-500 hover:text-slate-700"
@@ -251,7 +251,7 @@ export const Dashboard = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="bg-slate-900 text-white rounded-2xl p-4 flex items-center justify-between shadow-2xl shadow-slate-200"
+              className="bg-slate-900 text-white rounded-[24px] p-4 flex items-center justify-between shadow-2xl shadow-slate-200"
             >
               <div className="flex items-center gap-4">
                 <span className="text-sm font-bold ml-2">{selectedIds.size} projects selected</span>

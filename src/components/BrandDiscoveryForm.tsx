@@ -1278,9 +1278,9 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center space-y-6"
+            className="bg-white rounded-[32px] p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center space-y-6"
           >
-            <div className="w-20 h-20 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mx-auto">
+            <div className="w-20 h-20 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-10 h-10" />
             </div>
             <div className="space-y-2">

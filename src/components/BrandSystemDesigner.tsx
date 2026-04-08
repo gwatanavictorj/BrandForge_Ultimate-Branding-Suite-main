@@ -69,7 +69,7 @@ export const BrandSystemDesigner = ({ discovery, strategy, initialData, onUpdate
               {data.colors.map((color, i) => (
                 <div key={i} className="flex-1 space-y-2">
                   <div 
-                    className="h-16 rounded-lg shadow-inner border border-slate-200" 
+                    className="h-16 rounded-xl shadow-inner border border-slate-200" 
                     style={{ backgroundColor: color }}
                   />
                   <Input 
@@ -109,7 +109,7 @@ export const BrandSystemDesigner = ({ discovery, strategy, initialData, onUpdate
             <div>
               <label className="text-sm font-medium text-slate-700 mb-2 block">Primary Font (Headings)</label>
               <select 
-                className="w-full px-4 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
                 value={data.typography.primary}
                 onChange={e => setData({ ...data, typography: { ...data.typography, primary: e.target.value } })}
               >
@@ -119,7 +119,7 @@ export const BrandSystemDesigner = ({ discovery, strategy, initialData, onUpdate
             <div>
               <label className="text-sm font-medium text-slate-700 mb-2 block">Secondary Font (Body)</label>
               <select 
-                className="w-full px-4 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
                 value={data.typography.secondary}
                 onChange={e => setData({ ...data, typography: { ...data.typography, secondary: e.target.value } })}
               >
@@ -127,7 +127,7 @@ export const BrandSystemDesigner = ({ discovery, strategy, initialData, onUpdate
               </select>
             </div>
 
-            <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-2">
               <h4 className="text-xl font-bold" style={{ fontFamily: data.typography.primary }}>The quick brown fox</h4>
               <p className="text-sm text-slate-600" style={{ fontFamily: data.typography.secondary }}>
                 Jumps over the lazy dog. This is how your brand typography will look in practice.
