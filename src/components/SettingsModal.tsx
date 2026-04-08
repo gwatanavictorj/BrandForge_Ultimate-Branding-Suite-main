@@ -224,7 +224,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
         animate={{ opacity: 1, scale: 1, y: 0 }} 
         exit={{ opacity: 0, scale: 0.95, y: 20 }} 
         onClick={(e) => e.stopPropagation()} 
-        className="relative w-full md:w-[95%] max-w-[700px] bg-white md:rounded-[var(--radius-modal)] lg:rounded-[var(--radius-modal)] shadow-2xl overflow-hidden h-full md:h-[75vh] md:min-h-[550px] md:max-h-[850px] flex flex-col md:flex-row"
+        className="relative w-full md:w-[95%] max-w-[740px] bg-white md:rounded-[var(--radius-modal)] lg:rounded-[var(--radius-modal)] shadow-2xl overflow-hidden h-full md:h-[75vh] md:min-h-[550px] md:max-h-[850px] flex flex-col md:flex-row"
       >
 
         {/* Mobile Global Header */}
@@ -238,7 +238,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
         </div>
 
         {/* Sidebar Nav */}
-        <div className="w-full md:w-64 bg-slate-50 border-r border-slate-100 p-2 md:p-8 flex flex-col md:overflow-y-auto border-b md:border-b-0 shrink-0 overflow-x-auto no-scrollbar">
+        <div className="w-full md:w-64 bg-slate-50 border-r border-slate-100 p-1.5 md:p-8 flex flex-col md:overflow-y-auto border-b md:border-b-0 shrink-0">
           <div className="hidden md:flex items-center gap-3 mb-4 px-2">
             <div className="w-8 h-8 bg-brand-600 rounded-[var(--radius-control)] flex items-center justify-center text-white shadow-lg shadow-brand-100">
               <Settings className="w-4 h-4" />
@@ -249,7 +249,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
             </div>
           </div>
 
-          <nav className="flex flex-row md:flex-col gap-1 md:gap-1.5 min-w-max md:min-w-0">
+          <nav className="grid grid-cols-5 md:flex md:flex-col gap-0.5 md:gap-1.5 min-w-0 md:min-w-0">
             {CATEGORIES.map(cat => {
               const Icon = cat.icon;
               const isActive = activeCategory === cat.id;
@@ -268,7 +268,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   )}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <span className={cn("text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-colors shrink-0", isActive ? "text-slate-900" : "text-slate-500")}>
+                  <span className={cn("text-[9px] md:text-[10px] font-black uppercase tracking-normal md:tracking-widest whitespace-nowrap transition-colors shrink-0", isActive ? "text-slate-900" : "text-slate-500")}>
                     {cat.name}
                   </span>
                 </button>

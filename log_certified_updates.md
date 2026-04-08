@@ -153,4 +153,18 @@ This is the official record of all BrandForge features and UI refinements that h
 - `src/components/Dashboard.tsx` (Stats & Project List audit)
 - `src/App.tsx` (Navigation item radius standardization)
 
+### **Update 13: Settings Modal Expansion & Mobile Navigation Optimization**
+**Status**: 🟢 CERTIFIED (UX Refinement)
+**Objective**: Improve desktop layout balance and eliminate mobile navigation friction.
+
+#### **Technical Improvements:**
+*   **Modal Expansion**: Increased `max-w` from 700px to **740px** to improve internal content spacing on desktop.
+*   **Zero-Scroll Mobile Nav**: 
+    *   Converted the mobile navigation from a scrolling row to a static **5-column grid**.
+    *   Utilized **icon-above-text** stacking to maximize horizontal space.
+*   **Typography Precision**: Synchronized mobile nav labels to **9px** (`label-xs`) to prevent wrapping and ensure zero-scrolling on 375px+ viewports.
+
+#### **Files Verified:**
+- `src/components/SettingsModal.tsx` (Expanded width & Grid navigation)
+
 ---
