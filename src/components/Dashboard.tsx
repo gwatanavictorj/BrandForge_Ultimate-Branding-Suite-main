@@ -159,8 +159,8 @@ export const Dashboard = ({
 
       {/* Stats Grid */}
       <div className="grid grid-cols-3 gap-2 sm:gap-6">
-        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50">
-          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-brand-50 rounded-lg sm:rounded-2xl flex items-center justify-center text-brand-600 shrink-0">
+        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[24px]">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 shrink-0">
             <Folder className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 flex flex-col">
@@ -168,8 +168,8 @@ export const Dashboard = ({
             <div className="text-[7px] sm:text-xs font-medium text-slate-500 uppercase tracking-tight sm:tracking-wider mt-0.5 sm:mt-1">Active Projects</div>
           </div>
         </Card>
-        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50">
-          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-50 rounded-lg sm:rounded-2xl flex items-center justify-center text-emerald-600 shrink-0">
+        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[24px]">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 shrink-0">
             <CheckCircle2 className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 flex flex-col">
@@ -177,8 +177,8 @@ export const Dashboard = ({
             <div className="text-[7px] sm:text-xs font-medium text-slate-500 uppercase tracking-tight sm:tracking-wider mt-0.5 sm:mt-1">Tasks Completed</div>
           </div>
         </Card>
-        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50">
-          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-amber-50 rounded-lg sm:rounded-2xl flex items-center justify-center text-amber-600 shrink-0">
+        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[24px]">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 shrink-0">
             <Clock className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 flex flex-col">
@@ -290,7 +290,7 @@ export const Dashboard = ({
             <Card 
               key={project.id} 
               className={cn(
-                "group transition-all p-0 overflow-visible relative",
+                "group transition-all p-0 overflow-visible relative rounded-[32px] overflow-hidden",
                 activeTab === 'active' ? "hover:border-brand-300 cursor-pointer" : "cursor-default"
               )} 
             >

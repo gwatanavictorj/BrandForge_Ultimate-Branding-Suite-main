@@ -73,3 +73,37 @@ This is the official record of all BrandForge features and UI refinements that h
 - `src/components/LogoAssistant.tsx` (Mobile Noun Grid)
 
 ---
+
+## 📅 2026-04-08: Final Mobile Ergonomics & Dashboard Refinement (CERTIFIED)
+
+### 📊 Dashboard Layout V2
+- **Welcome Header**: Aligned greeting text (left) and "New Project" button (right) on a **single horizontal row** for mobile.
+- **Metrics Hierarchy**: Restored full labels ("Active Projects", "Tasks Completed", "Pending Tasks") within a mandatory **3-column horizontal grid**.
+- **Reference-Grade Metrics**: Implemented the **Icon-Number-Label** horizontal stack pattern (Icon left, vertical text stack right) as per user-provided layout requirements.
+- **Filter Bar**: Ensured standard tabs and "View All" actions maintain a consistent **single-row alignment** across all mobile viewports.
+
+### 🛠️ Key Files
+- `src/components/Dashboard.tsx` (Final layout logic)
+- `src/App.tsx` (Responsive Navigation Drawer)
+
+---
+
+## 📅 2026-04-08: Premium Corner Radius Standardization (CERTIFIED)
+
+### 🎨 Visual Identity Overhaul
+- **Systematic Rounding**: Implemented a unified hierarchy of corner radii across the entire suite:
+  - **32px (rounded-3xl)**: Primary Cards, Sections, Modals.
+  - **24px (rounded-3xl)**: Metric Containers, Pillar Blocks.
+  - **12px (rounded-xl)**: Buttons, Inputs, Controls.
+  - **8px (rounded-lg)**: Indicators, Small Badges.
+- **Library Integration**: Standardized `UI.tsx` components to serve as the platform-wide source of truth.
+- **Mobile Ergonomics**: Verified premium visual feel and correct tap-target aesthetics on all mobile viewports (375px).
+
+### 🛠️ Key Files
+- `src/components/UI.tsx` (Base Component Standardization)
+- `src/components/Dashboard.tsx`
+- `src/components/BrandDiscoveryForm.tsx`
+- `src/components/BrandStrategyTool.tsx`
+- `src/components/LogoAssistant.tsx`
+
+---

@@ -277,7 +277,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
                       <div 
                         key={i} 
                         className={cn(
-                          "group relative flex flex-col items-start px-3 py-2 rounded-xl border transition-all hover:shadow-sm",
+                          "group relative flex flex-col items-start px-3 py-2 rounded-2xl border transition-all hover:shadow-sm",
                           territoryStyle
                         )}
                       >
@@ -325,7 +325,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
                   key={i} 
                   onClick={() => setData(prev => ({ ...prev, selectedSmushIndex: i }))}
                   className={cn(
-                    "group p-4 bg-white border rounded-[20px] transition-all duration-300 shadow-sm cursor-pointer",
+                    "group p-4 bg-white border rounded-[24px] transition-all duration-300 shadow-sm cursor-pointer",
                     data.selectedSmushIndex === i 
                       ? "border-brand-500 bg-brand-50/20 ring-2 ring-brand-500/10" 
                       : "border-slate-100 hover:border-brand-200 hover:shadow-md"
@@ -334,14 +334,14 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
                       <span className={cn(
-                        "px-2 py-1 border rounded-lg text-[10px] font-bold uppercase tracking-tighter transition-colors",
+                        "px-2 py-1 border rounded-xl text-[10px] font-bold uppercase tracking-tighter transition-colors",
                         data.selectedSmushIndex === i ? "bg-brand-600 text-white border-brand-700" : "bg-slate-50 border-slate-100 text-slate-600"
                       )}>
                         {smush.pair[0]}
                       </span>
                       <span className="text-slate-300 font-light text-xs">+</span>
                       <span className={cn(
-                        "px-2 py-1 border rounded-lg text-[10px] font-bold uppercase tracking-tighter transition-colors",
+                        "px-2 py-1 border rounded-xl text-[10px] font-bold uppercase tracking-tighter transition-colors",
                         data.selectedSmushIndex === i ? "bg-brand-600 text-white border-brand-700" : "bg-slate-50 border-slate-100 text-slate-600"
                       )}>
                         {smush.pair[1]}
@@ -381,7 +381,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
           </div>
           <div className="space-y-4">
             {data.concepts.map((concept, i) => (
-              <div key={i} className="p-4 bg-brand-50/50 border border-brand-100 rounded-[20px] text-sm text-brand-900 leading-relaxed">
+              <div key={i} className="p-4 bg-brand-50/50 border border-brand-100 rounded-[24px] text-sm text-brand-900 leading-relaxed">
                 {concept}
               </div>
             ))}
@@ -438,7 +438,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
           </div>
 
           {data.inspirationUrl ? (
-            <div className="relative group rounded-xl overflow-hidden border border-slate-200">
+            <div className="relative group rounded-2xl overflow-hidden border border-slate-200">
               <img 
                 src={data.inspirationUrl} 
                 alt="Logo Inspiration" 
@@ -450,7 +450,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
               </div>
             </div>
           ) : (
-            <div className="aspect-square bg-slate-50 rounded-xl border border-dashed border-slate-200 flex items-center justify-center text-slate-400 text-[10px] text-center p-6 space-y-2 flex-col">
+            <div className="aspect-square bg-slate-50 rounded-2xl border border-dashed border-slate-200 flex items-center justify-center text-slate-400 text-[10px] text-center p-6 space-y-2 flex-col">
               <Sparkles className="w-8 h-8 text-slate-200" />
               <p>Pick a vibe and click generate to see strategy-driven sketches.</p>
             </div>
@@ -481,7 +481,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
                   {data.variations.map((v, i) => {
                     const [title, rationale] = v.split(':');
                     return (
-                      <li key={i} className="group p-3 bg-white border border-slate-100 rounded-[15px] hover:border-brand-100 transition-all">
+                      <li key={i} className="group p-3 bg-white border border-slate-100 rounded-xl hover:border-brand-100 transition-all">
                         <div className="text-[11px] font-bold text-slate-900 uppercase tracking-tight mb-1">{title}</div>
                         <div className="text-[10px] text-slate-500 leading-snug">{rationale}</div>
                       </li>
@@ -489,7 +489,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
                   })}
                 </ul>
               ) : (
-                <div className="py-8 text-center border border-dashed border-slate-200 rounded-[20px]">
+                <div className="py-8 text-center border border-dashed border-slate-200 rounded-[24px]">
                   <p className="text-xs text-slate-400">Click define to see brand-specific variations.</p>
                 </div>
               )}
@@ -507,11 +507,11 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
             </div>
             <div className="grid grid-cols-1 gap-2 mt-4">
               {data.mockupHighlights.length > 0 ? data.mockupHighlights.map((item, i) => (
-                <div key={i} className="p-3 bg-slate-50 border border-slate-100 rounded-[15px] text-[10px] font-bold text-slate-600 flex items-center justify-start px-4 uppercase tracking-tighter hover:bg-white hover:border-brand-200 transition-all cursor-default">
+                <div key={i} className="p-3 bg-slate-50 border border-slate-100 rounded-xl text-[10px] font-bold text-slate-600 flex items-center justify-start px-4 uppercase tracking-tighter hover:bg-white hover:border-brand-200 transition-all cursor-default">
                   ✨ {item}
                 </div>
               )) : (
-                <div className="py-8 text-center border border-dashed border-slate-200 rounded-[20px]">
+                <div className="py-8 text-center border border-dashed border-slate-200 rounded-[24px]">
                   <p className="text-xs text-slate-400">Click generate to see project-specific mockups.</p>
                 </div>
               )}
@@ -526,7 +526,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
       <Card title="File Management System" icon={FolderTree}>
         <div className="space-y-4">
           <p className="text-sm text-slate-500">Recommended folder structure for professional handoff.</p>
-          <div className="text-xs font-mono bg-slate-900 text-slate-300 p-4 rounded-lg space-y-1">
+          <div className="text-xs font-mono bg-slate-900 text-slate-300 p-4 rounded-xl space-y-1">
             <div>📁 01_Master_Logos</div>
             <div className="pl-4">📁 AI_Source</div>
             <div className="pl-4">📁 PDF_Vector</div>

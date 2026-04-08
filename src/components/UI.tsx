@@ -1,18 +1,9 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, HTMLMotionProps } from 'motion/react';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-interface CardProps {
-  children: React.ReactNode;
-  className?: string;
-  title?: string;
-  icon?: LucideIcon;
-  extra?: React.ReactNode;
-  onClick?: () => void;
-}
-
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface CardProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode;
   title?: string;
   icon?: LucideIcon;
@@ -26,7 +17,7 @@ export const Card = ({ children, className, title, icon: Icon, extra, onClick, .
     animate={{ opacity: 1, y: 0 }}
     onClick={onClick}
     className={cn(
-      "bg-white rounded-[25px] p-6 shadow-sm border border-slate-100 transition-all",
+      "bg-white rounded-[32px] p-6 shadow-sm border border-slate-100 transition-all",
       onClick && "cursor-pointer hover:shadow-md hover:border-brand-100",
       className
     )}
@@ -96,7 +87,7 @@ export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttribute
   ({ className, ...props }, ref) => (
     <input 
       className={cn(
-        "w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all bg-slate-50/50 disabled:cursor-not-allowed disabled:opacity-50",
+        "w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all bg-slate-50/50 disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       ref={ref}
@@ -110,7 +101,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTML
   ({ className, ...props }, ref) => (
     <textarea 
       className={cn(
-        "w-full px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all bg-slate-50/50 min-h-[100px] disabled:cursor-not-allowed disabled:opacity-50",
+        "w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all bg-slate-50/50 min-h-[100px] disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       ref={ref}

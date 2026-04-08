@@ -1315,7 +1315,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                 </div>
               </div>
 
-              <div className="p-8 rounded-[25px] bg-white border border-slate-200 space-y-6 shadow-sm relative overflow-hidden">
+              <div className="p-8 rounded-[32px] bg-white border border-slate-200 space-y-6 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4">
                   <span className="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-full uppercase tracking-wider border border-slate-200">Secondary Archetype</span>
                 </div>
@@ -1396,7 +1396,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                     {[strategy.identitySystem.typography.primary, strategy.identitySystem.typography.secondary].map((typo, idx) => {
                       const isPrimary = idx === 0;
                       return (
-                        <div key={idx} className="p-8 bg-slate-50 rounded-[25px] border border-slate-100 space-y-8 flex flex-col">
+                        <div key={idx} className="p-8 bg-slate-50 rounded-[32px] border border-slate-100 space-y-8 flex flex-col">
                           <div className="flex items-center justify-between border-b border-slate-200 pb-4">
                             <div className="flex items-center gap-3">
                               <span className={cn(

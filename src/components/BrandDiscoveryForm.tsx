@@ -585,7 +585,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
             <label className="text-sm font-bold text-slate-700 mb-1 block">Industry *</label>
             <p className="text-xs text-slate-500 mb-2">👉 Best description?</p>
             <select 
-              className="w-full px-4 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+              className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
               value={data.industry}
               onChange={e => setData({ ...data, industry: e.target.value })}
             >
@@ -707,7 +707,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
                 key={model}
                 onClick={() => toggleMultiSelect('deliveryModel', model)}
                 className={cn(
-                  "p-2 rounded-lg border text-xs font-medium transition-all text-left flex items-center gap-2",
+                  "p-2 rounded-xl border text-xs font-medium transition-all text-left flex items-center gap-2",
                   data.deliveryModel.includes(model)
                     ? "bg-brand-600 border-brand-600 text-white cursor-pointer"
                     : "bg-white border-slate-200 text-slate-600 hover:border-brand-300 cursor-pointer"
@@ -738,7 +738,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
                 key={benefit}
                 onClick={() => toggleMultiSelect('customerBenefits', benefit)}
                 className={cn(
-                  "p-2 rounded-lg border text-xs font-medium transition-all text-left flex items-center gap-2",
+                  "p-2 rounded-xl border text-xs font-medium transition-all text-left flex items-center gap-2",
                   data.customerBenefits.includes(benefit)
                     ? "bg-brand-600 border-brand-600 text-white cursor-pointer"
                     : "bg-white border-slate-200 text-slate-600 hover:border-brand-300 cursor-pointer"
@@ -776,7 +776,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
                 key={val}
                 onClick={() => toggleMultiSelect('coreValues', val)}
                 className={cn(
-                  "p-2 rounded-lg border text-xs font-medium transition-all text-left flex items-center gap-2",
+                  "p-2 rounded-xl border text-xs font-medium transition-all text-left flex items-center gap-2",
                   data.coreValues.includes(val)
                     ? "bg-brand-600 border-brand-600 text-white cursor-pointer"
                     : "bg-white border-slate-200 text-slate-600 hover:border-brand-300 cursor-pointer"
@@ -1182,7 +1182,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
                       }}
                     >
                       <div className={cn(
-                        "w-4 h-4 shrink-0 rounded-full flex items-center justify-center border transition-all duration-500 bg-white z-10",
+                        "w-4 h-4 shrink-0 rounded-lg flex items-center justify-center border transition-all duration-500 bg-white z-10",
                         isCurrent ? "border-brand-600 ring-2 ring-brand-50" : 
                         isPast ? "border-brand-600 bg-brand-600" : "border-slate-300"
                       )}>
@@ -1223,7 +1223,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
 
       <div className={cn("max-w-5xl mx-auto", currentStep >= 2 && "mt-8")}>
         {error && (
-          <div className="mb-6 p-4 bg-rose-50 border border-rose-100 rounded-2xl flex items-center gap-3 text-rose-700">
+          <div className="mb-6 p-4 bg-rose-50 border border-rose-100 rounded-[32px] flex items-center gap-3 text-rose-700">
             <AlertTriangle className="w-5 h-5" />
             <p className="text-sm font-medium">{error}</p>
           </div>
