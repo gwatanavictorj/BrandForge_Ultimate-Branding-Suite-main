@@ -148,8 +148,8 @@ export const Dashboard = ({
       {/* Welcome Section */}
       <div className="flex flex-row items-center justify-between gap-4">
         <div className="space-y-1 text-left min-w-0 flex-1">
-          <h2 className="text-xl sm:text-3xl font-bold text-slate-900 truncate">{greeting}, {userName}</h2>
-          <p className="text-[10px] sm:text-base text-slate-500 truncate">You have {pendingTasks.length} pending tasks across {activeProjects.length} projects.</p>
+          <h2 className="h2 truncate">{greeting}, {userName}</h2>
+          <p className="body truncate">You have {pendingTasks.length} pending tasks across {activeProjects.length} projects.</p>
         </div>
         <Button onClick={() => setShowNewModal(true)} size="lg" className="gap-2 shadow-brand-200 shrink-0">
           <Plus className="w-5 h-5" />
@@ -160,31 +160,31 @@ export const Dashboard = ({
 
       {/* Stats Grid */}
       <div className="grid grid-cols-3 gap-2 sm:gap-6">
-        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[24px]">
-          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 shrink-0">
+        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[var(--radius-section)]">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-brand-50 rounded-[var(--radius-control)] flex items-center justify-center text-brand-600 shrink-0">
             <Folder className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 flex flex-col">
-            <div className="text-sm sm:text-2xl font-bold text-slate-900 leading-none">{activeProjects.length}</div>
-            <div className="text-[7px] sm:text-xs font-medium text-slate-500 uppercase tracking-tight sm:tracking-wider mt-0.5 sm:mt-1">Active Projects</div>
+            <div className="h2 leading-none">{activeProjects.length}</div>
+            <div className="label mt-0.5 sm:mt-1">Active Projects</div>
           </div>
         </Card>
-        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[24px]">
-          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 shrink-0">
+        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[var(--radius-section)]">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-50 rounded-[var(--radius-control)] flex items-center justify-center text-emerald-600 shrink-0">
             <CheckCircle2 className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 flex flex-col">
-            <div className="text-sm sm:text-2xl font-bold text-slate-900 leading-none">{allTasks.filter(t => t.completed).length}</div>
-            <div className="text-[7px] sm:text-xs font-medium text-slate-500 uppercase tracking-tight sm:tracking-wider mt-0.5 sm:mt-1">Tasks Completed</div>
+            <div className="h2 leading-none">{allTasks.filter(t => t.completed).length}</div>
+            <div className="label mt-0.5 sm:mt-1">Tasks Completed</div>
           </div>
         </Card>
-        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[24px]">
-          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 shrink-0">
+        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[var(--radius-section)]">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-amber-50 rounded-[var(--radius-control)] flex items-center justify-center text-amber-600 shrink-0">
             <Clock className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 flex flex-col">
-            <div className="text-sm sm:text-2xl font-bold text-slate-900 leading-none">{pendingTasks.length}</div>
-            <div className="text-[7px] sm:text-xs font-medium text-slate-500 uppercase tracking-tight sm:tracking-wider mt-0.5 sm:mt-1">Pending Tasks</div>
+            <div className="h2 leading-none">{pendingTasks.length}</div>
+            <div className="label mt-0.5 sm:mt-1">Pending Tasks</div>
           </div>
         </Card>
       </div>
@@ -192,14 +192,14 @@ export const Dashboard = ({
       {/* Projects List */}
       <div className="space-y-6">
         <div className="flex flex-row items-center justify-between gap-4">
-          <div className="flex items-center bg-slate-100 p-1 rounded-xl shrink-0 overflow-x-auto no-scrollbar">
+          <div className="flex items-center bg-slate-100 p-1 rounded-[var(--radius-card)] shrink-0 overflow-x-auto no-scrollbar">
             <button
               onClick={() => setActiveTab('active')}
               className={cn(
-                "px-3 py-1.5 text-[10px] sm:text-sm font-bold rounded-xl transition-all cursor-pointer whitespace-nowrap",
+                "px-3 py-1.5 label rounded-[var(--radius-control)] transition-all cursor-pointer whitespace-nowrap",
                 activeTab === 'active' 
-                  ? "bg-white text-slate-900 shadow-sm" 
-                  : "text-slate-500 hover:text-slate-700"
+                  ? "bg-white text-brand-600 shadow-sm" 
+                  : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
               )}
             >
               Recent Projects
@@ -207,7 +207,7 @@ export const Dashboard = ({
             <button
               onClick={() => { setActiveTab('trash'); setSelectedIds(new Set()); }}
               className={cn(
-                "px-3 py-1.5 text-[10px] sm:text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap",
+                "px-3 py-1.5 label rounded-[var(--radius-control)] transition-all cursor-pointer whitespace-nowrap",
                 activeTab === 'trash' 
                   ? "bg-white text-slate-900 shadow-sm" 
                   : "text-slate-500 hover:text-slate-700"
@@ -215,7 +215,7 @@ export const Dashboard = ({
             >
               Trash
               {trashedProjects.length > 0 && (
-                <span className="w-4 h-4 bg-slate-200 text-slate-600 rounded-full text-[8px] flex items-center justify-center shrink-0">
+                <span className="w-4 h-4 bg-slate-200 text-slate-600 rounded-full text-[8px] flex items-center justify-center shrink-0 ml-2">
                   {trashedProjects.length}
                 </span>
               )}
@@ -223,7 +223,12 @@ export const Dashboard = ({
           </div>
           <div className="flex items-center gap-2 shrink-0">
             {activeTab === 'active' ? (
-              <Button variant="ghost" size="micro">View All</Button>
+              <button
+                onClick={() => {/* View All logic */}}
+                className="label text-slate-400 hover:text-brand-600 transition-colors shrink-0"
+              >
+                View All
+              </button>
             ) : (
               <div className="flex items-center gap-2">
                 <Button 
@@ -329,12 +334,12 @@ export const Dashboard = ({
               
               <div className="p-6 space-y-4 relative z-10 pointer-events-none">
                 <div className="flex items-start justify-between pointer-events-auto">
-                  <div className={cn("space-y-1 transition-all", activeTab === 'trash' && "pl-10")}>
-                    <h4 className="font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-1">{project.name}</h4>
-                    <p className="text-xs text-slate-500 flex items-center gap-1">
-                      <Users className="w-3 h-3" />
-                      {project.client || 'Internal Project'}
-                    </p>
+                  <div className={cn("flex-1 min-w-0", activeTab === 'trash' && "pl-10")}>
+                    <h3 className="h3 truncate">{project.name}</h3>
+                    <div className="flex items-center gap-1.5 caption mt-0.5">
+                      <Users className="w-3.5 h-3.5" />
+                      <span className="truncate">{project.client || 'Internal Project'}</span>
+                    </div>
                   </div>
                   <div className="relative">
                     <button 
@@ -437,9 +442,9 @@ export const Dashboard = ({
                 </div>
 
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs font-medium">
-                    <span className="text-slate-500">Progress</span>
-                    <span className="text-brand-600">{project.tracking.progress}%</span>
+                  <div className="flex items-center justify-between caption mb-1.5">
+                    <span>Progress</span>
+                    <span className="font-bold text-brand-600">{project.tracking.progress}%</span>
                   </div>
                   <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
                     <div className="h-full bg-brand-500" style={{ width: `${project.tracking.progress}%` }} />
@@ -457,8 +462,8 @@ export const Dashboard = ({
                       );
                     })}
                   </div>
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
+                  <div className="flex items-center gap-1 caption">
+                    <Calendar className="w-3.5 h-3.5" />
                     {new Date(project.createdAt).toLocaleDateString()}
                   </div>
                 </div>

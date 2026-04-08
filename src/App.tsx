@@ -416,11 +416,11 @@ export default function App() {
       )}>
         <div className="h-16 border-b border-slate-100 flex items-center justify-between px-6 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-brand-600 rounded-xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-brand-200">
-              <LayoutGrid className="w-5 h-5" />
-            </div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">BrandForge</h1>
+          <div className="w-8 h-8 bg-brand-500 rounded-[var(--radius-control)] flex items-center justify-center text-white shadow-brand-200">
+            <LayoutGrid className="w-5 h-5" />
           </div>
+          <h3 className="h3">BrandForge</h3>
+        </div>
           <button 
             onClick={() => setIsSidebarOpen(false)}
             className="p-2 hover:bg-slate-50 rounded-xl text-slate-400 md:hidden"
@@ -430,7 +430,7 @@ export default function App() {
         </div>
 
         <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-4">Main Menu</div>
+          <div className="label text-slate-400 mb-4 ml-2">Main Menu</div>
           {filteredSteps.map((step) => {
             const Icon = step.icon;
             const isActive = step.id === currentStep;
@@ -449,7 +449,7 @@ export default function App() {
                 onClick={() => !isLocked && setCurrentStep(step.id)}
                 disabled={isLocked}
                 className={cn(
-                  "w-full flex items-center gap-3 px-4 py-2 rounded-xl transition-all text-left group relative cursor-pointer",
+                  "w-full flex items-center gap-3 px-4 py-2 rounded-[var(--radius-section)] transition-all text-left group relative cursor-pointer",
                   isActive 
                     ? "bg-brand-600 text-white shadow-lg shadow-brand-200" 
                     : isLocked
@@ -473,7 +473,7 @@ export default function App() {
 
         <div className="p-3 border-t border-slate-100 space-y-3">
           {activeProject && currentStep !== 'dashboard' && (
-            <div className="bg-slate-50 rounded-xl p-3 space-y-2">
+            <div className="bg-slate-50 rounded-[var(--radius-card)] p-3 space-y-2">
               <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                 <span>{activeProject.name}</span>
                 <span className="text-brand-600">{activeProject.tracking.progress}%</span>

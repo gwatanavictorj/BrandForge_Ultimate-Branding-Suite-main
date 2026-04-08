@@ -1113,7 +1113,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                     >
                       <Icon className="w-5 h-5 opacity-90" />
                       <div>
-                        <div className="text-[9px] uppercase font-bold opacity-70 mb-0.5">{item.phase}</div>
+                        <div className="label-xs opacity-70 mb-0.5">{item.phase}</div>
                         <div className="text-[11px] font-black uppercase tracking-wider leading-tight">{item.stage}</div>
                       </div>
                     </div>
@@ -1378,11 +1378,11 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                         <div className="space-y-1">
                           <div className="flex justify-between items-center">
                             <p className="text-sm font-bold text-slate-900">{colorName}</p>
-                            <code className="text-[9px] font-mono text-slate-500 bg-slate-200/50 px-1.5 py-0.5 rounded">{hex}</code>
+                            <code className="label-xs font-mono text-slate-500 bg-slate-200/50 px-1.5 py-0.5 rounded tracking-normal"> {hex}</code>
                           </div>
                           <p className="text-[10px] text-slate-500 leading-tight">{c.meaning}</p>
                           <div className="pt-2 border-t border-slate-200 mt-2">
-                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Application</p>
+                            <p className="label-xs text-slate-400">Application</p>
                             <p className="text-[10px] text-slate-600">{c.application}</p>
                           </div>
                         </div>
@@ -1400,7 +1400,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                           <div className="flex items-center justify-between border-b border-slate-200 pb-4">
                             <div className="flex items-center gap-3">
                               <span className={cn(
-                                "px-3 py-1 rounded-md text-[9px] font-black uppercase tracking-widest",
+                                "px-3 py-1 rounded-md label-xs",
                                 isPrimary ? "bg-slate-900 text-white" : "bg-slate-200 text-slate-600"
                               )}>
                                 {isPrimary ? 'Primary Typeface' : 'Secondary Typeface'}
@@ -1596,11 +1596,11 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
 
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">Guardrails</p>
+                          <p className="label-xs text-slate-400 leading-none">Guardrails</p>
                           <p className="text-[11px] text-slate-500 leading-tight">{useCase.guidelines}</p>
                         </div>
                         <div className="space-y-2">
-                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">Archetype Sync</p>
+                          <p className="label-xs text-slate-400 leading-none">Archetype Sync</p>
                           <p className="text-[11px] text-slate-500 leading-tight italic">{useCase.archetypeSync}</p>
                         </div>
                       </div>

@@ -282,7 +282,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
                         )}
                       >
                         <span className="text-xs font-bold leading-tight">{noun.word}</span>
-                        <span className="text-[9px] opacity-70 leading-tight mt-0.5 line-clamp-1 italic font-medium">
+                        <span className="label-xs text-slate-500 opacity-70 mt-0.5 line-clamp-1 italic font-medium">
                           {noun.anchor}
                         </span>
                         {noun.territory !== 'Normal' && (
@@ -349,7 +349,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
                       </span>
                     </div>
                     {data.selectedSmushIndex === i && (
-                      <span className="text-[9px] font-bold text-brand-600 uppercase tracking-widest bg-brand-100 px-2 py-0.5 rounded-full">Selected</span>
+                      <span className="label-xs text-brand-600 bg-brand-100 px-2 py-0.5 rounded-full">Selected</span>
                     )}
                   </div>
                   <p className={cn(

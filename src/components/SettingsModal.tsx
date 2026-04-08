@@ -224,14 +224,14 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
         animate={{ opacity: 1, scale: 1, y: 0 }} 
         exit={{ opacity: 0, scale: 0.95, y: 20 }} 
         onClick={(e) => e.stopPropagation()} 
-        className="relative w-full md:w-[95%] max-w-[700px] bg-white md:rounded-3xl lg:rounded-[2.5rem] shadow-2xl overflow-hidden h-full md:h-[75vh] md:min-h-[550px] md:max-h-[850px] flex flex-col md:flex-row"
+        className="relative w-full md:w-[95%] max-w-[700px] bg-white md:rounded-[var(--radius-modal)] lg:rounded-[var(--radius-modal)] shadow-2xl overflow-hidden h-full md:h-[75vh] md:min-h-[550px] md:max-h-[850px] flex flex-col md:flex-row"
       >
 
         {/* Mobile Global Header */}
         <div className="md:hidden flex items-center justify-between p-6 pb-2 bg-white border-b border-slate-50 shrink-0">
-          <h3 className="text-xl font-bold text-slate-900">
+          <h2 className="h2 shrink-0">
             {CATEGORIES.find(c => c.id === activeCategory)?.name}
-          </h3>
+          </h2>
           <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-colors">
             <X className="w-5 h-5" />
           </button>
@@ -240,12 +240,12 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
         {/* Sidebar Nav */}
         <div className="w-full md:w-64 bg-slate-50 border-r border-slate-100 p-2 md:p-8 flex flex-col md:overflow-y-auto border-b md:border-b-0 shrink-0">
           <div className="hidden md:flex items-center gap-3 mb-4 px-2">
-            <div className="w-8 h-8 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-100">
+            <div className="w-8 h-8 bg-brand-600 rounded-[var(--radius-control)] flex items-center justify-center text-white shadow-lg shadow-brand-100">
               <Settings className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-slate-900 leading-tight">Settings</h2>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Configuration</p>
+              <h2 className="h3">Settings</h2>
+              <p className="label leading-tight">Configuration</p>
             </div>
           </div>
 
@@ -268,7 +268,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   )}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <span className={cn("text-[8px] md:text-xs font-bold leading-tight break-words", isActive ? "text-slate-900" : "text-slate-500")}>
+                  <span className={cn("text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-colors", isActive ? "text-slate-900" : "text-slate-500")}>
                     {cat.name}
                   </span>
                 </button>
@@ -279,7 +279,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
           <div className="hidden md:block mt-auto pt-6 border-t border-slate-200">
             <button
               onClick={() => { signOut(); onClose(); }}
-              className="w-full flex items-center gap-3 p-3 rounded-2xl text-rose-600 hover:bg-rose-50 transition-all font-bold text-xs"
+              className="w-full flex items-center gap-3 p-3 rounded-2xl text-rose-600 hover:bg-rose-50 transition-all label"
             >
               <Trash2 className="w-4 h-4" />
               Sign Out Securely
@@ -290,9 +290,9 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
         {/* Content Area */}
         <div className="flex-1 flex flex-col bg-white overflow-hidden">
           <div className="hidden md:flex p-8 pb-4 items-center justify-between">
-            <h3 className="text-xl font-bold text-slate-900">
+            <h2 className="h2">
               {CATEGORIES.find(c => c.id === activeCategory)?.name}
-            </h3>
+            </h2>
             <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-colors">
               <X className="w-5 h-5" />
             </button>
@@ -302,28 +302,28 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
             <AnimatePresence mode="wait">
                {activeCategory === 'general' && (
                 <motion.div key="gen" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-6">
-                  <div className="p-5 bg-brand-50 rounded-3xl border border-brand-100 flex items-start gap-4">
+                  <div className="p-5 bg-brand-50 rounded-[var(--radius-section)] border border-brand-100 flex items-start gap-4">
                     <Info className="w-5 h-5 text-brand-600 shrink-0 mt-1" />
                     <div className="space-y-1">
-                      <h4 className="font-bold text-brand-900 text-sm">General Preferences</h4>
-                      <p className="text-[11px] text-brand-800 leading-relaxed opacity-80 font-medium">Manage global application behavior, security modes, and system-level version controls.</p>
+                      <h4 className="h3 text-brand-900">General Preferences</h4>
+                      <p className="caption text-brand-800 opacity-80">Manage global application behavior, security modes, and system-level version controls.</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="p-5 bg-brand-50 rounded-3xl border border-brand-100 space-y-3">
+                    <div className="p-5 bg-brand-50 rounded-[var(--radius-section)] border border-brand-100 space-y-3">
                       <div className="w-9 h-9 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-600">
                         <ShieldCheck className="w-5 h-5" />
                       </div>
-                      <h5 className="font-bold text-brand-900 text-sm">Security Mode</h5>
-                      <p className="text-[10px] text-brand-700 leading-relaxed font-medium">Session encrypted via Firebase. Platform tools restricted to verified identity.</p>
+                      <h5 className="h3 text-brand-900">Security Mode</h5>
+                      <p className="caption text-brand-700 opacity-90">Session encrypted via Firebase. Platform tools restricted to verified identity.</p>
                     </div>
-                    <div className="p-5 bg-indigo-50 rounded-3xl border border-indigo-100 space-y-3">
+                    <div className="p-5 bg-indigo-50 rounded-[var(--radius-section)] border border-indigo-100 space-y-3">
                       <div className="w-9 h-9 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600">
                         <ExternalLink className="w-5 h-5" />
                       </div>
-                      <h5 className="font-bold text-indigo-900 text-sm">App Version</h5>
-                      <p className="text-[10px] text-indigo-700 leading-relaxed font-medium">BrandForge Suite v1.4.2 Enterprise. Running on hybrid architecture.</p>
+                      <h5 className="h3 text-indigo-900">App Version</h5>
+                      <p className="caption text-indigo-700 opacity-90">BrandForge Suite v1.4.2 Enterprise. Running on hybrid architecture.</p>
                     </div>
                   </div>
                 </motion.div>
@@ -335,7 +335,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   <div className="space-y-2">
                     <div className="flex gap-4 items-end">
                       <div className="flex flex-col items-center gap-1 shrink-0">
-                        <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center w-full">Avatar</label>
+                        <label className="label-xs text-slate-400 text-center w-full">Avatar</label>
                         <div className="relative group w-12 h-12 rounded-full overflow-hidden border-2 border-slate-200">
                           <img 
                             src={accountState.photoURL || PREDEFINED_AVATARS[0]} 
@@ -354,13 +354,13 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                       
                       <div className="flex-1 flex flex-col justify-end pb-1">
                         <div className="flex items-center gap-2">
-                          <h3 className="text-lg font-bold text-slate-800">{accountState.displayName || 'Unnamed User'}</h3>
-                          <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] font-black rounded-full uppercase tracking-widest">
+                          <h3 className="h3 text-slate-800">{accountState.displayName || 'Unnamed User'}</h3>
+                          <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 label-xs rounded-full">
                             {accountState.discipline}
                           </span>
                         </div>
                         <div className="mt-1.5 flex items-center">
-                          <span className="px-2 py-0.5 bg-slate-100 text-slate-600 border border-slate-200 text-[9px] font-black rounded-full uppercase tracking-widest inline-flex items-center gap-1">
+                          <span className="px-2 py-0.5 bg-slate-100 text-slate-600 border border-slate-200 label-xs rounded-full inline-flex items-center gap-1">
                             {accountState.entityType === 'agency' ? '🏢 Agency' : '🧑‍💻 Freelancer'}
                           </span>
                         </div>
@@ -371,9 +371,9 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                       <motion.div 
                         initial={{ opacity: 0, height: 0 }} 
                         animate={{ opacity: 1, height: 'auto' }} 
-                        className="space-y-2 p-3 bg-slate-50 border border-slate-100 rounded-2xl"
+                        className="space-y-2 p-3 bg-slate-50 border border-slate-100 rounded-[var(--radius-card)]"
                       >
-                        <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Select from library</label>
+                        <label className="label-xs text-slate-400 ml-1">Select from library</label>
                         <div className="flex flex-wrap gap-2">
                           {PREDEFINED_AVATARS.map((url, idx) => (
                             <button
@@ -401,7 +401,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   {/* Credentials Section */}
                   <div className="flex flex-col gap-2">
                     <div className="space-y-1">
-                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                      <label className="label-xs text-slate-400 ml-1">Email Address</label>
                       <div className="flex gap-1.5">
                         <Input 
                           value={accountState.email} 
@@ -413,7 +413,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
+                      <label className="label-xs text-slate-400 ml-1">Password</label>
                       <div className="flex gap-1.5">
                         <Input 
                           type="password"
@@ -428,11 +428,11 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   </div>
 
                   <div className="pt-2 border-t border-slate-100">
-                    <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Profession Details</h4>
+                    <h4 className="label mb-2 ml-1">Profession Details</h4>
                     <div className="flex flex-col gap-2">
                       {/* Entity Selection */}
-                      <div className="p-2 bg-slate-50 flex flex-col justify-start rounded-2xl border border-slate-100 gap-1.5">
-                        <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Account Type</label>
+                      <div className="p-2 bg-slate-50 flex flex-col justify-start rounded-[var(--radius-card)] border border-slate-100 gap-1.5">
+                        <label className="label-xs text-slate-400">Account Type</label>
                         <div className="flex items-center gap-3 overflow-x-auto">
                           {['freelancer', 'agency'].map(type => (
                             <div key={type} className="flex items-center gap-2 shrink-0">
@@ -446,7 +446,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                                 )}>
                                   {accountState.entityType === type && <div className="w-1 h-1 rounded-full bg-white" />}
                                 </div>
-                                <span className={cn("text-[10px] font-bold capitalize transition-colors", accountState.entityType === type ? "text-slate-900" : "text-slate-400 group-hover:text-slate-500")}>
+                                <span className={cn("label-xs transition-colors", accountState.entityType === type ? "text-slate-900" : "text-slate-400 group-hover:text-slate-500")}>
                                   {type}
                                 </span>
                               </button>
@@ -457,7 +457,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                                     <Input 
                                       value={accountState.agencyName}
                                       onChange={(e) => setAccountState({ ...accountState, agencyName: e.target.value })}
-                                      className="h-6 text-[9px] w-28 bg-white" 
+                                      className="h-6 label-xs w-28 bg-white" 
                                       placeholder="Agency Name..."
                                     />
                                   </motion.div>
@@ -469,15 +469,15 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                       </div>
 
                       {/* Discipline Selection */}
-                      <div className="p-2 bg-slate-50 flex flex-col justify-start rounded-2xl border border-slate-100 gap-1.5">
-                        <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Primary Profession</label>
+                      <div className="p-2 bg-slate-50 flex flex-col justify-start rounded-[var(--radius-card)] border border-slate-100 gap-1.5">
+                        <label className="label-xs text-slate-400">Primary Profession</label>
                         <div className="flex flex-wrap items-center gap-2">
                           {['Brand Designer', 'Brand Strategist', 'UX Designer', 'Other'].map(d => (
                             <div key={d} className="flex items-center gap-1.5">
                               <button
                                 onClick={() => setAccountState({ ...accountState, discipline: d as any })}
                                 className={cn(
-                                  "px-2 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border",
+                                  "px-2 py-1 rounded-xl label-xs transition-all border",
                                   accountState.discipline === d 
                                     ? "bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-100" 
                                     : "bg-white text-slate-500 border-slate-100 hover:border-slate-200"
@@ -491,7 +491,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                                     <Input 
                                       value={accountState.customDiscipline}
                                       onChange={(e) => setAccountState({ ...accountState, customDiscipline: e.target.value })}
-                                      className="h-6 text-[9px] w-24 bg-white border-slate-200" 
+                                      className="h-6 label-xs w-24 bg-white border-slate-200" 
                                       placeholder="Specify..."
                                     />
                                   </motion.div>
@@ -531,7 +531,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                           key={p.id}
                           onClick={() => setActiveAIProvider(p.id as AIProviderType)}
                           className={cn(
-                            "flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-[10px] font-bold transition-all",
+                            "flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-xl label-xs transition-all",
                             isActive ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
                           )}
                         >
@@ -547,32 +547,32 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                       <div className="space-y-2">
                         <div className="bg-slate-50 rounded-2xl p-2.5 border border-slate-100 flex items-center justify-between">
                           <div className="space-y-0.5">
-                            <h4 className="font-bold text-slate-900 flex items-center gap-2 text-xs">
+                            <h4 className="h3 flex items-center gap-2">
                               {p.name}
                               {(() => {
                                 const isActive = keys.activeProvider === p.id && keys[p.id] && keys[p.id].length > 0;
                                 const isConnecting = saveStatus === 'saving' && activeAIProvider === p.id;
 
                                 if (isConnecting) return (
-                                  <div className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[8px] font-bold uppercase tracking-wider animate-pulse">
+                                  <div className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 label animate-pulse">
                                     Connecting...
                                   </div>
                                 );
 
                                 if (isActive) return (
-                                  <div className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[8px] font-bold uppercase tracking-wider">
+                                  <div className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 label">
                                     Active
                                   </div>
                                 )
 
                                 return (
-                                  <div className="px-1.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[8px] font-bold uppercase tracking-wider">
+                                  <div className="px-1.5 py-0.5 rounded-full bg-rose-100 text-rose-700 label">
                                     Inactive
                                   </div>
                                 );
                               })()}
                             </h4>
-                            <p className="text-[10px] text-slate-500 leading-relaxed font-medium">{p.description}</p>
+                            <p className="caption leading-relaxed font-medium">{p.description}</p>
                           </div>
                           {(keys.activeProvider === p.id || testStatus === 'success') && (
                             <div className={cn(
@@ -588,7 +588,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
 
                         <div className="space-y-3">
                           <div>
-                            <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">API Secret Key</label>
+                            <label className="label mb-1.5 block">API Secret Key</label>
                             <div className="relative group">
                               <Input
                                 type="password"
@@ -609,7 +609,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                             </div>
                           </div>
                           <div>
-                            <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Enterprise Model</label>
+                            <label className="label mb-1.5 block">Enterprise Model</label>
                             <div className="relative">
                               <select
                                 className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-xs font-medium text-slate-700 outline-none focus:ring-2 focus:ring-brand-100 appearance-none"
@@ -666,8 +666,8 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                       <div className="p-3 bg-blue-50 border border-blue-100 rounded-2xl flex gap-3 text-blue-700">
                         <Info className="w-4 h-4 shrink-0 mt-0.5" />
                         <div className="space-y-0.5">
-                          <p className="text-[9px] leading-relaxed font-black uppercase tracking-widest">Billing Info</p>
-                          <p className="text-[10px] leading-relaxed font-medium opacity-90">
+                          <p className="label leading-relaxed">Billing Info</p>
+                          <p className="caption leading-relaxed font-medium opacity-90">
                             {p.id === 'openai' && (
                               <>API billed separately from ChatGPT Plus. Manage at <a href="https://platform.openai.com/settings/organization/billing" target="_blank" className="underline font-bold hover:text-blue-900">platform.openai.com</a>.</>
                             )}
@@ -691,8 +691,8 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-4">
                     <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                     <div className="space-y-0.5">
-                      <h4 className="font-bold text-amber-900 text-xs">Library Portability</h4>
-                      <p className="text-[10px] text-amber-800 leading-tight opacity-90 font-medium">Export projects for backup. Import files to restore library.</p>
+                      <h4 className="h3 text-amber-900">Library Portability</h4>
+                      <p className="caption text-amber-800 leading-tight opacity-90 font-medium">Export projects for backup. Import files to restore library.</p>
                     </div>
                   </div>
 
@@ -702,7 +702,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                         <Download className="w-4 h-4" />
                       </div>
                       <h5 className="font-bold text-slate-900 mb-0.5 text-xs">Export Library</h5>
-                      <p className="text-[9px] text-slate-500 font-medium leading-tight">Backup {projects.length} projects as JSON.</p>
+                      <p className="label-xs text-slate-500 opacity-80 leading-tight">Backup {projects.length} projects as JSON.</p>
                     </Card>
 
                     <Card className="p-4 hover:shadow-lg transition-all border-slate-100 hover:border-indigo-100 group cursor-pointer" onClick={handleImportClick}>
@@ -711,16 +711,16 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                         <Upload className="w-4 h-4" />
                       </div>
                       <h5 className="font-bold text-slate-900 mb-0.5 text-xs">Import Library</h5>
-                      <p className="text-[9px] text-slate-500 font-medium leading-tight">Restore from external export.</p>
+                      <p className="label-xs text-slate-500 opacity-80 leading-tight">Restore from external export.</p>
                     </Card>
                   </div>
 
                   <div className="pt-4 border-t border-slate-100">
-                    <h5 className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2.5">Critical Actions</h5>
+                    <h5 className="label mb-2.5">Critical Actions</h5>
                     <Button
                       variant="secondary"
-                      size="md"
-                      className="w-full text-rose-600 border-rose-100 hover:bg-rose-50 uppercase tracking-widest font-black text-[10px] py-2"
+                      size="sm"
+                      className="w-full text-rose-600 border-rose-100 hover:bg-rose-50 label-xs py-2"
                     >
                       <Trash2 className="w-4 h-4" />
                       Wipe Cache
@@ -736,8 +736,8 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                     <Palette className="w-10 h-10" />
                   </div>
                   <div className="space-y-2">
-                    <h4 className="text-xl font-bold text-slate-900">Visionary Interface</h4>
-                    <p className="text-xs text-slate-400 max-w-[280px] leading-relaxed">Advanced UI customisation, dark mode architectures, and brand-specific themes are arriving in the next major suite update.</p>
+                    <h2 className="h2 text-slate-900">Visionary Interface</h2>
+                    <p className="body-sm text-slate-400 max-w-[280px] leading-relaxed">Advanced UI customisation, dark mode architectures, and brand-specific themes are arriving in the next major suite update.</p>
                   </div>
                   <div className="px-4 py-1.5 bg-slate-100 rounded-full text-[10px] font-bold text-slate-500 border border-slate-200">
                     EN ROUTE • V2.0
@@ -750,7 +750,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
             <div className="md:hidden mt-10 pt-6 border-t border-slate-100">
               <button 
                 onClick={() => { signOut(); onClose(); }}
-                className="w-full flex items-center justify-center gap-3 p-4 rounded-2xl text-rose-600 bg-rose-50 border border-rose-100 transition-all font-bold text-xs"
+                className="w-full flex items-center justify-center gap-3 p-4 rounded-2xl text-rose-600 bg-rose-50 border border-rose-100 transition-all label"
               >
                 <Trash2 className="w-4 h-4" />
                 Sign Out Securely
