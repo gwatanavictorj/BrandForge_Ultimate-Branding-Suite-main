@@ -160,19 +160,29 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[150] flex items-center justify-center p-0 md:p-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" />
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }} 
         animate={{ opacity: 1, scale: 1, y: 0 }} 
         exit={{ opacity: 0, scale: 0.95, y: 20 }} 
         onClick={(e) => e.stopPropagation()} 
-        className="relative w-[95%] max-w-[700px] bg-white rounded-3xl lg:rounded-[2.5rem] shadow-2xl overflow-hidden h-[75vh] min-h-[550px] max-h-[850px] flex flex-col md:flex-row"
+        className="relative w-full md:w-[95%] max-w-[700px] bg-white md:rounded-3xl lg:rounded-[2.5rem] shadow-2xl overflow-hidden h-full md:h-[75vh] md:min-h-[550px] md:max-h-[850px] flex flex-col md:flex-row"
       >
 
+        {/* Mobile Global Header */}
+        <div className="md:hidden flex items-center justify-between p-6 pb-2 bg-white border-b border-slate-50 shrink-0">
+          <h3 className="text-xl font-bold text-slate-900">
+            {CATEGORIES.find(c => c.id === activeCategory)?.name}
+          </h3>
+          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
         {/* Sidebar Nav */}
-        <div className="w-full md:w-64 bg-slate-50 border-r border-slate-100 p-6 lg:p-8 flex flex-col overflow-y-auto border-b md:border-b-0 shrink-0">
-          <div className="flex items-center gap-3 mb-10 px-2">
+        <div className="w-full md:w-64 bg-slate-50 border-r border-slate-100 p-2 md:p-8 flex flex-col md:overflow-y-auto border-b md:border-b-0 shrink-0">
+          <div className="hidden md:flex items-center gap-3 mb-10 px-2">
             <div className="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-100">
               <Settings className="w-5 h-5" />
             </div>
@@ -182,7 +192,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
             </div>
           </div>
 
-          <nav className="space-y-1">
+          <nav className="grid grid-cols-4 md:flex md:flex-col gap-1 md:gap-1">
             {CATEGORIES.map(cat => {
               const Icon = cat.icon;
               const isActive = activeCategory === cat.id;
@@ -191,17 +201,17 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id as SettingsCategory)}
                   className={cn(
-                    "w-full flex items-center gap-3 p-3 rounded-2xl transition-all group",
+                    "flex-shrink-0 md:w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 p-1.5 md:p-3 rounded-xl md:rounded-2xl transition-all group text-center",
                     isActive ? "bg-white shadow-sm ring-1 ring-slate-200" : "hover:bg-slate-200/50"
                   )}
                 >
                   <div className={cn(
-                    "w-8 h-8 rounded-xl flex items-center justify-center transition-colors",
+                    "w-6 h-6 md:w-8 md:h-8 rounded-lg md:rounded-xl flex items-center justify-center transition-colors shrink-0",
                     isActive ? cat.bgColor + " " + cat.color : "bg-slate-200 text-slate-400 group-hover:bg-slate-300"
                   )}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <span className={cn("text-xs font-bold", isActive ? "text-slate-900" : "text-slate-500")}>
+                  <span className={cn("text-[8px] md:text-xs font-bold leading-tight break-words", isActive ? "text-slate-900" : "text-slate-500")}>
                     {cat.name}
                   </span>
                 </button>
@@ -209,7 +219,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
             })}
           </nav>
 
-          <div className="mt-auto pt-6 border-t border-slate-200">
+          <div className="hidden md:block mt-auto pt-6 border-t border-slate-200">
             <button
               onClick={() => { signOut(); onClose(); }}
               className="w-full flex items-center gap-3 p-3 rounded-2xl text-rose-600 hover:bg-rose-50 transition-all font-bold text-xs"
@@ -222,7 +232,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
 
         {/* Content Area */}
         <div className="flex-1 flex flex-col bg-white overflow-hidden">
-          <div className="p-8 pb-4 flex items-center justify-between">
+          <div className="hidden md:flex p-8 pb-4 items-center justify-between">
             <h3 className="text-xl font-bold text-slate-900">
               {CATEGORIES.find(c => c.id === activeCategory)?.name}
             </h3>
@@ -497,6 +507,17 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {/* Mobile Sign Out */}
+            <div className="md:hidden mt-10 pt-6 border-t border-slate-100">
+              <button 
+                onClick={() => { signOut(); onClose(); }}
+                className="w-full flex items-center justify-center gap-3 p-4 rounded-2xl text-rose-600 bg-rose-50 border border-rose-100 transition-all font-bold text-xs"
+              >
+                <Trash2 className="w-4 h-4" />
+                Sign Out Securely
+              </button>
+            </div>
           </div>
         </div>
       </motion.div>
