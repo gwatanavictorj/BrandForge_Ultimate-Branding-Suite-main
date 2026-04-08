@@ -927,7 +927,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
           </div>
 
           <Card title="Core Values" className="border-none shadow-sm bg-white">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {strategy.values?.map((value, i) => (
                 <div key={i} className="flex gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">
@@ -1013,7 +1013,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   </Button>
                 </div>
               )}
-              <div className="grid grid-cols-1 gap-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
                 {strategy.audience?.groups?.map((group, i) => (
                   <motion.div 
                     key={i} 

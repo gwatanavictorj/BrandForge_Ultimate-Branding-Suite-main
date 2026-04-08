@@ -458,7 +458,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
   const renderSection2 = () => (
     <Card title="Client Details" icon={User} className="w-full">
       <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           <div>
             <label className="text-sm font-bold text-slate-700 mb-1 block">Email *</label>
             <p className="text-xs text-slate-500 mb-2">👉 Where should we send updates?</p>
@@ -481,7 +481,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           <div>
             <label className="text-sm font-bold text-slate-700 mb-1 block">Business Owner Title</label>
             <p className="text-xs text-slate-500 mb-2">👉 What’s your role?</p>
@@ -1159,9 +1159,9 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
   return (
     <div className="w-full pb-20">
       {currentStep >= 2 && currentStep <= 9 && (
-        <div className="sticky -top-8 z-[60] bg-slate-50 border-b border-slate-200 py-6 mb-12 -mx-8 px-8">
+        <div className="sticky -top-8 z-[60] bg-slate-50/95 backdrop-blur-sm border-b border-slate-200 py-4 mb-8 md:mb-10 px-4 md:px-6">
           <div className="max-w-5xl mx-auto">
-            <div className="relative flex items-center w-full">
+            <div className="relative flex items-center justify-between w-full gap-1">
               {PHASES.map((phase, idx) => {
                 const isCurrent = currentStep === phase.step;
                 const isPast = currentStep > phase.step;
@@ -1172,7 +1172,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
                   <React.Fragment key={idx}>
                     <div 
                       className={cn(
-                        "flex items-center gap-2 shrink-0 transition-opacity",
+                        "flex items-center gap-1.5 md:gap-2 shrink-0 transition-opacity",
                         isAccessible && !isCurrent ? "cursor-pointer hover:opacity-70" : ""
                       )}
                       onClick={() => {
@@ -1182,26 +1182,27 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
                       }}
                     >
                       <div className={cn(
-                        "w-6 h-6 shrink-0 rounded-full flex items-center justify-center border-2 transition-all duration-500 bg-white z-10",
-                        isCurrent ? "border-brand-600 ring-4 ring-brand-50" : 
+                        "w-4 h-4 shrink-0 rounded-full flex items-center justify-center border transition-all duration-500 bg-white z-10",
+                        isCurrent ? "border-brand-600 ring-2 ring-brand-50" : 
                         isPast ? "border-brand-600 bg-brand-600" : "border-slate-300"
                       )}>
                         {isPast ? (
-                          <CheckCircle2 className="w-4 h-4 text-white" />
+                          <CheckCircle2 className="w-2.5 h-2.5 text-white" />
                         ) : (
                           <div className={cn(
-                            "w-1.5 h-1.5 rounded-full",
+                            "w-1 h-1 rounded-full",
                             isCurrent ? "bg-brand-600" : "bg-slate-300"
                           )} />
                         )}
                       </div>
                       <p className={cn(
                         "text-[10px] font-bold uppercase tracking-wider transition-colors whitespace-nowrap",
+                        "hidden xl:block", // Only show labels on XL screens to ensure zero scroll on standard desktops (1024px) with sidebar
                         isCurrent ? "text-brand-600" : "text-slate-400"
                       )}>{phase.label}</p>
                     </div>
                     {!isLast && (
-                      <div className="flex-1 h-0.5 bg-slate-200 mx-2 relative min-w-[20px]">
+                      <div className="flex-1 min-w-[4px] md:min-w-[6px] lg:min-w-[12px] h-0.5 bg-slate-200 mx-0.5 lg:mx-1 relative">
                         {isPast && (
                           <motion.div 
                             initial={{ width: 0 }}

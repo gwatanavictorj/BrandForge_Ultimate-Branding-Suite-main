@@ -241,7 +241,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8">
+    <div className="max-w-7xl mx-auto space-y-8">
       <div className="text-center space-y-2">
         <h2 className="text-3xl font-bold text-slate-900">Logo Design Assistant</h2>
         <p className="text-slate-500">AI-powered brainstorming for your visual identity.</p>
@@ -252,7 +252,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
         <div className="space-y-6">
           <p className="text-sm text-slate-500">50 name-ready constructs, each with a clear visual anchor — categorized by linguistic type.</p>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[
               { label: 'Real Words', items: data.nouns.realWords, color: 'bg-blue-50 text-blue-700' },
               { label: 'Invented Words', items: data.nouns.inventedWords, color: 'bg-purple-50 text-purple-700' },
@@ -319,7 +319,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {data.smushes.length > 0 ? data.smushes.map((smush, i) => (
                 <div 
                   key={i} 

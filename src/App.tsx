@@ -577,8 +577,8 @@ export default function App() {
         </header>
 
         {/* Scrollable Content */}
-        <main className="flex-1 overflow-y-auto bg-slate-50/50 p-8">
-          <div className="max-w-6xl mx-auto">
+        <main className="flex-1 overflow-y-auto bg-slate-50/50 p-4 md:p-8">
+          <div className="max-w-7xl mx-auto w-full">
             {error && (
               <div className="mb-8 p-4 bg-rose-50 border border-rose-100 rounded-2xl flex items-center gap-3 text-rose-700">
                 <AlertTriangle className="w-5 h-5" />
