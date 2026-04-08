@@ -167,4 +167,21 @@ This is the official record of all BrandForge features and UI refinements that h
 #### **Files Verified:**
 - `src/components/SettingsModal.tsx` (Expanded width & Grid navigation)
 
+### **Update 14: Mobile Typography Hierarchy & Legibility Optimization**
+**Status**: 🟢 CERTIFIED (Global Typography Sync)
+**Objective**: Transition platform typography to more balanced, high-legibility standards on small viewports.
+
+#### **Technical Improvements:**
+*   **Header Scale Balancing**:
+    *   Reduced H1 from 30px to **24px** on mobile to prevent viewport dominance and awkward line breaks.
+    *   Standardized H2/H3 with **`leading-tight`** for compact structural clarity.
+*   **Body Legibility Refinement**:
+    *   Boosted mobile body `leading` to **`relaxed`**, improving reading flow on narrow line lengths.
+*   **Micro-Typography Sharpness**:
+    *   Applied **`antialiased`** to all sub-10px tokens (`label-xs`, `caption`).
+    *   Increased micro-label contrast to **`text-slate-600`** to ensure 9px text remains functional on mobile displays.
+
+#### **Files Verified:**
+- `src/index.css` (Utility layer refinements)
+
 ---
