@@ -7,7 +7,7 @@ import {
   CheckCircle2, AlertCircle, Link as LinkIcon, LogIn, ChevronRight, 
   ArrowLeft, Mail, User, Briefcase, Phone, MapPin, Calendar, 
   Info, Shield, Zap, Star, AlertTriangle, Palette, Trophy, Clock, Sparkles,
-  BookOpen
+  BookOpen, Layout
 } from 'lucide-react';
 import { brandService } from '../services/brandService';
 import { motion, AnimatePresence } from 'motion/react';
@@ -604,13 +604,13 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
           <div>
             <label className="text-sm font-bold text-slate-700 mb-1 block">Stage of Business *</label>
             <p className="text-xs text-slate-500 mb-2">👉 Current business stage?</p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {STAGES.map(stage => (
                 <button
                   key={stage}
                   onClick={() => setData({ ...data, stage })}
                   className={cn(
-                    "p-2 rounded-lg border text-xs font-medium transition-all text-left",
+                    "p-3 sm:p-2 rounded-lg border text-xs font-medium transition-all text-left",
                     data.stage === stage
                       ? "bg-brand-600 border-brand-600 text-white cursor-pointer"
                       : "bg-white border-slate-200 text-slate-600 hover:border-brand-300 cursor-pointer"
@@ -1157,9 +1157,9 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
   };
 
   return (
-    <div className="w-full pb-20">
+    <div className="w-full pb-20 px-0 sm:px-4">
       {currentStep >= 2 && currentStep <= 9 && (
-        <div className="sticky -top-8 z-[60] bg-slate-50/95 backdrop-blur-sm border-b border-slate-200 py-4 mb-8 md:mb-10 px-4 md:px-6">
+        <div className="sticky -top-4 sm:-top-8 z-[60] bg-white/80 sm:bg-slate-50/95 backdrop-blur-md border-b border-slate-200 py-3 sm:py-4 mb-6 md:mb-10 px-4 md:px-6 shadow-sm">
           <div className="max-w-5xl mx-auto">
             <div className="relative flex items-center justify-between w-full gap-1">
               {PHASES.map((phase, idx) => {
@@ -1243,19 +1243,19 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
       </div>
 
       {currentStep > 0 && (
-        <div className="mt-8 flex justify-between items-center px-4">
-          <Button variant="ghost" onClick={handleBack} size="md" className="gap-2 text-slate-500">
+        <div className="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4 px-4 bg-slate-50 sm:bg-transparent py-6 sm:py-0 border-t sm:border-t-0 border-slate-200 sm:border-slate-0">
+          <Button variant="ghost" onClick={handleBack} size="md" className="w-full sm:w-auto gap-2 text-slate-500 order-2 sm:order-1">
             <ArrowLeft className="w-4 h-4" /> Back
           </Button>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto order-1 sm:order-2">
             {currentStep === 1 && (
-              <p className="text-xs text-slate-400 font-medium italic">You can skip import and fill manually</p>
+              <p className="text-[10px] sm:text-xs text-slate-400 font-medium italic">You can skip import and fill manually</p>
             )}
             <Button 
               onClick={handleNext} 
               disabled={!isStepValid()}
               size="lg"
-              className="gap-2 bg-brand-600 text-white shadow-xl shadow-brand-100 group"
+              className="w-full sm:w-auto gap-2 bg-brand-600 text-white shadow-xl shadow-brand-100 group"
             >
               {currentStep === 9 ? 'Complete Discovery' : 'Next'} 
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1287,21 +1287,29 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
               <h3 className="text-2xl font-bold text-slate-900">Discovery Complete!</h3>
               <p className="text-slate-500">Your brand intelligence has been captured. What would you like to do next?</p>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col gap-3">
+              <Button 
+                onClick={() => handleFinalComplete('strategy')}
+                disabled={isCompleting}
+                className="w-full py-4 text-sm gap-2"
+              >
+                {isCompleting ? <Loader2 className="w-4 h-4 animate-spin" /> : (
+                  <>
+                    <BookOpen className="w-4 h-4" /> Go to Strategy Engine
+                  </>
+                )}
+              </Button>
               <Button 
                 variant="secondary"
                 onClick={() => handleFinalComplete('dashboard')}
                 disabled={isCompleting}
-                className="w-full py-4 text-sm"
+                className="w-full py-4 text-sm gap-2"
               >
-                {isCompleting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Dashboard'}
-              </Button>
-              <Button 
-                onClick={() => handleFinalComplete('strategy')}
-                disabled={isCompleting}
-                className="w-full py-4 text-sm"
-              >
-                {isCompleting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Proceed to Strategy'}
+                {isCompleting ? <Loader2 className="w-4 h-4 animate-spin" /> : (
+                  <>
+                    <Layout className="w-4 h-4" /> Back to Dashboard
+                  </>
+                )}
               </Button>
             </div>
           </motion.div>

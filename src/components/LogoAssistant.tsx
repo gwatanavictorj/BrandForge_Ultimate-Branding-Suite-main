@@ -242,15 +242,15 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
-      <div className="text-center space-y-2">
-        <h2 className="text-3xl font-bold text-slate-900">Logo Design Assistant</h2>
-        <p className="text-slate-500">AI-powered brainstorming for your visual identity.</p>
+      <div className="text-center space-y-2 px-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Logo Design Assistant</h2>
+        <p className="text-sm sm:text-base text-slate-500">AI-powered brainstorming for your visual identity.</p>
       </div>
 
     <div className="w-full">
-      <Card title="The Brand Noun Toolkit" icon={Sparkles}>
+      <Card title="The Brand Noun Toolkit" icon={Sparkles} className="mx-0 sm:mx-4">
         <div className="space-y-6">
-          <p className="text-sm text-slate-500">50 name-ready constructs, each with a clear visual anchor — categorized by linguistic type.</p>
+          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">50 name-ready constructs, each with a clear visual anchor — categorized by linguistic type.</p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[
@@ -301,9 +301,9 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
           <Button 
             onClick={generateNouns} 
             disabled={loading.nouns} 
-            className="w-full shadow-md hover:shadow-lg transition-all"
+            className="w-full shadow-md hover:shadow-lg transition-all h-12 text-sm"
           >
-            {loading.nouns ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Generate 50 Nouns with Visual Anchors'}
+            {loading.nouns ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Generate 50 Brand Nouns'}
           </Button>
         </div>
       </Card>
@@ -312,9 +312,9 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
       <div className="w-full">
         <Card title="Concept Smush Explorations" icon={Lightbulb}>
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Clever pairings synthesized from your toolkit.</p>
-              <Button onClick={generateSmushes} disabled={loading.smushes || !data.nouns.realWords.length} size="sm" className="bg-brand-600 hover:bg-brand-700">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">Clever pairings synthesized from your toolkit.</p>
+              <Button onClick={generateSmushes} disabled={loading.smushes || !data.nouns.realWords.length} size="sm" className="w-full sm:w-auto bg-brand-600 hover:bg-brand-700">
                 {loading.smushes ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Smush Concepts'}
               </Button>
             </div>

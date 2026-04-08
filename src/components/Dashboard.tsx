@@ -146,56 +146,56 @@ export const Dashboard = ({
   return (
     <div className="space-y-10">
       {/* Welcome Section */}
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
-          <h2 className="text-3xl font-bold text-slate-900">{greeting}, {userName}</h2>
-          <p className="text-slate-500">You have {pendingTasks.length} pending tasks across {activeProjects.length} projects.</p>
+      <div className="flex flex-row items-center justify-between gap-4">
+        <div className="space-y-1 text-left min-w-0 flex-1">
+          <h2 className="text-xl sm:text-3xl font-bold text-slate-900 truncate">{greeting}, {userName}</h2>
+          <p className="text-[10px] sm:text-base text-slate-500 truncate">You have {pendingTasks.length} pending tasks across {activeProjects.length} projects.</p>
         </div>
-        <Button onClick={() => setShowNewModal(true)} size="lg" className="gap-2 shadow-lg shadow-brand-200">
-          <Plus className="w-5 h-5" />
-          New Project
+        <Button onClick={() => setShowNewModal(true)} size="sm" className="sm:size-lg gap-1.5 sm:gap-2 shadow-lg shadow-brand-200 shrink-0 px-3 sm:px-4">
+          <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="text-[10px] sm:text-base">New Project</span>
         </Button>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="flex items-center gap-4 p-5">
-          <div className="w-12 h-12 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-600">
-            <Folder className="w-6 h-6" />
+      <div className="grid grid-cols-3 gap-2 sm:gap-6">
+        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-brand-50 rounded-lg sm:rounded-2xl flex items-center justify-center text-brand-600 shrink-0">
+            <Folder className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <div className="text-2xl font-bold text-slate-900">{activeProjects.length}</div>
-            <div className="text-xs font-medium text-slate-500 uppercase tracking-wider">Active Projects</div>
-          </div>
-        </Card>
-        <Card className="flex items-center gap-4 p-5">
-          <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
-            <CheckCircle2 className="w-6 h-6" />
-          </div>
-          <div>
-            <div className="text-2xl font-bold text-slate-900">{allTasks.filter(t => t.completed).length}</div>
-            <div className="text-xs font-medium text-slate-500 uppercase tracking-wider">Tasks Completed</div>
+          <div className="min-w-0 flex flex-col">
+            <div className="text-sm sm:text-2xl font-bold text-slate-900 leading-none">{activeProjects.length}</div>
+            <div className="text-[7px] sm:text-xs font-medium text-slate-500 uppercase tracking-tight sm:tracking-wider mt-0.5 sm:mt-1">Active Projects</div>
           </div>
         </Card>
-        <Card className="flex items-center gap-4 p-5">
-          <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600">
-            <Clock className="w-6 h-6" />
+        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-50 rounded-lg sm:rounded-2xl flex items-center justify-center text-emerald-600 shrink-0">
+            <CheckCircle2 className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <div className="text-2xl font-bold text-slate-900">{pendingTasks.length}</div>
-            <div className="text-xs font-medium text-slate-500 uppercase tracking-wider">Pending Tasks</div>
+          <div className="min-w-0 flex flex-col">
+            <div className="text-sm sm:text-2xl font-bold text-slate-900 leading-none">{allTasks.filter(t => t.completed).length}</div>
+            <div className="text-[7px] sm:text-xs font-medium text-slate-500 uppercase tracking-tight sm:tracking-wider mt-0.5 sm:mt-1">Tasks Completed</div>
+          </div>
+        </Card>
+        <Card className="flex items-center gap-2 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 bg-amber-50 rounded-lg sm:rounded-2xl flex items-center justify-center text-amber-600 shrink-0">
+            <Clock className="w-4 h-4 sm:w-6 sm:h-6" />
+          </div>
+          <div className="min-w-0 flex flex-col">
+            <div className="text-sm sm:text-2xl font-bold text-slate-900 leading-none">{pendingTasks.length}</div>
+            <div className="text-[7px] sm:text-xs font-medium text-slate-500 uppercase tracking-tight sm:tracking-wider mt-0.5 sm:mt-1">Pending Tasks</div>
           </div>
         </Card>
       </div>
 
       {/* Projects List */}
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center bg-slate-100 p-1 rounded-xl">
+        <div className="flex flex-row items-center justify-between gap-4">
+          <div className="flex items-center bg-slate-100 p-1 rounded-xl shrink-0 overflow-x-auto no-scrollbar">
             <button
               onClick={() => setActiveTab('active')}
               className={cn(
-                "px-4 py-2 text-sm font-bold rounded-lg transition-all cursor-pointer",
+                "px-3 py-1.5 text-[10px] sm:text-sm font-bold rounded-lg transition-all cursor-pointer whitespace-nowrap",
                 activeTab === 'active' 
                   ? "bg-white text-slate-900 shadow-sm" 
                   : "text-slate-500 hover:text-slate-700"
@@ -206,7 +206,7 @@ export const Dashboard = ({
             <button
               onClick={() => { setActiveTab('trash'); setSelectedIds(new Set()); }}
               className={cn(
-                "px-4 py-2 text-sm font-bold rounded-lg transition-all flex items-center gap-2 cursor-pointer",
+                "px-3 py-1.5 text-[10px] sm:text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap",
                 activeTab === 'trash' 
                   ? "bg-white text-slate-900 shadow-sm" 
                   : "text-slate-500 hover:text-slate-700"
@@ -214,32 +214,34 @@ export const Dashboard = ({
             >
               Trash
               {trashedProjects.length > 0 && (
-                <span className="w-5 h-5 bg-slate-200 text-slate-600 rounded-full text-[10px] flex items-center justify-center">
+                <span className="w-4 h-4 bg-slate-200 text-slate-600 rounded-full text-[8px] flex items-center justify-center shrink-0">
                   {trashedProjects.length}
                 </span>
               )}
             </button>
           </div>
-          {activeTab === 'active' ? (
-            <Button variant="ghost" className="text-sm">View All</Button>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Button 
-                variant="secondary" 
-                className="text-[10px] font-bold uppercase tracking-widest h-8 px-3"
-                onClick={handleRestoreAll}
-              >
-                <RotateCcw className="w-3 h-3 mr-1.5" /> Restore All
-              </Button>
-              <Button 
-                variant="secondary" 
-                className="text-[10px] font-bold uppercase tracking-widest h-8 px-3 text-rose-600 hover:text-rose-700 hover:bg-rose-50"
-                onClick={() => setShowBulkDeleteModal(true)}
-              >
-                <Trash className="w-3 h-3 mr-1.5" /> Delete All
-              </Button>
-            </div>
-          )}
+          <div className="flex items-center gap-2 shrink-0">
+            {activeTab === 'active' ? (
+              <Button variant="ghost" className="text-[10px] sm:text-sm h-8 px-2 sm:px-4">View All</Button>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button 
+                  variant="secondary" 
+                  className="text-[8px] font-bold uppercase tracking-widest h-7 px-2"
+                  onClick={handleRestoreAll}
+                >
+                  <RotateCcw className="w-2.5 h-2.5 mr-1" /> Restore
+                </Button>
+                <Button 
+                  variant="secondary" 
+                  className="text-[8px] font-bold uppercase tracking-widest h-7 px-2 text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+                  onClick={() => setShowBulkDeleteModal(true)}
+                >
+                  <Trash className="w-2.5 h-2.5 mr-1" /> Clear
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Selection Toolbar (Floating) */}
@@ -489,11 +491,11 @@ export const Dashboard = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden"
+              className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
             >
-              <div className="p-8 space-y-8">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-bold text-slate-900">Create New Project</h3>
+              <div className="p-6 sm:p-8 space-y-6 sm:space-y-8 overflow-y-auto flex-1">
+                <div className="flex items-center justify-between sticky top-0 bg-white pb-4 z-10">
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900">Create New Project</h3>
                   <button onClick={() => setShowNewModal(false)} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 cursor-pointer">
                     <X className="w-5 h-5" />
                   </button>

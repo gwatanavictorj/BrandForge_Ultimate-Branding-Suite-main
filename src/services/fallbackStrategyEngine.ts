@@ -199,7 +199,7 @@ function matchArchetype(discovery: BrandDiscovery): { primary: ArchetypeData; se
     ...(discovery.strengths || []),
     ...(discovery.customerBenefits || []),
     discovery.differentiation || ''
-  ].filter(Boolean).join(' ').toLowerCase();
+  ].filter(v => typeof v === 'string').join(' ').toLowerCase();
 
   const scores = ARCHETYPES.map(a => ({
     archetype: a,
@@ -218,7 +218,7 @@ function matchMaslow(discovery: BrandDiscovery): typeof MASLOW_MAP[0] {
     ...(discovery.coreValues || []),
     ...(discovery.customerEmotionalOutcome || []),
     discovery.mission, discovery.problemSolving
-  ].join(' ').toLowerCase();
+  ].filter(v => typeof v === 'string').join(' ').toLowerCase();
 
   const scores = MASLOW_MAP.map(m => ({
     level: m,
@@ -229,8 +229,8 @@ function matchMaslow(discovery: BrandDiscovery): typeof MASLOW_MAP[0] {
 }
 
 function selectColors(discovery: BrandDiscovery): { color: string; meaning: string; application: string }[] {
-  const industry = (discovery.industry || '').toLowerCase();
-  const feels = (discovery.brandFeel || []).map(f => f.toLowerCase());
+  const industry = (typeof discovery.industry === 'string' ? discovery.industry : '').toLowerCase();
+  const feels = (discovery.brandFeel || []).filter(f => typeof f === 'string').map(f => f.toLowerCase());
   const allText = [...feels, industry].join(' ');
 
   // Score each color
@@ -251,7 +251,7 @@ function selectColors(discovery: BrandDiscovery): { color: string; meaning: stri
 }
 
 function selectTypography(discovery: BrandDiscovery): string {
-  const feels = (discovery.brandFeel || []).map(f => f.toLowerCase()).join(' ');
+  const feels = (discovery.brandFeel || []).filter(f => typeof f === 'string').map(f => f.toLowerCase()).join(' ');
   
   if (feels.includes('luxury') || feels.includes('royal') || feels.includes('heritage')) return 'luxury';
   if (feels.includes('modern') || feels.includes('minimal') || feels.includes('clean')) return 'modern';
@@ -267,7 +267,7 @@ function selectTypography(discovery: BrandDiscovery): string {
 function getCompetitors(discovery: BrandDiscovery): { name: string; x: number; y: number }[] {
   const manualIndustry = (discovery.industry === 'Other' && discovery.industryOther) ? discovery.industryOther : (discovery.industry || '');
   const industryValue = mapStrategicCategory(manualIndustry, 'industry');
-  const industry = industryValue.toLowerCase();
+  const industry = (industryValue || '').toLowerCase();
   for (const [key, comps] of Object.entries(COMPETITOR_TEMPLATES)) {
     if (industry.includes(key)) return comps;
   }
@@ -300,7 +300,7 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
     const mappedValue = mapStrategicCategory(v, 'values');
     return {
       name: mappedValue,
-      description: `${brandName} is deeply committed to ${mappedValue.toLowerCase()}, which guides every decision and interaction with customers and stakeholders.`
+      description: `${brandName} is deeply committed to ${String(mappedValue).toLowerCase()}, which guides every decision and interaction with customers and stakeholders.`
     };
   });
 
@@ -323,8 +323,8 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
     overview: {
       whoWeAre: `${brandName} is a ${stageLabel} ${industryLabel} brand founded with a clear purpose: to solve real problems for real people. ${discovery.tagline ? `The brand motto — "${discovery.tagline}" — embodies this commitment.` : ''}`,
       whatWeDo: discovery.productsServices ? `${brandName} offers services ranging from:\n*${discovery.productsServices.split(',').map(s => s.trim()).join('\n*')}` : `${brandName} offers services ranging from:\n*Venue Rental (Corporate, Catering, Weddings, Birthdays)\n*Stage Events (Bands, Shows, Comedy)\n*Nightlife Location, Festival Space\n*Event Technology (Video Mapping)`,
-      howWeDoIt: `Through ${(discovery.deliveryModel || []).join(', ') || 'direct engagement'}, ${brandName} ensures customers receive exceptional value at every touchpoint.`,
-      whereWeAre: discovery.address || 'Operating globally with a focus on delivering local impact.'
+      howWeDoIt: `Through ${(discovery.deliveryModel || []).filter(v => typeof v === 'string').join(', ') || 'direct engagement'}, ${brandName} ensures customers receive exceptional value at every touchpoint.`,
+      whereWeAre: discovery.address || 'global'
     },
 
     foundation: {
@@ -368,12 +368,12 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
         x: `${(discovery.strengths || ['Innovation'])[0]} vs. Traditional Approach`,
         y: 'Premium Experience vs. Accessible Pricing'
       },
-      quadrant: `${brandName} occupies the upper-right quadrant — combining ${(discovery.strengths || ['innovation'])[0]?.toLowerCase()} with a premium customer experience.`,
-      statement: `${brandName} is positioned as the ${primary.name.toLowerCase()} brand in the ${discovery.industry || 'market'} space, distinguished by ${discovery.differentiation || 'its unique approach and unwavering commitment to quality'}.`,
+      quadrant: `${brandName} occupies the upper-right quadrant — combining ${(discovery.strengths || ['Innovation'])[0]?.toString().toLowerCase() || 'innovation'} with a premium customer experience.`,
+      statement: `${brandName} is positioned as the ${primary.name?.toLowerCase() || 'leader'} brand in the ${discovery.industry || 'market'} space, distinguished by ${discovery.differentiation || 'its unique approach and unwavering commitment to quality'}.`,
       position: { x: 72, y: 68 },
       competitors: competitors,
-      analysis: `In the ${discovery.industry || 'target'} landscape, ${brandName} differentiates through ${discovery.differentiation || (discovery.strengths || ['quality']).slice(0, 2).join(' and ')}. While competitors focus on standard offerings, ${brandName} occupies a unique position by combining ${primary.name.toLowerCase()} energy with ${secondary.name.toLowerCase()} values.`,
-      gapHighlight: `The market gap ${brandName} fills is the lack of brands that combine ${(discovery.strengths || ['quality', 'affordability']).slice(0, 2).join(' and ').toLowerCase()} — most competitors choose one or the other.`
+      analysis: `In the ${discovery.industry || 'target'} landscape, ${brandName} differentiates through ${discovery.differentiation || (discovery.strengths || ['quality']).slice(0, 2).join(' and ')}. While competitors focus on standard offerings, ${brandName} occupies a unique position by combining ${primary.name?.toLowerCase() || 'primary'} energy with ${secondary.name?.toLowerCase() || 'secondary'} values.`,
+      gapHighlight: `The market gap ${brandName} fills is the lack of brands that combine ${(discovery.strengths || ['quality', 'affordability']).slice(0, 2).map(s => s?.toString().toLowerCase()).join(' and ')} — most competitors choose one or the other.`
     },
 
     archetype: {
@@ -427,8 +427,8 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
             }
           ]
         },
-        role: `${brandName} acts as the trusted ${primary.name.toLowerCase()} — guiding customers through ${discovery.problemSolving || 'their challenges'} with expertise and care.`,
-        impact: `The combined ${primary.name}/${secondary.name} archetype builds deep loyalty by making customers feel both ${(discovery.customerEmotionalOutcome || ['confident', 'inspired']).slice(0, 2).join(' and ').toLowerCase()}.`
+        role: `${brandName} acts as the trusted ${primary.name?.toLowerCase() || 'expert'} — guiding customers through ${discovery.problemSolving || 'their challenges'} with expertise and care.`,
+        impact: `The combined ${primary.name}/${secondary.name} archetype builds deep loyalty by making customers feel both ${(discovery.customerEmotionalOutcome || ['confident', 'inspired']).slice(0, 2).map(o => mapStrategicCategory(o, 'emotionalOutcome')?.toLowerCase()).join(' and ')}.`
       }
     },
 
@@ -440,7 +440,7 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
       colors: colors,
       logoDirection: {
         description: `The visual identity for ${brandName} should embody the ${primary.name} archetype — ${primary.traits.slice(0, 2).join(' and ').toLowerCase()} in character, with a strong focus on ${(discovery.brandFeel || ['modernity'])[0]?.toLowerCase()}.`,
-        shapes: discovery.industry?.toLowerCase()?.includes('tech') 
+        shapes: discovery.industry?.toString().toLowerCase()?.includes('tech') 
           ? ['Geometric Grid', 'Clean Vectors', 'Angular Forms'] 
           : ['Organic Curves', 'Balanced Circles', 'Symmetrical Forms'],
         logotypes: ['Custom Wordmark', 'Minimalist Icon', 'Modern Sans-Serif'],
@@ -475,7 +475,7 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
         brandName,
         ...(discovery.coreValues || []).slice(0, 3),
         ...(discovery.strengths || []).slice(0, 2),
-        primary.name
+        primary.name || 'Brand'
       ].slice(0, 7)
     },
 

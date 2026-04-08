@@ -783,7 +783,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
             <div className="text-slate-600 leading-relaxed text-sm">{renderText(strategy.story || '')}</div>
           </Card>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <Card title="The Identity" className="h-full border-none shadow-sm bg-white flex flex-col">
               {(() => {
                 const text = strategy.overview?.whoWeAre || '';
@@ -847,20 +847,19 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   const rawText = strategy.overview?.whatWeDo || 'N/A';
                   if (rawText === 'N/A') return <p className="text-slate-400 italic">No services defined.</p>;
                   
-                  // Clean up old intros and split by broad punctuation (coma, semicolon, or period-followed-by-Capital)
                   const cleanText = rawText.replace(/.*offers services ranging from:?\s*/i, '').trim();
                   const items = cleanText
                     .split(/[,;]|\.(?=[A-Z])/)
                     .map(s => s.trim())
-                    .filter(s => s.length > 5); // Ignore tiny fragments
+                    .filter(s => s.length > 5);
 
                   if (items.length === 0) return <p className="text-slate-600 leading-relaxed text-sm">{rawText}</p>;
 
                   return (
                     <div className="pt-1">
                       <p className="text-sm text-slate-600 leading-relaxed">
-                        {discovery.brandNameLogo || discovery.name || 'The brand'} emerges to address a critical need{discovery.address ? ` in ${discovery.address}` : ' in Augsburg Germany'}: the absence of a truly modern, flexible, and identity-driven event destination capable of unifying diverse people and cultures. 
-                        By specializing in {items.slice(0, 4).join(', ').toLowerCase()}, the brand creates a vibrant hub where culture, music, and individuals connect, transforming ordinary moments into unforgettable experiences. {discovery.brandNameLogo || discovery.name || 'The brand'} is "{discovery.tagline || 'Your Event Destination'}".
+                        {discovery.brandNameLogo || discovery.name || 'The brand'} emerges to address a critical need{discovery.address ? ` in ${discovery.address}` : ''}: the absence of a truly modern, flexible, and identity-driven destination capable of unifying diverse people and cultures. 
+                        By specializing in {items.slice(0, 4).join(', ').toLowerCase()}, the brand creates a vibrant hub where culture, music, and individuals connect, transforming ordinary moments into unforgettable experiences. {discovery.brandNameLogo || discovery.name || 'The brand'} is "{discovery.tagline || 'Your Strategic Partner'}".
                       </p>
                     </div>
                   );
@@ -881,7 +880,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-[25px] bg-slate-900 p-16 text-white shadow-2xl"
+        className="relative overflow-hidden rounded-[20px] sm:rounded-[25px] bg-slate-900 p-8 sm:p-16 text-white shadow-2xl"
       >
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-indigo-500/10 to-transparent pointer-events-none" />
         <div className="relative z-10 flex flex-col items-center text-center space-y-10">
@@ -889,16 +888,16 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
             <Sparkles className="w-4 h-4" />
             Strategic North Star
           </div>
-          <div className="space-y-6 max-w-4xl">
-            <h3 className="text-[56px] font-normal tracking-tight leading-tight">
+          <div className="space-y-6 max-w-4xl w-full">
+            <h3 className="text-2xl sm:text-4xl md:text-[56px] font-normal tracking-tight leading-tight">
               {strategy.coreIdea}
             </h3>
-            <div className="flex items-center justify-center gap-4">
-              <div className="w-12 h-px bg-indigo-500/50" />
-              <p className="text-2xl text-slate-400 leading-relaxed font-light italic">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="w-12 h-px bg-indigo-500/50 hidden sm:block" />
+              <p className="text-lg sm:text-2xl text-slate-400 leading-relaxed font-light italic">
                 "{strategy.essence}"
               </p>
-              <div className="w-12 h-px bg-indigo-500/50" />
+              <div className="w-12 h-px bg-indigo-500/50 hidden sm:block" />
             </div>
           </div>
         </div>
@@ -1077,9 +1076,9 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
             <h3 className="text-2xl font-bold text-slate-900">Customer Journey</h3>
           </div>
 
-          <Card className="border-none shadow-sm bg-white overflow-x-auto">
-            <div className="min-w-[1000px] p-2">
-              <div className="grid grid-cols-[180px_1fr_1fr_1fr_1fr_1fr] border border-slate-100 overflow-hidden">
+          <Card className="border-none shadow-sm bg-white overflow-hidden">
+            <div className="overflow-x-auto no-scrollbar touch-pan-x p-2">
+              <div className="min-w-[800px] sm:min-w-[1000px] grid grid-cols-[150px_1fr_1fr_1fr_1fr_1fr] sm:grid-cols-[180px_1fr_1fr_1fr_1fr_1fr] border border-slate-100 overflow-hidden">
                 {/* Lifecycle Stage Row */}
                 <div className="bg-slate-50/80 p-5 flex items-center font-bold text-slate-700 border-b border-r border-slate-100 uppercase text-[10px] tracking-widest">
                   Lifecycle Stage

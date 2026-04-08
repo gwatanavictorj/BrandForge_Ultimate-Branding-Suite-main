@@ -24,7 +24,9 @@ import {
   Loader2,
   BookOpen,
   AlertTriangle,
-  Bell
+  Bell,
+  Menu,
+  X
 } from 'lucide-react';
 import { NotificationPopover } from './components/NotificationPopover';
 import { AppNotification } from './types';
@@ -73,6 +75,7 @@ export default function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const addNotification = useCallback(async (n: Omit<AppNotification, 'id' | 'timestamp' | 'read'>) => {
     if (!user) return;
@@ -373,6 +376,11 @@ export default function App() {
     }
   }, [currentStep, activeProjectId, updateProjectData]);
 
+  // Close sidebar on step change (mobile)
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [currentStep]);
+
   const filteredSteps = ALL_STEPS.filter(step => 
     step.id === 'dashboard' || (currentStep !== 'dashboard' && activeProject?.selectedTools.includes(step.id as any))
   );
@@ -387,14 +395,38 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-slate-50 flex overflow-x-hidden">
+      {/* Mobile Sidebar Backdrop */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[55] md:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen z-50 shadow-sm">
-        <div className="p-6 border-b border-slate-100 flex items-center gap-3">
-          <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white shrink-0 shadow-lg shadow-brand-200">
-            <LayoutGrid className="w-5 h-5" />
+      <aside className={cn(
+        "fixed inset-y-0 left-0 w-72 bg-white border-r border-slate-200 flex flex-col h-screen z-[60] shadow-2xl transition-transform duration-300 md:translate-x-0 md:static md:w-64 md:shadow-none md:z-50",
+        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="p-6 border-b border-slate-100 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white shrink-0 shadow-lg shadow-brand-200">
+              <LayoutGrid className="w-5 h-5" />
+            </div>
+            <h1 className="text-xl font-bold text-slate-900 tracking-tight">BrandForge</h1>
           </div>
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight">BrandForge</h1>
+          <button 
+            onClick={() => setIsSidebarOpen(false)}
+            className="p-2 hover:bg-slate-50 rounded-lg text-slate-400 md:hidden"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
@@ -517,8 +549,15 @@ export default function App() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Top Bar */}
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 shrink-0 z-40">
-          <div className="flex items-center gap-4">
+        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 shrink-0 z-40">
+          <div className="flex items-center gap-2 md:gap-4">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="p-2 hover:bg-slate-50 rounded-lg text-slate-500 md:hidden mr-1"
+              aria-label="Toggle Menu"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
             {currentStep !== 'dashboard' && (
               <button 
                 onClick={() => setCurrentStep('dashboard')}
@@ -527,7 +566,7 @@ export default function App() {
                 <ArrowLeft className="w-5 h-5" />
               </button>
             )}
-            <h2 className="text-lg font-semibold text-slate-800">
+            <h2 className="text-base md:text-lg font-semibold text-slate-800 truncate max-w-[120px] md:max-w-none">
               {ALL_STEPS.find(s => s.id === currentStep)?.label}
             </h2>
             {activeProject && currentStep !== 'dashboard' && (
