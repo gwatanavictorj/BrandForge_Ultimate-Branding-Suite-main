@@ -42,7 +42,7 @@ export const signInWithGoogle = async () => {
   window.location.reload(); // Simple reload to re-run all context cleanly
 };
 
-export const signInWithEmail = async (email: string, _: string) => {
+export const signInWithEmail = async (email: string, pass: string) => {
   const users = getLocalUsers();
   const user = users.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
   
@@ -50,13 +50,15 @@ export const signInWithEmail = async (email: string, _: string) => {
     throw new Error('No user found with this email.');
   }
 
-  // In a mock, we just accept any password for now
+  if (user.password && user.password !== pass) {
+    throw new Error('Incorrect password.');
+  }
+
   localStorage.setItem('brandforge_user', JSON.stringify(user));
   window.dispatchEvent(new Event('storage'));
   window.location.reload();
 };
-
-export const signUpWithEmail = async (email: string, _: string, displayName: string) => {
+export const signUpWithEmail = async (email: string, pass: string, displayName: string) => {
   const users = getLocalUsers();
   if (users.find((u: any) => u.email.toLowerCase() === email.toLowerCase())) {
     throw new Error('Email already in use.');
@@ -65,6 +67,7 @@ export const signUpWithEmail = async (email: string, _: string, displayName: str
   const newUser = {
     uid: `user-${Math.random().toString(36).substr(2, 9)}`,
     email,
+    password: pass,
     displayName,
     photoURL: ''
   };

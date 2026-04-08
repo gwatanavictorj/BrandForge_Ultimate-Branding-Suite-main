@@ -80,7 +80,12 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
   const handleSaveAccount = async () => {
     setSaveStatus('saving');
     try {
-      await updateUser(accountState);
+      const payload: any = { ...accountState };
+      if (!payload.password || payload.password.trim() === '') {
+        delete payload.password;
+      }
+      
+      await updateUser(payload);
       addNotification({
         title: 'Profile Updated',
         type: 'success',
@@ -394,25 +399,31 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                   </div>
 
                   {/* Credentials Section */}
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="flex flex-col gap-2">
                     <div className="space-y-1">
                       <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
-                      <Input 
-                        value={accountState.email} 
-                        onChange={(e) => setAccountState({ ...accountState, email: e.target.value })}
-                        className="h-8 text-xs"
-                        placeholder="email@example.com"
-                      />
+                      <div className="flex gap-1.5">
+                        <Input 
+                          value={accountState.email} 
+                          onChange={(e) => setAccountState({ ...accountState, email: e.target.value })}
+                          className="h-8 text-xs flex-1"
+                          placeholder="email@example.com"
+                        />
+                        <Button onClick={handleSaveAccount} disabled={saveStatus === 'saving'} className="h-8 px-2.5 text-[9px] font-bold shadow-sm">Save</Button>
+                      </div>
                     </div>
                     <div className="space-y-1">
                       <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
-                      <Input 
-                        type="password"
-                        value={accountState.password} 
-                        onChange={(e) => setAccountState({ ...accountState, password: e.target.value })}
-                        className="h-8 text-xs"
-                        placeholder="••••••••"
-                      />
+                      <div className="flex gap-1.5">
+                        <Input 
+                          type="password"
+                          value={accountState.password} 
+                          onChange={(e) => setAccountState({ ...accountState, password: e.target.value })}
+                          className="h-8 text-xs flex-1"
+                          placeholder="••••••••"
+                        />
+                        <Button onClick={handleSaveAccount} disabled={saveStatus === 'saving'} className="h-8 px-2.5 text-[9px] font-bold shadow-sm bg-slate-800 hover:bg-slate-700">Save</Button>
+                      </div>
                     </div>
                   </div>
 
