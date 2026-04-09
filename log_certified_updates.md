@@ -246,3 +246,15 @@ This is the official record of all BrandForge features and UI refinements that h
 - `src/components/BrandStrategyTool.tsx` (Centered internal header)
 - `src/components/UsageGuideGenerator.tsx` (Centered action-ready header)
 - `src/components/BrandSystemDesigner.tsx` (Header scale sync)
+
+---
+
+## 📅 2026-04-09: Typography Logic Expansion & Signal Tethering (CERTIFIED)
+
+### 🏗️ Intelligence Upgrades
+- **Signal-to-Font Mapping**: Enhanced the Universal Strategy Engine's typography generation protocol to explicitly analyze **Brand Feel** and **Emotional Outcome** vectors from the Discovery phase.
+- **Categorical Font Selection**: Implemented explicit instructions for the AI to scan and select from the full typographic spectrum (Serif, Sans, Slab, Mono, Script, Display) based on visual "vibe" signals.
+- **Improved Trait Alignment**: Synchronized the font `traits` array and strategic descriptions to mirror exactly the intended visual direction discovered in the form.
+
+### 🛠️ Key Files Finalized
+- `src/services/brandService.ts` (AI Prompt logic optimization)
