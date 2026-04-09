@@ -226,3 +226,23 @@ This is the official record of all BrandForge features and UI refinements that h
 - `src/components/LogoAssistant.tsx` (Expansion & Grid optimization)
 - `src/components/BrandSystemDesigner.tsx` (Expansion)
 - `src/components/UsageGuideGenerator.tsx` (Expansion)
+
+---
+
+## 📅 2026-04-09: Contextual UI Relocation & Discovery Header Optimization (CERTIFIED)
+
+### 🏗️ Internal Contextualization
+- **Tool Title Relocation**: Relocated tool titles from the global navbar to the internal workspace canvas across **Strategy, Logo Assistant, Brand System,** and the **Usage Guide**.
+- **Unified Header Standard**: Standardized all internal headers to a consistent responsive scale (`2xl sm:text-3xl`) with dedicated subtitles.
+- **Improved Focus**: Reduced global navbar clutter by hiding step-level titles, prioritizing tool-specific actions and project context.
+
+### 🛡️ Discovery Tool Hardening
+- **Zero-Gap Sticky Header**: Optimized the Brand Discovery progress stepper with a negative top offset (`calc(-1*var(--space-gutter))`) and negative margins to cover the parent padding area during scroll.
+- **Absolute Opacity**: Transitioned the sticky header background to a 100% opaque `bg-slate-50`, ensuring form content is perfectly hidden before reaching the global navbar.
+
+### 🛠️ Key Files Finalized
+- `src/App.tsx` (Navbar title logic)
+- `src/components/BrandDiscoveryForm.tsx` (Sticky header optimization)
+- `src/components/BrandStrategyTool.tsx` (Centered internal header)
+- `src/components/UsageGuideGenerator.tsx` (Centered action-ready header)
+- `src/components/BrandSystemDesigner.tsx` (Header scale sync)
