@@ -706,8 +706,8 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
   if (!strategy) return null;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-12 pb-20 font-sans">
-      <div ref={contentRef} className="space-y-12 p-8 bg-slate-50 rounded-[25px]">
+    <div className="max-w-6xl mx-auto space-y-[var(--space-section)] pb-20 font-sans">
+      <div ref={contentRef} className="space-y-[var(--space-section)] py-[var(--space-card-p)] px-[var(--space-item)] sm:px-[var(--space-card-p)] bg-slate-50 rounded-[var(--radius-section)]">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <h2 className="text-4xl font-bold text-slate-900 tracking-tight">{discovery.brandNameLogo || discovery.name || 'Brand'} Strategy</h2>
@@ -728,7 +728,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
           <motion.div 
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-amber-50 border border-amber-100 p-8 rounded-[25px] flex flex-col items-center text-center gap-6 shadow-sm border-dashed"
+            className="bg-amber-50 border border-amber-100 p-[var(--space-card-p)] rounded-[var(--radius-section)] flex flex-col items-center text-center gap-6 shadow-sm border-dashed"
           >
             <div className="flex flex-col items-center gap-4 max-w-2xl">
               <div className="p-4 bg-white rounded-2xl shadow-sm border border-amber-100">
@@ -903,17 +903,17 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
         </div>
       </motion.div>
 
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col gap-[var(--space-section)]">
         {/* Pillar 1: The Brand Soul */}
-        <section className="space-y-8">
-          <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
+        <section className="space-y-[var(--space-gap)]">
+          <div className="flex items-center gap-3 border-b border-slate-200 pb-[var(--space-item)]">
             <div className="p-2 bg-indigo-50 rounded-lg">
               <BookOpen className="w-6 h-6 text-indigo-600" />
             </div>
             <h3 className="text-2xl font-bold text-slate-900">The Brand Soul</h3>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-[var(--space-gap)]">
             <Card title="Mission" className="h-full border-none shadow-sm bg-white">
               <p className="text-slate-600 leading-relaxed text-sm">{strategy.foundation?.mission || 'N/A'}</p>
             </Card>
@@ -926,7 +926,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
           </div>
 
           <Card title="Core Values" className="border-none shadow-sm bg-white">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--space-gap)]">
               {strategy.values?.map((value, i) => (
                 <div key={i} className="flex gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">
@@ -943,8 +943,8 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
         </section>
 
         {/* Pillar 2: Audience & Experience */}
-        <section className="space-y-8">
-          <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
+        <section className="space-y-[var(--space-gap)]">
+          <div className="flex items-center gap-3 border-b border-slate-200 pb-[var(--space-item)]">
             <div className="p-2 bg-emerald-50 rounded-lg">
               <Users className="w-6 h-6 text-emerald-600" />
             </div>
@@ -1017,7 +1017,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   <motion.div 
                     key={i} 
                     whileHover={{ y: -2 }}
-                    className="p-8 rounded-[25px] bg-white border border-slate-100 hover:border-slate-200 hover:shadow-md transition-all space-y-8 flex flex-col group"
+                    className="p-[var(--space-card-p)] rounded-[25px] bg-white border border-slate-100 hover:border-slate-200 hover:shadow-md transition-all space-y-[var(--space-gap)] flex flex-col group"
                   >
                     <div className="flex items-start justify-between">
                       <div className="space-y-1.5 flex-1 pr-4">
@@ -1695,16 +1695,18 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-center items-center gap-6 pt-12">
+      <div className="flex flex-row justify-center items-center gap-3 sm:gap-6 pt-12 pb-8">
         <Button 
           variant="secondary"
-          className="px-12 py-5 text-lg rounded-2xl border-slate-200 text-slate-600 hover:bg-slate-50" 
+          size="md"
+          className="flex-1 md:flex-none py-6 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-50 text-[14px] font-bold uppercase tracking-wider whitespace-nowrap" 
           onClick={onModifyDiscovery}
         >
           Modify Discovery
         </Button>
         <Button 
-          className="px-16 py-5 text-xl shadow-2xl shadow-brand-500/20 rounded-2xl bg-brand-600 text-white" 
+          size="md"
+          className="flex-1 md:flex-none py-6 shadow-xl shadow-brand-500/20 rounded-xl bg-brand-600 text-white text-[14px] font-bold uppercase tracking-wider whitespace-nowrap" 
           onClick={() => setShowCompleteModal(true)}
         >
           Approve Brand Strategy
@@ -1740,32 +1742,32 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
                 <Button 
                   variant="secondary"
-                  size="lg"
+                  size="md"
                   onClick={handleDownloadPDF}
                   disabled={isDownloading}
-                  className="w-full border-slate-200 group"
+                  className="w-full border-slate-200 group label"
                 >
                   {isDownloading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <>
-                      <Download className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
+                      <Download className="w-4 h-4" />
                       Download PDF
                     </>
                   )}
                 </Button>
                 <Button 
-                  size="lg"
+                  size="md"
                   onClick={() => handleFinalComplete('logo')}
                   disabled={isCompleting}
-                  className="w-full bg-brand-600 text-white group"
+                  className="w-full bg-brand-600 text-white group label"
                 >
                   {isCompleting ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <>
                       Logo Assistant
-                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </>
                   )}
                 </Button>

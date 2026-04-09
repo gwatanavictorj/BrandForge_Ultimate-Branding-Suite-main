@@ -56,16 +56,16 @@ export const BrandSystemDesigner = ({ discovery, strategy, initialData, onUpdate
   }, [data, onUpdate]);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <div className="text-center space-y-2">
+    <div className="max-w-4xl mx-auto space-y-[var(--space-section)]">
+      <div className="text-center space-y-[var(--space-item)]">
         <h2 className="text-3xl font-bold text-slate-900">Brand System</h2>
         <p className="text-slate-500">Define your visual language.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-gap)]">
         <Card title="Color Palette" icon={Palette}>
-          <div className="space-y-6">
-            <div className="flex gap-2">
+          <div className="space-y-[var(--space-gap)]">
+            <div className="flex gap-[var(--space-item)]">
               {data.colors.map((color, i) => (
                 <div key={i} className="flex-1 space-y-2">
                   <div 
@@ -105,7 +105,7 @@ export const BrandSystemDesigner = ({ discovery, strategy, initialData, onUpdate
         </Card>
 
         <Card title="Typography" icon={Type}>
-          <div className="space-y-6">
+          <div className="space-y-[var(--space-gap)]">
             <div>
               <label className="text-sm font-medium text-slate-700 mb-2 block">Primary Font (Headings)</label>
               <select 

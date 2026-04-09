@@ -457,8 +457,8 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
 
   const renderSection2 = () => (
     <Card title="Client Details" icon={User} className="w-full">
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+      <div className="space-y-[var(--space-gap)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[var(--space-gap)]">
           <div>
             <label className="text-sm font-bold text-slate-700 mb-1 block">Email *</label>
             <p className="text-xs text-slate-500 mb-2">👉 Where should we send updates?</p>
@@ -481,7 +481,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[var(--space-gap)]">
           <div>
             <label className="text-sm font-bold text-slate-700 mb-1 block">Business Owner Title</label>
             <p className="text-xs text-slate-500 mb-2">👉 What’s your role?</p>
@@ -537,8 +537,8 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
 
   const renderSection3 = () => (
     <Card title="Brand Profile" icon={Briefcase} className="w-full">
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="space-y-[var(--space-gap)]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-gap)]">
           <div>
             <label className="text-sm font-bold text-slate-700 mb-1 block">Registered Business Name</label>
             <p className="text-xs text-slate-500 mb-2">👉 Official business name?</p>
@@ -559,7 +559,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-gap)]">
           <div>
             <label className="text-sm font-bold text-slate-700 mb-1 block">Business Address</label>
             <p className="text-xs text-slate-500 mb-2">👉 Business location?</p>
@@ -580,7 +580,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-gap)]">
           <div>
             <label className="text-sm font-bold text-slate-700 mb-1 block">Industry *</label>
             <p className="text-xs text-slate-500 mb-2">👉 Best description?</p>
@@ -1157,10 +1157,11 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
   };
 
   return (
-    <div className="w-full pb-20 px-0 sm:px-4">
+    <div className="w-full pb-20 px-0">
+      <div className="max-w-6xl mx-auto space-y-[var(--space-gap)]">
       {currentStep >= 2 && currentStep <= 9 && (
-        <div className="sticky top-0 z-30 bg-white/80 sm:bg-slate-50/95 backdrop-blur-md border-b border-slate-200 py-3 sm:py-4 mb-4 px-4 md:px-6">
-          <div className="max-w-5xl mx-auto">
+        <div className="sticky top-0 z-30 bg-white/80 sm:bg-slate-50/95 backdrop-blur-md border-b border-slate-200 py-[var(--space-item)] mb-[var(--space-gap)] -mx-[var(--space-gutter)] px-[var(--space-gutter)]">
+          <div className="max-w-6xl mx-auto">
             <div className="relative flex items-center justify-between w-full gap-1">
               {PHASES.map((phase, idx) => {
                 const isCurrent = currentStep === phase.step;
@@ -1243,19 +1244,19 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
       </div>
 
       {currentStep > 0 && (
-        <div className="mt-8 flex flex-row justify-between items-center gap-4 px-4 sm:px-0 py-6 sm:py-0 border-t sm:border-t-0 border-slate-200 sm:border-slate-0">
-          <Button variant="ghost" onClick={handleBack} size="md" className="flex-1 sm:flex-none gap-2 text-slate-500">
-            <ArrowLeft className="w-4 h-4" /> <span className="hidden sm:inline">Back</span>
+        <div className="mt-8 flex flex-row justify-between items-center gap-4 px-4 sm:px-0 py-6 sm:py-0">
+          <Button variant="ghost" onClick={handleBack} size="md" className="flex-1 sm:flex-none gap-2 text-slate-500 text-[14px] font-bold uppercase tracking-wider whitespace-nowrap">
+            <ArrowLeft className="w-3.5 h-3.5" /> Back
           </Button>
           <div className="flex flex-row items-center gap-4 sm:gap-6 flex-1 sm:flex-none justify-end">
             <Button 
               onClick={handleNext} 
               disabled={!isStepValid()}
-              size="lg"
-              className="w-full sm:w-auto gap-2 bg-brand-600 text-white shadow-xl shadow-brand-100 group px-8"
+              size="md"
+              className="w-full sm:w-auto gap-2 bg-brand-600 text-white shadow-xl shadow-brand-100 group px-8 text-[14px] font-bold uppercase tracking-wider whitespace-nowrap"
             >
               {currentStep === 9 ? 'Finish' : 'Next'} 
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
         </div>
@@ -1288,7 +1289,8 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
               <Button 
                 onClick={() => handleFinalComplete('strategy')}
                 disabled={isCompleting}
-                className="w-full py-4 text-sm gap-2"
+                size="md"
+                className="w-full py-6 text-sm gap-2 label"
               >
                 {isCompleting ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                   <>
@@ -1298,9 +1300,10 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
               </Button>
               <Button 
                 variant="secondary"
+                size="md"
                 onClick={() => handleFinalComplete('dashboard')}
                 disabled={isCompleting}
-                className="w-full py-4 text-sm gap-2"
+                className="w-full py-6 text-sm gap-2 label"
               >
                 {isCompleting ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                   <>
@@ -1312,6 +1315,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
           </motion.div>
         </div>
       )}
+      </div>
     </div>
   );
 };

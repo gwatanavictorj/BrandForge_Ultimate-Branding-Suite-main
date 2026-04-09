@@ -40,7 +40,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { Slot } from '@radix-ui/react-slot';
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-[var(--radius-control)] font-medium transition-all active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none tracking-wide cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 focus-visible:ring-offset-2",
+  "inline-flex items-center justify-center rounded-[var(--radius-control)] font-medium transition-all active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none tracking-wide cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 focus-visible:ring-offset-2 whitespace-nowrap",
   {
     variants: {
       variant: {
@@ -51,8 +51,8 @@ const buttonVariants = cva(
       size: {
         micro: "h-8 px-3 text-[10px] gap-1 rounded-[var(--radius-control)] font-bold",
         sm: "h-9 px-4 text-xs gap-1.5",
-        md: "h-10 px-5 text-sm gap-2",
-        lg: "h-11 px-6 text-base gap-2 font-bold",
+        md: "h-10 px-4 md:px-5 text-sm gap-2",
+        lg: "h-11 px-4 md:px-6 text-base gap-2 font-bold",
       },
     },
     defaultVariants: {

@@ -24,6 +24,13 @@
     --radius-section: 12px;
     --radius-card: 8px;
     --radius-control: 6px;
+    
+    /* Spacing Tokens (Mobile) */
+    --space-gutter: 16px;
+    --space-section: 32px;
+    --space-card-p: 16px;
+    --space-gap: 12px;
+    --space-item: 8px;
   }
 
   @media (min-width: 768px) {
@@ -32,6 +39,13 @@
       --radius-section: 16px;
       --radius-card: 12px;
       --radius-control: 8px;
+
+      /* Spacing Tokens (Desktop) */
+      --space-gutter: 32px;
+      --space-section: 64px;
+      --space-card-p: 24px;
+      --space-gap: 24px;
+      --space-item: 16px;
     }
   }
 

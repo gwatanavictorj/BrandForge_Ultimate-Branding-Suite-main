@@ -241,18 +241,18 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
-      <div className="text-center space-y-2 px-4">
+    <div className="max-w-6xl mx-auto space-y-[var(--space-section)]">
+      <div className="text-center space-y-[var(--space-item)]">
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Logo Design Assistant</h2>
         <p className="text-sm sm:text-base text-slate-500">AI-powered brainstorming for your visual identity.</p>
       </div>
 
     <div className="w-full">
-      <Card title="The Brand Noun Toolkit" icon={Sparkles} className="mx-0 sm:mx-4">
-        <div className="space-y-6">
+      <Card title="The Brand Noun Toolkit" icon={Sparkles}>
+        <div className="space-y-[var(--space-gap)]">
           <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">50 name-ready constructs, each with a clear visual anchor — categorized by linguistic type.</p>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[var(--space-gap)]">
             {[
               { label: 'Real Words', items: data.nouns.realWords, color: 'bg-blue-50 text-blue-700' },
               { label: 'Invented Words', items: data.nouns.inventedWords, color: 'bg-purple-50 text-purple-700' },
@@ -312,15 +312,15 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
 
       <div className="w-full">
         <Card title="Concept Smush Explorations" icon={Lightbulb}>
-          <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-[var(--space-gap)]">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[var(--space-gap)]">
               <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">Clever pairings synthesized from your toolkit.</p>
               <Button onClick={generateSmushes} disabled={loading.smushes || !data.nouns.realWords.length} size="sm" className="w-full sm:w-auto">
                 {loading.smushes ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Smush Concepts'}
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[var(--space-gap)]">
               {data.smushes.length > 0 ? data.smushes.map((smush, i) => (
                 <div 
                   key={i} 
@@ -373,14 +373,14 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
       </div>
 
       <Card title="Strategic Directions" icon={FolderTree}>
-        <div className="space-y-6">
+        <div className="space-y-[var(--space-gap)]">
           <div className="flex items-center justify-between">
             <p className="text-sm text-slate-500">Expansive visual rationales for your brand spirit.</p>
             <Button onClick={generateConcepts} disabled={loading.concepts} size="sm" variant="secondary">
               {loading.concepts ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Generate Directions'}
             </Button>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-[var(--space-item)]">
             {data.concepts.map((concept, i) => (
               <div key={i} className="p-4 bg-brand-50/50 border border-brand-100 rounded-[24px] text-sm text-brand-900 leading-relaxed">
                 {concept}
@@ -468,7 +468,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
         </div>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-section)]">
         <Card title="Adaptive Logo Variations" icon={Layers}>
           <div className="space-y-4">
             <div className="flex items-center justify-between">

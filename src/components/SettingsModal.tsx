@@ -298,10 +298,10 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-5 pt-4">
+          <div className="flex-1 overflow-y-auto p-[var(--space-gap)]">
             <AnimatePresence mode="wait">
                {activeCategory === 'general' && (
-                <motion.div key="gen" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-6">
+                <motion.div key="gen" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-[var(--space-gap)]">
                   <div className="p-5 bg-brand-50 rounded-[var(--radius-section)] border border-brand-100 flex items-start gap-4">
                     <Info className="w-5 h-5 text-brand-600 shrink-0 mt-1" />
                     <div className="space-y-1">
@@ -310,8 +310,8 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="p-5 bg-brand-50 rounded-[var(--radius-section)] border border-brand-100 space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-[var(--space-item)]">
+                    <div className="p-[var(--space-gap)] bg-brand-50 rounded-[var(--radius-section)] border border-brand-100 space-y-[var(--space-item)]">
                       <div className="w-9 h-9 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-600">
                         <ShieldCheck className="w-5 h-5" />
                       </div>
@@ -330,7 +330,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
               )}
 
                {activeCategory === 'account' && (
-                <motion.div key="acc" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-3">
+                <motion.div key="acc" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-[var(--space-gap)]">
                   {/* Identity Section */}
                   <div className="space-y-2">
                     <div className="flex gap-4 items-end">
@@ -429,7 +429,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
 
                   <div className="pt-2 border-t border-slate-100">
                     <h4 className="label mb-2 ml-1">Profession Details</h4>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-[var(--space-item)]">
                       {/* Entity Selection */}
                       <div className="p-2 bg-slate-50 flex flex-col justify-start rounded-[var(--radius-card)] border border-slate-100 gap-1.5">
                         <label className="label-xs text-slate-400">Account Type</label>
@@ -687,7 +687,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
               )}
 
               {activeCategory === 'data' && (
-                <motion.div key="data" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-6">
+                <motion.div key="data" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-[var(--space-gap)]">
                   <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-4">
                     <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                     <div className="space-y-0.5">
@@ -750,7 +750,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
             <div className="md:hidden mt-10 pt-6 border-t border-slate-100">
               <button 
                 onClick={() => { signOut(); onClose(); }}
-                className="w-full flex items-center justify-center gap-3 p-4 rounded-2xl text-rose-600 bg-rose-50 border border-rose-100 transition-all label"
+                className="w-full flex items-center justify-center gap-3 p-4 rounded-2xl text-rose-600 bg-rose-50 border border-rose-100 transition-all label whitespace-nowrap"
               >
                 <Trash2 className="w-4 h-4" />
                 Sign Out Securely

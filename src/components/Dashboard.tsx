@@ -144,7 +144,7 @@ export const Dashboard = ({
   });
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-[var(--space-section)]">
       {/* Welcome Section */}
       <div className="flex flex-row items-center justify-between gap-4">
         <div className="space-y-1 text-left min-w-0 flex-1">
@@ -159,8 +159,8 @@ export const Dashboard = ({
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-3 gap-2 md:gap-6">
-        <Card className="flex items-center gap-1.5 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[var(--radius-section)]">
+      <div className="grid grid-cols-3 gap-[var(--space-gap)]">
+        <Card className="flex items-center gap-[var(--space-item)] p-[var(--space-gap)] text-left transition-all hover:bg-slate-50 rounded-[var(--radius-section)]">
           <div className="w-8 h-8 sm:w-12 sm:h-12 bg-brand-50 rounded-[var(--radius-control)] flex items-center justify-center text-brand-600 shrink-0">
             <Folder className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
@@ -169,7 +169,7 @@ export const Dashboard = ({
             <div className="label mt-0.5 sm:mt-1">Active Projects</div>
           </div>
         </Card>
-        <Card className="flex items-center gap-1.5 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[var(--radius-section)]">
+        <Card className="flex items-center gap-[var(--space-item)] p-[var(--space-gap)] text-left transition-all hover:bg-slate-50 rounded-[var(--radius-section)]">
           <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-50 rounded-[var(--radius-control)] flex items-center justify-center text-emerald-600 shrink-0">
             <CheckCircle2 className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
@@ -178,7 +178,7 @@ export const Dashboard = ({
             <div className="label mt-0.5 sm:mt-1">Tasks Completed</div>
           </div>
         </Card>
-        <Card className="flex items-center gap-1.5 sm:gap-4 p-2 sm:p-5 text-left transition-all hover:bg-slate-50 rounded-[var(--radius-section)]">
+        <Card className="flex items-center gap-[var(--space-item)] p-[var(--space-gap)] text-left transition-all hover:bg-slate-50 rounded-[var(--radius-section)]">
           <div className="w-8 h-8 sm:w-12 sm:h-12 bg-amber-50 rounded-[var(--radius-control)] flex items-center justify-center text-amber-600 shrink-0">
             <Clock className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
@@ -190,8 +190,8 @@ export const Dashboard = ({
       </div>
 
       {/* Projects List */}
-      <div className="space-y-6">
-        <div className="flex flex-row items-center justify-between gap-4">
+      <div className="space-y-[var(--space-gap)]">
+        <div className="flex flex-row items-center justify-between gap-[var(--space-gap)]">
           <div className="flex items-center bg-slate-100 p-1 rounded-[var(--radius-card)] shrink-0 overflow-x-auto no-scrollbar">
             <button
               onClick={() => setActiveTab('active')}
@@ -293,7 +293,7 @@ export const Dashboard = ({
           )}
         </AnimatePresence>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[var(--space-gap)]">
           {displayProjects.map(project => (
             <Card 
               key={project.id} 
@@ -332,7 +332,7 @@ export const Dashboard = ({
                 </div>
               )}
               
-              <div className="p-6 space-y-4 relative z-10 pointer-events-none">
+              <div className="p-[var(--space-card-p)] space-y-4 relative z-10 pointer-events-none">
                 <div className="flex items-start justify-between pointer-events-auto">
                   <div className={cn("flex-1 min-w-0", activeTab === 'trash' && "pl-10")}>
                     <h3 className="h3 truncate">{project.name}</h3>

@@ -449,7 +449,7 @@ export default function App() {
                 onClick={() => !isLocked && setCurrentStep(step.id)}
                 disabled={isLocked}
                 className={cn(
-                  "w-full flex items-center gap-3 px-4 py-2 rounded-[var(--radius-section)] transition-all text-left group relative cursor-pointer",
+                  "w-full flex items-center gap-3 px-4 py-2 rounded-[var(--radius-section)] transition-all text-left group relative cursor-pointer whitespace-nowrap",
                   isActive 
                     ? "bg-brand-600 text-white shadow-lg shadow-brand-200" 
                     : isLocked
@@ -583,7 +583,7 @@ export default function App() {
         </header>
 
         {/* Scrollable Content */}
-        <main className="flex-1 overflow-y-auto bg-slate-50/50 p-4 md:p-8">
+        <main className="flex-1 overflow-y-auto bg-slate-50/50 p-[var(--space-gutter)]">
           <div className="max-w-7xl mx-auto w-full">
             {error && (
               <div className="mb-8 p-4 bg-rose-50 border border-rose-100 rounded-[32px] flex items-center gap-3 text-rose-700">
