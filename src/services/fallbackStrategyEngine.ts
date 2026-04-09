@@ -297,10 +297,11 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
   const competitors = getCompetitors(discovery);
 
   const values = (discovery.coreValues || []).slice(0, 5).map(v => {
-    const mappedValue = mapStrategicCategory(v, 'values');
+    const vStr = String(v || '');
+    const mappedValue = mapStrategicCategory(vStr, 'values');
     return {
       name: mappedValue,
-      description: `${brandName} is deeply committed to ${String(mappedValue).toLowerCase()}, which guides every decision and interaction with customers and stakeholders.`
+      description: `${brandName} is deeply committed to ${String(mappedValue || 'excellence').toLowerCase()}, which guides every decision and interaction with customers and stakeholders.`
     };
   });
 
@@ -328,16 +329,16 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
     },
 
     foundation: {
-      mission: discovery.mission ? `The mission of ${brandName} is to ${discovery.mission.charAt(0).toLowerCase() + discovery.mission.slice(1)}` : `The mission of ${brandName} is to empower individuals and organizations by providing best-in-class ${industryLabel} solutions that drive meaningful results.`,
-      vision: discovery.vision ? `${brandName}'s vision is to ${discovery.vision.charAt(0).toLowerCase() + discovery.vision.slice(1)}` : `${brandName}'s vision is to become the most trusted and innovative ${industryLabel} brand, setting new standards for excellence and impact.`,
-      philosophy: discovery.philosophy ? `${brandName}'s philosophy is rooted in the belief that ${discovery.philosophy.charAt(0).toLowerCase() + discovery.philosophy.slice(1)}` : `${brandName}'s philosophy is rooted in the belief that every interaction is an opportunity to create lasting value, combining purpose with precision.`
+      mission: discovery.mission ? `The mission of ${brandName} is to ${String(discovery.mission).charAt(0).toLowerCase() + String(discovery.mission).slice(1)}` : `The mission of ${brandName} is to empower individuals and organizations by providing best-in-class ${industryLabel} solutions that drive meaningful results.`,
+      vision: discovery.vision ? `${brandName}'s vision is to ${String(discovery.vision).charAt(0).toLowerCase() + String(discovery.vision).slice(1)}` : `${brandName}'s vision is to become the most trusted and innovative ${industryLabel} brand, setting new standards for excellence and impact.`,
+      philosophy: discovery.philosophy ? `${brandName}'s philosophy is rooted in the belief that ${String(discovery.philosophy).charAt(0).toLowerCase() + String(discovery.philosophy).slice(1)}` : `${brandName}'s philosophy is rooted in the belief that every interaction is an opportunity to create lasting value, combining purpose with precision.`
     },
 
     coreIdea: `${brandName} transforms ordinary gatherings into extraordinary, unforgettable cultural experiences, fostering connection and shaping the ${discovery.address ? 'city\'s' : 'industry\'s'} pulse.`,
 
     story: discovery.brandStory || (
       `The global ${industryLabel} is undergoing a profound shift, creating a significant demand for ${discovery.idealCustomers || 'visionary solutions'}. ` +
-      `This evolution presents a unique opportunity for ${((discovery.customerBenefits || ['excellence'])[0] || 'excellence').toLowerCase()} to gain the momentum and clarity needed to lead. ` +
+      `This evolution presents a unique opportunity for ${String((discovery.customerBenefits || ['excellence'])[0] || 'excellence').toLowerCase()} to gain the momentum and clarity needed to lead. ` +
       `However, standard approaches often lack the strategic depth required for long-term success. ` +
       `${brandName} was founded to provide the needed inspiration, tools, and models of impact to prepare its customers to take over the global marketplace.`
     ),
@@ -360,7 +361,7 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
       maslowLevel: maslow?.level || 'Self-Actualization',
       maslowExplanation: maslow?.explanation || 'The brand seeks to fulfill the customer\'s highest potential.',
       maslowNeedType: maslow?.needType || 'Purpose',
-      narrative: `The ideal ${brandName} customer is someone who values ${(discovery.customerEmotionalOutcome || ['quality', 'trust']).slice(0, 2).map(o => mapStrategicCategory(o, 'emotionalOutcome')).join(' and ').toLowerCase()}. They have tried other solutions but found them lacking. When they discover ${brandName}, they feel ${(discovery.customerEmotionalOutcome || ['confident', 'valued']).map(o => mapStrategicCategory(o, 'emotionalOutcome')).join(' and ').toLowerCase()}. That is the transformation ${brandName} delivers.`
+      narrative: `The ideal ${brandName} customer is someone who values ${String((discovery.customerEmotionalOutcome || ['quality', 'trust']).slice(0, 2).map(o => mapStrategicCategory(o, 'emotionalOutcome')).join(' and ')).toLowerCase()}. They have tried other solutions but found them lacking. When they discover ${brandName}, they feel ${String((discovery.customerEmotionalOutcome || ['confident', 'valued']).map(o => mapStrategicCategory(o, 'emotionalOutcome')).join(' and ')).toLowerCase()}. That is the transformation ${brandName} delivers.`
     },
 
     marketPosition: {
@@ -368,12 +369,12 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
         x: `${(discovery.strengths || ['Innovation'])[0]} vs. Traditional Approach`,
         y: 'Premium Experience vs. Accessible Pricing'
       },
-      quadrant: `${brandName} occupies the upper-right quadrant — combining ${(discovery.strengths || ['Innovation'])[0]?.toString().toLowerCase() || 'innovation'} with a premium customer experience.`,
-      statement: `${brandName} is positioned as the ${primary.name?.toLowerCase() || 'leader'} brand in the ${discovery.industry || 'market'} space, distinguished by ${discovery.differentiation || 'its unique approach and unwavering commitment to quality'}.`,
+      quadrant: `${brandName} occupies the upper-right quadrant — combining ${String((discovery.strengths || ['Innovation'])[0] || 'innovation').toLowerCase()} with a premium customer experience.`,
+      statement: `${brandName} is positioned as the ${String(primary.name || 'leader').toLowerCase()} brand in the ${discovery.industry || 'market'} space, distinguished by ${discovery.differentiation || 'its unique approach and unwavering commitment to quality'}.`,
       position: { x: 72, y: 68 },
       competitors: competitors,
-      analysis: `In the ${discovery.industry || 'target'} landscape, ${brandName} differentiates through ${discovery.differentiation || (discovery.strengths || ['quality']).slice(0, 2).join(' and ')}. While competitors focus on standard offerings, ${brandName} occupies a unique position by combining ${primary.name?.toLowerCase() || 'primary'} energy with ${secondary.name?.toLowerCase() || 'secondary'} values.`,
-      gapHighlight: `The market gap ${brandName} fills is the lack of brands that combine ${(discovery.strengths || ['quality', 'affordability']).slice(0, 2).map(s => s?.toString().toLowerCase()).join(' and ')} — most competitors choose one or the other.`
+      analysis: `In the ${discovery.industry || 'target'} landscape, ${brandName} differentiates through ${discovery.differentiation || (discovery.strengths || ['quality']).slice(0, 2).join(' and ')}. While competitors focus on standard offerings, ${brandName} occupies a unique position by combining ${String(primary.name || 'primary').toLowerCase()} energy with ${String(secondary.name || 'secondary').toLowerCase()} values.`,
+      gapHighlight: `The market gap ${brandName} fills is the lack of brands that combine ${String((discovery.strengths || ['quality', 'affordability']).slice(0, 2).map(s => String(s || '').toLowerCase()).join(' and ')).toLowerCase()} — most competitors choose one or the other.`
     },
 
     archetype: {
@@ -382,14 +383,14 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
         description: primary.description,
         jungianModel: primary.jungianModel,
         traits: primary.traits,
-        inPractice: `For ${brandName}, the ${primary.name} archetype manifests through ${primary.inPractice.toLowerCase()}`
+        inPractice: `For ${brandName}, the ${primary.name || 'Core'} archetype manifests through ${String(primary.inPractice || '').toLowerCase()}`
       },
       secondary: {
         name: secondary.name,
         description: secondary.description,
         jungianModel: secondary.jungianModel,
         traits: secondary.traits,
-        inPractice: `As a secondary influence, the ${secondary.name} archetype gives ${brandName} an added dimension: ${secondary.inPractice.toLowerCase()}`
+        inPractice: `As a secondary influence, the ${secondary.name || 'Support'} archetype gives ${brandName} an added dimension: ${String(secondary.inPractice || '').toLowerCase()}`
       },
       behavior: {
         tone: {
@@ -405,7 +406,7 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
               category: 'marketing',
               platform: 'Social Media Hero',
               targetAudience: 'Primary Audience',
-              contentTemplate: `Imagine a world where ${discovery.problemSolving || 'challenges'} are a thing of the past. With ${brandName}, we bring ${primary.traits[0].toLowerCase()} innovation to your doorstep.`,
+              contentTemplate: `Imagine a world where ${discovery.problemSolving || 'challenges'} are a thing of the past. With ${brandName}, we bring ${String(primary.traits[0] || 'innovative').toLowerCase()} innovation to your doorstep.`,
               guidelines: `Focus on the transformative power of ${primary.name} energy. Use active, inspiring verbs.`,
               archetypeSync: `Reflects the ${primary.name}'s visionary nature.`
             },
@@ -421,14 +422,14 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
               category: 'acknowledgement',
               platform: 'Customer Success Email',
               targetAudience: 'New Customers',
-              contentTemplate: `Welcome to the ${brandName} family. We are honored to support your journey towards ${(discovery.customerBenefits || ['success'])[0].toLowerCase()}.`,
+              contentTemplate: `Welcome to the ${brandName} family. We are honored to support your journey towards ${String((discovery.customerBenefits || ['success'])[0] || 'success').toLowerCase()}.`,
               guidelines: `Lead with genuine ${secondary.traits[1]} warmth. Focus on the customer's emotional outcome.`,
               archetypeSync: `Emphasizes the supportive ${secondary.name} influence.`
             }
           ]
         },
-        role: `${brandName} acts as the trusted ${primary.name?.toLowerCase() || 'expert'} — guiding customers through ${discovery.problemSolving || 'their challenges'} with expertise and care.`,
-        impact: `The combined ${primary.name}/${secondary.name} archetype builds deep loyalty by making customers feel both ${(discovery.customerEmotionalOutcome || ['confident', 'inspired']).slice(0, 2).map(o => mapStrategicCategory(o, 'emotionalOutcome')?.toLowerCase()).join(' and ')}.`
+        role: `${brandName} acts as the trusted ${String(primary.name || 'expert').toLowerCase()} — guiding customers through ${discovery.problemSolving || 'their challenges'} with expertise and care.`,
+        impact: `The combined ${primary.name || 'Primary'}/${secondary.name || 'Secondary'} archetype builds deep loyalty by making customers feel both ${String((discovery.customerEmotionalOutcome || ['confident', 'inspired']).slice(0, 2).map(o => mapStrategicCategory(o, 'emotionalOutcome')).join(' and ')).toLowerCase()}.`,
       }
     },
 
@@ -479,7 +480,7 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
       ].slice(0, 7)
     },
 
-    experienceDesign: `Every ${brandName} touchpoint should evoke the ${primary.name} archetype — from the initial website visit to post-purchase follow-up. The experience should make customers feel ${(discovery.customerEmotionalOutcome || ['valued', 'confident']).join(', ').toLowerCase()}. Key principles: consistency across channels, ${(discovery.brandFeel || ['professional'])[0]?.toLowerCase()} aesthetics, and responses that reflect ${(discovery.coreValues || ['care'])[0]?.toLowerCase()}.`,
+    experienceDesign: `Every ${brandName} touchpoint should evoke the ${primary.name || 'brand'} archetype — from the initial website visit to post-purchase follow-up. The experience should make customers feel ${String((discovery.customerEmotionalOutcome || ['valued', 'confident']).join(', ')).toLowerCase()}. Key principles: consistency across channels, ${String((discovery.brandFeel || ['professional'])[0] || 'professional').toLowerCase()} aesthetics, and responses that reflect ${String((discovery.coreValues || ['care'])[0] || 'care').toLowerCase()}.`,
 
     touchPoints: [
       { category: 'Digital', items: ['Website', 'Social Media Profiles', 'Email Marketing', 'Online Advertising', 'SEO Content'] },

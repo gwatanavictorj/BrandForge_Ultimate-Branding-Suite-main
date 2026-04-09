@@ -1158,10 +1158,10 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
 
   return (
     <div className="w-full pb-20 px-0">
-      <div className="max-w-6xl mx-auto space-y-[var(--space-gap)]">
+      <div className="max-w-none mx-auto space-y-[var(--space-gap)]">
       {currentStep >= 2 && currentStep <= 9 && (
         <div className="sticky top-0 z-30 bg-white/80 sm:bg-slate-50/95 backdrop-blur-md border-b border-slate-200 py-[var(--space-item)] mb-[var(--space-gap)] -mx-[var(--space-gutter)] px-[var(--space-gutter)]">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-none mx-auto">
             <div className="relative flex items-center justify-between w-full gap-1">
               {PHASES.map((phase, idx) => {
                 const isCurrent = currentStep === phase.step;
@@ -1222,7 +1222,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
         </div>
       )}
 
-      <div className={cn("max-w-5xl mx-auto", currentStep >= 2 && "mt-4 md:mt-8")}>
+      <div className={cn("max-w-none mx-auto", currentStep >= 2 && "mt-4 md:mt-8")}>
         {error && (
           <div className="mb-6 p-4 bg-rose-50 border border-rose-100 rounded-[32px] flex items-center gap-3 text-rose-700">
             <AlertTriangle className="w-5 h-5" />

@@ -39,7 +39,9 @@ import {
   Type,
   Quote,
   Copy,
-  Check
+  Check,
+  BarChart3,
+  Lightbulb
 } from 'lucide-react';
 import { brandService } from '../services/brandService';
 import { motion, AnimatePresence } from 'motion/react';
@@ -723,7 +725,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
   if (!strategy) return null;
 
   return (
-    <div className="max-w-6xl mx-auto space-y-[var(--space-section)] pb-20 font-sans">
+    <div className="max-w-none mx-auto space-y-[var(--space-section)] pb-20 font-sans">
       <div ref={contentRef} className="space-y-[var(--space-section)] py-[var(--space-card-p)] px-[var(--space-item)] sm:px-[var(--space-card-p)] bg-slate-50 rounded-[var(--radius-section)]">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
@@ -1085,12 +1087,8 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
           </div>
 
           <Card className="border-none shadow-sm bg-white overflow-hidden">
-            <div className="overflow-x-auto no-scrollbar touch-pan-x p-2">
-              <div className="min-w-[800px] sm:min-w-[1000px] grid grid-cols-[150px_1fr_1fr_1fr_1fr_1fr] sm:grid-cols-[180px_1fr_1fr_1fr_1fr_1fr] border border-slate-100 overflow-hidden">
-                {/* Lifecycle Stage Row */}
-                <div className="bg-slate-50/80 p-5 flex items-center font-bold text-slate-700 border-b border-r border-slate-100 uppercase text-[10px] tracking-widest">
-                  Lifecycle Stage
-                </div>
+            <div className="overflow-x-auto no-scrollbar scroll-smooth p-2">
+              <div className="flex gap-0 min-w-max pb-4">
                 {strategy.customerJourney?.map((item, i) => {
                   const Icons = [Eye, RefreshCw, CreditCard, Users, Award];
                   const Icon = Icons[i] || Sparkles;
@@ -1103,84 +1101,92 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   ];
                   const total = strategy.customerJourney.length;
                   const clipPath = i === 0 
-                    ? 'polygon(0% 0%, 92% 0%, 100% 50%, 92% 100%, 0% 100%)'
+                    ? 'polygon(0% 0%, 94% 0%, 100% 50%, 94% 100%, 0% 100%)'
                     : i === total - 1
-                    ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 8% 50%)'
-                    : 'polygon(0% 0%, 92% 0%, 100% 50%, 92% 100%, 0% 100%, 8% 50%)';
+                    ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 6% 50%)'
+                    : 'polygon(0% 0%, 94% 0%, 100% 50%, 94% 100%, 0% 100%, 6% 50%)';
                   
                   return (
-                    <div 
-                      key={i} 
-                      className={cn("p-5 text-center text-white border-b border-slate-100 last:border-r-0 flex flex-col items-center justify-center gap-2 min-h-[110px]", Colors[i])}
-                      style={{ 
-                        clipPath,
-                        marginLeft: i > 0 ? '-15px' : '0',
-                        paddingLeft: i > 0 ? '30px' : '20px',
-                        paddingRight: i < total - 1 ? '30px' : '20px'
-                      }}
-                    >
-                      <Icon className="w-5 h-5 opacity-90" />
-                      <div>
-                        <div className="label-xs opacity-70 mb-0.5">{item.phase}</div>
-                        <div className="text-[11px] font-black uppercase tracking-wider leading-tight">{item.stage}</div>
+                    <div key={i} className="flex flex-col w-[280px] sm:w-[320px] shrink-0 first:ml-0 -ml-4 relative z-[10]">
+                      {/* Header Segment */}
+                      <div 
+                        className={cn("p-6 text-center text-white flex flex-col items-center justify-center gap-2 min-h-[120px] shadow-sm", Colors[i])}
+                        style={{ 
+                          clipPath,
+                          zIndex: total - i,
+                          paddingLeft: i > 0 ? '45px' : '20px',
+                          paddingRight: i < total - 1 ? '45px' : '20px'
+                        }}
+                      >
+                        <div className="p-1.5 bg-white/10 rounded-lg backdrop-blur-sm">
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className="text-[9px] font-bold uppercase tracking-[0.2em] opacity-60 mb-1">{item.phase}</div>
+                          <div className="text-sm font-black uppercase tracking-wider leading-tight">{item.stage}</div>
+                        </div>
+                      </div>
+
+                      {/* Content Section */}
+                      <div className="flex-1 bg-white border-x border-slate-50 p-6 space-y-8 pt-10">
+                        {/* Action */}
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2 text-slate-400">
+                            <Zap className="w-3.5 h-3.5" />
+                            <span className="text-[10px] font-bold uppercase tracking-widest">Customer Action</span>
+                          </div>
+                          <p className="text-[13px] text-slate-700 leading-relaxed font-medium">
+                            {item.action}
+                          </p>
+                        </div>
+
+                        {/* Touchpoints */}
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2 text-slate-400">
+                            <Layers className="w-3.5 h-3.5" />
+                            <span className="text-[10px] font-bold uppercase tracking-widest">Touchpoints</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {item.touchpoints?.map((tp, j) => (
+                              <span key={j} className="px-2 py-1 bg-slate-50 text-slate-600 rounded text-[11px] font-medium border border-slate-100">
+                                {tp}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* KPIs */}
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2 text-slate-400">
+                            <BarChart3 className="w-3.5 h-3.5" />
+                            <span className="text-[10px] font-bold uppercase tracking-widest">Success Metrics</span>
+                          </div>
+                          <ul className="space-y-2">
+                            {item.kpis?.map((kpi, j) => (
+                              <li key={j} className="text-[12px] text-slate-600 flex items-start gap-2">
+                                <span className="w-1 h-1 rounded-full bg-slate-300 mt-2 shrink-0" />
+                                {kpi}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Insights */}
+                        <div className="pt-6 border-t border-slate-50">
+                          <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 relative group">
+                            <div className="absolute -top-2.5 left-4 bg-white px-2 flex items-center gap-1.5 text-brand-600">
+                              <Lightbulb className="w-3 h-3" />
+                              <span className="text-[9px] font-black uppercase tracking-widest">Insights</span>
+                            </div>
+                            <p className="text-[12px] text-slate-600 leading-relaxed italic pr-2">
+                              "{item.insights}"
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   );
                 })}
-
-                {/* Customer Action Row */}
-                <div className="bg-slate-50/80 p-5 flex items-center font-bold text-slate-700 border-b border-r border-slate-100 uppercase text-[10px] tracking-widest">
-                  Customer Action
-                </div>
-                {strategy.customerJourney?.map((item, i) => (
-                  <div key={i} className="p-5 text-sm text-slate-600 leading-relaxed border-b border-r border-slate-100 last:border-r-0">
-                    {item.action}
-                  </div>
-                ))}
-
-                {/* Touchpoints Row */}
-                <div className="bg-slate-50/80 p-5 flex items-center font-bold text-slate-700 border-b border-r border-slate-100 uppercase text-[10px] tracking-widest">
-                  Touchpoints
-                </div>
-                {strategy.customerJourney?.map((item, i) => (
-                  <div key={i} className="p-5 border-b border-r border-slate-100 last:border-r-0">
-                    <ul className="space-y-1.5">
-                      {item.touchpoints?.map((tp, j) => (
-                        <li key={j} className="text-xs text-slate-600 flex items-start gap-2">
-                          <span className="w-1 h-1 rounded-full bg-slate-400 mt-1.5" />
-                          {tp}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-
-                {/* KPIs Row */}
-                <div className="bg-slate-50/80 p-5 flex items-center font-bold text-slate-700 border-b border-r border-slate-100 uppercase text-[10px] tracking-widest">
-                  KPIs
-                </div>
-                {strategy.customerJourney?.map((item, i) => (
-                  <div key={i} className="p-5 border-b border-r border-slate-100 last:border-r-0">
-                    <ul className="space-y-1.5">
-                      {item.kpis?.map((kpi, j) => (
-                        <li key={j} className="text-xs text-slate-600 flex items-start gap-2">
-                          <span className="w-1 h-1 rounded-full bg-slate-400 mt-1.5" />
-                          {kpi}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-
-                {/* Customer Insights Row */}
-                <div className="bg-slate-50/80 p-5 flex items-center font-bold text-slate-700 border-r border-slate-100 uppercase text-[10px] tracking-widest">
-                  Customer Insights
-                </div>
-                {strategy.customerJourney?.map((item, i) => (
-                  <div key={i} className="p-5 text-sm text-slate-600 leading-relaxed border-r border-slate-100 last:border-r-0">
-                    {item.insights}
-                  </div>
-                ))}
               </div>
             </div>
           </Card>
@@ -1703,23 +1709,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       </div>
       </div>
 
-      <div className="flex flex-row justify-center items-center gap-3 sm:gap-6 pt-12 pb-8">
-        <Button 
-          variant="secondary"
-          size="md"
-          className="flex-1 md:flex-none py-6 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-50 text-[14px] font-bold uppercase tracking-wider whitespace-nowrap" 
-          onClick={onModifyDiscovery}
-        >
-          Modify Discovery
-        </Button>
-        <Button 
-          size="md"
-          className="flex-1 md:flex-none py-6 shadow-xl shadow-brand-500/20 rounded-xl bg-brand-600 text-white text-[14px] font-bold uppercase tracking-wider whitespace-nowrap" 
-          onClick={() => setShowCompleteModal(true)}
-        >
-          Approve Brand Strategy
-        </Button>
-      </div>
+
 
       <AnimatePresence>
         {showCompleteModal && (

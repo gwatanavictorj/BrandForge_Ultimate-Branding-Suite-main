@@ -241,7 +241,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-[var(--space-section)]">
+    <div className="max-w-none mx-auto space-y-[var(--space-section)]">
       <div className="text-center space-y-[var(--space-item)]">
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Logo Design Assistant</h2>
         <p className="text-sm sm:text-base text-slate-500">AI-powered brainstorming for your visual identity.</p>

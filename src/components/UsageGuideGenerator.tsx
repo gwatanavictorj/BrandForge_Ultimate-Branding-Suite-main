@@ -77,7 +77,7 @@ export const UsageGuideGenerator = ({ discovery, strategy, system, addNotificati
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-[var(--space-section)]">
+    <div className="max-w-none mx-auto space-y-[var(--space-section)]">
       <div className="flex items-center justify-between">
         <div className="space-y-[var(--space-item)]">
           <h2 className="text-3xl font-bold text-slate-900">Brand Usage Guide</h2>

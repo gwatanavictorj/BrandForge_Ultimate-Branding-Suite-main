@@ -623,7 +623,7 @@ export default function App() {
 
         {/* Scrollable Content */}
         <main className="flex-1 overflow-y-auto bg-slate-50/50 p-[var(--space-gutter)]">
-          <div className="max-w-7xl mx-auto w-full">
+          <div className="max-w-screen-2xl mx-auto w-full">
             {error && (
               <div className="mb-8 p-4 bg-rose-50 border border-rose-100 rounded-[32px] flex items-center gap-3 text-rose-700">
                 <AlertTriangle className="w-5 h-5" />
