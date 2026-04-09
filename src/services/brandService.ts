@@ -452,15 +452,31 @@ export const brandService = {
 +           - COLORS: If 1-2 colors are provided, add 2 complementary colors using color theory. If none, recommend 1 primary and 3 complementary colors.
 +           - Include hex codes, meanings, and specific areas of application for each.
 +           - LOGO DIRECTION: Provide a structured breakdown including:
-+             - description: Core visual strategy (how it feels).
-+             - shapes: 3-5 specific shapes (e.g., 'Circular', 'Geometric Grid', 'Overlapping forms').
-+             - logotypes: 2-3 specific types (e.g., 'Modern Serif Wordmark', 'Custom abstract symbol').
-+             - symbols: 3-5 specific symbols/metaphors grounded in discovery (e.g., 'A stylized Hub for connection').
-+             - rationale: Strategic justification linking these choices to the core values (${discovery.coreValues?.join(', ')}) and mission.
-+           - TYPOGRAPHY: Provide a structured breakdown for exactly two fonts:
-+             - primary: { name, usage (e.g., 'Headings & Hero'), platforms: string[], traits: string[], description }
-+             - secondary: { name, usage (e.g., 'Body & Supportive'), platforms: string[], traits: string[], description }
-+             - Ensure the rationale for each font is focused and does not mention the other font.
+          - TONE OF VOICE FRAMEWORK: You must synthesize a mission-critical messaging framework rooted in the primary Archetype (${discovery.brandFeel?.join(', ')}) and Core Values (${discovery.coreValues?.join(', ')}).
+          - USE CASES: Generate 4-6 specific ToneUseCase objects covering: 
+            - Marketing (Social/Ad copy)
+            - Announcements (Product/News)
+            - Acknowledgements (Customer support/Welcome)
+            - Internal (Team/Culture)
+          - Each case must include a Content Template, tactical Guidelines, and an 'Archetype Sync' explaining how the voice reflects the brand's spirit.
+          - Ensure the voice is consistent yet adaptable across these platforms.
+          - IMPORTANT: Ground all templates STRICTLY in the brand purpose (${discovery.mission}).
+
+          6. IDENTITY SYSTEM (VISUALS):
+          - COLORS: If 1-2 colors are provided, add 2 complementary colors using color theory. If none, recommend 1 primary and 3 complementary colors.
+          - Include hex codes, meanings, and specific areas of application for each.
+          - LOGO DIRECTION: Provide a structured breakdown including:
+            - description: Core visual strategy (how it feels).
+            - shapes: 3-5 specific shapes (e.g., 'Circular', 'Geometric Grid', 'Overlapping forms').
+            - logotypes: 2-3 specific types (e.g., 'Modern Serif Wordmark', 'Custom abstract symbol').
+            - symbols: 3-5 specific symbols/metaphors grounded in discovery (e.g., 'A stylized Hub for connection').
+            - rationale: Strategic justification linking these choices to the core values (${discovery.coreValues?.join(', ')}) and mission.
+          - TYPOGRAPHY: Synthesize a definitive font pairing (Exactly 2 fonts) that serves as the visual voice of the brand.
+          - TETHERING: You must select these fonts based on the intersection of the Primary Archetype and the specific 'Visual Direction' signals from the Brand Feel (${discovery.brandFeel?.join(', ')}) and Emotional Outcomes (${discovery.customerEmotionalOutcome?.join(', ')}).
+          - FONT TYPES: Consider the full spectrum (Serif, Sans, Slab, Mono, Script, Display) and select the specific category that best embodies the brand's vibe.
+          - primary: { name, usage (e.g., 'Headings & Display'), platforms: string[], traits: string[], description: "Strategic justification linking the font's personality to the ${discovery.brandFeel?.join('/')} visual direction." }
+          - secondary: { name, usage (e.g., 'Internal/Body Copy'), platforms: string[], traits: string[], description: "How this font supports the primary while maintaining the ${discovery.brandFeel?.join('/')} atmosphere." }
+          - Ensure traits closely mirror the brand feel keywords.
 
            RAW DATA:
            ${JSON.stringify(inputData, null, 2)}
