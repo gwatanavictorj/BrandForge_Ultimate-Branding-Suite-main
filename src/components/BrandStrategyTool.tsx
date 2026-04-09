@@ -127,6 +127,23 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
     }
   };
 
+  // Navbar bridge: Listen for requests from the global header
+  useEffect(() => {
+    const handleRefine = () => generateStrategy(true);
+    const handleModify = () => onModifyDiscovery?.();
+    const handleApprove = () => setShowCompleteModal(true); // Open the approval modal
+
+    window.addEventListener('brandforge:refine-strategy', handleRefine);
+    window.addEventListener('brandforge:modify-discovery', handleModify);
+    window.addEventListener('brandforge:approve-strategy', handleApprove);
+    
+    return () => {
+      window.removeEventListener('brandforge:refine-strategy', handleRefine);
+      window.removeEventListener('brandforge:modify-discovery', handleModify);
+      window.removeEventListener('brandforge:approve-strategy', handleApprove);
+    };
+  }, [discovery, onModifyDiscovery]); // Re-bind if props change
+
   const alignStrategicArchitecture = () => {
     if (!strategy || !onUpdate) return;
     
@@ -713,15 +730,6 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
             <h2 className="text-4xl font-bold text-slate-900 tracking-tight">{discovery.brandNameLogo || discovery.name || 'Brand'} Strategy</h2>
             <p className="text-slate-500 text-lg">The strategic blueprint for your brand's evolution.</p>
           </div>
-          <Button 
-            variant="secondary" 
-            size="md"
-            onClick={() => generateStrategy(true)}
-            className="border-slate-200 hover:bg-slate-50 gap-2"
-          >
-            <RefreshCw className="w-4 h-4" />
-            Refine Strategy
-          </Button>
         </div>
 
         {strategy.isFallback && (
@@ -1739,7 +1747,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+              <div className="pt-4 flex flex-col items-center gap-4">
                 <Button 
                   variant="secondary"
                   size="md"
@@ -1747,38 +1755,14 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   disabled={isDownloading}
                   className="w-full border-slate-200 group label"
                 >
-                  {isDownloading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      <Download className="w-4 h-4" />
-                      Download PDF
-                    </>
-                  )}
+                  <Download className="w-4 h-4" />
+                  Download PDF
                 </Button>
-                <Button 
-                  size="md"
-                  onClick={() => handleFinalComplete('logo')}
-                  disabled={isCompleting}
-                  className="w-full bg-brand-600 text-white group label"
-                >
-                  {isCompleting ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      Logo Assistant
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </>
-                  )}
-                </Button>
-              </div>
-
-              <div className="pt-4">
                 <button 
-                  onClick={() => handleFinalComplete('dashboard')}
+                  onClick={() => setShowCompleteModal(false)}
                   className="text-slate-400 hover:text-brand-600 font-bold text-xs uppercase tracking-widest transition-colors"
                 >
-                  Back to Dashboard
+                  Close & Review Strategy
                 </button>
               </div>
             </motion.div>

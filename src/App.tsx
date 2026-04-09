@@ -26,7 +26,8 @@ import {
   AlertTriangle,
   Bell,
   Menu,
-  X
+  X,
+  RefreshCw
 } from 'lucide-react';
 import { NotificationPopover } from './components/NotificationPopover';
 import { AppNotification } from './types';
@@ -500,6 +501,13 @@ export default function App() {
               <div className="text-[10px] text-slate-500 truncate">{user?.email || ''}</div>
             </div>
             <button 
+              onClick={() => setShowSettings(true)}
+              className="p-1.5 hover:bg-slate-100 rounded-xl text-slate-400 transition-colors cursor-pointer"
+              title="Settings"
+            >
+              <Settings className="w-4 h-4" />
+            </button>
+            <button 
               onClick={() => signOut()}
               className="p-1.5 hover:bg-slate-100 rounded-xl text-slate-400 transition-colors cursor-pointer"
               title="Sign Out"
@@ -546,17 +554,48 @@ export default function App() {
           <div className="flex items-center gap-1.5 md:gap-3 shrink-0">
             {currentStep !== 'dashboard' && (
               <div className="flex items-center gap-1.5 md:gap-3">
-                <Button variant="secondary" size="micro" className="md:h-9 md:px-5 md:text-sm">Export</Button>
-                <Button size="micro" className="md:h-9 md:px-5 md:text-sm" onClick={() => updateProjectData({})}>Save</Button>
+                {currentStep === 'strategy' ? (
+                  <div className="flex items-center gap-1.5 md:gap-3">
+                    <Button 
+                      variant="secondary" 
+                      size="micro" 
+                      className="md:h-9 md:px-5 md:text-sm text-brand-600 border-brand-100 hover:bg-brand-50"
+                      onClick={() => window.dispatchEvent(new CustomEvent('brandforge:refine-strategy'))}
+                    >
+                      <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+                      <span className="hidden md:inline">Refine Strategy</span>
+                      <span className="md:hidden">Refine</span>
+                    </Button>
+                    <Button 
+                      variant="secondary" 
+                      size="micro" 
+                      className="md:h-9 md:px-5 md:text-sm text-slate-500 border-slate-200"
+                      onClick={() => window.dispatchEvent(new CustomEvent('brandforge:modify-discovery'))}
+                    >
+                      <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+                      <span className="hidden md:inline">Modify Discovery</span>
+                      <span className="md:hidden">Modify</span>
+                    </Button>
+                    <Button 
+                      size="micro" 
+                      className="md:h-9 md:px-5 md:text-sm bg-brand-600 text-white"
+                      onClick={() => window.dispatchEvent(new CustomEvent('brandforge:approve-strategy'))}
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+                      <span className="hidden md:inline">Approve Brand Strategy</span>
+                      <span className="md:hidden">Approve</span>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1.5 md:gap-3">
+                    <Button variant="secondary" size="micro" className="md:h-9 md:px-5 md:text-sm">Export</Button>
+                    <Button size="micro" className="md:h-9 md:px-5 md:text-sm" onClick={() => updateProjectData({})}>Save</Button>
+                  </div>
+                )}
                 <div className="hidden md:block h-8 w-px bg-slate-200 mx-1"></div>
               </div>
             )}
-            <button 
-              onClick={() => setShowSettings(true)}
-              className="p-2 hover:bg-slate-100 rounded-xl text-slate-400 transition-colors cursor-pointer"
-            >
-              <Settings className="w-5 h-5" />
-            </button>
+
             <div className="flex items-center gap-3 relative">
               <button 
                 onClick={() => setShowNotifications(!showNotifications)}
