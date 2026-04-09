@@ -78,17 +78,18 @@ export const UsageGuideGenerator = ({ discovery, strategy, system, addNotificati
 
   return (
     <div className="max-w-none mx-auto space-y-[var(--space-section)]">
-      <div className="flex items-center justify-between">
+      <div className="text-center space-y-[var(--space-gap)]">
         <div className="space-y-[var(--space-item)]">
-          <h2 className="text-3xl font-bold text-slate-900">Brand Usage Guide</h2>
-          <p className="text-slate-500">Your comprehensive brand documentation is ready.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Brand Usage Guide</h2>
+          <p className="text-sm sm:text-base text-slate-500">Your comprehensive brand documentation is ready.</p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="secondary" onClick={copyToClipboard} size="md" className="gap-2">
+        
+        <div className="flex items-center justify-center gap-2 sm:gap-4">
+          <Button variant="secondary" onClick={copyToClipboard} size="md" className="gap-2 px-6">
             {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
             {copied ? 'Copied!' : 'Copy Markdown'}
           </Button>
-          <Button onClick={downloadGuide} size="md" className="gap-2">
+          <Button onClick={downloadGuide} size="md" className="gap-2 px-6">
             <Download className="w-4 h-4" />
             Download .md
           </Button>

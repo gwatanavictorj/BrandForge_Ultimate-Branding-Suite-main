@@ -58,8 +58,8 @@ export const BrandSystemDesigner = ({ discovery, strategy, initialData, onUpdate
   return (
     <div className="max-w-none mx-auto space-y-[var(--space-section)]">
       <div className="text-center space-y-[var(--space-item)]">
-        <h2 className="text-3xl font-bold text-slate-900">Brand System</h2>
-        <p className="text-slate-500">Define your visual language.</p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Brand System</h2>
+        <p className="text-sm sm:text-base text-slate-500">Define your visual language.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-gap)]">

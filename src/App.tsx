@@ -538,12 +538,14 @@ export default function App() {
                 <ArrowLeft className="w-5 h-5" />
               </button>
             )}
-            <h2 className={cn(
-              "text-base md:text-lg font-bold text-slate-900 truncate",
-              currentStep === 'dashboard' ? "ml-1" : "ml-0"
-            )}>
-              {ALL_STEPS.find(s => s.id === currentStep)?.label}
-            </h2>
+            {(currentStep === 'dashboard' || currentStep === 'discovery') && (
+              <h2 className={cn(
+                "text-base md:text-lg font-bold text-slate-900 truncate",
+                currentStep === 'dashboard' ? "ml-1" : "ml-0"
+              )}>
+                {ALL_STEPS.find(s => s.id === currentStep)?.label}
+              </h2>
+            )}
             {activeProject && currentStep !== 'dashboard' && (
               <span className="hidden sm:inline-block px-2 py-0.5 bg-brand-50 text-brand-600 rounded text-[10px] font-bold uppercase tracking-wider truncate max-w-[100px]">
                 {activeProject.name}

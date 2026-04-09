@@ -727,11 +727,9 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
   return (
     <div className="max-w-none mx-auto space-y-[var(--space-section)] pb-20 font-sans">
       <div ref={contentRef} className="space-y-[var(--space-section)] py-[var(--space-card-p)] px-[var(--space-item)] sm:px-[var(--space-card-p)] bg-slate-50 rounded-[var(--radius-section)]">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <h2 className="text-4xl font-bold text-slate-900 tracking-tight">{discovery.brandNameLogo || discovery.name || 'Brand'} Strategy</h2>
-            <p className="text-slate-500 text-lg">The strategic blueprint for your brand's evolution.</p>
-          </div>
+        <div className="text-center space-y-[var(--space-item)]">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Brand Strategy</h2>
+          <p className="text-slate-500 text-sm sm:text-base">The strategic blueprint for your brand's evolution.</p>
         </div>
 
         {strategy.isFallback && (

@@ -1159,8 +1159,8 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
   return (
     <div className="w-full pb-20 px-0">
       <div className="max-w-none mx-auto space-y-[var(--space-gap)]">
-      {currentStep >= 2 && currentStep <= 9 && (
-        <div className="sticky top-0 z-30 bg-white/80 sm:bg-slate-50/95 backdrop-blur-md border-b border-slate-200 py-[var(--space-item)] mb-[var(--space-gap)] -mx-[var(--space-gutter)] px-[var(--space-gutter)]">
+        {currentStep >= 2 && currentStep <= 9 && (
+        <div className="sticky top-[calc(-1*var(--space-gutter))] z-30 bg-slate-50 border-b border-slate-200 pt-[calc(var(--space-gutter)+var(--space-item))] pb-[var(--space-item)] mb-[var(--space-gap)] -mx-[var(--space-gutter)] px-[var(--space-gutter)] -mt-[var(--space-gutter)]">
           <div className="max-w-none mx-auto">
             <div className="relative flex items-center justify-between w-full gap-1">
               {PHASES.map((phase, idx) => {
