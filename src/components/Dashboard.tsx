@@ -76,7 +76,7 @@ export const Dashboard = ({
     }
   }, [user]);
   const [showNewModal, setShowNewModal] = useState(false);
-  const [activeTab, setActiveTab] = useState<'active' | 'trash'>('active');
+  const [activeTab, setActiveTab] = useState<'active' | 'all' | 'trash'>('active');
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [projectToRename, setProjectToRename] = useState<{id: string, name: string} | null>(null);
   const [projectToDelete, setProjectToDelete] = useState<{id: string, name: string} | null>(null);
@@ -126,7 +126,7 @@ export const Dashboard = ({
     return (weight + jitter).toFixed(1);
   };
 
-  const displayProjects = (activeTab === 'active' ? activeProjects : trashedProjects).filter(project => {
+  const displayProjects = (activeTab === 'active' ? activeProjects : activeTab === 'all' ? projects : trashedProjects).filter(project => {
     const query = searchQuery.toLowerCase().trim();
     if (!query) return true;
     return project.name.toLowerCase().includes(query) || 
@@ -235,6 +235,17 @@ export const Dashboard = ({
               )}
             >
               Recent Projects
+            </button>
+            <button
+              onClick={() => { setActiveTab('all'); setSelectedIds(new Set()); }}
+              className={cn(
+                "px-3 py-1.5 label rounded-[var(--radius-control)] transition-all cursor-pointer whitespace-nowrap flex items-center gap-2",
+                activeTab === 'all' 
+                  ? "bg-white text-brand-600 shadow-sm" 
+                  : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+              )}
+            >
+              All Projects
             </button>
             <button
               onClick={() => { setActiveTab('trash'); setSelectedIds(new Set()); }}
