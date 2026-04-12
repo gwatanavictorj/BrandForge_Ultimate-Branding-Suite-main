@@ -989,16 +989,16 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
 
             {/* 2. Audience Narrative */}
             <Card title="Audience Narrative" className="border-none shadow-sm bg-white">
-              <div className="relative p-8 bg-slate-900 rounded-[25px] overflow-hidden">
-                <div className="absolute top-0 right-0 p-6 opacity-10">
-                  <MessageSquare className="w-24 h-24 text-white" />
+              <div className="relative p-6 bg-slate-900 rounded-[var(--radius-section)] overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-10">
+                  <MessageSquare className="w-16 h-16 text-white" />
                 </div>
-                <div className="relative z-10 space-y-4">
-                  <p className="text-2xl font-light text-slate-200 leading-relaxed italic">
+                <div className="relative z-10 space-y-3">
+                  <p className="text-base sm:text-lg font-light text-slate-300 leading-relaxed italic">
                     "{strategy.audience?.narrative || 'N/A'}"
                   </p>
-                  <div className="pt-4 border-t border-slate-800">
-                    <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">The Human Story</p>
+                  <div className="pt-3 border-t border-slate-800">
+                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">The Human Story</p>
                   </div>
                 </div>
               </div>
