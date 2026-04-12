@@ -60,6 +60,10 @@
   button, a, [role="button"] {
     cursor: pointer !important;
   }
+
+  svg.lucide {
+    stroke-width: 1.5 !important;
+  }
 }
 
 @layer utilities {

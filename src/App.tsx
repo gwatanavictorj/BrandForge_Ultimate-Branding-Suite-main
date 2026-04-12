@@ -545,7 +545,7 @@ export default function App() {
               <div className="text-[10px] text-slate-500 truncate">{user?.email || ''}</div>
             </div>
             <button 
-              onClick={() => setShowSettings(true)}
+              onClick={() => setShowSettings({ open: true })}
               className="p-1.5 hover:bg-slate-100 rounded-xl text-slate-400 transition-colors cursor-pointer"
               title="Settings"
             >
