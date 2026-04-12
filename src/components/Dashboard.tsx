@@ -497,7 +497,7 @@ export const Dashboard = ({
                           const Icon = TOOL_OPTIONS.find(t => t.id === tool)?.icon || Folder;
                           return (
                             <div key={tool} className="w-7 h-7 rounded-full bg-white border-2 border-slate-50 flex items-center justify-center text-slate-400 shadow-sm">
-                              <Icon className="w-3 h-3" />
+                              <Icon className="w-4 h-4" />
                             </div>
                           );
                         })}
@@ -533,7 +533,7 @@ export const Dashboard = ({
                       "w-10 h-10 rounded-xl flex items-center justify-center transition-all",
                       activeTab === 'active' ? "bg-brand-50 text-brand-600 group-hover/list:bg-brand-600 group-hover/list:text-white" : "bg-slate-100 text-slate-400"
                     )}>
-                      <Folder className="w-5 h-5" />
+                      <Folder className="w-6 h-6" />
                     </div>
                   </div>
 
