@@ -49,7 +49,7 @@ import {
   Calendar,
   ExternalLink
 } from 'lucide-react';
-import { brandService } from '../services/brandService';
+import { brandService, normalizeBrandStrategy } from '../services/brandService';
 import { motion, AnimatePresence } from 'motion/react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -285,7 +285,10 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
   };
 
   useEffect(() => {
-    if (!initialData) {
+    if (initialData) {
+      const normalized = normalizeBrandStrategy(initialData);
+      setStrategy(normalized);
+    } else {
       generateStrategy();
     }
   }, [discovery]);
@@ -719,6 +722,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       
       // Primary
       if (strategy.archetype?.primary) {
+        checkPage(150);
         addSubtitle(`Primary Archetype: ${strategy.archetype.primary.name || 'N/A'}`);
         addBody(strategy.archetype.primary.description || 'N/A');
         addBullet(`Goal: ${strategy.archetype.primary.goal || 'N/A'}`);
@@ -736,6 +740,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
 
       // Secondary
       if (strategy.archetype?.secondary) {
+        checkPage(150);
         addSubtitle(`Secondary Influence: ${strategy.archetype.secondary.name || 'N/A'}`);
         addBody(strategy.archetype.secondary.description || 'N/A');
         addBullet(`Goal: ${strategy.archetype.secondary.goal || 'N/A'}`);
@@ -753,6 +758,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
 
       // Tertiary
       if (strategy.archetype?.tertiary) {
+        checkPage(150);
         addSubtitle(`Tertiary Edge: ${strategy.archetype.tertiary.name || 'N/A'}`);
         addBody(strategy.archetype.tertiary.description || 'N/A');
         addBullet(`Goal: ${strategy.archetype.tertiary.goal || 'N/A'}`);
@@ -797,7 +803,13 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
           pdf.setFont('helvetica', 'bold');
           pdf.setFontSize(9);
           pdf.setTextColor(24, 24, 27); // slate-900
-          pdf.text(`${String(useCase.category).toUpperCase()} — ${String(useCase.platform).toUpperCase()}`, margin + 5, y + 3);
+          const categoryTitle = `${String(useCase.category).toUpperCase()} STRATEGY`;
+          pdf.text(categoryTitle, margin + 5, y + 3);
+          
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(8);
+          pdf.setTextColor(113, 113, 122);
+          pdf.text(`CHANNEL: ${String(useCase.platform).toUpperCase()}`, margin + contentWidth - 5, y + 3, { align: 'right' });
           y += 24;
           
           // Content Template
@@ -2207,14 +2219,15 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                       </span>
                     </div>
 
-                    <div className="space-y-4 flex-1">
                       <div className="space-y-1">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Context: {useCase.category}</p>
-                        <h5 className="text-xl font-bold text-slate-900">For {useCase.targetAudience}</h5>
+                        <p className={cn("text-[10px] font-black uppercase tracking-widest", CategoryColors[useCase.category].split(' ')[1])}>
+                          {useCase.category.toUpperCase()} WORKBENCH
+                        </p>
+                        <h5 className="text-xl font-bold text-slate-900">Application: {useCase.targetAudience}</h5>
                       </div>
 
                       <div className="relative p-6 bg-slate-50 rounded-2xl border border-slate-100/50 group/copy">
-                        <p className="text-sm text-slate-700 leading-relaxed font-medium">
+                        <p className="text-sm text-slate-700 leading-relaxed font-medium whitespace-pre-line">
                           {useCase.contentTemplate}
                         </p>
                         <button 

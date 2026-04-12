@@ -23,8 +23,12 @@ interface ArchetypeData {
   innerNeed: string;
   description: string;
   jungianModel: string;
+  goal: string;
+  fear: string;
+  weakness: string;
+  talent: string;
   traits: string[];
-  inPractice: string;
+  inPractice: { label: string; content: string }[];
   keywords: string[]; // Standard traits
   identityMarkers: string[]; // High-potency Jungian signals
 }
@@ -36,8 +40,15 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Innovation',
     description: 'The Creator archetype is driven by a desire to produce something of enduring value. They believe that if it can be imagined, it can be made.',
     jungianModel: 'Innovation & Structure: The Creator represents the archetypal artist — the drive to express vision and bring new things into existence.',
+    goal: 'To create things of enduring value and realize a unique vision.',
+    fear: 'Being mediocre or having a vision that fails to materialize.',
+    weakness: 'Perfectionism and creating impractical solutions.',
+    talent: 'Creativity, imagination, and the ability to turn concepts into reality.',
     traits: ['Innovative', 'Imaginative', 'Expressive', 'Original', 'Visionary'],
-    inPractice: 'The brand communicates through bold design, original content, and an emphasis on craft and quality.',
+    inPractice: [
+      { label: 'Innovation', content: 'Constantly push boundaries and create original solutions.' },
+      { label: 'Quality', content: 'Focus on superior craft and enduring value.' }
+    ],
     keywords: ['innovation', 'creative', 'expressive', 'design', 'art', 'build', 'craft', 'original', 'technology', 'software', 'architect', 'modular'],
     identityMarkers: ['invention', 'imagination', 'visionary', 'artistic', 'prototype', 'creator', 'masterpiece', 'blueprint', 'sculpt']
   },
@@ -47,8 +58,15 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Service',
     description: 'The Caregiver archetype is motivated by generosity and a desire to protect and care for others.',
     jungianModel: 'Service & Structure: The Caregiver embodies the nurturing parent — selfless, compassionate, and devoted to well-being.',
+    goal: 'To connect with others and provide support through genuine service.',
+    fear: 'Being isolated or unable to help those in need.',
+    weakness: 'Self-sacrifice to the point of burnout or losing individuality.',
+    talent: 'Compassion, generosity, and strong interpersonal skills.',
     traits: ['Compassionate', 'Nurturing', 'Generous', 'Supportive', 'Trustworthy'],
-    inPractice: 'The brand prioritizes customer well-being, offers exceptional support, and communicates with warmth.',
+    inPractice: [
+      { label: 'Support', content: 'Provide unwavering care and protection for the audience.' },
+      { label: 'Empathy', content: 'Listen deeply and respond with genuine warmth.' }
+    ],
     keywords: ['service', 'care', 'health', 'support', 'nurture', 'protect', 'safe', 'medical', 'wellness', 'help', 'comfort', 'hospitality', 'foundation'],
     identityMarkers: ['altruism', 'generosity', 'protection', 'parental', 'devoted', 'empathy', 'well-being', 'sanctuary', 'guardian']
   },
@@ -58,8 +76,15 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Control',
     description: 'The Ruler archetype seeks to create order and structure. They lead with authority, responsibility, and a desire for lasting impact.',
     jungianModel: 'Control & Structure: The Ruler represents the sovereign — the drive for stability and leadership that creates order.',
+    goal: 'To create a prosperous, successful family or community.',
+    fear: 'Chaos; being overthrown or losing control.',
+    weakness: 'Authoritarianism; unable to delegate.',
+    talent: 'Responsibility, leadership, and organization.',
     traits: ['Authoritative', 'Commanding', 'Refined', 'Decisive', 'Responsible'],
-    inPractice: 'The brand positions itself as the industry leader, uses polished visuals, and communicates with confidence.',
+    inPractice: [
+      { label: 'Leadership', content: 'Lead with authority and create clear structure.' },
+      { label: 'Excellence', content: 'Maintain the highest standards of quality and conduct.' }
+    ],
     keywords: ['control', 'luxury', 'premium', 'prestige', 'leader', 'authority', 'exclusive', 'elite', 'royal', 'heritage', 'legacy', 'governance', 'stability'],
     identityMarkers: ['sovereign', 'dominance', 'empire', 'stability', 'organization', 'leadership', 'power', 'prestige', 'throne']
   },
@@ -69,8 +94,15 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Mastery',
     description: 'The Hero archetype is driven to prove their worth through courageous action and determination.',
     jungianModel: 'Mastery & Legacy: The Hero represents the warrior — the inner drive to rise, compete, and triumph against adversity.',
+    goal: 'To improve the world through courageous acts.',
+    fear: 'Being perceived as weak, vulnerable, or a "chicken".',
+    weakness: 'Arrogance; always needing a battle to fight.',
+    talent: 'Competence and courage.',
     traits: ['Bold', 'Courageous', 'Determined', 'Inspiring', 'Competitive'],
-    inPractice: 'The brand inspires action, showcases achievements, and positions customers as capable of overcoming challenges.',
+    inPractice: [
+      { label: 'Mastery', content: 'Excel through discipline and determined effort.' },
+      { label: 'Inspiration', content: 'Inspire others through bold, courageous action.' }
+    ],
     keywords: ['mastery', 'bold', 'impact', 'performance', 'strong', 'fast', 'efficient', 'achieve', 'sports', 'fitness', 'empower', 'resilient', 'brave'],
     identityMarkers: ['warrior', 'triumph', 'strength', 'discipline', 'heroic', 'combat', 'victory', 'olympian', 'valiance']
   },
@@ -80,8 +112,15 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Freedom',
     description: 'The Explorer archetype yearns for discovery, freedom, and the thrill of new experiences.',
     jungianModel: 'Freedom & Spirituality: The Explorer embodies the wanderer — the search for authenticity and meaning through discovery.',
+    goal: 'To experience a better, more authentic, more fulfilling life.',
+    fear: 'Getting trapped, conformity, and inner emptiness.',
+    weakness: 'Aimless wandering, becoming a misfit.',
+    talent: 'Autonomy, ambition, and being true to one\'s soul.',
     traits: ['Adventurous', 'Independent', 'Ambitious', 'Pioneering', 'Authentic'],
-    inPractice: 'The brand encourages discovery, uses expansive imagery, and promises new possibilities.',
+    inPractice: [
+      { label: 'Discovery', content: 'Seek new horizons and authentic experiences.' },
+      { label: 'Freedom', content: 'Encourage independence and self-discovery.' }
+    ],
     keywords: ['freedom', 'travel', 'adventure', 'explore', 'discover', 'journey', 'outdoor', 'experience', 'tourism', 'frontier', 'pioneer'],
     identityMarkers: ['wanderer', 'discovery', 'authenticity', 'pioneer', 'unbound', 'destination', 'remote', 'pilgrimage', 'horizon']
   },
@@ -91,8 +130,15 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Understanding',
     description: 'The Sage archetype seeks truth, knowledge, and understanding. They believe that wisdom is the path to true power.',
     jungianModel: 'Understanding & Spirituality: The Sage represents the wise mentor — the pursuit of truth and knowledge through analysis.',
+    goal: 'To use intelligence and analysis to understand the world.',
+    fear: 'Being duped, misled—or ignorance.',
+    weakness: 'Can study matters forever and never act.',
+    talent: 'Wisdom, intelligence, and analytical skills.',
     traits: ['Wise', 'Analytical', 'Knowledgeable', 'Thoughtful', 'Expert'],
-    inPractice: 'The brand leads with data, thought leadership, educational content, and positions itself as the trusted authority.',
+    inPractice: [
+      { label: 'Truth', content: 'Deliver deep insights grounded in truth and knowledge.' },
+      { label: 'Mentorship', content: 'Guide others with wisdom and thoughtful analysis.' }
+    ],
     keywords: ['understanding', 'consulting', 'education', 'knowledge', 'expert', 'research', 'data', 'analytics', 'wisdom', 'science', 'theory'],
     identityMarkers: ['mentor', 'truth', 'analysis', 'cognition', 'guru', 'scholar', 'philosophy', 'objective', 'oracle']
   },
@@ -102,8 +148,15 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Power',
     description: 'The Magician archetype transforms visions into reality. They create extraordinary experiences that feel almost magical.',
     jungianModel: 'Power & Legacy: The Magician represents the shaman — the ability to transform consciousness and create new realities.',
+    goal: 'To make dreams come true.',
+    fear: 'Unintended negative consequences.',
+    weakness: 'Becoming manipulative or using power for selfish gain.',
+    talent: 'Finding win-win solutions; seeing things from far off.',
     traits: ['Visionary', 'Charismatic', 'Inventive', 'Transformational', 'Aspirational'],
-    inPractice: 'The brand communicates through awe-inspiring visuals, miraculous claims (backed by results), and a sense of wonder.',
+    inPractice: [
+      { label: 'Transformation', content: 'Create extraordinary changes that feel magical.' },
+      { label: 'Vision', content: 'Transform ambitious visions into tangible reality.' }
+    ],
     keywords: ['transformation', 'visionary', 'future', 'change', 'wonder', 'miracle', 'extraordinary', 'inspire', 'alchemy', 'tech', 'digital'],
     identityMarkers: ['shaman', 'alchemy', 'catalyst', 'extraordinary', 'transformation', 'metamorphosis', 'wonder', 'metempirical']
   },
@@ -113,8 +166,15 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Belonging',
     description: 'The Everyman archetype believes in belonging, connection, and the dignity of every person.',
     jungianModel: 'Belonging & Connection: The Everyman represents the common person — the desire for equality and shared human experience.',
+    goal: 'To belong; to be part of the community.',
+    fear: 'To be left out or to stand out from the crowd.',
+    weakness: 'Losing one\'s self in an effort to blend in or for the sake of a superficial connection.',
+    talent: 'Realism, empathy, and lack of pretense.',
     traits: ['Relatable', 'Down-to-earth', 'Honest', 'Friendly', 'Genuine'],
-    inPractice: 'The brand uses approachable language, inclusive imagery, and positions itself as accessible.',
+    inPractice: [
+      { label: 'Connection', content: 'Build genuine relationships based on shared experience.' },
+      { label: 'Equality', content: 'Treat everyone with dignity and approachable honesty.' }
+    ],
     keywords: ['belonging', 'connection', 'friendly', 'approachable', 'accessible', 'affordable', 'community', 'everyone', 'simple', 'honest', 'solidarity'],
     identityMarkers: ['neighbor', 'solidarity', 'belonging', 'democracy', 'realist', 'humility', 'inclusion', 'community']
   },
@@ -124,8 +184,15 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Intimacy',
     description: 'The Lover archetype is driven by passion, intimacy, and the pursuit of beauty and connection.',
     jungianModel: 'Intimacy & Connection: The Lover represents the passionate self — the pursuit of pleasure and aesthetic beauty.',
+    goal: 'To be in a relationship with the people, work, and surroundings they love.',
+    fear: 'Being alone, a wallflower, unwanted, unloved.',
+    weakness: 'Desire to please others at the risk of losing own identity.',
+    talent: 'Passion, gratitude, appreciation, and commitment.',
     traits: ['Passionate', 'Sensual', 'Warm', 'Intimate', 'Elegant'],
-    inPractice: 'The brand uses rich, sensory language and visuals, creating emotional connections and premium experiences.',
+    inPractice: [
+      { label: 'Intimacy', content: 'Foster deep, passionate connections through beauty.' },
+      { label: 'Aesthetics', content: 'Pursue visual and experiential elegance in all things.' }
+    ],
     keywords: ['intimacy', 'passion', 'beauty', 'fashion', 'style', 'elegant', 'romance', 'luxury', 'aesthetic', 'partnership'],
     identityMarkers: ['romance', 'seduction', 'beauty', 'passion', 'devotion', 'sensuality', 'elegance', 'intimacy']
   },
@@ -135,8 +202,15 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Enjoyment',
     description: 'The Jester archetype lives to enjoy the moment and lighten the world with humor and spontaneity.',
     jungianModel: 'Enjoyment & Connection: The Jester represents the trickster — the desire to live joyfully and bring laughter.',
+    goal: 'To have a great time and lighten up the world.',
+    fear: 'Being bored or boring others.',
+    weakness: 'Frivolity, wasting time.',
+    talent: 'Joy, humor, and spontaneous energy.',
     traits: ['Playful', 'Humorous', 'Energetic', 'Spontaneous', 'Entertaining'],
-    inPractice: 'The brand uses humor, bold colors, and irreverent messaging to stand out and make customers smile.',
+    inPractice: [
+      { label: 'Joy', content: 'Bring laughter and delight to every interaction.' },
+      { label: 'Presence', content: 'Live in the moment with irreverent, playful energy.' }
+    ],
     keywords: ['enjoyment', 'playful', 'vibrant', 'fun', 'entertainment', 'media', 'gaming', 'social', 'lively', 'energetic', 'joy'],
     identityMarkers: ['trickster', 'joyous', 'laughter', 'irreverent', 'spontaneous', 'celebration', 'fun-loving', 'carnival']
   },
@@ -146,23 +220,42 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Safety',
     description: 'The Innocent archetype seeks happiness, goodness, and simplicity. They want to do things the right way.',
     jungianModel: 'Safety & Spirituality: The Innocent represents the child — the belief in goodness, optimism, and a better world.',
+    goal: 'To be happy.',
+    fear: 'To be punished for doing something bad or wrong.',
+    weakness: 'Boring for all their naive innocence.',
+    talent: 'Faith and optimism.',
     traits: ['Optimistic', 'Simple', 'Honest', 'Humble', 'Trustworthy'],
-    inPractice: 'The brand communicates with simplicity, transparency, and a positive, wholesome tone.',
-    keywords: ['safety', 'clean', 'pure', 'simple', 'happy', 'natural', 'fresh', 'honest', 'peace', 'organic', 'sustainability', 'integrity'],
-    identityMarkers: ['paradise', 'purity', 'optimism', 'wonder', 'simplicity', 'virtue', 'utopia', 'innocence']
+    inPractice: [
+      { label: 'Safety', content: 'Create a sense of security through honest simplicity.' },
+      { label: 'Goodness', content: 'Promote optimism and a wholesome vision of the future.' }
+    ],
+    keywords: ['safety', 'goodness', 'simple', 'trust', 'honest', 'purity', 'nature', 'wholesome', 'optimism', 'joy'],
+    identityMarkers: ['child', 'purity', 'optimism', 'simplicity', 'wholesome', 'goodness', 'safety', 'eden']
   },
   {
     name: 'Outlaw',
     group: 'Legacy',
     innerNeed: 'Liberation',
-    description: 'The Outlaw archetype breaks conventions and disrupts the status quo to create radical change.',
-    jungianModel: 'Liberation & Legacy: The Outlaw represents the rebel — the refusal to conform and the desire to overturn norms.',
-    traits: ['Rebellious', 'Disruptive', 'Bold', 'Revolutionary', 'Unconventional'],
-    inPractice: 'The brand challenges industry norms, uses edgy visuals, and positions itself as the bold alternative.',
-    keywords: ['liberation', 'disrupt', 'rebel', 'bold', 'revolution', 'unconventional', 'alternative', 'edgy', 'break', 'change', 'radical'],
-    identityMarkers: ['rebellion', 'misfit', 'radical', 'freedom-fighter', 'disruption', 'anarchy', 'iconoclast', 'underground']
+    description: 'The Outlaw archetype (or Rebel) seeks to disrupt the status quo and liberate themselves or others from constraints.',
+    jungianModel: 'Liberation & Legacy: The Outlaw represents the disruptor — the drive to break rules and enact revolutionary change.',
+    goal: 'To overturn what is not working.',
+    fear: 'Being powerless or ineffectual.',
+    weakness: 'Crossing over to the dark side, crime.',
+    talent: 'Outrageousness, radical freedom.',
+    traits: ['Rebellious', 'Disruptive', 'Bold', 'Authentic', 'Raw'],
+    inPractice: [
+      { label: 'Liberation', content: 'Challenge the status quo and break restrictive rules.' },
+      { label: 'Disruption', content: 'Lead with bold, raw, and authentic revolutionary change.' }
+    ],
+    keywords: ['rebel', 'disrupt', 'revolution', 'freedom', 'bold', 'raw', 'authentic', 'break', 'rules', 'alternative'],
+    identityMarkers: ['rebel', 'revolutionary', 'iconoclast', 'disruptor', 'radical', 'liberation', 'dark-horse', 'misfit']
   }
 ];
+
+export function getArchetypeByName(name: string): ArchetypeData | undefined {
+  return ARCHETYPES.find(a => a.name.toLowerCase() === name.toLowerCase());
+}
+
 
 // --- HYGIENE & INDUSTRY BIAS SYSTEM ---
 

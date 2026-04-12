@@ -3,7 +3,7 @@ import {
   INDUSTRIES, STAGES, DELIVERY_MODELS, BENEFITS, 
   VALUES, STRENGTHS, WEAKNESSES, BRAND_FEELS, EMOTIONAL_OUTCOMES 
 } from "../utils/mappingUtils";
-import { generateFallbackStrategy } from './fallbackStrategyEngine';
+import { generateFallbackStrategy, getArchetypeByName } from './fallbackStrategyEngine';
 import { AIProvider, getAIKeys } from './aiProvider';
 
 const getAI = () => {
@@ -14,6 +14,52 @@ const getAI = () => {
     model: settings.models[settings.activeProvider]
   });
 };
+
+export function normalizeBrandStrategy(strategy: any): BrandStrategy {
+  if (!strategy) return strategy;
+
+  // Archetype Normalization Layer (The "Data Healer")
+  if (strategy.archetype) {
+    const tiers: ('primary' | 'secondary' | 'tertiary')[] = ['primary', 'secondary', 'tertiary'];
+    
+    tiers.forEach(tier => {
+      const arch = strategy.archetype[tier];
+      if (arch && arch.name) {
+        const reference = getArchetypeByName(arch.name);
+        if (reference) {
+          // Heal missing psychological fields
+          if (!arch.goal || arch.goal === 'N/A') arch.goal = reference.goal;
+          if (!arch.fear || arch.fear === 'N/A') arch.fear = reference.fear;
+          if (!arch.weakness || arch.weakness === 'N/A') arch.weakness = reference.weakness;
+          if (!arch.talent || arch.talent === 'N/A') arch.talent = reference.talent;
+          if (!arch.innerNeed || arch.innerNeed === 'N/A') arch.innerNeed = reference.innerNeed;
+          if (!arch.description || arch.description === 'N/A') arch.description = reference.description;
+          if (!arch.jungianModel || arch.jungianModel === 'N/A') arch.jungianModel = reference.jungianModel;
+          
+          // Heal traits
+          if (!arch.traits || arch.traits.length === 0) arch.traits = reference.traits;
+          
+          // Heal inPractice (ensure it's an array of objects)
+          if (!arch.inPractice || (Array.isArray(arch.inPractice) && arch.inPractice.length === 0)) {
+            arch.inPractice = reference.inPractice;
+          } else if (typeof arch.inPractice === 'string') {
+            arch.inPractice = [{ label: 'Application', content: arch.inPractice }];
+          }
+        }
+      }
+    });
+
+    // Ensure behavior tone use cases are well-formatted for display
+    if (strategy.archetype.behavior?.tone?.useCases) {
+      strategy.archetype.behavior.tone.useCases = strategy.archetype.behavior.tone.useCases.map((uc: any) => ({
+        ...uc,
+        contentTemplate: uc.contentTemplate?.replace(/\\n/g, '\n') // Fix encoded newlines
+      }));
+    }
+  }
+
+  return strategy as BrandStrategy;
+}
 
 export const brandService = {
   async generateNouns(discovery: BrandDiscovery, strategy: BrandStrategy): Promise<LogoNounGroup> {
@@ -916,18 +962,18 @@ export const brandService = {
         
         try {
           const result = JSON.parse(responseText || "{}");
-          return { ...result, isFallback: false };
+          return normalizeBrandStrategy({ ...result, isFallback: false });
         } catch (jsonErr) {
           if (retries === 0) {
             if (!allowFallback) throw jsonErr;
-            return generateFallbackStrategy(discovery);
+            return normalizeBrandStrategy(generateFallbackStrategy(discovery));
           }
           console.warn(`JSON parse failed, retrying... (${retries} retries left)`);
         }
       } catch (aiError) {
         if (retries === 0) {
           if (!allowFallback) throw aiError;
-          return generateFallbackStrategy(discovery);
+          return normalizeBrandStrategy(generateFallbackStrategy(discovery));
         }
         console.warn(`AI network/API failed, retrying... (${retries} retries left)`);
         // Exponential backoff sleep (2s, then 4s)
