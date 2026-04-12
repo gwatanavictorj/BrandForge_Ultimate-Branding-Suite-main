@@ -335,7 +335,7 @@ export const Dashboard = ({
               key={project.id} 
               className={cn(
                 "group transition-all p-0 relative overflow-visible",
-                viewMode === 'grid' ? "rounded-[32px] overflow-hidden" : "rounded-2xl",
+                viewMode === 'grid' ? "rounded-[32px]" : "rounded-2xl",
                 activeTab === 'active' ? "hover:border-brand-300 cursor-pointer" : "cursor-default",
                 viewMode === 'list' && "hover:bg-slate-50/50"
               )} 
