@@ -816,18 +816,18 @@ export const Dashboard = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-xl bg-white rounded-[32px] shadow-2xl overflow-hidden"
+              className="relative w-full max-w-xl bg-white rounded-[var(--radius-modal)] shadow-2xl overflow-hidden"
             >
-              <div className="p-8 space-y-8">
+              <div className="p-[var(--space-gutter)] space-y-[var(--space-gap)]">
                 {/* Modal Header */}
                 <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-600 shadow-sm border border-brand-100">
+                  <div className="flex items-center gap-[var(--space-item)]">
+                    <div className="w-14 h-14 bg-brand-50 rounded-[var(--radius-section)] flex items-center justify-center text-brand-600 shadow-sm border border-brand-100">
                       <Folder className="w-7 h-7" />
                     </div>
-                    <div className="space-y-0.5">
-                      <h3 className="text-2xl font-bold text-slate-900">{projectDetails.name}</h3>
-                      <p className="text-sm font-medium text-slate-500">{projectDetails.client || 'Internal Project'}</p>
+                    <div>
+                      <h3 className="h2 mb-0.5">{projectDetails.name}</h3>
+                      <p className="body-sm text-slate-500 font-medium">{projectDetails.client || 'Internal Project'}</p>
                     </div>
                   </div>
                   <button onClick={() => setProjectDetails(null)} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-all hover:rotate-90">
@@ -836,55 +836,55 @@ export const Dashboard = ({
                 </div>
 
                 {/* Info Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-[var(--space-item)]">
+                  <div className="p-4 bg-slate-50/50 rounded-[var(--radius-section)] border border-slate-100 space-y-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-slate-400">
+                      <div className="w-8 h-8 rounded-[var(--radius-card)] bg-white shadow-sm flex items-center justify-center text-slate-400">
                         <Calendar className="w-4 h-4" />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Date Created</span>
-                        <span className="text-sm font-bold text-slate-700">{new Date(projectDetails.createdAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                        <span className="label">Date Created</span>
+                        <span className="body font-bold text-slate-700">{new Date(projectDetails.createdAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-slate-400">
+                      <div className="w-8 h-8 rounded-[var(--radius-card)] bg-white shadow-sm flex items-center justify-center text-slate-400">
                         <Activity className="w-4 h-4" />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Last Modified</span>
-                        <span className="text-sm font-bold text-slate-700">{new Date(projectDetails.tracking.lastUpdated).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                        <span className="label">Last Modified</span>
+                        <span className="body font-bold text-slate-700">{new Date(projectDetails.tracking.lastUpdated).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-4">
+                  <div className="p-4 bg-slate-50/50 rounded-[var(--radius-section)] border border-slate-100 space-y-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-slate-400">
+                      <div className="w-8 h-8 rounded-[var(--radius-card)] bg-white shadow-sm flex items-center justify-center text-slate-400">
                         <User className="w-4 h-4" />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Creator</span>
-                        <span className="text-sm font-bold text-slate-700">{userName}</span>
+                        <span className="label">Creator</span>
+                        <span className="body font-bold text-slate-700">{userName}</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-slate-400">
+                      <div className="w-8 h-8 rounded-[var(--radius-card)] bg-white shadow-sm flex items-center justify-center text-slate-400">
                         <HardDrive className="w-4 h-4" />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Resource Size</span>
-                        <span className="text-sm font-bold text-slate-700">{calculateProjectWeight(projectDetails)} MB</span>
+                        <span className="label">Resource Size</span>
+                        <span className="body font-bold text-slate-700">{calculateProjectWeight(projectDetails)} MB</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Scope Section */}
-                <div className="space-y-3">
+                <div className="space-y-3 p-1">
                   <div className="flex items-center gap-2 text-slate-400">
                     <Shield className="w-4 h-4" />
-                    <span className="text-xs font-bold uppercase tracking-widest">Project Scope & Capabilities</span>
+                    <span className="label">Project Scope & Capabilities</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {projectDetails.selectedTools.map(toolId => {
@@ -892,9 +892,9 @@ export const Dashboard = ({
                       if (!tool) return null;
                       const ToolIcon = tool.icon;
                       return (
-                        <div key={toolId} className="px-3 py-2 bg-slate-100 rounded-xl flex items-center gap-2 border border-slate-200/50">
+                        <div key={toolId} className="px-3 py-1.5 bg-white rounded-[var(--radius-control)] flex items-center gap-2 border border-slate-100 shadow-sm">
                           <ToolIcon className="w-3.5 h-3.5 text-brand-600" />
-                          <span className="text-xs font-bold text-slate-700">{tool.label}</span>
+                          <span className="label-xs text-slate-700">{tool.label}</span>
                         </div>
                       );
                     })}
@@ -902,34 +902,34 @@ export const Dashboard = ({
                 </div>
 
                 {/* Progress Bar */}
-                <div className="space-y-3">
+                <div className="space-y-3 p-1">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-slate-400">
                       <Clock className="w-4 h-4" />
-                      <span className="text-xs font-bold uppercase tracking-widest">Current Progress</span>
+                      <span className="label">Current Progress</span>
                     </div>
                     <span className="text-sm font-black text-brand-600">{projectDetails.tracking.progress}%</span>
                   </div>
-                  <div className="h-4 bg-slate-100 rounded-full overflow-hidden border border-slate-200/50 p-1">
+                  <div className="h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-100">
                     <motion.div 
                       initial={{ width: 0 }}
                       animate={{ width: `${projectDetails.tracking.progress}%` }}
                       transition={{ duration: 1, ease: "easeOut" }}
-                      className="h-full bg-gradient-to-r from-brand-500 to-brand-600 rounded-full shadow-[0_0_10px_rgba(var(--brand-500-rgb),0.3)]" 
+                      className="h-full bg-gradient-to-r from-brand-500 to-brand-600 rounded-full" 
                     />
                   </div>
                 </div>
 
                 {/* Modal Actions */}
-                <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
-                  <Button variant="secondary" size="md" onClick={() => setProjectDetails(null)} className="px-6 font-bold">Close Details</Button>
+                <div className="flex justify-end gap-3 pt-[var(--space-item)] border-t border-slate-100">
+                  <Button variant="secondary" size="md" onClick={() => setProjectDetails(null)} className="px-6">Close</Button>
                   <Button 
                     size="md" 
                     onClick={() => {
                       setProjectDetails(null);
                       onSelectProject(projectDetails);
                     }} 
-                    className="px-8 font-bold"
+                    className="px-8"
                   >
                     Open Workspace
                   </Button>
