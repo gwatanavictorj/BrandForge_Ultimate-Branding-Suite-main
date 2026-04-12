@@ -273,7 +273,20 @@ This is the official record of all BrandForge features and UI refinements that h
 - **State Management**: Refactored notification popover state logic to ensure stable opening/closing transitions.
 - **Completion Modal Refinement**: Cleaned the final Discovery success modal with a centralized action stack (Strategy Engine, PDF Export, Dashboard) and improved visual spacing.
 
+---
+
+## 📅 2026-04-12: Notification Popover Optimization (CERTIFIED)
+
+### 🏗️ Responsive UX Refinement
+- **Tethered Positioning**: Transitioned the notification popover from a fixed coordinate system to a relative tethered model (`top-[calc(100%+12px)]`). This ensures the menu stays perfectly aligned with the notification bell across all viewports.
+- **Zero-Scroll Mobile Architecture**: Implemented dynamic width calculations (`w-[calc(100vw-32px)]`) and `right-0` alignment. This ensures the popover is perfectly centered with consistent gutters, eliminating horizontal scrolling on narrow viewports.
+- **Adaptive Height**: Consolidated the menu with an adaptive maximum height (`max-h-[70vh]`), preventing the container from extending beyond the viewport on smaller devices.
+
+### 🎨 Visual & Strategic Logic
+- **Premium Entrance**: Updated the motion signature from an upward slide to a subtle "slide-down" reveal (`y: -10` → `y: 0`), creating a more intuitive and high-end interaction feel.
+- **Enhanced Contrast**: Verified shadow and border tokens to ensure the popover maintains clear separation from the background canvas.
+
 ### 🛠️ Key Files Finalized
-- `src/App.tsx` (Navbar Sync & Notification logic)
-- `src/components/BrandDiscoveryForm.tsx` (Manual PDF Trigger & Completion Modal)
+- `src/components/NotificationPopover.tsx` (Responsive Logic & Motion Refactoring)
+- `src/App.tsx` (Container Audit & Sync)
 
