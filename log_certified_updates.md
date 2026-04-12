@@ -311,6 +311,7 @@ This is the official record of all BrandForge features and UI refinements that h
 ### 🏗️ Perspective Switching
 - **Dual-View Dashboard Architecture**: Introduced a state-aware toggle in the project header allowing users to switch between high-fidelity Grid cards and a high-density List view.
 - **Project Card Icon Optimization**: Refined the visual scale of project and tool icons across both Grid and List views. By increasing the internal icon size relative to their containers, the "padding" was minimized while maintaining the standard structural spacing of the workspace.
+- **Minimalist Icon Refinement**: Removed background circles, drop shadows, and border layers from project tool icons. This shift to a 'glyph-only' aesthetic eliminates internal padding and visual noise, harmonizing with the platform's high-density layout.
 
 ### 🛠️ High-Density List View
 - **Compact UI Layout**: Developed a row-based project layout optimized for large workspace management.
