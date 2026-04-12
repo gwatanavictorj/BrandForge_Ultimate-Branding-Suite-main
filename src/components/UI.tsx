@@ -44,7 +44,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-gradient-to-b from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white shadow-md shadow-brand-500/20 border border-brand-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]",
+        primary: "bg-brand-600 hover:bg-brand-700 text-white shadow-sm border border-brand-700",
         secondary: "bg-white text-slate-700 border border-slate-200 shadow-sm hover:bg-slate-50 hover:border-slate-300",
         ghost: "bg-transparent text-slate-600 hover:bg-slate-100",
       },
