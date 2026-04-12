@@ -397,7 +397,8 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onSa
       addNotification({
         title: 'Noun Generation Failed',
         type: 'error',
-        message: err.message || 'The AI was unable to generate brand metaphors.'
+        message: err.message || 'The AI was unable to generate brand metaphors.',
+        link: 'step:logo'
       });
     } finally {
       setLoading(prev => ({ ...prev, nouns: false }));
@@ -409,7 +410,8 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onSa
       addNotification({
         title: 'Action Required',
         type: 'warning',
-        message: 'Please generate Brand Nouns first before exploring Smushes.'
+        message: 'Please generate Brand Nouns first before exploring Smushes.',
+        link: 'step:logo'
       });
       return;
     }
@@ -431,7 +433,8 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onSa
       addNotification({
         title: 'Smush Generation Failed',
         type: 'error',
-        message: err.message || 'Unable to pair visual concepts.'
+        message: err.message || 'Unable to pair visual concepts.',
+        link: 'step:logo'
       });
     } finally {
       setLoading(prev => ({ ...prev, smushes: false }));
@@ -453,7 +456,8 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onSa
       addNotification({
         title: 'Concept Generation Failed',
         type: 'error',
-        message: err.message || 'The AI was unable to develop design directions.'
+        message: err.message || 'The AI was unable to develop design directions.',
+        link: 'step:logo'
       });
     } finally {
       setLoading(prev => ({ ...prev, concepts: false }));
@@ -465,7 +469,8 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onSa
     addNotification({
       title: 'Visual Engine Active',
       type: 'info',
-      message: 'Synthesizing visual inspiration for your brand identity...'
+      message: 'Synthesizing visual inspiration for your brand identity...',
+      link: 'step:logo'
     });
     try {
       const url = await brandService.generateLogoInspiration(discovery, strategy, data);
@@ -480,7 +485,8 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onSa
       addNotification({
         title: 'Visual Generation Failed',
         type: 'error',
-        message: err.message || 'The AI was unable to generate visual inspiration.'
+        message: err.message || 'The AI was unable to generate visual inspiration.',
+        link: 'step:logo'
       });
     } finally {
       setLoading(prev => ({ ...prev, inspiration: false }));
@@ -502,7 +508,8 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onSa
       addNotification({
         title: 'Variation Generation Failed',
         type: 'error',
-        message: err.message || 'Unable to generate specialized variations.'
+        message: err.message || 'Unable to generate specialized variations.',
+        link: 'step:logo'
       });
     } finally {
       setLoading(prev => ({ ...prev, variations: false }));
@@ -524,7 +531,8 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onSa
       addNotification({
         title: 'Mockup Generation Failed',
         type: 'error',
-        message: err.message || 'Unable to generate specialized mockup highlights.'
+        message: err.message || 'Unable to generate specialized mockup highlights.',
+        link: 'step:logo'
       });
     } finally {
       setLoading(prev => ({ ...prev, mockups: false }));

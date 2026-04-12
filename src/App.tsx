@@ -992,12 +992,14 @@ export default function App() {
             onMarkRead={onMarkRead}
             onMarkAllRead={onMarkAllRead}
             onClearAll={onClearAll}
+            onNavigate={handleNotificationNavigate}
             onImport={(data) => {
               setProjects([...projects, ...data]);
               addNotification({ 
                 title: 'Library Imported', 
                 type: 'success', 
-                message: `Successfully added ${data.length} projects to your local library.` 
+                message: `Successfully added ${data.length} projects to your local library.`,
+                link: 'step:dashboard'
               });
             }}
             onUpdate={() => {

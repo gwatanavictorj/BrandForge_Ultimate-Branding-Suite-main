@@ -98,7 +98,8 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
     addNotification({
       title: isRefining ? 'Refining Strategy' : 'Universal Strategy Engine Active',
       type: 'info',
-      message: 'Applying Maslow models and Jungian archetypes to your brand foundation.'
+      message: 'Applying Maslow models and Jungian archetypes to your brand foundation.',
+      link: 'step:strategy'
     });
 
     try {
@@ -109,7 +110,8 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       addNotification({
         title: 'Brand Blueprint Generated',
         type: 'success',
-        message: `Successfully synthesized strategic pillars for ${discovery.brandNameLogo || discovery.name}.`
+        message: `Successfully synthesized strategic pillars for ${discovery.brandNameLogo || discovery.name}.`,
+        link: 'step:strategy'
       });
     } catch (err: any) {
       if (forceAI) {
@@ -122,7 +124,8 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       addNotification({
         title: 'AI Strategy Component Failed',
         type: 'error',
-        message: err.message || 'The strategy engine encountered an unexpected error.'
+        message: err.message || 'The strategy engine encountered an unexpected error.',
+        link: 'step:strategy'
       });
     } finally {
       setLoading(false);
@@ -188,7 +191,8 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
     addNotification({
       title: 'Strategy Aligned',
       type: 'success',
-      message: 'Project audience segments updated to the 4-pillar event framework.'
+      message: 'Project audience segments updated to the 4-pillar event framework.',
+      link: 'step:strategy'
     });
   };
 

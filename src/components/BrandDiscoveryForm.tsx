@@ -239,7 +239,8 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
       addNotification({
         title: 'Progress Secured',
         type: 'success',
-        message: 'Your discovery data has been synchronized with the project.'
+        message: 'Your discovery data has been synchronized with the project.',
+        link: 'step:discovery'
       });
       setTimeout(() => {
         setSaveStatus('saved');
@@ -418,14 +419,16 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
       addNotification({
         title: 'Document Ready',
         type: 'success',
-        message: 'Your Discovery Blueprint has been constructed successfully.'
+        message: 'Your Discovery Blueprint has been constructed successfully.',
+        link: 'step:discovery'
       });
     } catch (err) {
       console.error('Manual PDF Error:', err);
       addNotification({
         title: 'Generation Failed',
         type: 'error',
-        message: 'Manual PDF construction failed. Please try browser print instead.'
+        message: 'Manual PDF construction failed. Please try browser print instead.',
+        link: 'step:discovery'
       });
     } finally {
       setIsExporting(false);

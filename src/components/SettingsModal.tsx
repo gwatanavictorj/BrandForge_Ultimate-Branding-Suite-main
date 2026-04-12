@@ -56,6 +56,7 @@ interface Props {
   onMarkRead?: (id: string) => void;
   onMarkAllRead?: (id: string) => void;
   onClearAll?: () => void;
+  onNavigate?: (link: string) => void;
   initialCategory?: SettingsCategory;
 }
 
@@ -72,6 +73,7 @@ export const SettingsModal = ({
   onMarkRead,
   onMarkAllRead,
   onClearAll,
+  onNavigate,
   initialCategory = 'general'
 }: Props) => {
   const { user, signOut, updateUser } = useAuth();
@@ -96,6 +98,14 @@ export const SettingsModal = ({
   const [testStatus, setTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [testError, setTestError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleNotificationClick = (n: AppNotification) => {
+    onMarkRead?.(n.id);
+    if (n.link && onNavigate) {
+      onNavigate(n.link);
+      onClose();
+    }
+  };
 
   const handleSaveAccount = async () => {
     setSaveStatus('saving');
@@ -579,7 +589,7 @@ export const SettingsModal = ({
                       notifications.sort((a,b) => b.timestamp - a.timestamp).map((n) => (
                         <div 
                           key={n.id}
-                          onClick={() => onMarkRead?.(n.id)}
+                          onClick={() => handleNotificationClick(n)}
                           className={cn(
                             "p-4 rounded-[var(--radius-card)] border transition-all cursor-pointer group flex items-start gap-4",
                             n.read ? "bg-white border-slate-100 hover:border-slate-200" : "bg-brand-50/30 border-brand-100 hover:border-brand-200 shadow-sm"
@@ -596,13 +606,25 @@ export const SettingsModal = ({
                           </div>
                           <div className="flex-1 space-y-1 min-w-0">
                             <div className="flex items-center justify-between gap-4">
-                              <h5 className="text-xs font-bold text-slate-900 truncate min-w-0 flex-1">{n.title}</h5>
+                              <div className="flex items-center gap-2 min-w-0 flex-1">
+                                <h5 className="text-xs font-bold text-slate-900 truncate">{n.title}</h5>
+                                {n.link && (
+                                  <ExternalLink className="w-2.5 h-2.5 text-brand-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                )}
+                              </div>
                               <span className="label-xs text-slate-400 whitespace-nowrap flex items-center gap-1 shrink-0">
                                 <Clock className="w-3 h-3" />
                                 {new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' })}
                               </span>
                             </div>
                             <p className="text-[11px] text-slate-600 leading-relaxed font-medium break-words">{n.message}</p>
+                            {n.link && (
+                              <div className="pt-1">
+                                <span className="label-xs text-brand-600 font-bold border-b border-brand-100 pb-0.5 group-hover:border-brand-600 transition-all">
+                                  Click to access resource
+                                </span>
+                              </div>
+                            )}
                             {!n.read && (
                               <div className="flex items-center gap-1.5 pt-1">
                                 <span className="w-1.5 h-1.5 rounded-full bg-brand-600 animate-pulse" />
