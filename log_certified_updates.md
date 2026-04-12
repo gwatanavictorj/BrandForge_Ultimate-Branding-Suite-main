@@ -299,9 +299,7 @@ This is the official record of all BrandForge features and UI refinements that h
 - **Bulk Operations**: Added "Mark all as read" and "Clear Archive" triggers within the detailed settings view for efficient library maintenance.
 - **Empty State Design**: Crafted a clean, illustrated empty state for the notification archive to maintain visual polishedness when no records are present.
 
-### 🛠️ Key Files Finalized
-- `src/components/SettingsModal.tsx` (Notification Center Implementation)
-- `src/components/NotificationPopover.tsx` (Connectivity & UI Hardening)
-- `src/App.tsx` (Tab State Bridging & Data Sync)
-- `src/components/BrandDiscoveryForm.tsx` (Persistence Indicators)
+### 🏗️ Dashboard & Workspace Refinement
+- **Zero-Wrap Tabs**: Applied `flex items-center gap-2` to the dashboard tab switcher, ensuring the "Trash" label and count badge remain on a single horizontal line across all device sizes.
+- **Improved Alignment**: Standardized spacing between icons and text in the project filtering tabs for a more balanced visual rhythm.
 
