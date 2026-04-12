@@ -881,12 +881,16 @@ export const Dashboard = ({
                 </div>
 
                 {/* Scope Section */}
-                <div className="space-y-3 p-1">
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <Shield className="w-4 h-4" />
-                    <span className="label">Project Scope & Capabilities</span>
+                <div className="p-4 bg-slate-50/50 rounded-[var(--radius-section)] border border-slate-100 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-[var(--radius-card)] bg-white shadow-sm flex items-center justify-center text-slate-400">
+                      <Shield className="w-4 h-4" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="label">Project Scope & Capabilities</span>
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 pl-11">
                     {projectDetails.selectedTools.map(toolId => {
                       const tool = TOOL_OPTIONS.find(t => t.id === toolId);
                       if (!tool) return null;
@@ -901,22 +905,28 @@ export const Dashboard = ({
                   </div>
                 </div>
 
-                {/* Progress Bar */}
-                <div className="space-y-3 p-1">
+                {/* Progress Bar Section */}
+                <div className="p-4 bg-slate-50/50 rounded-[var(--radius-section)] border border-slate-100 space-y-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-slate-400">
-                      <Clock className="w-4 h-4" />
-                      <span className="label">Current Progress</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-[var(--radius-card)] bg-white shadow-sm flex items-center justify-center text-slate-400">
+                        <Clock className="w-4 h-4" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="label">Current Progress</span>
+                      </div>
                     </div>
-                    <span className="text-sm font-black text-brand-600">{projectDetails.tracking.progress}%</span>
+                    <span className="body font-bold text-brand-600">{projectDetails.tracking.progress}%</span>
                   </div>
-                  <div className="h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-100">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${projectDetails.tracking.progress}%` }}
-                      transition={{ duration: 1, ease: "easeOut" }}
-                      className="h-full bg-gradient-to-r from-brand-500 to-brand-600 rounded-full" 
-                    />
+                  <div className="pl-11">
+                    <div className="h-3 bg-slate-200/50 rounded-full overflow-hidden border border-slate-100 p-0.5">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${projectDetails.tracking.progress}%` }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                        className="h-full bg-gradient-to-r from-brand-500 to-brand-600 rounded-full shadow-sm" 
+                      />
+                    </div>
                   </div>
                 </div>
 
