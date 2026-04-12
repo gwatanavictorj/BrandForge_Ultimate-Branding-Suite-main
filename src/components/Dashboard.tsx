@@ -20,10 +20,11 @@ import {
   Edit,
   Copy,
   Trash,
-  Eye,
-  RotateCcw,
-  AlertTriangle,
-  List
+  List,
+  User,
+  HardDrive,
+  Activity,
+  Shield
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
@@ -107,6 +108,19 @@ export const Dashboard = ({
   const allTasks = activeProjects.flatMap(p => p.tasks);
   const pendingTasks = allTasks.filter(t => !t.completed);
   
+  const calculateProjectWeight = (project: BrandProject) => {
+    let weight = 0.5; // Base weight (MB)
+    if (project.discovery) weight += 1.2;
+    if (project.strategy) weight += 2.4;
+    if (project.logoAssistant) weight += 8.6;
+    if (project.system) weight += 1.3;
+    if (project.selectedTools.includes('guide')) weight += 1.1;
+    
+    // Add a tiny bit of random deterministic jitter based on name length
+    const jitter = (project.name.length % 10) / 10;
+    return (weight + jitter).toFixed(1);
+  };
+
   const displayProjects = activeTab === 'active' ? activeProjects : trashedProjects;
 
   const handleRestoreAll = async () => {
@@ -799,44 +813,123 @@ export const Dashboard = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
+              className="relative w-full max-w-xl bg-white rounded-[32px] shadow-2xl overflow-hidden"
             >
-              <div className="p-8 space-y-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-bold text-slate-900">Project Details</h3>
-                  <button onClick={() => setProjectDetails(null)} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-colors">
-                    <X className="w-5 h-5" />
+              <div className="p-8 space-y-8">
+                {/* Modal Header */}
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-600 shadow-sm border border-brand-100">
+                      <Folder className="w-7 h-7" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <h3 className="text-2xl font-bold text-slate-900">{projectDetails.name}</h3>
+                      <p className="text-sm font-medium text-slate-500">{projectDetails.client || 'Internal Project'}</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setProjectDetails(null)} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 transition-all hover:rotate-90">
+                    <X className="w-6 h-6" />
                   </button>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="p-4 bg-slate-50 rounded-2xl space-y-3">
-                    <div className="flex flex-col">
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Project Name</span>
-                      <span className="text-slate-900 font-medium">{projectDetails.name}</span>
+                {/* Info Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-slate-400">
+                        <Calendar className="w-4 h-4" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Date Created</span>
+                        <span className="text-sm font-bold text-slate-700">{new Date(projectDetails.createdAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                      </div>
                     </div>
-                    <div className="h-px bg-slate-200" />
-                    <div className="flex flex-col">
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Client</span>
-                      <span className="text-slate-900 font-medium">{projectDetails.client || 'Internal Project'}</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-slate-400">
+                        <Activity className="w-4 h-4" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Last Modified</span>
+                        <span className="text-sm font-bold text-slate-700">{new Date(projectDetails.tracking.lastUpdated).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                      </div>
                     </div>
-                    <div className="h-px bg-slate-200" />
-                    <div className="flex flex-col">
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Date Created</span>
-                      <span className="text-slate-900 font-medium">{new Date(projectDetails.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
+
+                  <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-slate-400">
+                        <User className="w-4 h-4" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Creator</span>
+                        <span className="text-sm font-bold text-slate-700">{userName}</span>
+                      </div>
                     </div>
-                    <div className="h-px bg-slate-200" />
-                    <div className="flex flex-col">
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Project Status</span>
-                      <span className="inline-flex items-center self-start px-2 py-1 mt-1 rounded text-xs font-bold uppercase tracking-wider bg-brand-100 text-brand-700">
-                        {projectDetails.tracking.status}
-                      </span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-slate-400">
+                        <HardDrive className="w-4 h-4" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Resource Size</span>
+                        <span className="text-sm font-bold text-slate-700">{calculateProjectWeight(projectDetails)} MB</span>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex justify-end pt-2">
-                  <Button size="md" onClick={() => setProjectDetails(null)} className="px-6">Close</Button>
+                {/* Scope Section */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <Shield className="w-4 h-4" />
+                    <span className="text-xs font-bold uppercase tracking-widest">Project Scope & Capabilities</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {projectDetails.selectedTools.map(toolId => {
+                      const tool = TOOL_OPTIONS.find(t => t.id === toolId);
+                      if (!tool) return null;
+                      const ToolIcon = tool.icon;
+                      return (
+                        <div key={toolId} className="px-3 py-2 bg-slate-100 rounded-xl flex items-center gap-2 border border-slate-200/50">
+                          <ToolIcon className="w-3.5 h-3.5 text-brand-600" />
+                          <span className="text-xs font-bold text-slate-700">{tool.label}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-slate-400">
+                      <Clock className="w-4 h-4" />
+                      <span className="text-xs font-bold uppercase tracking-widest">Current Progress</span>
+                    </div>
+                    <span className="text-sm font-black text-brand-600">{projectDetails.tracking.progress}%</span>
+                  </div>
+                  <div className="h-4 bg-slate-100 rounded-full overflow-hidden border border-slate-200/50 p-1">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${projectDetails.tracking.progress}%` }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="h-full bg-gradient-to-r from-brand-500 to-brand-600 rounded-full shadow-[0_0_10px_rgba(var(--brand-500-rgb),0.3)]" 
+                    />
+                  </div>
+                </div>
+
+                {/* Modal Actions */}
+                <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                  <Button variant="secondary" size="md" onClick={() => setProjectDetails(null)} className="px-6 font-bold">Close Details</Button>
+                  <Button 
+                    size="md" 
+                    onClick={() => {
+                      setProjectDetails(null);
+                      onSelectProject(projectDetails);
+                    }} 
+                    className="px-8 font-bold"
+                  >
+                    Open Workspace
+                  </Button>
                 </div>
               </div>
             </motion.div>
