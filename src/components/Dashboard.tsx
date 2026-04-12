@@ -207,7 +207,7 @@ export const Dashboard = ({
           </div>
           <div className="min-w-0 flex flex-col">
             <div className="h2 leading-none">{allTasks.filter(t => t.completed).length}</div>
-            <div className="label mt-0.5 sm:mt-1">Tasks Completed</div>
+            <div className="label mt-0.5 sm:mt-1">Projects Completed</div>
           </div>
         </Card>
         <Card className="flex items-center gap-[var(--space-item)] p-[var(--space-gap)] text-left transition-all hover:bg-slate-50 rounded-[var(--radius-section)]">
