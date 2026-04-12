@@ -1112,20 +1112,20 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                     <div key={i} className="flex flex-col w-[280px] sm:w-[320px] shrink-0 first:ml-0 -ml-4 relative z-[10]">
                       {/* Header Segment */}
                       <div 
-                        className={cn("p-6 text-center text-white flex flex-col items-center justify-center gap-2 min-h-[120px] shadow-sm", Colors[i])}
+                        className={cn("px-4 py-3 text-left text-white flex flex-row items-center gap-3 h-[85px] shadow-sm", Colors[i])}
                         style={{ 
                           clipPath,
                           zIndex: total - i,
-                          paddingLeft: i > 0 ? '45px' : '20px',
-                          paddingRight: i < total - 1 ? '45px' : '20px'
+                          paddingLeft: i > 0 ? '55px' : '24px',
+                          paddingRight: i < total - 1 ? '45px' : '24px'
                         }}
                       >
-                        <div className="p-1.5 bg-white/10 rounded-lg backdrop-blur-sm">
+                        <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm shrink-0">
                           <Icon className="w-5 h-5" />
                         </div>
-                        <div>
-                          <div className="text-[9px] font-bold uppercase tracking-[0.2em] opacity-60 mb-1">{item.phase}</div>
-                          <div className="text-sm font-black uppercase tracking-wider leading-tight">{item.stage}</div>
+                        <div className="flex flex-col min-w-0 pr-2">
+                          <div className="text-[9px] font-bold uppercase tracking-[0.2em] opacity-70 mb-0.5 truncate">{item.phase}</div>
+                          <div className="text-[11px] sm:text-xs font-black uppercase tracking-wider leading-snug line-clamp-2">{item.stage}</div>
                         </div>
                       </div>
 
