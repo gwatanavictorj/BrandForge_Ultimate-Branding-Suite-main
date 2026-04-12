@@ -394,3 +394,22 @@ This is the official record of all BrandForge features and UI refinements that h
 - `src/components/Dashboard.tsx`
 - `log_certified_updates.md`
 
+---
+
+### **Update 17: Global Project Renaming & Navbar Clarity (CERTIFIED)**
+**Status**: 🟢 CERTIFIED (UI/UX Refinement)
+**Objective**: Optimize project identity management via inline renaming and improved visibility.
+
+#### **Technical Improvements:**
+*   **Inline Renaming Architecture**:
+    *   Transitioned the static navbar project label into an interactive, state-aware component (`App.tsx`).
+    *   Implemented a seamless "Click-to-Edit" pattern with real-time Firestore persistence via the `updateProjectData` callback.
+    *   Integrated professional UX logic: Focus trapping, automatic saving on `Enter`/`Blur`, and revert capabilities on `Escape`.
+*   **Navbar Layout Optimization**:
+    *   Eliminated aggressive project name truncation (`max-w-100px`) in favor of a flexible, full-width display model.
+    *   Added contextual visual cues (Lucide `Edit` icon) on hover to signal interactivity without cluttering the persistent UI.
+
+#### **Files Verified:**
+- `src/App.tsx`
+- `log_certified_updates.md`
+

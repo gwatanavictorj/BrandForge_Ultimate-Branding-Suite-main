@@ -27,7 +27,9 @@ import {
   Bell,
   Menu,
   X,
-  RefreshCw
+  RefreshCw,
+  Edit,
+  Check
 } from 'lucide-react';
 import { NotificationPopover } from './components/NotificationPopover';
 import { AppNotification } from './types';
@@ -87,6 +89,8 @@ export default function App() {
     return () => window.removeEventListener('brandforge:discovery-save-status', handleStatus);
   }, []);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [tempName, setTempName] = useState('');
 
   const addNotification = useCallback(async (n: Omit<AppNotification, 'id' | 'timestamp' | 'read'>) => {
     if (!user) return;
@@ -557,9 +561,48 @@ export default function App() {
               </h2>
             )}
             {activeProject && currentStep !== 'dashboard' && (
-              <span className="hidden sm:inline-block px-2 py-0.5 bg-brand-50 text-brand-600 rounded text-[10px] font-bold uppercase tracking-wider truncate max-w-[100px]">
-                {activeProject.name}
-              </span>
+              <div className={cn(
+                "hidden sm:flex items-center gap-2 px-2 py-0.5 bg-brand-50 text-brand-600 rounded transition-all group/edit hover:bg-brand-100/50",
+                isEditingName && "bg-white ring-2 ring-brand-500/20"
+              )}>
+                {isEditingName ? (
+                  <input
+                    autoFocus
+                    value={tempName}
+                    onChange={(e) => setTempName(e.target.value)}
+                    onBlur={() => {
+                      if (tempName.trim() && tempName !== activeProject.name) {
+                        updateProjectData({ name: tempName.trim() });
+                      }
+                      setIsEditingName(false);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        if (tempName.trim() && tempName !== activeProject.name) {
+                          updateProjectData({ name: tempName.trim() });
+                        }
+                        setIsEditingName(false);
+                      } else if (e.key === 'Escape') {
+                        setIsEditingName(false);
+                      }
+                    }}
+                    className="bg-transparent text-[10px] font-bold uppercase tracking-wider outline-none border-none p-0 w-[120px]"
+                  />
+                ) : (
+                  <button 
+                    onClick={() => {
+                      setTempName(activeProject.name);
+                      setIsEditingName(true);
+                    }}
+                    className="flex items-center gap-1.5"
+                  >
+                    <span className="text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">
+                      {activeProject.name}
+                    </span>
+                    <Edit className="w-3 h-3 opacity-0 group-hover/edit:opacity-100 transition-opacity" />
+                  </button>
+                )}
+              </div>
             )}
           </div>
           
