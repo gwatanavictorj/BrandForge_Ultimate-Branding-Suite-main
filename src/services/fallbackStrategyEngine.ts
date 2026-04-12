@@ -470,6 +470,10 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
         innerNeed: primary.innerNeed,
         description: primary.description,
         jungianModel: primary.jungianModel,
+        goal: 'To create things of enduring value and realize a unique vision.',
+        fear: 'Being mediocre or having a vision that fails to materialize.',
+        weakness: 'Perfectionism and creating impractical solutions.',
+        talent: 'Creativity, imagination, and the ability to turn concepts into reality.',
         traits: primary.traits,
         inPractice: `Dominant Need: ${primary.innerNeed}. For ${brandName}, the ${primary.name} archetype manifests through ${String(primary.inPractice || '').toLowerCase()}`
       },
@@ -478,8 +482,24 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
         innerNeed: secondary.innerNeed,
         description: secondary.description,
         jungianModel: secondary.jungianModel,
+        goal: 'To connect with others and provide support through genuine service.',
+        fear: 'Being isolated or unable to help those in need.',
+        weakness: 'Self-sacrifice to the point of burnout or losing individuality.',
+        talent: 'Compassion, generosity, and strong interpersonal skills.',
         traits: secondary.traits,
-        inPractice: `Secondary Need: ${secondary.innerNeed}. As a supporting influence, the ${secondary.name} archetype gives ${brandName} an added dimension.`
+        inPractice: `Supporting Need: ${secondary.innerNeed}. The ${secondary.name} archetype adds depth by ${String(secondary.inPractice || '').toLowerCase()}`
+      },
+      tertiary: {
+        name: 'The Explorer',
+        innerNeed: 'Freedom',
+        description: 'The archetype that represents the brand\'s market-specific ambition and its specialized competitive spirit.',
+        jungianModel: 'Independence and Discovery',
+        goal: 'To experience a better, more authentic, more fulfilling life.',
+        fear: 'Getting trapped, conformity, and inner emptiness.',
+        weakness: 'Aimless wandering and becoming a misfit.',
+        talent: 'Autonomy, ambition, and being true to one\'s soul.',
+        traits: ['Adventurous', 'Innovative', 'Boundless'],
+        inPractice: 'The Aspirational Edge represents the brand\'s ambition to explore new territories and lead through specialized discovery.'
       },
       behavior: {
         tone: {

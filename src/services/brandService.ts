@@ -419,14 +419,20 @@ export const brandService = {
           - GAP HIGHLIGHT: Highlight the specific market gap that the brand is filling.
           - IMPORTANT: Ensure the positioning statement and analysis are grounded STRICTLY in the actual discovery data provided (strengths: ${discovery.strengths?.join(', ')}, differentiation: ${discovery.differentiation}). Avoid any mention of "Gaswerk" or other unrelated entities unless they are in the discovery data.
 
-          3. BRAND ARCHETYPE (STRICT JUNG MODEL):
-          - MAPPING TECHNIQUE: You must first identify at least 3 'Strategic Signals' from the brand's mission, values, and attributes.
+          3. BRAND ARCHETYPE (STRICT TRIPLE-MODEL JUNG):
+          - MAPPING TECHNIQUE: You must identify at least 5 'Strategic Signals' from the brand's mission, values, and attributes to fuel a 3-tier emotional blueprint.
           - THE JUNGIAN WHEEL: Use the following 12 Archetypes & their associated Inner Needs:
             * Creator (Innovation), Caregiver (Service), Ruler (Control), Hero (Mastery), Explorer (Freedom), Sage (Understanding), Magician (Power), Everyman (Belonging), Lover (Intimacy), Jester (Enjoyment), Innocent (Safety), Outlaw (Liberation).
-          - PRIMARY ARCHETYPE: Select the dominant archetype based on which 'Inner Need' matches the user's Discovery data EXACTLY.
-          - innerNeed: This is a MANDATORY field. Use the exact word from the list above.
+          - PRIMARY ARCHETYPE (The Core): Select the dominant archetype based on which 'Inner Need' matches the user's Discovery data EXACTLY.
+          - SECONDARY ARCHETYPE (The Support): Select a supporting archetype that adds depth and flavor to the core identity.
+          - TERTIARY ARCHETYPE (The Aspirational Edge): Select an 'edge' archetype that represents the brand's market-specific ambition or its specialized competitive spirit.
+          - innerNeed: This is a MANDATORY field for all three. Use the exact word from the list above.
+          - CHARACTERISTICS: For each archetype, identify its:
+            * Goal: What the archetype fundamentally wants to achieve.
+            * Fear: What the archetype avoids at all costs.
+            * Weakness: The psychological shadow or flaw.
+            * Talent: The core strength or innate capability.
           - JUSTIFICATION (IN PRACTICE): Reference which core value or mission statement led to this specific Inner Need selection.
-          - SECONDARY ARCHETYPE: Select a supporting archetype that adds depth.
 
           4. CORE STRATEGY:
           - Define Purpose, Mission, Brand Idea, Promise, and Differentiation.
@@ -610,10 +616,14 @@ export const brandService = {
                       name: { type: "string" },
                       description: { type: "string" },
                       jungianModel: { type: "string" },
+                      goal: { type: "string" },
+                      fear: { type: "string" },
+                      weakness: { type: "string" },
+                      talent: { type: "string" },
                       traits: { type: "array", items: { type: "string" } },
                       inPractice: { type: "string" }
                     },
-                    required: ["name", "description", "jungianModel", "traits", "inPractice"]
+                    required: ["name", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice"]
                   },
                   secondary: {
                     type: "object",
@@ -621,10 +631,29 @@ export const brandService = {
                       name: { type: "string" },
                       description: { type: "string" },
                       jungianModel: { type: "string" },
+                      goal: { type: "string" },
+                      fear: { type: "string" },
+                      weakness: { type: "string" },
+                      talent: { type: "string" },
                       traits: { type: "array", items: { type: "string" } },
                       inPractice: { type: "string" }
                     },
-                    required: ["name", "description", "jungianModel", "traits", "inPractice"]
+                    required: ["name", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice"]
+                  },
+                  tertiary: {
+                    type: "object",
+                    properties: {
+                      name: { type: "string" },
+                      description: { type: "string" },
+                      jungianModel: { type: "string" },
+                      goal: { type: "string" },
+                      fear: { type: "string" },
+                      weakness: { type: "string" },
+                      talent: { type: "string" },
+                      traits: { type: "array", items: { type: "string" } },
+                      inPractice: { type: "string" }
+                    },
+                    required: ["name", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice"]
                   },
                   behavior: {
                     type: "object",
@@ -659,7 +688,7 @@ export const brandService = {
                     required: ["tone", "role", "impact"]
                   }
                 },
-                required: ["primary", "secondary", "behavior"]
+                required: ["primary", "secondary", "tertiary", "behavior"]
               },
               values: {
                 type: "array",

@@ -1296,53 +1296,139 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
           </div>
 
           <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="p-8 rounded-[var(--radius-section)] bg-brand-900 text-white space-y-6 shadow-xl relative overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Primary Archetype (Core) */}
+              <div className="p-8 rounded-[var(--radius-section)] bg-brand-900 text-white space-y-6 shadow-xl relative overflow-hidden flex flex-col h-full">
                 <div className="absolute top-0 right-0 p-4">
-                  <span className="px-3 py-1 bg-amber-500/20 text-amber-400 text-[10px] font-bold rounded-full uppercase tracking-wider border border-amber-500/30">Primary Archetype</span>
+                  <span className="px-3 py-1 bg-amber-500/20 text-amber-400 text-[10px] font-bold rounded-full uppercase tracking-wider border border-amber-500/30">The Core Identity</span>
                 </div>
                 <div className="space-y-2">
                   <h5 className="text-3xl font-bold text-amber-400 font-display">{strategy.archetype?.primary?.name || 'N/A'}</h5>
-                  {strategy.archetype?.primary?.innerNeed && (
-                    <p className="label-xs text-amber-500 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full inline-block">Dominant Need: {strategy.archetype?.primary?.innerNeed}</p>
-                  )}
-                  <p className="label-xs text-brand-400 opacity-80">{strategy.archetype?.primary?.jungianModel || 'N/A'}</p>
+                  <p className="label-xs text-brand-400 uppercase tracking-widest font-bold opacity-80">{strategy.archetype?.primary?.jungianModel || 'N/A'}</p>
                 </div>
-                <p className="text-brand-100 leading-relaxed body-sm">{strategy.archetype?.primary?.description || 'N/A'}</p>
-                <div className="space-y-3 pt-4 border-t border-white/10">
-                  <h6 className="label-xs text-brand-400">In Practice</h6>
-                  <p className="text-sm text-brand-200 leading-relaxed italic">"{strategy.archetype?.primary?.inPractice || 'N/A'}"</p>
+                
+                <div className="space-y-4 flex-grow">
+                  <div className="grid grid-cols-1 gap-3">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-amber-500/60 uppercase tracking-widest">Goal</p>
+                      <p className="text-[11px] text-brand-100 leading-relaxed">{strategy.archetype?.primary?.goal || 'N/A'}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-amber-500/60 uppercase tracking-widest">Fear</p>
+                      <p className="text-[11px] text-brand-100 leading-relaxed">{strategy.archetype?.primary?.fear || 'N/A'}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-amber-500/60 uppercase tracking-widest">Weakness</p>
+                      <p className="text-[11px] text-brand-100 leading-relaxed">{strategy.archetype?.primary?.weakness || 'N/A'}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-amber-500/60 uppercase tracking-widest">Talent</p>
+                      <p className="text-[11px] text-brand-100 leading-relaxed">{strategy.archetype?.primary?.talent || 'N/A'}</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {strategy.archetype?.primary?.traits?.map((trait, i) => (
-                    <span key={i} className="px-3 py-1 bg-white/10 text-brand-100 text-[10px] rounded-full border border-white/10">{trait}</span>
-                  ))}
-                </div>
-              </div>
 
-              <div className="p-8 rounded-[var(--radius-section)] bg-white border border-brand-200 space-y-6 shadow-sm relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-4">
-                    <span className="px-3 py-1 bg-brand-50 text-brand-500 label-xs rounded-full border border-brand-200">Secondary Archetype</span>
+                <div className="space-y-4 pt-4 border-t border-white/10">
+                  <div className="space-y-1">
+                    <h6 className="text-[10px] font-bold text-brand-400 uppercase tracking-widest">In Practice</h6>
+                    <p className="text-xs text-brand-200 leading-relaxed">{strategy.archetype?.primary?.inPractice || 'N/A'}</p>
                   </div>
-                  <div className="space-y-2">
-                    <h5 className="text-3xl font-bold text-brand-900 font-display">{strategy.archetype?.secondary?.name || 'N/A'}</h5>
-                    {strategy.archetype?.secondary?.innerNeed && (
-                      <p className="label-xs text-brand-600 font-bold bg-brand-100 px-2 py-0.5 rounded-full inline-block">Supporting Need: {strategy.archetype?.secondary?.innerNeed}</p>
-                    )}
-                    <p className="label-xs text-brand-400">{strategy.archetype?.secondary?.jungianModel || 'N/A'}</p>
-                  </div>
-                  <p className="body-sm text-brand-700">{strategy.archetype?.secondary?.description || 'N/A'}</p>
-                  <div className="space-y-3 pt-4 border-t border-brand-100">
-                    <h6 className="label-xs text-brand-400">In Practice</h6>
-                    <p className="text-sm text-brand-600 leading-relaxed italic">"{strategy.archetype?.secondary?.inPractice || 'N/A'}"</p>
-                  </div>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {strategy.archetype?.secondary?.traits?.map((trait, i) => (
-                      <span key={i} className="px-3 py-1 bg-brand-50 text-brand-600 text-[10px] rounded-full border border-brand-200">{trait}</span>
+                  <div className="flex flex-wrap gap-2">
+                    {strategy.archetype?.primary?.traits?.map((trait, i) => (
+                      <span key={i} className="px-2 py-0.5 bg-white/10 text-brand-100 text-[9px] font-bold rounded-full border border-white/10 uppercase tracking-tighter">{trait}</span>
                     ))}
                   </div>
                 </div>
               </div>
+
+              {/* Secondary Archetype (Support) */}
+              <div className="p-8 rounded-[var(--radius-section)] bg-white border border-brand-200 space-y-6 shadow-sm relative overflow-hidden flex flex-col h-full">
+                <div className="absolute top-0 right-0 p-4">
+                  <span className="px-3 py-1 bg-brand-50 text-brand-500 text-[10px] font-bold rounded-full uppercase tracking-wider border border-brand-200">The Support</span>
+                </div>
+                <div className="space-y-2">
+                  <h5 className="text-3xl font-bold text-brand-900 font-display">{strategy.archetype?.secondary?.name || 'N/A'}</h5>
+                  <p className="label-xs text-brand-400 uppercase tracking-widest font-bold">{strategy.archetype?.secondary?.jungianModel || 'N/A'}</p>
+                </div>
+
+                <div className="space-y-4 flex-grow">
+                  <div className="grid grid-cols-1 gap-3">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-brand-500 uppercase tracking-widest">Goal</p>
+                      <p className="text-[11px] text-brand-600 leading-relaxed">{strategy.archetype?.secondary?.goal || 'N/A'}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-brand-500 uppercase tracking-widest">Fear</p>
+                      <p className="text-[11px] text-brand-600 leading-relaxed">{strategy.archetype?.secondary?.fear || 'N/A'}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-brand-500 uppercase tracking-widest">Weakness</p>
+                      <p className="text-[11px] text-brand-600 leading-relaxed">{strategy.archetype?.secondary?.weakness || 'N/A'}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-brand-500 uppercase tracking-widest">Talent</p>
+                      <p className="text-[11px] text-brand-600 leading-relaxed">{strategy.archetype?.secondary?.talent || 'N/A'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4 pt-4 border-t border-brand-100">
+                  <div className="space-y-1">
+                    <h6 className="text-[10px] font-bold text-brand-400 uppercase tracking-widest">In Practice</h6>
+                    <p className="text-xs text-brand-600 leading-relaxed">{strategy.archetype?.secondary?.inPractice || 'N/A'}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {strategy.archetype?.secondary?.traits?.map((trait, i) => (
+                      <span key={i} className="px-2 py-0.5 bg-brand-50 text-brand-600 text-[9px] font-bold rounded-full border border-brand-200 uppercase tracking-tighter">{trait}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Tertiary Archetype (Edge) */}
+              <div className="p-8 rounded-[var(--radius-section)] bg-indigo-50 border border-indigo-100 space-y-6 shadow-sm relative overflow-hidden flex flex-col h-full group hover:bg-indigo-100/50 transition-colors">
+                <div className="absolute top-0 right-0 p-4">
+                  <span className="px-3 py-1 bg-indigo-200/50 text-indigo-600 text-[10px] font-bold rounded-full uppercase tracking-wider border border-indigo-200/50">The Aspirational Edge</span>
+                </div>
+                <div className="space-y-2">
+                  <h5 className="text-3xl font-bold text-indigo-900 font-display group-hover:text-indigo-700 transition-colors">{strategy.archetype?.tertiary?.name || 'N/A'}</h5>
+                  <p className="label-xs text-indigo-400 uppercase tracking-widest font-bold">{strategy.archetype?.tertiary?.jungianModel || 'N/A'}</p>
+                </div>
+
+                <div className="space-y-4 flex-grow">
+                  <div className="grid grid-cols-1 gap-3">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Goal</p>
+                      <p className="text-[11px] text-indigo-900/80 leading-relaxed">{strategy.archetype?.tertiary?.goal || 'N/A'}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Fear</p>
+                      <p className="text-[11px] text-indigo-900/80 leading-relaxed">{strategy.archetype?.tertiary?.fear || 'N/A'}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Weakness</p>
+                      <p className="text-[11px] text-indigo-900/80 leading-relaxed">{strategy.archetype?.tertiary?.weakness || 'N/A'}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Talent</p>
+                      <p className="text-[11px] text-indigo-900/80 leading-relaxed">{strategy.archetype?.tertiary?.talent || 'N/A'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4 pt-4 border-t border-indigo-200/50">
+                  <div className="space-y-1">
+                    <h6 className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">In Practice</h6>
+                    <p className="text-xs text-indigo-700 leading-relaxed">{strategy.archetype?.tertiary?.inPractice || 'N/A'}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {strategy.archetype?.tertiary?.traits?.map((trait, i) => (
+                      <span key={i} className="px-2 py-0.5 bg-white text-indigo-600 text-[9px] font-bold rounded-full border border-indigo-200/50 shadow-sm uppercase tracking-tighter">{trait}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
 
               <Card className="border-none shadow-sm bg-white overflow-hidden">
                 <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-brand-100">

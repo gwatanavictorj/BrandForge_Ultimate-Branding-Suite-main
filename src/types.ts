@@ -113,14 +113,34 @@ export interface BrandStrategy {
       innerNeed?: string;
       description: string;
       jungianModel: string;
+      goal: string;
+      fear: string;
+      weakness: string;
+      talent: string;
       traits: string[];
       inPractice: string;
-    };
+    },
     secondary: {
       name: string;
       innerNeed?: string;
       description: string;
       jungianModel: string;
+      goal: string;
+      fear: string;
+      weakness: string;
+      talent: string;
+      traits: string[];
+      inPractice: string;
+    },
+    tertiary: {
+      name: string;
+      innerNeed?: string;
+      description: string;
+      jungianModel: string;
+      goal: string;
+      fear: string;
+      weakness: string;
+      talent: string;
       traits: string[];
       inPractice: string;
     };
