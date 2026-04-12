@@ -96,9 +96,9 @@ export const NotificationPopover = ({
                       onClick={() => onMarkRead(n.id)}
                     >
                       <div className="shrink-0 mt-0.5">{getIcon(n.type)}</div>
-                      <div className="space-y-1 pr-4 relative">
-                        <div className="text-xs font-bold text-slate-900 leading-tight">{n.title}</div>
-                        <div className="text-[11px] text-slate-500 leading-relaxed font-medium line-clamp-2">{n.message}</div>
+                      <div className="space-y-1 pr-4 relative min-w-0 flex-1">
+                        <div className="text-xs font-bold text-slate-900 leading-tight truncate">{n.title}</div>
+                        <div className="text-[11px] text-slate-500 leading-relaxed font-medium line-clamp-2 break-words">{n.message}</div>
                         <div className="flex items-center gap-1 label-xs text-slate-400 pt-1">
                           <Clock className="w-3 h-3" />
                           {new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

@@ -281,6 +281,7 @@ This is the official record of all BrandForge features and UI refinements that h
 - **Tethered Positioning**: Transitioned the notification popover from a fixed coordinate system to a relative tethered model (`top-[calc(100%+12px)]`). This ensures the menu stays perfectly aligned with the notification bell across all viewports.
 - **Zero-Scroll Mobile Architecture**: Implemented dynamic width calculations (`w-[calc(100vw-32px)]`) and `right-0` alignment. This ensures the popover is perfectly centered with consistent gutters, eliminating horizontal scrolling on narrow viewports.
 - **Adaptive Height**: Consolidated the menu with an adaptive maximum height (`max-h-[70vh]`), preventing the container from extending beyond the viewport on smaller devices.
+- **Content Overflow Protection**: Hardened the internal flex layout by applying `min-w-0 flex-1` to notification items, ensuring long strings are truncated or wrapped correctly without expanding the popover's horizontal footprint.
 
 ### 🎨 Visual & Strategic Logic
 - **Premium Entrance**: Updated the motion signature from an upward slide to a subtle "slide-down" reveal (`y: -10` → `y: 0`), creating a more intuitive and high-end interaction feel.
