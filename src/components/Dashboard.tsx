@@ -126,7 +126,7 @@ export const Dashboard = ({
     return (weight + jitter).toFixed(1);
   };
 
-  const displayProjects = (activeTab === 'active' ? activeProjects : activeTab === 'all' ? projects : trashedProjects).filter(project => {
+  const displayProjects = (activeTab === 'active' ? activeProjects : activeTab === 'all' ? activeProjects : trashedProjects).filter(project => {
     const query = searchQuery.toLowerCase().trim();
     if (!query) return true;
     return project.name.toLowerCase().includes(query) || 
