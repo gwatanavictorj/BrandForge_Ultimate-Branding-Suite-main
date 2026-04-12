@@ -196,7 +196,7 @@ export const Dashboard = ({
             <button
               onClick={() => setActiveTab('active')}
               className={cn(
-                "px-3 py-1.5 label rounded-[var(--radius-control)] transition-all cursor-pointer whitespace-nowrap",
+                "px-3 py-1.5 label rounded-[var(--radius-control)] transition-all cursor-pointer whitespace-nowrap flex items-center gap-2",
                 activeTab === 'active' 
                   ? "bg-white text-brand-600 shadow-sm" 
                   : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
@@ -207,15 +207,15 @@ export const Dashboard = ({
             <button
               onClick={() => { setActiveTab('trash'); setSelectedIds(new Set()); }}
               className={cn(
-                "px-3 py-1.5 label rounded-[var(--radius-control)] transition-all cursor-pointer whitespace-nowrap",
+                "px-3 py-1.5 label rounded-[var(--radius-control)] transition-all cursor-pointer whitespace-nowrap flex items-center gap-2",
                 activeTab === 'trash' 
                   ? "bg-white text-slate-900 shadow-sm" 
                   : "text-slate-500 hover:text-slate-700"
               )}
             >
-              Trash
+              <span>Trash</span>
               {trashedProjects.length > 0 && (
-                <span className="w-4 h-4 bg-slate-200 text-slate-600 rounded-full text-[8px] flex items-center justify-center shrink-0 ml-2">
+                <span className="w-4 h-4 bg-slate-200 text-slate-600 rounded-full text-[8px] flex items-center justify-center shrink-0">
                   {trashedProjects.length}
                 </span>
               )}
