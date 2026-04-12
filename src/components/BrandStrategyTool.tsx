@@ -135,6 +135,8 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
   const [strategyError, setStrategyError] = useState<string | null>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const journeyRef = useRef<HTMLDivElement>(null);
   const renderRef = useRef(true);
 
   // Auto-save whenever strategy changes (Debounced to save quota)
@@ -400,6 +402,36 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
         pdf.line(margin, pageHeight - 35, pageWidth - margin, pageHeight - 35);
       };
 
+      // 1. Captured Visual Modules (Capture early before mutations)
+      // Small delay to ensure any layout shifts or animations are settled
+      await new Promise(r => setTimeout(r, 150));
+      
+      const captureOptions = { 
+        scale: 2, 
+        backgroundColor: '#ffffff', 
+        logging: true, // Enable logging for debugging
+        useCORS: true,
+        allowTaint: true,
+        scrollX: 0,
+        scrollY: 0
+      };
+      
+      let mapImg: string | null = null;
+      let journeyImg: string | null = null;
+      
+      try {
+        if (mapRef.current) {
+          const mapCanvas = await html2canvas(mapRef.current, captureOptions);
+          mapImg = mapCanvas.toDataURL('image/png');
+        }
+        if (journeyRef.current) {
+          const journeyCanvas = await html2canvas(journeyRef.current, captureOptions);
+          journeyImg = journeyCanvas.toDataURL('image/png');
+        }
+      } catch (err) {
+        console.error('Snapshot capture failed:', err);
+      }
+
       const checkPage = (needed: number) => {
         if (y + needed > pageHeight - margin - footerHeight) {
           pdf.addPage();
@@ -632,11 +664,20 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       addBody(strategy.marketPosition?.analysis || strategy.marketPosition?.statement || 'N/A');
       
       addSubtitle('Positioning Perceptual Map');
-      drawPositioningMap(
-        { x: strategy.marketPosition?.x ?? 50, y: strategy.marketPosition?.y ?? 50 },
-        strategy.marketPosition?.xLabel || 'Traditional vs Modern',
-        strategy.marketPosition?.yLabel || 'Value vs Premium'
-      );
+      if (mapImg) {
+        checkPage(240);
+        const imgWidth = contentWidth;
+        const imgHeight = (imgWidth * 9) / 21; // Match aspect ratio
+        pdf.addImage(mapImg, 'PNG', margin, y, imgWidth, imgHeight);
+        y += imgHeight + 20;
+      } else {
+        // Fallback to manual drawing if capture fails
+        drawPositioningMap(
+          { x: strategy.marketPosition?.x ?? 50, y: strategy.marketPosition?.y ?? 50 },
+          strategy.marketPosition?.axes?.x || 'X',
+          strategy.marketPosition?.axes?.y || 'Y'
+        );
+      }
 
       addSubtitle('Quadrant Classification');
       addBody(strategy.marketPosition?.quadrant || 'N/A');
@@ -741,19 +782,46 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       
       const useCases = Array.isArray(strategy.archetype?.behavior?.tone?.useCases) ? strategy.archetype.behavior.tone.useCases : [];
       if (useCases.length > 0) {
-        addSpacer();
+        addSpacer(20);
         addSubtitle('Messaging Workbench (Contextual Applications)');
         for (const useCase of useCases) {
           if (!useCase.category || !useCase.platform) continue;
-          checkPage(60);
+          checkPage(100);
+          
+          // Header with a subtle background bar
+          pdf.setFillColor(248, 250, 252); // slate-50
+          pdf.rect(margin, y - 10, contentWidth, 20, 'F');
+          pdf.setDrawColor(241, 245, 249); // slate-100
+          pdf.line(margin, y + 10, margin + contentWidth, y + 10);
+          
           pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(9);
+          pdf.setTextColor(24, 24, 27); // slate-900
+          pdf.text(`${String(useCase.category).toUpperCase()} — ${String(useCase.platform).toUpperCase()}`, margin + 5, y + 3);
+          y += 24;
+          
+          // Content Template
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(8);
+          pdf.setTextColor(113, 113, 122); // slate-500
+          pdf.text('CONTENT TEMPLATE:', margin, y);
+          y += 12;
+          
+          pdf.setFont('helvetica', 'normal');
           pdf.setFontSize(10);
-          pdf.setTextColor(24, 24, 27);
-          pdf.text(`${String(useCase.category).toUpperCase()}: ${String(useCase.platform)}`, margin, y);
-          y += 14;
+          pdf.setTextColor(39, 39, 42); // slate-800
           addBody(useCase.contentTemplate || 'N/A');
-          addBullet(`Strategy: ${useCase.guidelines || 'N/A'}`);
-          addSpacer(8);
+          
+          // Strategic Guidelines
+          y += 6;
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(8);
+          pdf.setTextColor(113, 113, 122);
+          pdf.text('STRATEGY & GUIDELINES:', margin, y);
+          y += 12;
+          
+          addBullet(useCase.guidelines || 'N/A');
+          addSpacer(16);
         }
       }
 
@@ -798,70 +866,48 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
 
       addDivider();
       addTitle('Customer Journey Blueprint');
+      addSubtitle('The Customer Journey Experience');
       
-      const journeyColors = [
-        [0, 77, 64],   // Teal
-        [244, 81, 30], // Orange
-        [26, 35, 126], // Navy
-        [77, 182, 172], // Mint
-        [69, 90, 100]  // Slate
-      ];
+      if (journeyImg) {
+        checkPage(300);
+        // Customer Journey is wide, capture snapshot
+        const imgWidth = contentWidth;
+        const imgHeight = (imgWidth * 1) / 3; // Approximation of the strip aspect
+        pdf.addImage(journeyImg, 'PNG', margin, y, imgWidth, imgHeight);
+        y += imgHeight + 20;
+      } else {
+        // Fallback to manual drawing if capture fails
+        const journeyColors = [
+          [0, 77, 64],   // Teal
+          [244, 81, 30], // Orange
+          [26, 35, 126], // Navy
+          [77, 182, 172], // Mint
+          [69, 90, 100]  // Slate
+        ];
 
-      const journeyStages = Array.isArray(strategy.customerJourney) ? strategy.customerJourney : [];
-      for (let i = 0; i < journeyStages.length; i++) {
-        const stage = journeyStages[i];
-        const color = journeyColors[i % journeyColors.length];
-        
-        checkPage(120);
-        
-        // Stage Header with Color Block
-        pdf.setFillColor(color[0], color[1], color[2]);
-        pdf.rect(margin, y, 120, 20, 'F');
-        
-        pdf.setTextColor(255, 255, 255);
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(8);
-        pdf.text((String(stage.phase || 'STAGE')).toUpperCase(), margin + 10, y + 13);
-        
-        pdf.setTextColor(24, 24, 27);
-        pdf.setFontSize(11);
-        pdf.text((String(stage.stage || 'UNNAMED')).toUpperCase(), margin + 130, y + 14);
-        
-        y += 28;
-        
-        // Vertical connector line
-        if (i < journeyStages.length - 1) {
-          pdf.setDrawColor(color[0], color[1], color[2]);
-          pdf.setLineWidth(1.5);
-          pdf.line(margin + 60, y - 8, margin + 60, y + 80);
+        const journeyStages = Array.isArray(strategy.customerJourney) ? strategy.customerJourney : [];
+        for (let i = 0; i < journeyStages.length; i++) {
+          const stage = journeyStages[i];
+          const color = journeyColors[i % journeyColors.length];
+          checkPage(120);
+          pdf.setFillColor(color[0], color[1], color[2]);
+          pdf.rect(margin, y, 120, 20, 'F');
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(8);
+          pdf.text((String(stage.phase || 'STAGE')).toUpperCase(), margin + 10, y + 13);
+          pdf.setTextColor(24, 24, 27);
+          pdf.setFontSize(11);
+          pdf.text((String(stage.stage || 'UNNAMED')).toUpperCase(), margin + 130, y + 14);
+          y += 28;
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(9);
+          pdf.setTextColor(113, 113, 122);
+          pdf.text('CUSTOMER ACTION', margin + 20, y);
+          y += 12;
+          addBody(stage.action || 'N/A');
+          addSpacer(10);
         }
-        
-        // Content
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(9);
-        pdf.setTextColor(113, 113, 122);
-        pdf.text('CUSTOMER ACTION', margin + 20, y);
-        y += 12;
-        addBody(stage.action || 'N/A');
-        
-        addSpacer(4);
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(8);
-        pdf.text('TOUCHPOINTS', margin + 20, y);
-        y += 10;
-        addBody((stage.touchpoints || []).join(' • ') || 'N/A');
-        
-        addSpacer(4);
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(8);
-        pdf.text('SUCCESS METRICS (KPIs)', margin + 20, y);
-        y += 10;
-        const kpis = Array.isArray(stage.kpis) ? stage.kpis : [];
-        for(const kpi of kpis) {
-          addBullet(kpi);
-        }
-        
-        addSpacer(16);
       }
 
       addDivider();
@@ -1291,7 +1337,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
 
           <Card className="border-none shadow-sm bg-white overflow-hidden">
             <div className="overflow-x-auto no-scrollbar scroll-smooth p-2">
-              <div className="flex gap-0 min-w-max pb-4">
+              <div ref={journeyRef} className="flex gap-0 min-w-max pb-4">
                 {strategy.customerJourney?.map((item, i) => {
                   const Icons = [Eye, RefreshCw, CreditCard, Users, Award];
                   const Icon = Icons[i] || Sparkles;
@@ -1407,7 +1453,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
           <div className="space-y-8">
             <Card title="Market Positioning Map" className="border-none shadow-sm bg-white">
               <div className="flex flex-col gap-12">
-                <div className="w-full aspect-video md:aspect-[21/9] relative bg-brand-50 rounded-[var(--radius-section)] border border-brand-200 overflow-hidden">
+                <div ref={mapRef} className="w-full aspect-video md:aspect-[21/9] relative bg-brand-50 rounded-[var(--radius-section)] border border-brand-200 overflow-hidden">
                   {/* Axes */}
                   <div className="absolute top-1/2 left-0 w-full h-px bg-brand-300" />
                   <div className="absolute top-0 left-1/2 w-px h-full bg-brand-300" />
