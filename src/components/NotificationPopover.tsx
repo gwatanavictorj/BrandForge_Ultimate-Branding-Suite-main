@@ -47,10 +47,10 @@ export const NotificationPopover = ({
         <>
           <div className="fixed inset-0 z-[60]" onClick={onClose} />
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="absolute right-8 top-16 w-80 bg-white rounded-2xl shadow-2xl border border-slate-100 z-[70] overflow-hidden flex flex-col max-h-[500px]"
+            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+            className="absolute right-0 top-[calc(100%+12px)] w-[calc(100vw-32px)] sm:w-80 bg-white rounded-2xl shadow-2xl border border-slate-100 z-[70] overflow-hidden flex flex-col max-h-[70vh] sm:max-h-[500px]"
           >
             {/* Header */}
             <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
