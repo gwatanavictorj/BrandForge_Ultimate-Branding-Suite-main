@@ -257,4 +257,23 @@ This is the official record of all BrandForge features and UI refinements that h
 - **Improved Trait Alignment**: Synchronized the font `traits` array and strategic descriptions to mirror exactly the intended visual direction discovered in the form.
 
 ### 🛠️ Key Files Finalized
-- `src/services/brandService.ts` (AI Prompt logic optimization)
+---
+
+## 📅 2026-04-12: Discovery Export & Persistence Architecture (CERTIFIED)
+
+### 📤 Manual PDF Generation
+- **Manual Export Engine**: Transitioned the Discovery completion flow to a manual PDF generation model. Users can now explicitly trigger high-fidelity PDF exports via a dedicated action button in the completion modal.
+- **Improved UX Feedback**: Integrated the `Download Discovery PDF` action as a secondary high-density button, prioritizing it alongside the Strategy Engine transition.
+
+### 💾 Responsive Data Persistence
+- **Visual Sync Indicators**: Implemented real-time "Saving..." and "Saved" status feedback in the global navbar during the Discovery phase.
+- **Dynamic Labeling**: Optimized sync status labels for mobile (`...` / `Done`) and desktop (`Saving...` / `Saved`) to maintain a clutter-free UI on small viewports.
+
+### 🔔 Notification & UI Hardening
+- **State Management**: Refactored notification popover state logic to ensure stable opening/closing transitions.
+- **Completion Modal Refinement**: Cleaned the final Discovery success modal with a centralized action stack (Strategy Engine, PDF Export, Dashboard) and improved visual spacing.
+
+### 🛠️ Key Files Finalized
+- `src/App.tsx` (Navbar Sync & Notification logic)
+- `src/components/BrandDiscoveryForm.tsx` (Manual PDF Trigger & Completion Modal)
+

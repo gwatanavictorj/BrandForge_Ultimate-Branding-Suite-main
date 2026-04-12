@@ -75,7 +75,17 @@ export default function App() {
   const projectsRef = useRef<BrandProject[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
-  const [showNotifications, setShowNotifications] = useState(false);
+  const [showNotificationPopover, setShowNotificationPopover] = useState(false);
+  const [discoverySaveStatus, setDiscoverySaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+
+  // Discovery Save Status listener
+  useEffect(() => {
+    const handleStatus = (e: any) => {
+      setDiscoverySaveStatus(e.detail);
+    };
+    window.addEventListener('brandforge:discovery-save-status', handleStatus);
+    return () => window.removeEventListener('brandforge:discovery-save-status', handleStatus);
+  }, []);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const addNotification = useCallback(async (n: Omit<AppNotification, 'id' | 'timestamp' | 'read'>) => {
@@ -590,8 +600,31 @@ export default function App() {
                   </div>
                 ) : (
                   <div className="flex items-center gap-1.5 md:gap-3">
-                    <Button variant="secondary" size="micro" className="md:h-9 md:px-5 md:text-sm">Export</Button>
-                    <Button size="micro" className="md:h-9 md:px-5 md:text-sm" onClick={() => updateProjectData({})}>Save</Button>
+                    <Button 
+                      size="micro" 
+                      className={cn(
+                        "md:h-9 md:px-5 md:text-sm transition-all duration-300",
+                        discoverySaveStatus === 'saved' ? "bg-emerald-500 text-white" : "bg-brand-600 text-white"
+                      )} 
+                      onClick={() => window.dispatchEvent(new CustomEvent('brandforge:save-discovery'))}
+                      disabled={discoverySaveStatus === 'saving'}
+                    >
+                      {discoverySaveStatus === 'saving' ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                          <span className="hidden md:inline">Saving...</span>
+                          <span className="md:hidden">...</span>
+                        </>
+                      ) : discoverySaveStatus === 'saved' ? (
+                        <>
+                          <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+                          <span className="hidden md:inline">Saved</span>
+                          <span className="md:hidden">Done</span>
+                        </>
+                      ) : (
+                        'Save'
+                      )}
+                    </Button>
                   </div>
                 )}
                 <div className="hidden md:block h-8 w-px bg-slate-200 mx-1"></div>
@@ -600,10 +633,10 @@ export default function App() {
 
             <div className="flex items-center gap-3 relative">
               <button 
-                onClick={() => setShowNotifications(!showNotifications)}
+                onClick={() => setShowNotificationPopover(!showNotificationPopover)}
                 className={cn(
                   "p-2 hover:bg-slate-100 rounded-xl text-slate-400 relative transition-colors cursor-pointer",
-                  showNotifications && "bg-slate-100 text-brand-600"
+                  showNotificationPopover && "bg-slate-100 text-brand-600"
                 )}
               >
                 {notifications.filter(n => !n.read).length > 0 && (
@@ -612,8 +645,8 @@ export default function App() {
                 <Bell className="w-5 h-5" />
               </button>
               <NotificationPopover 
-                isOpen={showNotifications}
-                onClose={() => setShowNotifications(false)}
+                isOpen={showNotificationPopover}
+                onClose={() => setShowNotificationPopover(false)}
                 notifications={notifications}
                 onMarkRead={onMarkRead}
                 onMarkAllRead={onMarkAllRead}
