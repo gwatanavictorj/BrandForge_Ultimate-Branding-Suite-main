@@ -6,16 +6,17 @@
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-brand-50: #fafafa;
-  --color-brand-100: #f4f4f5;
-  --color-brand-200: #e4e4e7;
-  --color-brand-300: #d4d4d8;
-  --color-brand-400: #a1a1aa;
-  --color-brand-500: #71717a;
-  --color-brand-600: #27272a;
-  --color-brand-700: #18181b;
-  --color-brand-800: #09090b;
-  --color-brand-900: #000000;
+  --color-brand-50: #FAFAFA;
+  --color-brand-100: #F5F5F5;
+  --color-brand-200: #E9EAEB;
+  --color-brand-300: #D5D7DA;
+  --color-brand-400: #A4A7AE;
+  --color-brand-500: #717680;
+  --color-brand-600: #535862;
+  --color-brand-700: #414651;
+  --color-brand-800: #252B37;
+  --color-brand-900: #181D27;
+  --color-brand-950: #0A0D12;
 }
 
 @layer base {
