@@ -467,3 +467,16 @@ This is the official record of all BrandForge features and UI refinements that h
 - `src/components/BrandStrategyTool.tsx` (Strategy event tethering)
 - `src/components/BrandDiscoveryForm.tsx` (Foundation event tethering)
 - `src/components/NotificationPopover.tsx` (Visual indicator sync)
+
+---
+
+## 📅 2026-04-12: Dashboard View Normalization & Metrics Optimization (CERTIFIED)
+
+### 📊 Workspace Layout Refinement
+- **"All Projects" Filter**: Introduced an "All Projects" tab alongside "Recent Projects" and "Trash". This view specifically aggregates all active workspace items while strictly excluding softly deleted (trashed) items.
+- **Interaction Parity**: Synchronized row interactions across "All Projects" and "Recent Projects" views. Click-to-navigate works identically in both tabs, while bulk-action checkboxes have been restricted strictly to the "Trash" view to prevent accidental wide-spread mutations.
+- **Metrics Accuracy**: Renamed the potentially confusing "Tasks Completed" stat on the main dashboard cards to "Projects Completed" to better reflect the system's actual data model.
+
+### 🛠️ Key Files Finalized
+- `src/components/Dashboard.tsx` (Tab logic, View scaling, and text updates)
+- `log_certified_updates.md`
