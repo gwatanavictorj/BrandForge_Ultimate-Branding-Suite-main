@@ -27,7 +27,8 @@ import {
   Shield,
   Eye,
   RotateCcw,
-  AlertTriangle
+  AlertTriangle,
+  Search
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
@@ -87,6 +88,7 @@ export const Dashboard = ({
   const [viewMode, setViewMode] = useState<'grid' | 'list'>(() => {
     return (localStorage.getItem('brandforge_dashboard_view') as 'grid' | 'list') || 'grid';
   });
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     localStorage.setItem('brandforge_dashboard_view', viewMode);
@@ -124,7 +126,12 @@ export const Dashboard = ({
     return (weight + jitter).toFixed(1);
   };
 
-  const displayProjects = activeTab === 'active' ? activeProjects : trashedProjects;
+  const displayProjects = (activeTab === 'active' ? activeProjects : trashedProjects).filter(project => {
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return true;
+    return project.name.toLowerCase().includes(query) || 
+           (project.client && project.client.toLowerCase().includes(query));
+  });
 
   const handleRestoreAll = async () => {
     for (const p of trashedProjects) {
@@ -216,7 +223,7 @@ export const Dashboard = ({
 
       {/* Projects List */}
       <div className="space-y-[var(--space-gap)]">
-        <div className="flex flex-row items-center justify-between gap-[var(--space-gap)]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center bg-slate-100 p-1 rounded-[var(--radius-card)] shrink-0 overflow-x-auto no-scrollbar">
             <button
               onClick={() => setActiveTab('active')}
@@ -246,32 +253,54 @@ export const Dashboard = ({
               )}
             </button>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
-            {/* View Toggle */}
-            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-[var(--radius-card)] ml-auto">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={cn(
-                  "p-1.5 rounded-md transition-all",
-                  viewMode === 'grid' ? "bg-white text-brand-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
-                )}
-                title="Grid View"
-              >
-                <LayoutGrid className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={cn(
-                  "p-1.5 rounded-md transition-all",
-                  viewMode === 'list' ? "bg-white text-brand-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
-                )}
-                title="List View"
-              >
-                <List className="w-4 h-4" />
-              </button>
+
+          <div className="flex items-center gap-2 flex-1 md:justify-end">
+            <div className="relative flex-1 max-w-sm">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+              <Input 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search projects..."
+                className="pl-9 h-9 text-xs border-slate-200 bg-white"
+              />
+              {searchQuery && (
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              )}
             </div>
 
-            {activeTab === 'trash' && (
+            <div className="flex items-center gap-2 shrink-0">
+              {/* View Toggle */}
+              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-[var(--radius-card)] ml-auto">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={cn(
+                    "p-1.5 rounded-md transition-all",
+                    viewMode === 'grid' ? "bg-white text-brand-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                  )}
+                  title="Grid View"
+                >
+                  <LayoutGrid className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={cn(
+                    "p-1.5 rounded-md transition-all",
+                    viewMode === 'list' ? "bg-white text-brand-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                  )}
+                  title="List View"
+                >
+                  <List className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {activeTab === 'trash' && (
               <div className="flex items-center gap-2">
                 <Button 
                   variant="secondary" 
@@ -634,15 +663,25 @@ export const Dashboard = ({
 
           {displayProjects.length === 0 && (
             <div className="col-span-full py-20 flex flex-col items-center justify-center bg-white rounded-2xl border border-dashed border-slate-200">
-              <Folder className="w-12 h-12 text-slate-200 mb-4" />
-              <p className="text-slate-400 font-medium">
-                {activeTab === 'active' ? "No projects yet. Create your first one!" : "Trash is empty."}
-              </p>
-              {activeTab === 'active' && <Button variant="ghost" size="md" className="mt-4" onClick={() => setShowNewModal(true)}>Get Started</Button>}
+              {searchQuery ? (
+                <>
+                  <Search className="w-12 h-12 text-slate-200 mb-4" />
+                  <p className="text-slate-500 font-bold text-lg mb-1">No results for "{searchQuery}"</p>
+                  <p className="text-slate-400 text-sm mb-6">Try searching for a different term or client.</p>
+                  <Button variant="secondary" size="md" onClick={() => setSearchQuery('')}>Clear search</Button>
+                </>
+              ) : (
+                <>
+                  <Folder className="w-12 h-12 text-slate-200 mb-4" />
+                  <p className="text-slate-400 font-medium">
+                    {activeTab === 'active' ? "No projects yet. Create your first one!" : "Trash is empty."}
+                  </p>
+                  {activeTab === 'active' && <Button variant="ghost" size="md" className="mt-4" onClick={() => setShowNewModal(true)}>Get Started</Button>}
+                </>
+              )}
             </div>
           )}
         </div>
-      </div>
 
       {/* New Project Modal */}
       <AnimatePresence>
