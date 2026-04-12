@@ -16,7 +16,14 @@ import {
   Mail,
   ShieldCheck,
   Zap,
-  Clock
+  Clock,
+  User,
+  Database,
+  Palette,
+  Download,
+  Upload,
+  Info,
+  ChevronDown
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { getAIKeys, saveAIKeys, AIProviderType, AIProvider } from '../services/aiProvider';
