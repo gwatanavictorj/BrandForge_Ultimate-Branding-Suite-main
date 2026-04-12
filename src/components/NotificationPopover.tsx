@@ -8,7 +8,9 @@ import {
   XCircle, 
   Trash2,
   Check,
-  Clock
+  Check,
+  Clock,
+  ChevronRight
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { AppNotification } from '../types';
@@ -20,6 +22,7 @@ interface Props {
   onMarkRead: (id: string) => void;
   onMarkAllRead: () => void;
   onClearAll: () => void;
+  onViewAll: () => void;
 }
 
 export const NotificationPopover = ({
@@ -28,7 +31,8 @@ export const NotificationPopover = ({
   onClose,
   onMarkRead,
   onMarkAllRead,
-  onClearAll
+  onClearAll,
+  onViewAll
 }: Props) => {
   const unreadCount = notifications.filter(n => !n.read).length;
 
@@ -121,6 +125,17 @@ export const NotificationPopover = ({
                   </div>
                 </div>
               )}
+            </div>
+
+            {/* Footer Action */}
+            <div className="p-2 border-t border-slate-100 bg-slate-50/50">
+              <button 
+                onClick={onViewAll}
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold text-slate-500 hover:text-brand-600 hover:bg-white transition-all group"
+              >
+                View All Notifications
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </button>
             </div>
           </motion.div>
         </>

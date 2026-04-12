@@ -69,7 +69,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isImporting, setIsImporting] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+  const [showSettings, setShowSettings] = useState<{ open: boolean; category?: string }>({ open: false });
   const [importData, setImportData] = useState<BrandProject[] | null>(null);
   const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const projectsRef = useRef<BrandProject[]>([]);
@@ -651,6 +651,10 @@ export default function App() {
                 onMarkRead={onMarkRead}
                 onMarkAllRead={onMarkAllRead}
                 onClearAll={onClearAll}
+                onViewAll={() => {
+                  setShowNotificationPopover(false);
+                  setShowSettings({ open: true, category: 'notifications' });
+                }}
               />
             </div>
           </div>
@@ -863,11 +867,16 @@ export default function App() {
         )}
       </AnimatePresence>
       <AnimatePresence>
-        {showSettings && (
+        {showSettings.open && (
           <SettingsModal 
-            isOpen={showSettings} 
-            onClose={() => setShowSettings(false)}
+            isOpen={showSettings.open} 
+            initialCategory={showSettings.category as any}
+            onClose={() => setShowSettings({ open: false })}
             projects={projects}
+            notifications={notifications}
+            onMarkRead={onMarkRead}
+            onMarkAllRead={onMarkAllRead}
+            onClearAll={onClearAll}
             onImport={(data) => {
               setProjects([...projects, ...data]);
               addNotification({ 

@@ -16,11 +16,9 @@ import {
   Palette,
   Download,
   Upload,
-  Trash2,
-  ExternalLink,
-  Mail,
-  ShieldCheck,
-  Edit2
+  Edit2,
+  Bell,
+  Check
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { getAIKeys, saveAIKeys, AIProviderType, AIProvider } from '../services/aiProvider';
@@ -49,13 +47,30 @@ interface Props {
   projects?: BrandProject[];
   onImport?: (data: BrandProject[]) => void;
   addNotification: (n: Omit<AppNotification, 'id' | 'timestamp' | 'read'>) => Promise<void>;
+  notifications?: AppNotification[];
+  onMarkRead?: (id: string) => void;
+  onMarkAllRead?: (id: string) => void;
+  onClearAll?: () => void;
+  initialCategory?: SettingsCategory;
 }
 
-type SettingsCategory = 'general' | 'account' | 'ai' | 'data' | 'appearance';
+type SettingsCategory = 'general' | 'account' | 'notifications' | 'ai' | 'data' | 'appearance';
 
-export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImport, addNotification }: Props) => {
+export const SettingsModal = ({ 
+  isOpen, 
+  onClose, 
+  onUpdate, 
+  projects = [], 
+  onImport, 
+  addNotification,
+  notifications = [],
+  onMarkRead,
+  onMarkAllRead,
+  onClearAll,
+  initialCategory = 'general'
+}: Props) => {
   const { user, signOut, updateUser } = useAuth();
-  const [activeCategory, setActiveCategory] = useState<SettingsCategory>('general');
+  const [activeCategory, setActiveCategory] = useState<SettingsCategory>(initialCategory);
   const [keys, setKeys] = useState(getAIKeys());
   const [activeAIProvider, setActiveAIProvider] = useState<AIProviderType>(keys.activeProvider);
   
@@ -203,6 +218,7 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
   const CATEGORIES = [
     { id: 'general', name: 'General', icon: Settings, color: 'text-indigo-600', bgColor: 'bg-indigo-50' },
     { id: 'account', name: 'Account', icon: User, color: 'text-brand-600', bgColor: 'bg-brand-50' },
+    { id: 'notifications', name: 'Notifications', icon: Bell, color: 'text-rose-600', bgColor: 'bg-rose-50' },
     { id: 'ai', name: 'AI Integrations', icon: Cpu, color: 'text-indigo-600', bgColor: 'bg-indigo-50' },
     { id: 'data', name: 'Data Management', icon: Database, color: 'text-amber-600', bgColor: 'bg-amber-50' },
     { id: 'appearance', name: 'Appearance', icon: Palette, color: 'text-rose-600', bgColor: 'bg-rose-50' },
@@ -516,6 +532,92 @@ export const SettingsModal = ({ isOpen, onClose, onUpdate, projects = [], onImpo
                        saveStatus === 'saved' ? 'Account Updated' : 'Save Account Settings'}
                       {saveStatus === 'saved' ? <CheckCircle2 className="w-4 h-4 ml-2" /> : <ShieldCheck className="w-4 h-4 ml-2" />}
                     </Button>
+                  </div>
+                </motion.div>
+              )}
+
+              
+              {activeCategory === 'notifications' && (
+                <motion.div key="notif" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-[var(--space-gap)]">
+                  <div className="p-4 bg-slate-50 rounded-[var(--radius-section)] border border-slate-100 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-400">
+                        <Bell className="w-5 h-5" />
+                      </div>
+                      <div className="space-y-0.5">
+                        <h4 className="h3 text-slate-900">Notification History</h4>
+                        <p className="caption text-slate-500 font-medium">{notifications.length} activities recorded</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                       <button 
+                        onClick={() => onMarkAllRead?.('all')}
+                        className="p-2 hover:bg-slate-200 rounded-xl text-slate-400 hover:text-brand-600 transition-all flex items-center gap-2"
+                        title="Mark all as read"
+                      >
+                        <Check className="w-4 h-4" />
+                        <span className="label-xs hidden sm:inline">Mark all read</span>
+                      </button>
+                      <button 
+                        onClick={() => onClearAll?.()}
+                        className="p-2 hover:bg-rose-50 rounded-xl text-slate-400 hover:text-rose-600 transition-all flex items-center gap-2"
+                        title="Clear history"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        <span className="label-xs hidden sm:inline">Clear Archive</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-[var(--space-item)]">
+                    {notifications.length > 0 ? (
+                      notifications.sort((a,b) => b.timestamp - a.timestamp).map((n) => (
+                        <div 
+                          key={n.id}
+                          onClick={() => onMarkRead?.(n.id)}
+                          className={cn(
+                            "p-4 rounded-[var(--radius-card)] border transition-all cursor-pointer group flex items-start gap-4",
+                            n.read ? "bg-white border-slate-100 hover:border-slate-200" : "bg-brand-50/30 border-brand-100 hover:border-brand-200 shadow-sm"
+                          )}
+                        >
+                          <div className={cn(
+                            "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5",
+                            n.type === 'success' ? "bg-emerald-50 text-emerald-500" :
+                            n.type === 'warning' ? "bg-amber-50 text-amber-500" :
+                            n.type === 'error' ? "bg-rose-50 text-rose-500" :
+                            "bg-blue-50 text-blue-500"
+                          )}>
+                             <Bell className="w-4 h-4" />
+                          </div>
+                          <div className="flex-1 space-y-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <h5 className="text-xs font-bold text-slate-900 truncate pr-4">{n.title}</h5>
+                              <span className="label-xs text-slate-400 whitespace-nowrap flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                {new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' })}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-600 leading-relaxed font-medium">{n.message}</p>
+                            {!n.read && (
+                              <div className="flex items-center gap-1.5 pt-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-brand-600 animate-pulse" />
+                                <span className="label-xs text-brand-600 font-bold uppercase tracking-widest">New Session Activity</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="p-20 text-center space-y-4">
+                        <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto border border-slate-100">
+                          <Bell className="w-8 h-8 text-slate-200" />
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-sm font-bold text-slate-900">No Historical Records</p>
+                          <p className="text-xs text-slate-400 font-medium italic">Your activity timeline is currently empty.</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               )}

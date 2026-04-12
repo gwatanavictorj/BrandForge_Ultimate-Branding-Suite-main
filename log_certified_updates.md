@@ -286,6 +286,24 @@ This is the official record of all BrandForge features and UI refinements that h
 - **Global Stacking Standard**: Standardized the popover to a `fixed` positioning layer (`z-[70]`). This resolves stacking context conflicts where the `fixed` backdrop was escaping the header's relative boundary and obscuring the menu. Users can now interact with notifications on the first click with 100% reliability.
 - **Precision Desktop Alignment**: Anchored the fixed popover to `right-8` and `top-16`, perfectly synchronizing with the responsive header padding and height for a native, high-fidelity experience.
 
+---
+
+## 📅 2026-04-12: Notification Center & Historical Archive (CERTIFIED)
+
+### 🏗️ Extended Viewing Experience
+- **"View All" Integration**: Implemented a dedicated "View All Notifications" action in the popover footer, providing a seamless bridge to the full-page history.
+- **Dedicated Settings Tab**: Integrated a primary `Notifications` category within the Settings Modal, serving as the platform's central Notification Center.
+- **Historical Archive**: Developed a high-density chronological list view for all project activities, featuring full-width messages, precise time/date stamps, and visual status markers.
+
+### 🛠️ Global Management Tools
+- **Bulk Operations**: Added "Mark all as read" and "Clear Archive" triggers within the detailed settings view for efficient library maintenance.
+- **Empty State Design**: Crafted a clean, illustrated empty state for the notification archive to maintain visual polishedness when no records are present.
+
+### 🛠️ Key Files Finalized
+- `src/components/SettingsModal.tsx` (Notification Center Implementation)
+- `src/components/NotificationPopover.tsx` (View All connectivity)
+- `src/App.tsx` (Tab state bridging & Prop delegation)
+
 ### 🛠️ Key Files Finalized
 - `src/components/NotificationPopover.tsx` (Responsive Logic & Motion Refactoring)
 - `src/App.tsx` (Container Audit & Sync)
