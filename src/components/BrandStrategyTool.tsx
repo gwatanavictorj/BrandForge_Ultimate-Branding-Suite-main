@@ -759,35 +759,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
 
       addDivider();
       addTitle('Identity System');
-      addSubtitle('Visual Essence & Logo Strategy');
       
-      const logoOptions = Array.isArray(strategy.identitySystem?.logoOptions) ? strategy.identitySystem.logoOptions : [];
-      for (const opt of logoOptions) {
-        checkPage(60);
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(10);
-        pdf.setTextColor(24, 24, 27);
-        pdf.text(`${(String(opt.strategy || 'Concept')).toUpperCase()} CONCEPT`, margin, y);
-        y += 14;
-        
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(8);
-        pdf.setTextColor(113, 113, 122);
-        pdf.text('PROPOSITIONAL DENSITY ANALYSIS:', margin, y);
-        y += 12;
-        
-        pdf.setFont('helvetica', 'normal');
-        pdf.setFontSize(9);
-        addBullet(`Surface (Pv): ${opt.propositionalDensity?.surface || 'N/A'}`);
-        addBullet(`Semantic (Ps): ${opt.propositionalDensity?.semantic || 'N/A'}`);
-        addBullet(`Semantics: ${opt.propositionalDensity?.rationale || 'N/A'}`);
-        
-        addSpacer(4);
-        addBullet(`Visual Language: ${(opt.shapes || []).join(', ')}`);
-        addBullet(`Symbolic Nodes: ${(opt.symbols || []).join(', ')}`);
-        addSpacer(12);
-      }
-      addSpacer();
       addSubtitle('Strategic Color Palette');
       const colors = Array.isArray(strategy.identitySystem?.colors) ? strategy.identitySystem.colors : [];
       for (let i = 0; i < colors.length; i++) {
