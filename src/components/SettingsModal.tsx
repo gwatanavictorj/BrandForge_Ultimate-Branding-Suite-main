@@ -85,7 +85,7 @@ export const SettingsModal = ({
   const [accountState, setAccountState] = useState({
     displayName: user?.displayName || '',
     email: user?.email || '',
-    photoURL: user?.photoURL || '',
+    photoURL: user?.photoURL || PREDEFINED_AVATARS[0],
     password: '',
     entityType: user?.entityType || 'freelancer',
     agencyName: user?.agencyName || '',
