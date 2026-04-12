@@ -544,14 +544,14 @@ export const SettingsModal = ({
               
               {activeCategory === 'notifications' && (
                 <motion.div key="notif" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-[var(--space-gap)]">
-                  <div className="p-4 bg-slate-50 rounded-[var(--radius-section)] border border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-400">
+                  <div className="p-4 bg-slate-50 rounded-[var(--radius-section)] border border-slate-100 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-9 h-9 bg-white rounded-xl shadow-sm flex items-center justify-center text-slate-400 shrink-0">
                         <Bell className="w-5 h-5" />
                       </div>
-                      <div className="space-y-0.5">
-                        <h4 className="h3 text-slate-900">Notification History</h4>
-                        <p className="caption text-slate-500 font-medium">{notifications.length} activities recorded</p>
+                      <div className="space-y-0.5 min-w-0">
+                        <h4 className="h3 text-slate-900 truncate">Notification History</h4>
+                        <p className="caption text-slate-500 font-medium truncate">{notifications.length} activities recorded</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -595,14 +595,14 @@ export const SettingsModal = ({
                              <Bell className="w-4 h-4" />
                           </div>
                           <div className="flex-1 space-y-1 min-w-0">
-                            <div className="flex items-center justify-between">
-                              <h5 className="text-xs font-bold text-slate-900 truncate pr-4">{n.title}</h5>
-                              <span className="label-xs text-slate-400 whitespace-nowrap flex items-center gap-1">
+                            <div className="flex items-center justify-between gap-4">
+                              <h5 className="text-xs font-bold text-slate-900 truncate min-w-0 flex-1">{n.title}</h5>
+                              <span className="label-xs text-slate-400 whitespace-nowrap flex items-center gap-1 shrink-0">
                                 <Clock className="w-3 h-3" />
                                 {new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' })}
                               </span>
                             </div>
-                            <p className="text-[11px] text-slate-600 leading-relaxed font-medium">{n.message}</p>
+                            <p className="text-[11px] text-slate-600 leading-relaxed font-medium break-words">{n.message}</p>
                             {!n.read && (
                               <div className="flex items-center gap-1.5 pt-1">
                                 <span className="w-1.5 h-1.5 rounded-full bg-brand-600 animate-pulse" />
