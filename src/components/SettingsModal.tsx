@@ -8,17 +8,15 @@ import {
   CheckCircle2,
   AlertCircle,
   Shield,
-  Zap,
-  Info,
-  ChevronDown,
-  User,
-  Database,
-  Palette,
-  Download,
-  Upload,
   Edit2,
   Bell,
-  Check
+  Check,
+  Trash2,
+  ExternalLink,
+  Mail,
+  ShieldCheck,
+  Zap,
+  Clock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { getAIKeys, saveAIKeys, AIProviderType, AIProvider } from '../services/aiProvider';
