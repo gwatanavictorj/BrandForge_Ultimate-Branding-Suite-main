@@ -298,7 +298,7 @@ export const Dashboard = ({
             <Card 
               key={project.id} 
               className={cn(
-                "group transition-all p-0 overflow-visible relative rounded-[32px] overflow-hidden",
+                "group transition-all p-0 relative rounded-[32px] overflow-visible",
                 activeTab === 'active' ? "hover:border-brand-300 cursor-pointer" : "cursor-default"
               )} 
             >

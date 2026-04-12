@@ -302,4 +302,5 @@ This is the official record of all BrandForge features and UI refinements that h
 ### 🏗️ Dashboard & Workspace Refinement
 - **Zero-Wrap Tabs**: Applied `flex items-center gap-2` to the dashboard tab switcher, ensuring the "Trash" label and count badge remain on a single horizontal line across all device sizes.
 - **Improved Alignment**: Standardized spacing between icons and text in the project filtering tabs for a more balanced visual rhythm.
+- **Project Card Menu Visibility**: Fixed a UI bug where the project action dropdown was being clipped by the card's boundaries. By standardizing the container to `overflow-visible`, menus now correctly overlay the dashboard grid for improved accessibility.
 
