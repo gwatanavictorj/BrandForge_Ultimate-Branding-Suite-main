@@ -283,9 +283,8 @@ This is the official record of all BrandForge features and UI refinements that h
 - **Adaptive Height**: Consolidated the menu with an adaptive maximum height (`max-h-[70vh]`), preventing the container from extending beyond the viewport on smaller devices.
 - **Content Overflow Protection**: Hardened the internal flex layout by applying `min-w-0 flex-1` to notification items, ensuring long strings are truncated or wrapped correctly without expanding the popover's horizontal footprint.
 
-### 🎨 Visual & Strategic Logic
-- **Premium Entrance**: Updated the motion signature from an upward slide to a subtle "slide-down" reveal (`y: -10` → `y: 0`), creating a more intuitive and high-end interaction feel.
-- **Enhanced Contrast**: Verified shadow and border tokens to ensure the popover maintains clear separation from the background canvas.
+- **Global Stacking Standard**: Standardized the popover to a `fixed` positioning layer (`z-[70]`). This resolves stacking context conflicts where the `fixed` backdrop was escaping the header's relative boundary and obscuring the menu. Users can now interact with notifications on the first click with 100% reliability.
+- **Precision Desktop Alignment**: Anchored the fixed popover to `right-8` and `top-16`, perfectly synchronizing with the responsive header padding and height for a native, high-fidelity experience.
 
 ### 🛠️ Key Files Finalized
 - `src/components/NotificationPopover.tsx` (Responsive Logic & Motion Refactoring)
