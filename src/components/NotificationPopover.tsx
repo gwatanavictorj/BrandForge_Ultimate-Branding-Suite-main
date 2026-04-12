@@ -8,7 +8,6 @@ import {
   XCircle, 
   Trash2,
   Check,
-  Check,
   Clock,
   ChevronRight
 } from 'lucide-react';
