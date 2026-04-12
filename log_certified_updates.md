@@ -425,6 +425,23 @@ This is the official record of all BrandForge features and UI refinements that h
 *   **Scanning Efficiency**:
     *   Stacked layout allows users to scan through linguistic types (Real Words, Invented, etc.) linearly without horizontal eye movement.
 
-#### **Files Verified:**
 - `src/components/LogoAssistant.tsx`
+- `log_certified_updates.md`
+
+---
+
+## 📅 2026-04-12: Logo Assistant Calibration & High-Fidelity PDF Export (CERTIFIED)
+
+### 🏗️ Stabilization & Navigation Bridge
+- **Event Bridge Stabilization**: Implemented stable `useRef` handlers in `LogoAssistant.tsx` to prevent event listener staleness, ensuring the global header's **Save** and **Export** buttons are 100% responsive.
+- **Persistence Hardening**: Added an `onSave` prop bridge to trigger immediate Firestore synchronization upon manual save, bypassing the standard debounce for instant feedback.
+
+### 📤 High-Fidelity Strategy Export
+- **Professional Blueprint Engine**: Refactored the PDF export logic with a modular helper system, enabling automatic page breaks, a dedicated **Cover Page**, and persistent **Header/Footer branding**.
+- **Rich Noun Detail Integration**: Upgraded the "Brand Noun Toolkit" section to include full strategic context. Results now display the **Word**, **Linguistic Territory**, and **Visual Anchor** (e.g., "Tapestry (Human-Centric): Intricately woven fabric").
+- **Visual Rhythm**: Standardized all PDF sections (Directions, Smushes, Variations) with professional Slate 800/600 typography and brand blue accents.
+
+### 🛠️ Key Files Finalized
+- `src/components/LogoAssistant.tsx`
+- `src/App.tsx`
 - `log_certified_updates.md`

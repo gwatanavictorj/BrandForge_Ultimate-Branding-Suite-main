@@ -88,6 +88,34 @@ export default function App() {
     window.addEventListener('brandforge:discovery-save-status', handleStatus);
     return () => window.removeEventListener('brandforge:discovery-save-status', handleStatus);
   }, []);
+
+  const [logoSaveStatus, setLogoSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+
+  // Logo Save Status listener
+  useEffect(() => {
+    const handleStatus = (e: any) => {
+      setLogoSaveStatus(e.detail);
+    };
+    window.addEventListener('brandforge:logo-save-status', handleStatus);
+    return () => window.removeEventListener('brandforge:logo-save-status', handleStatus);
+  }, []);
+
+  const handleNotificationNavigate = useCallback((link: string) => {
+    console.log('Navigating via notification link:', link);
+    if (link.startsWith('step:')) {
+      const step = link.replace('step:', '') as Step;
+      setCurrentStep(step);
+    } else if (link.startsWith('project:')) {
+      const parts = link.split(':');
+      // project:{id}:step:{step}
+      const projectId = parts[1];
+      const stepIndex = parts.indexOf('step');
+      const step = stepIndex !== -1 ? parts[stepIndex + 1] as Step : 'discovery';
+      
+      setActiveProjectId(projectId);
+      setCurrentStep(step);
+    }
+  }, []);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [tempName, setTempName] = useState('');
@@ -216,7 +244,8 @@ export default function App() {
       addNotification({
         type: 'success',
         title: 'Project Created',
-        message: `Successfully initialized "${name}" for ${client}.`
+        message: `Successfully initialized "${name}" for ${client}.`,
+        link: `project:${projectId}:step:discovery`
       });
     } catch (error) {
       handleFirestoreError(error, OperationType.CREATE, `projects/${projectId}`);
@@ -281,7 +310,8 @@ export default function App() {
       addNotification({
         type: 'success',
         title: 'Project Restored',
-        message: `Project has been recovered from trash.`
+        message: `Project has been recovered from trash.`,
+        link: `project:${projectId}:step:discovery`
       });
     } catch (error) {
       setError(`Failed to restore project: ${error}`);
@@ -641,6 +671,44 @@ export default function App() {
                       <span className="md:hidden">Approve</span>
                     </Button>
                   </div>
+                ) : currentStep === 'logo' ? (
+                  <div className="flex items-center gap-1.5 md:gap-3">
+                    <Button 
+                      variant="secondary" 
+                      size="micro" 
+                      className="md:h-9 md:px-5 md:text-sm text-brand-600 border-brand-100 hover:bg-brand-50"
+                      onClick={() => window.dispatchEvent(new CustomEvent('brandforge:export-logo'))}
+                    >
+                      <Download className="w-3.5 h-3.5 mr-1.5" />
+                      <span className="hidden md:inline">Export (PDF)</span>
+                      <span className="md:hidden">Export</span>
+                    </Button>
+                    <Button 
+                      size="micro" 
+                      className={cn(
+                        "md:h-9 md:px-5 md:text-sm transition-all duration-300",
+                        logoSaveStatus === 'saved' ? "bg-emerald-500 text-white" : "bg-brand-600 text-white"
+                      )} 
+                      onClick={() => window.dispatchEvent(new CustomEvent('brandforge:save-logo'))}
+                      disabled={logoSaveStatus === 'saving'}
+                    >
+                      {logoSaveStatus === 'saving' ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                          <span className="hidden md:inline">Saving...</span>
+                          <span className="md:hidden">...</span>
+                        </>
+                      ) : logoSaveStatus === 'saved' ? (
+                        <>
+                          <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+                          <span className="hidden md:inline">Saved</span>
+                          <span className="md:hidden">Done</span>
+                        </>
+                      ) : (
+                        'Save'
+                      )}
+                    </Button>
+                  </div>
                 ) : (
                   <div className="flex items-center gap-1.5 md:gap-3">
                     <Button 
@@ -694,6 +762,7 @@ export default function App() {
                 onMarkRead={onMarkRead}
                 onMarkAllRead={onMarkAllRead}
                 onClearAll={onClearAll}
+                onNavigate={handleNotificationNavigate}
                 onViewAll={() => {
                   setShowNotificationPopover(false);
                   setShowSettings({ open: true, category: 'notifications' });
@@ -746,7 +815,8 @@ export default function App() {
                       addNotification({ 
                         title: 'Discovery Session Completed', 
                         type: 'success', 
-                        message: `The foundation for ${activeProject.name} is ready for strategy generation.` 
+                        message: `The foundation for ${activeProject.name} is ready for strategy generation.`,
+                        link: `project:${activeProject.id}:step:strategy`
                       });
                       await updateProjectData({ discovery: data }, true);
                       if (nextStep === 'dashboard') {
@@ -776,7 +846,8 @@ export default function App() {
                       addNotification({ 
                         title: 'Strategic Pillars Generated', 
                         type: 'success', 
-                        message: `Brand messaging and strategy for ${activeProject.name} have been finalized.` 
+                        message: `Brand messaging and strategy for ${activeProject.name} have been finalized.`,
+                        link: `project:${activeProject.id}:step:logo`
                       });
                       try {
                         await updateProjectData({ strategy: data }, true);
@@ -805,6 +876,7 @@ export default function App() {
                     onUpdate={(data) => {
                       updateProjectData({ logoAssistant: data });
                     }}
+                    onSave={(data) => updateProjectData({ logoAssistant: data }, true)}
                     onComplete={async (data) => {
                       addNotification({ 
                         title: 'Logo Direction Finalized', 
