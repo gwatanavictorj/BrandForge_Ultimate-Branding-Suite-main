@@ -420,11 +420,13 @@ export const brandService = {
           - IMPORTANT: Ensure the positioning statement and analysis are grounded STRICTLY in the actual discovery data provided (strengths: ${discovery.strengths?.join(', ')}, differentiation: ${discovery.differentiation}). Avoid any mention of "Gaswerk" or other unrelated entities unless they are in the discovery data.
 
           3. BRAND ARCHETYPE (STRICT JUNG MODEL):
-          - MAPPING TECHNIQUE: You must first identify at least 3 'Strategic Signals' from the brand's mission (${discovery.mission}), values (${discovery.coreValues?.join(', ')}), and attributes (${discovery.brandFeel?.join(', ')}).
-          - PRIMARY ARCHETYPE: Select the primary archetype (Creator, Caregiver, Ruler, Hero, Outlaw, Lover, Jester, Everyman, Sage, Explorer, Magician, Innocent) that provides the highest logical coverage for these signals.
-          - JUSTIFICATION (IN PRACTICE): In the 'inPractice' field, you MUST specifically reference which core value or mission statement led to this archetype selection.
-          - SECONDARY ARCHETYPE: Select a supporting archetype that adds depth or nuances the brand's personality without contradicting the primary.
-          - RIGOR: Avoid generic suggestions. If two archetypes seem possible, choose the one most aligned with the brand's stated PURPOSE and PROBLEM SOLVING approach.
+          - MAPPING TECHNIQUE: You must first identify at least 3 'Strategic Signals' from the brand's mission, values, and attributes.
+          - THE JUNGIAN WHEEL: Use the following 12 Archetypes & their associated Inner Needs:
+            * Creator (Innovation), Caregiver (Service), Ruler (Control), Hero (Mastery), Explorer (Freedom), Sage (Understanding), Magician (Power), Everyman (Belonging), Lover (Intimacy), Jester (Enjoyment), Innocent (Safety), Outlaw (Liberation).
+          - PRIMARY ARCHETYPE: Select the dominant archetype based on which 'Inner Need' matches the user's Discovery data EXACTLY.
+          - innerNeed: This is a MANDATORY field. Use the exact word from the list above.
+          - JUSTIFICATION (IN PRACTICE): Reference which core value or mission statement led to this specific Inner Need selection.
+          - SECONDARY ARCHETYPE: Select a supporting archetype that adds depth.
 
           4. CORE STRATEGY:
           - Define Purpose, Mission, Brand Idea, Promise, and Differentiation.
@@ -463,8 +465,11 @@ export const brandService = {
           - IMPORTANT: Ground all templates STRICTLY in the brand purpose (${discovery.mission}).
 
           6. IDENTITY SYSTEM (VISUALS):
-          - COLORS: If 1-2 colors are provided, add 2 complementary colors using color theory. If none, recommend 1 primary and 3 complementary colors.
-          - Include hex codes, meanings, and specific areas of application for each.
+          - COLORS: YOU MUST prioritize user input. If the Discovery contains specific color mentions (e.g., "Deep Blue", "Gold"), use these as the anchored brand colors.
+          - COLOR THEORY RIGOR: Generate the rest of the palette (accents/secondary) based on professional COLOR WHEEL HARMONIES (Complementary, Analogous, or Triadic). 
+          - ACCESSIBILITY: Ensure the chosen palette maintains high contrast ratios (WCAG AA/AAA standards) for legibility.
+          - STRATEGIC MEANING: Assign symbolic meanings and specific application areas (e.g., "Primary for identity," "Accent for CTA") that align with the brand's industry and archetype.
+          - Include hex codes, meanings, and specific areas of application for each (3-5 colors total).
           - LOGO DIRECTION: Provide a structured breakdown including:
             - description: Core visual strategy (how it feels).
             - shapes: 3-5 specific shapes (e.g., 'Circular', 'Geometric Grid', 'Overlapping forms').

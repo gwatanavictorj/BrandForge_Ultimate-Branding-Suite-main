@@ -19,6 +19,8 @@ const STRATEGIC_WEIGHTS = {
 
 interface ArchetypeData {
   name: string;
+  group: 'Spirituality' | 'Legacy' | 'Connection' | 'Structure';
+  innerNeed: string;
   description: string;
   jungianModel: string;
   traits: string[];
@@ -29,99 +31,123 @@ interface ArchetypeData {
 const ARCHETYPES: ArchetypeData[] = [
   {
     name: 'Creator',
+    group: 'Structure',
+    innerNeed: 'Innovation',
     description: 'The Creator archetype is driven by a desire to produce something of enduring value. They believe that if it can be imagined, it can be made.',
-    jungianModel: 'The Creator represents the archetypal artist within us — the drive to express vision and bring new things into existence.',
+    jungianModel: 'Innovation & Structure: The Creator represents the archetypal artist — the drive to express vision and bring new things into existence.',
     traits: ['Innovative', 'Imaginative', 'Expressive', 'Original', 'Visionary'],
-    inPractice: 'The brand communicates through bold design, original content, and an emphasis on craft and quality in every touchpoint.',
-    keywords: ['innovative', 'creative', 'expressive', 'design', 'art', 'build', 'craft', 'original', 'technology', 'software', 'identity-driven']
+    inPractice: 'The brand communicates through bold design, original content, and an emphasis on craft and quality.',
+    keywords: ['innovation', 'creative', 'expressive', 'design', 'art', 'build', 'craft', 'original', 'technology', 'software']
   },
   {
     name: 'Caregiver',
+    group: 'Structure',
+    innerNeed: 'Service',
     description: 'The Caregiver archetype is motivated by generosity and a desire to protect and care for others.',
-    jungianModel: 'The Caregiver embodies the nurturing parent — selfless, compassionate, and devoted to the well-being of others.',
+    jungianModel: 'Service & Structure: The Caregiver embodies the nurturing parent — selfless, compassionate, and devoted to well-being.',
     traits: ['Compassionate', 'Nurturing', 'Generous', 'Supportive', 'Trustworthy'],
-    inPractice: 'The brand prioritizes customer well-being, offers exceptional support, and communicates with warmth and empathy.',
-    keywords: ['care', 'health', 'support', 'nurture', 'protect', 'safe', 'medical', 'wellness', 'help', 'comfort']
+    inPractice: 'The brand prioritizes customer well-being, offers exceptional support, and communicates with warmth.',
+    keywords: ['service', 'care', 'health', 'support', 'nurture', 'protect', 'safe', 'medical', 'wellness', 'help', 'comfort']
   },
   {
     name: 'Ruler',
+    group: 'Structure',
+    innerNeed: 'Control',
     description: 'The Ruler archetype seeks to create order and structure. They lead with authority, responsibility, and a desire for lasting impact.',
-    jungianModel: 'The Ruler represents the sovereign within — the drive for control, stability, and leadership that creates order from chaos.',
+    jungianModel: 'Control & Structure: The Ruler represents the sovereign — the drive for stability and leadership that creates order.',
     traits: ['Authoritative', 'Commanding', 'Refined', 'Decisive', 'Responsible'],
-    inPractice: 'The brand positions itself as the industry leader, uses polished visuals, and communicates with confidence and exclusivity.',
-    keywords: ['luxury', 'premium', 'prestige', 'leader', 'authority', 'exclusive', 'elite', 'royal', 'heritage', 'legacy']
+    inPractice: 'The brand positions itself as the industry leader, uses polished visuals, and communicates with confidence.',
+    keywords: ['control', 'luxury', 'premium', 'prestige', 'leader', 'authority', 'exclusive', 'elite', 'royal', 'heritage', 'legacy']
   },
   {
     name: 'Hero',
+    group: 'Legacy',
+    innerNeed: 'Mastery',
     description: 'The Hero archetype is driven to prove their worth through courageous action and determination.',
-    jungianModel: 'The Hero represents the warrior archetype — the inner drive to rise, compete, and triumph against adversity.',
+    jungianModel: 'Mastery & Legacy: The Hero represents the warrior — the inner drive to rise, compete, and triumph against adversity.',
     traits: ['Bold', 'Courageous', 'Determined', 'Inspiring', 'Competitive'],
     inPractice: 'The brand inspires action, showcases achievements, and positions customers as capable of overcoming challenges.',
-    keywords: ['bold', 'impact', 'performance', 'strong', 'fast', 'efficient', 'achieve', 'sports', 'fitness', 'empower']
+    keywords: ['mastery', 'bold', 'impact', 'performance', 'strong', 'fast', 'efficient', 'achieve', 'sports', 'fitness', 'empower']
   },
   {
     name: 'Explorer',
+    group: 'Spirituality',
+    innerNeed: 'Freedom',
     description: 'The Explorer archetype yearns for discovery, freedom, and the thrill of new experiences.',
-    jungianModel: 'The Explorer embodies the wanderer archetype — the search for authenticity and meaning through new experiences.',
+    jungianModel: 'Freedom & Spirituality: The Explorer embodies the wanderer — the search for authenticity and meaning through discovery.',
     traits: ['Adventurous', 'Independent', 'Ambitious', 'Pioneering', 'Authentic'],
-    inPractice: 'The brand encourages discovery, uses expansive imagery, and promises new possibilities and self-discovery.',
-    keywords: ['travel', 'adventure', 'explore', 'discover', 'freedom', 'journey', 'outdoor', 'experience', 'tourism', 'destination']
+    inPractice: 'The brand encourages discovery, uses expansive imagery, and promises new possibilities.',
+    keywords: ['freedom', 'travel', 'adventure', 'explore', 'discover', 'journey', 'outdoor', 'experience', 'tourism']
   },
   {
     name: 'Sage',
+    group: 'Spirituality',
+    innerNeed: 'Understanding',
     description: 'The Sage archetype seeks truth, knowledge, and understanding. They believe that wisdom is the path to true power.',
-    jungianModel: 'The Sage represents the wise mentor — the pursuit of truth, knowledge, and enlightenment through careful analysis.',
+    jungianModel: 'Understanding & Spirituality: The Sage represents the wise mentor — the pursuit of truth and knowledge through analysis.',
     traits: ['Wise', 'Analytical', 'Knowledgeable', 'Thoughtful', 'Expert'],
     inPractice: 'The brand leads with data, thought leadership, educational content, and positions itself as the trusted authority.',
-    keywords: ['consulting', 'education', 'knowledge', 'expert', 'research', 'data', 'analytics', 'wisdom', 'professional']
+    keywords: ['understanding', 'consulting', 'education', 'knowledge', 'expert', 'research', 'data', 'analytics', 'wisdom']
   },
   {
     name: 'Magician',
+    group: 'Legacy',
+    innerNeed: 'Power',
     description: 'The Magician archetype transforms visions into reality. They create extraordinary experiences that feel almost magical.',
-    jungianModel: 'The Magician represents the shaman archetype — the ability to transform consciousness and create new realities.',
+    jungianModel: 'Power & Legacy: The Magician represents the shaman — the ability to transform consciousness and create new realities.',
     traits: ['Visionary', 'Transformative', 'Charismatic', 'Catalytic', 'Inspiring'],
-    inPractice: 'The brand promises transformation, uses aspirational messaging, and creates experiences that feel elevated and special.',
-    keywords: ['transform', 'magic', 'vision', 'innovation', 'tech-driven', 'disrupt', 'unforgettable', 'extraordinary']
+    inPractice: 'The brand promises transformation, uses aspirational messaging, and creates experiences that feel elevated.',
+    keywords: ['power', 'transform', 'magic', 'vision', 'innovation', 'tech-driven', 'disrupt', 'unforgettable', 'extraordinary']
   },
   {
     name: 'Everyman',
+    group: 'Connection',
+    innerNeed: 'Belonging',
     description: 'The Everyman archetype believes in belonging, connection, and the dignity of every person.',
-    jungianModel: 'The Everyman represents the common person — the desire for connection, equality, and shared human experience.',
+    jungianModel: 'Belonging & Connection: The Everyman represents the common person — the desire for equality and shared human experience.',
     traits: ['Relatable', 'Down-to-earth', 'Honest', 'Friendly', 'Genuine'],
-    inPractice: 'The brand uses approachable language, inclusive imagery, and positions itself as accessible to everyone.',
-    keywords: ['friendly', 'approachable', 'accessible', 'affordable', 'community', 'everyone', 'simple', 'honest', 'real', 'unifying', 'belonging', 'connection', 'hub']
+    inPractice: 'The brand uses approachable language, inclusive imagery, and positions itself as accessible.',
+    keywords: ['belonging', 'connection', 'friendly', 'approachable', 'accessible', 'affordable', 'community', 'everyone', 'simple', 'honest']
   },
   {
     name: 'Lover',
+    group: 'Connection',
+    innerNeed: 'Intimacy',
     description: 'The Lover archetype is driven by passion, intimacy, and the pursuit of beauty and connection.',
-    jungianModel: 'The Lover represents the passionate self — the pursuit of intimacy, pleasure, and aesthetic beauty.',
+    jungianModel: 'Intimacy & Connection: The Lover represents the passionate self — the pursuit of pleasure and aesthetic beauty.',
     traits: ['Passionate', 'Sensual', 'Warm', 'Intimate', 'Elegant'],
-    inPractice: 'The brand uses rich, sensory language and visuals, creating emotional connections and premium aesthetic experiences.',
-    keywords: ['passion', 'beauty', 'fashion', 'style', 'elegant', 'romance', 'luxury', 'aesthetic', 'apparel']
+    inPractice: 'The brand uses rich, sensory language and visuals, creating emotional connections and premium experiences.',
+    keywords: ['intimacy', 'passion', 'beauty', 'fashion', 'style', 'elegant', 'romance', 'luxury', 'aesthetic']
   },
   {
     name: 'Jester',
+    group: 'Connection',
+    innerNeed: 'Enjoyment',
     description: 'The Jester archetype lives to enjoy the moment and lighten the world with humor and spontaneity.',
-    jungianModel: 'The Jester represents the trickster archetype — the desire to live joyfully and bring laughter to others.',
+    jungianModel: 'Enjoyment & Connection: The Jester represents the trickster — the desire to live joyfully and bring laughter.',
     traits: ['Playful', 'Humorous', 'Energetic', 'Spontaneous', 'Entertaining'],
     inPractice: 'The brand uses humor, bold colors, and irreverent messaging to stand out and make customers smile.',
-    keywords: ['playful', 'vibrant', 'fun', 'entertainment', 'media', 'gaming', 'social', 'lively', 'energetic']
+    keywords: ['enjoyment', 'playful', 'vibrant', 'fun', 'entertainment', 'media', 'gaming', 'social', 'lively', 'energetic']
   },
   {
     name: 'Innocent',
+    group: 'Spirituality',
+    innerNeed: 'Safety',
     description: 'The Innocent archetype seeks happiness, goodness, and simplicity. They want to do things the right way.',
-    jungianModel: 'The Innocent represents the child archetype — the belief in goodness, optimism, and a better world.',
+    jungianModel: 'Safety & Spirituality: The Innocent represents the child — the belief in goodness, optimism, and a better world.',
     traits: ['Optimistic', 'Pure', 'Honest', 'Simple', 'Trustworthy'],
-    inPractice: 'The brand communicates with simplicity, transparency, and a positive, wholesome tone across all channels.',
-    keywords: ['natural', 'organic', 'simple', 'clean', 'pure', 'sustainable', 'wholesome', 'green', 'eco']
+    inPractice: 'The brand communicates with simplicity, transparency, and a positive, wholesome tone.',
+    keywords: ['safety', 'natural', 'organic', 'simple', 'clean', 'pure', 'sustainable', 'wholesome', 'green', 'eco']
   },
   {
     name: 'Outlaw',
+    group: 'Legacy',
+    innerNeed: 'Liberation',
     description: 'The Outlaw archetype breaks conventions and disrupts the status quo to create radical change.',
-    jungianModel: 'The Outlaw represents the rebel archetype — the refusal to conform and the desire to overturn what isn\'t working.',
+    jungianModel: 'Liberation & Legacy: The Outlaw represents the rebel — the refusal to conform and the desire to overturn norms.',
     traits: ['Rebellious', 'Disruptive', 'Bold', 'Revolutionary', 'Unconventional'],
     inPractice: 'The brand challenges industry norms, uses edgy visuals, and positions itself as the bold alternative.',
-    keywords: ['disrupt', 'rebel', 'bold', 'revolution', 'unconventional', 'alternative', 'edgy', 'break', 'change']
+    keywords: ['liberation', 'disrupt', 'rebel', 'bold', 'revolution', 'unconventional', 'alternative', 'edgy', 'break', 'change']
   }
 ];
 
@@ -137,19 +163,30 @@ interface ColorPalette {
 }
 
 const COLOR_DATABASE: ColorPalette[] = [
-  { color: 'Deep Navy', hex: '#1B2A4A', meaning: 'Trust, authority, and professionalism', application: 'Primary brand color, headers, and backgrounds', industries: ['technology', 'fintech', 'consulting', 'professional'], feels: ['professional', 'corporate', 'trustworthy'] },
-  { color: 'Royal Blue', hex: '#2563EB', meaning: 'Innovation, reliability, and confidence', application: 'Call-to-actions, links, and accent elements', industries: ['technology', 'software', 'saas', 'fintech'], feels: ['modern', 'innovative', 'tech-driven'] },
-  { color: 'Emerald Green', hex: '#059669', meaning: 'Growth, vitality, and prosperity', application: 'Success states, sustainability messaging', industries: ['agriculture', 'energy', 'healthcare', 'natural'], feels: ['natural', 'organic', 'sustainable'] },
-  { color: 'Rich Gold', hex: '#D4A843', meaning: 'Prestige, excellence, and premium quality', application: 'Premium accents, awards, and luxury elements', industries: ['luxury', 'fashion', 'real estate', 'hospitality'], feels: ['luxury', 'premium', 'heritage', 'royal'] },
-  { color: 'Crimson Red', hex: '#DC2626', meaning: 'Energy, passion, and urgency', application: 'Call-to-actions, highlights, and emphasis', industries: ['food', 'sports', 'entertainment', 'media'], feels: ['bold', 'impact', 'vibrant'] },
-  { color: 'Warm Orange', hex: '#EA580C', meaning: 'Enthusiasm, creativity, and warmth', application: 'Secondary accents and engagement elements', industries: ['education', 'marketing', 'e-commerce'], feels: ['friendly', 'playful', 'approachable'] },
-  { color: 'Soft Lavender', hex: '#7C3AED', meaning: 'Creativity, wisdom, and sophistication', application: 'Brand differentiation and creative elements', industries: ['beauty', 'wellness', 'creative', 'tech'], feels: ['creative', 'expressive', 'modern'] },
-  { color: 'Teal', hex: '#0D9488', meaning: 'Balance, clarity, and refreshment', application: 'Information design and calming elements', industries: ['healthcare', 'wellness', 'education'], feels: ['clean', 'minimal', 'trustworthy'] },
-  { color: 'Charcoal', hex: '#1F2937', meaning: 'Sophistication, strength, and elegance', application: 'Typography, backgrounds, and structural elements', industries: ['all'], feels: ['professional', 'modern', 'minimal', 'corporate'] },
-  { color: 'Warm White', hex: '#FAF5F0', meaning: 'Clarity, openness, and simplicity', application: 'Backgrounds, whitespace, and breathing room', industries: ['all'], feels: ['clean', 'minimal', 'simple'] },
-  { color: 'Rose Pink', hex: '#E11D48', meaning: 'Compassion, care, and femininity', application: 'Highlights, care-oriented messaging', industries: ['healthcare', 'beauty', 'fashion', 'non-profit'], feels: ['friendly', 'approachable', 'caring'] },
-  { color: 'Forest Green', hex: '#166534', meaning: 'Stability, nature, and reliability', application: 'Foundation elements and eco-messaging', industries: ['agriculture', 'outdoor', 'sustainability'], feels: ['natural', 'organic', 'heritage'] },
+  { color: 'Deep Navy', hex: '#1B2A4A', meaning: 'Trust, authority, and professionalism', application: 'Primary brand color', industries: ['technology', 'fintech', 'consulting', 'professional'], feels: ['professional', 'corporate', 'trustworthy'] },
+  { color: 'Royal Blue', hex: '#2563EB', meaning: 'Innovation, reliability, and confidence', application: 'Primary or CTA', industries: ['technology', 'software', 'saas', 'fintech'], feels: ['modern', 'innovative', 'tech-driven'] },
+  { color: 'Emerald Green', hex: '#059669', meaning: 'Growth, vitality, and prosperity', application: 'Primary or Sustainability accents', industries: ['agriculture', 'energy', 'healthcare', 'natural'], feels: ['natural', 'organic', 'sustainable'] },
+  { color: 'Rich Gold', hex: '#D4A843', meaning: 'Prestige, excellence, and premium quality', application: 'Premium accents and luxury elements', industries: ['luxury', 'fashion', 'real estate', 'hospitality'], feels: ['luxury', 'premium', 'heritage', 'royal'] },
+  { color: 'Crimson Red', hex: '#DC2626', meaning: 'Energy, passion, and urgency', application: 'Secondary accents and CTAs', industries: ['food', 'sports', 'entertainment', 'media'], feels: ['bold', 'impact', 'vibrant'] },
+  { color: 'Warm Orange', hex: '#EA580C', meaning: 'Enthusiasm, creativity, and warmth', application: 'Secondary accents', industries: ['education', 'marketing', 'e-commerce'], feels: ['friendly', 'playful', 'approachable'] },
+  { color: 'Soft Lavender', hex: '#7C3AED', meaning: 'Creativity, wisdom, and sophistication', application: 'Creative accents', industries: ['beauty', 'wellness', 'creative', 'tech'], feels: ['creative', 'expressive', 'modern'] },
+  { color: 'Teal', hex: '#0D9488', meaning: 'Balance, clarity, and refreshment', application: 'Supportive elements', industries: ['healthcare', 'wellness', 'education'], feels: ['clean', 'minimal', 'trustworthy'] },
+  { color: 'Charcoal', hex: '#1F2937', meaning: 'Sophistication and strength', application: 'Structural elements and typography', industries: ['all'], feels: ['professional', 'modern', 'minimal', 'corporate'] },
+  { color: 'Midnight Black', hex: '#000000', meaning: 'Authority and ultra-luxury', application: 'Primary backgrounds and text', industries: ['luxury', 'fashion'], feels: ['premium', 'bold'] },
+  { color: 'Pure White', hex: '#FFFFFF', meaning: 'Clarity and purity', application: 'Space and cleanliness', industries: ['all'], feels: ['clean', 'minimal'] },
 ];
+
+const COLOR_WHEEL: Record<string, string[]> = {
+  'Blue': ['Orange', 'Gold', 'White'],
+  'Navy': ['Gold', 'White', 'Cyan'],
+  'Green': ['Purple', 'White', 'Beige'],
+  'Red': ['Cyan', 'White', 'Gray'],
+  'Orange': ['Blue', 'White', 'Navy'],
+  'Purple': ['Green', 'Gold', 'White'],
+  'Gold': ['Navy', 'Black', 'White'],
+  'Black': ['Gold', 'White', 'Silver'],
+  'White': ['Black', 'Navy', 'Red']
+};
 
 // ─── TYPOGRAPHY DATABASE ──────────────────────────────────────────
 
@@ -201,10 +238,19 @@ function matchArchetype(discovery: BrandDiscovery): { primary: ArchetypeData; se
     discovery.differentiation || ''
   ].filter(v => typeof v === 'string').join(' ').toLowerCase();
 
-  const scores = ARCHETYPES.map(a => ({
-    archetype: a,
-    score: a.keywords.reduce((s, k) => s + (allText.includes(k) ? 1 : 0), 0)
-  })).sort((a, b) => b.score - a.score);
+  const scores = ARCHETYPES.map(a => {
+    let score = 0;
+    // CRITICAL: Weighted matching for "Inner Need" and "Group" keywords from Jungian Wheel
+    if (allText.includes(a.innerNeed.toLowerCase())) score += 15;
+    if (allText.includes(a.group.toLowerCase())) score += 5;
+
+    // Standard trait matching
+    a.keywords.forEach(k => {
+      if (allText.includes(k.toLowerCase())) score += 1;
+    });
+
+    return { archetype: a, score };
+  }).sort((a, b) => b.score - a.score);
 
   return {
     primary: scores[0].archetype,
@@ -231,18 +277,59 @@ function matchMaslow(discovery: BrandDiscovery): typeof MASLOW_MAP[0] {
 function selectColors(discovery: BrandDiscovery): { color: string; meaning: string; application: string }[] {
   const industry = (typeof discovery.industry === 'string' ? discovery.industry : '').toLowerCase();
   const feels = (discovery.brandFeel || []).filter(f => typeof f === 'string').map(f => f.toLowerCase());
-  const allText = [...feels, industry].join(' ');
+  const userColorText = (discovery.colorSymbols || '').toLowerCase();
+  
+  // 1. Identify User Anchor Colors
+  const anchors = COLOR_DATABASE.filter(c => 
+    userColorText.includes(c.color.toLowerCase().split(' ')[0]) || 
+    userColorText.includes(c.color.toLowerCase().split(' ')[1]) ||
+    userColorText.includes(c.hex.toLowerCase())
+  );
 
-  // Score each color
+  // 2. Score remaining based on industry and feel
   const scored = COLOR_DATABASE.map(c => {
     let score = 0;
-    c.industries.forEach(ind => { if (allText.includes(ind)) score += 2; });
-    c.feels.forEach(f => { if (allText.includes(f)) score += 1; });
+    if (userColorText.includes(c.color.toLowerCase().split(' ')[0])) score += 10;
+    c.industries.forEach(ind => { if (industry.includes(ind)) score += 2; });
+    c.feels.forEach(f => { if (feels.includes(f)) score += 1; });
     return { ...c, score };
   }).sort((a, b) => b.score - a.score);
 
-  // Pick top 4 unique colors
-  const picked = scored.slice(0, 4);
+  const picked: ColorPalette[] = [];
+  
+  // Always include anchors first
+  anchors.forEach(a => picked.push(a));
+
+  // 3. Fill with Complementary / Balanced choices
+  scored.forEach(c => {
+    if (picked.length >= 4) return;
+    if (picked.find(p => p.hex === c.hex)) return;
+    
+    // Simple Contrast Check: Avoid picking too many dark/light colors together
+    const isDark = (hex: string) => {
+      const h = hex.replace('#', '');
+      const r = parseInt(h.substring(0, 2), 16);
+      const g = parseInt(h.substring(2, 4), 16);
+      const b = parseInt(h.substring(4, 6), 16);
+      return (r * 0.299 + g * 0.587 + b * 0.114) < 128;
+    };
+
+    const darkCount = picked.filter(p => isDark(p.hex)).length;
+    const lightCount = picked.length - darkCount;
+
+    if (isDark(c.hex) && darkCount >= 2) return; // Keep balance
+    if (!isDark(c.hex) && lightCount >= 2) return; // Keep balance
+
+    picked.push(c);
+  });
+
+  // Final fallback to ensure 4 colors
+  if (picked.length < 4) {
+    COLOR_DATABASE.forEach(c => {
+      if (picked.length < 4 && !picked.find(p => p.hex === c.hex)) picked.push(c);
+    });
+  }
+
   return picked.map(c => ({
     color: `${c.color} (${c.hex})`,
     meaning: c.meaning,
@@ -380,17 +467,19 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
     archetype: {
       primary: {
         name: primary.name,
+        innerNeed: primary.innerNeed,
         description: primary.description,
         jungianModel: primary.jungianModel,
         traits: primary.traits,
-        inPractice: `For ${brandName}, the ${primary.name || 'Core'} archetype manifests through ${String(primary.inPractice || '').toLowerCase()}`
+        inPractice: `Dominant Need: ${primary.innerNeed}. For ${brandName}, the ${primary.name} archetype manifests through ${String(primary.inPractice || '').toLowerCase()}`
       },
       secondary: {
         name: secondary.name,
+        innerNeed: secondary.innerNeed,
         description: secondary.description,
         jungianModel: secondary.jungianModel,
         traits: secondary.traits,
-        inPractice: `As a secondary influence, the ${secondary.name || 'Support'} archetype gives ${brandName} an added dimension: ${String(secondary.inPractice || '').toLowerCase()}`
+        inPractice: `Secondary Need: ${secondary.innerNeed}. As a supporting influence, the ${secondary.name} archetype gives ${brandName} an added dimension.`
       },
       behavior: {
         tone: {

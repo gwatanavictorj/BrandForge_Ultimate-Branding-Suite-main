@@ -45,8 +45,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: "bg-brand-600 hover:bg-brand-700 text-white shadow-sm border border-brand-700",
-        secondary: "bg-white text-slate-700 border border-slate-200 shadow-sm hover:bg-slate-50 hover:border-slate-300",
-        ghost: "bg-transparent text-slate-600 hover:bg-slate-100",
+        secondary: "bg-white text-brand-700 border border-brand-200 shadow-sm hover:bg-brand-50 hover:border-brand-300",
+        ghost: "bg-transparent text-brand-600 hover:bg-brand-100",
       },
       size: {
         micro: "h-8 px-3 text-[10px] gap-1 rounded-[var(--radius-control)] font-bold",
@@ -102,7 +102,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTML
   ({ className, ...props }, ref) => (
     <textarea 
       className={cn(
-        "w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all bg-slate-50/50 min-h-[100px] disabled:cursor-not-allowed disabled:opacity-50",
+        "w-full px-4 py-3 rounded-[var(--radius-control)] border border-brand-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all bg-brand-50/30 min-h-[100px] text-sm leading-relaxed disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       ref={ref}

@@ -110,6 +110,7 @@ export interface BrandStrategy {
   archetype: {
     primary: {
       name: string;
+      innerNeed?: string;
       description: string;
       jungianModel: string;
       traits: string[];
@@ -117,6 +118,7 @@ export interface BrandStrategy {
     };
     secondary: {
       name: string;
+      innerNeed?: string;
       description: string;
       jungianModel: string;
       traits: string[];
