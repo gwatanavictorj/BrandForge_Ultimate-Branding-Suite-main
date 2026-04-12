@@ -492,16 +492,16 @@ export const Dashboard = ({
                     </div>
 
                     <div className="flex items-center justify-between pt-2">
-                      <div className="flex -space-x-2">
-                        {project.selectedTools.map(tool => {
-                          const Icon = TOOL_OPTIONS.find(t => t.id === tool)?.icon || Folder;
-                          return (
-                            <div key={tool} className="w-7 h-7 rounded-full bg-white border-2 border-slate-50 flex items-center justify-center text-slate-400 shadow-sm">
-                              <Icon className="w-4 h-4" />
-                            </div>
-                          );
-                        })}
-                      </div>
+                    <div className="flex items-center gap-2">
+                      {project.selectedTools.map(tool => {
+                        const Icon = TOOL_OPTIONS.find(t => t.id === tool)?.icon || Folder;
+                        return (
+                          <div key={tool} className="text-slate-400">
+                            <Icon className="w-4 h-4" />
+                          </div>
+                        );
+                      })}
+                    </div>
                       <div className="flex items-center gap-1 caption">
                         <Calendar className="w-3.5 h-3.5" />
                         {new Date(project.createdAt).toLocaleDateString()}
@@ -530,8 +530,8 @@ export const Dashboard = ({
                       />
                     )}
                     <div className={cn(
-                      "w-10 h-10 rounded-xl flex items-center justify-center transition-all",
-                      activeTab === 'active' ? "bg-brand-50 text-brand-600 group-hover/list:bg-brand-600 group-hover/list:text-white" : "bg-slate-100 text-slate-400"
+                      "w-10 h-10 flex items-center justify-center transition-all",
+                      activeTab === 'active' ? "text-brand-600 group-hover/list:text-brand-700" : "text-slate-400"
                     )}>
                       <Folder className="w-6 h-6" />
                     </div>
