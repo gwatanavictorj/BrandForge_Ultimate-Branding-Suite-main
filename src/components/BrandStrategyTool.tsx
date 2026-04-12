@@ -2251,8 +2251,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                           <p className="text-[11px] text-slate-500 leading-tight italic">{useCase.archetypeSync}</p>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
+                    </motion.div>
                 );
               })}
             </div>
