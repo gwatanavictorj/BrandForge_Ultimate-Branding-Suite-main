@@ -513,3 +513,27 @@ This is the official record of all BrandForge features and UI refinements that h
 ### 🛠️ Key Files Finalized
 - `src/components/BrandStrategyTool.tsx`
 - `log_certified_updates.md`
+
+---
+
+## 📅 2026-04-12: Brand Archetype Intelligence & Data Healer Architecture (CERTIFIED)
+
+### 🏗️ Intelligence Normalization Layer
+- **"The Data Healer" Engine**: Implemented `normalizeBrandStrategy` in `brandService.ts`. This middleware automatically repairs incomplete AI-generated strategy objects by matching archetype signatures against the master reference database.
+- **Reference Database Expansion**: Updated `fallbackStrategyEngine.ts` to provide 100% field parity (Goal, Fear, Talent, Weakness, and structured `inPractice` models) for all 12 Jungian archetypes.
+- **Real-Time Data Upgrading**: Integrated a mount-time normalization hook in `BrandStrategyTool.tsx`, ensuring legacy projects and fresh AI outputs are immediately "healed" for high-fidelity rendering.
+
+### 📊 UI & Messaging Refinement
+- **Triple-Archetype Fidelity**: Finalized rendering logic for Primary, Secondary, and Tertiary archetypes. All tiers now display complete psychological profiles and strategic applications.
+- **Messaging Workbench Formatting**: Applied `whitespace-pre-line` to the Communication Framework UI and PDF export. This ensures professional line breaks and vertical spacing are preserved in messaging templates.
+- **Enhanced Category Branding**: Upgraded workbench headers (e.g., "MARKETING WORKBENCH") with high-density `label-xs` typography and category-specific accents.
+
+### 📤 Precision PDF Export
+- **Expansion Resilience**: Added explicit `checkPage()` triggers before and during the Archetype and Messaging sections to prevent content clipping and orphaning on multi-page reports.
+- **Unified Strategic Output**: Standardized the PDF export to include full psychological data for all three archetype tiers, maintaining 1:1 parity with the digital dashboard.
+
+### 🛠️ Key Files Finalized
+- `src/services/brandService.ts` (Normalization Engine)
+- `src/services/fallbackStrategyEngine.ts` (Reference Master)
+- `src/components/BrandStrategyTool.tsx` (UI/PDF Alignment)
+- `log_certified_updates.md`
