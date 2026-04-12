@@ -124,8 +124,9 @@ export const brandService = {
     const response = await ai.generateContent(
       `Provide 3 expansive strategic logo design directions (titles + detailed visual rationale) based on:
       Archetype: ${strategy.archetype.primary.name}
-      Logo Direction Prompt: ${strategy.identitySystem.logoDirection.description}
-      Symbols to use: ${strategy.identitySystem.logoDirection.symbols?.join(', ')}
+      Primary Concept (User Anchored): ${strategy.identitySystem.logoOptions[0]?.description}
+      Secondary Concept (System Optimized): ${strategy.identitySystem.logoOptions[1]?.description}
+      Symbols to use: ${strategy.identitySystem.logoOptions.map(o => o.symbols.join(', ')).join(' | ')}
       
       These should be more descriptive, text-based strategic directions.`,
       {
@@ -237,7 +238,7 @@ export const brandService = {
       Visual Identity:
       - Colors: ${strategy.identitySystem.colors.map(c => `${c.color} (${c.meaning})`).join(", ")}
       - Typography: ${system.typography.primary} — ${system.typography.primaryTraits[0]}-driven geometric style for high-impact headings and identity-focused display. | Secondary: ${system.typography.secondary} — Clean, readable, and professional sans-serif for body text and supportive technical information.
-      - Logo Direction: ${strategy.identitySystem.logoDirection}
+      - Logo Strategic Directions (Dual Pathway): ${strategy.identitySystem.logoOptions.map(o => `${o.strategy}: ${o.description} (Pd Model Optimized)`).join(' | ')}
       
       The guide should include:
       1. Brand Introduction
@@ -414,25 +415,43 @@ export const brandService = {
           2. MARKET MODEL (PERCEPTUAL POSITIONING):
           - Define Axes (x and y) based on the brand's unique strengths and value proposition provided in the discovery data (e.g., Innovation vs. Tradition, Premium vs. Accessible, Technical vs. Creative).
           - Map Brand Position (x, y coordinates 0-100).
-          - COMPETITORS: If competitors are not provided in discovery, research and provide 3 real competitors in the ${discovery.industry} industry within the ${discovery.address || 'global'} region to compare against.
+          - GEOGRAPHIC INTELLIGENCE: You MUST research the literal location provided in the discovery: ${discovery.address || 'global'}.
+          - COMPETITORS: Research and provide 3 real, direct competitors operating in the ${discovery.industry} industry within the ${discovery.address || 'global'} region. Prioritize the top players in that specific city or territory.
+          - COMPETITOR INTEL: For each competitor, you MUST provide:
+            - website: The official company website URL.
+            - socials: An array of objects ({ platform: string, url: string }) featuring 1-2 primary social media handles (e.g., Instagram, LinkedIn).
+            - location: The primary headquarters or regional location (e.g., "City, Country" based on actual research).
+            - established: The year the company was founded.
+          - ZERO TOLERANCE RULE: You are PROHIBITED from using 'N/A', 'Unknown', 'Data Pending', or any other placeholder strings. You are a high-fidelity intelligence analyst. If you cannot find a specific fact, you MUST provide a realistic strategic estimate based on industry history and market standards to ensure the dashboard remains professional and data-complete.
           - ANALYSIS: Provide a detailed analysis of the market map and what it means for the brand.
           - GAP HIGHLIGHT: Highlight the specific market gap that the brand is filling.
-          - IMPORTANT: Ensure the positioning statement and analysis are grounded STRICTLY in the actual discovery data provided (strengths: ${discovery.strengths?.join(', ')}, differentiation: ${discovery.differentiation}). Avoid any mention of "Gaswerk" or other unrelated entities unless they are in the discovery data.
+          - IMPORTANT: Ensure the positioning statement and analysis are grounded STRICTLY in the actual discovery data provided (strengths: ${discovery.strengths?.join(', ')}, differentiation: ${discovery.differentiation}). Avoid any mention of past sample projects or unrelated entities.
 
           3. BRAND ARCHETYPE (STRICT TRIPLE-MODEL JUNG):
+          - PSYCHOLOGICAL ANCHORING: Analyze the 'Psychological Soul' of the brand.
+          - TIER 1: THE INNER NEED (10x WEIGHT): Prioritize the core motivation found in the Mission/Industry (Transform, Discover, Belong, Master, Care, Rule).
+          - TIER 2: IDENTITY MARKERS (5x WEIGHT): Use specific Jungian markers (Alchemy, Solidarity, Pioneer, Sovereign, Oasis, Virtue) to validate the choice.
+          - TIER 3: HYGIENE FILTERING: Do NOT let standard buzzwords (Sustainability, Integrity, Excellence) drive the archetype choice. They are supporting traits, not identity anchors.
+          - INDUSTRY BASELINE: Use the ${discovery.industry} sector as a 'Contextual Floor' to ground the psychological profile.
           - MAPPING TECHNIQUE: You must identify at least 5 'Strategic Signals' from the brand's mission, values, and attributes to fuel a 3-tier emotional blueprint.
           - THE JUNGIAN WHEEL: Use the following 12 Archetypes & their associated Inner Needs:
             * Creator (Innovation), Caregiver (Service), Ruler (Control), Hero (Mastery), Explorer (Freedom), Sage (Understanding), Magician (Power), Everyman (Belonging), Lover (Intimacy), Jester (Enjoyment), Innocent (Safety), Outlaw (Liberation).
           - PRIMARY ARCHETYPE (The Core): Select the dominant archetype based on which 'Inner Need' matches the user's Discovery data EXACTLY.
           - SECONDARY ARCHETYPE (The Support): Select a supporting archetype that adds depth and flavor to the core identity.
-          - TERTIARY ARCHETYPE (The Aspirational Edge): Select an 'edge' archetype that represents the brand's market-specific ambition or its specialized competitive spirit.
+          - TERTIARY ARCHETYPE (The Aspirational Edge): Select an 'edge' archetype that represents the brand's market-specific ambition.
           - innerNeed: This is a MANDATORY field for all three. Use the exact word from the list above.
-          - CHARACTERISTICS: For each archetype, identify its:
-            * Goal: What the archetype fundamentally wants to achieve.
-            * Fear: What the archetype avoids at all costs.
-            * Weakness: The psychological shadow or flaw.
-            * Talent: The core strength or innate capability.
-          - JUSTIFICATION (IN PRACTICE): Reference which core value or mission statement led to this specific Inner Need selection.
+          - CHARACTERISTICS: For each archetype tier (Primary, Secondary, AND Tertiary), you MUST provide a complete psychological profile: Goal, Fear, Weakness, and Talent. These fields are MANDATORY and must be unique to the archetype's role within the brand.
+          - ZERO TOLERANCE RULE: You are PROHIBITED from using 'N/A', 'Unknown', 'Data Pending', or any other placeholder strings in ANY field. You are a high-fidelity intelligence analyst. If you cannot find a specific fact, you MUST provide a realistic strategic estimate based on industry history and market standards to ensure the dashboard remains professional and data-complete.
+          - STRATEGIC RATIONALE (STRATEGIC_RATIONALE): Explain WHY this archetype was selected at this level. For Primary, focus on the core soul; for Secondary, focus on the supporting flavor; for Tertiary, focus on the aspirational or competitive edge.
+          - CHARACTER PERSONALITY NARRATIVE (PERSONALITY_NARRATIVE): Generate a concise, character-driven statement following this EXACT structure:
+            "As a [Archetype], [Brand Name] follows a [Behavioral Sequence] to [Seek/Deliver Outcome]. At their core, [Brand Name] is a [Descriptor] and finds fulfillment in [Core Driver]."
+          - MISSION STATEMENT (ARCHETYPE_STATEMENT): Generate a definitive mission-critical statement following this EXACT structure:
+            "[Brand Name] is a [Archetype] brand that exists to [Core Role] by [Method], helping [Audience] achieve [Transformation]"
+          - STRATEGIC APPLICATION (IN PRACTICE): Generate exactly 3 categorized strategic applications in an array of objects ({ label: string, content: string }):
+            1. Label: "Messaging" - Focus on communication tone and key emotional hooks.
+            2. Label: "Visuals" - Focus on aesthetic direction and visual storytelling.
+            3. Label: "Interaction" - Focus on the user experience and brand-consumer relationship.
+          - JUSTIFICATION: Reference which core value or mission statement led to this specific Inner Need selection.
 
           4. CORE STRATEGY:
           - Define Purpose, Mission, Brand Idea, Promise, and Differentiation.
@@ -446,20 +465,6 @@ export const brandService = {
             For each stage, provide: Phase, Stage Name, Customer Action, Touchpoints (list), KPIs (list), and Customer Insights.
 
           5. IDENTITY SYSTEM & VOICE:
-+           - TONE OF VOICE FRAMEWORK: You must synthesize a mission-critical messaging framework rooted in the primary Archetype (${discovery.brandFeel?.join(', ')}) and Core Values (${discovery.coreValues?.join(', ')}).
-+           - USE CASES: Generate 4-6 specific ToneUseCase objects covering: 
-+             - Marketing (Social/Ad copy)
-+             - Announcements (Product/News)
-+             - Acknowledgements (Customer support/Welcome)
-+             - Internal (Team/Culture)
-+           - Each case must include a Content Template, tactical Guidelines, and an 'Archetype Sync' explaining how the voice reflects the brand's spirit.
-+           - Ensure the voice is consistent yet adaptable across these platforms.
-+           - IMPORTANT: Ground all templates STRICTLY in the brand purpose (${discovery.mission}).
-+
-+           6. IDENTITY SYSTEM (VISUALS):
-+           - COLORS: If 1-2 colors are provided, add 2 complementary colors using color theory. If none, recommend 1 primary and 3 complementary colors.
-+           - Include hex codes, meanings, and specific areas of application for each.
-+           - LOGO DIRECTION: Provide a structured breakdown including:
           - TONE OF VOICE FRAMEWORK: You must synthesize a mission-critical messaging framework rooted in the primary Archetype (${discovery.brandFeel?.join(', ')}) and Core Values (${discovery.coreValues?.join(', ')}).
           - USE CASES: Generate 4-6 specific ToneUseCase objects covering: 
             - Marketing (Social/Ad copy)
@@ -472,16 +477,25 @@ export const brandService = {
 
           6. IDENTITY SYSTEM (VISUALS):
           - COLORS: YOU MUST prioritize user input. If the Discovery contains specific color mentions (e.g., "Deep Blue", "Gold"), use these as the anchored brand colors.
-          - COLOR THEORY RIGOR: Generate the rest of the palette (accents/secondary) based on professional COLOR WHEEL HARMONIES (Complementary, Analogous, or Triadic). 
-          - ACCESSIBILITY: Ensure the chosen palette maintains high contrast ratios (WCAG AA/AAA standards) for legibility.
-          - STRATEGIC MEANING: Assign symbolic meanings and specific application areas (e.g., "Primary for identity," "Accent for CTA") that align with the brand's industry and archetype.
-          - Include hex codes, meanings, and specific areas of application for each (3-5 colors total).
-          - LOGO DIRECTION: Provide a structured breakdown including:
-            - description: Core visual strategy (how it feels).
-            - shapes: 3-5 specific shapes (e.g., 'Circular', 'Geometric Grid', 'Overlapping forms').
-            - logotypes: 2-3 specific types (e.g., 'Modern Serif Wordmark', 'Custom abstract symbol').
-            - symbols: 3-5 specific symbols/metaphors grounded in discovery (e.g., 'A stylized Hub for connection').
-            - rationale: Strategic justification linking these choices to the core values (${discovery.coreValues?.join(', ')}) and mission.
+          - COLOR THEORY RIGOR: Generate a definitive palette of EXACTLY 4 COLORS (1 Primary, 1 Secondary, 1 Tertiary, 1 Accent) based on professional COLOR WHEEL HARMONIES.
+          - ACCESSIBILITY: Ensure the chosen palette maintains high contrast ratios (WCAG AA/AAA standards).
+          - STRATEGIC MEANING: Assign symbolic meanings and specific application areas (e.g., "Primary for identity," "Accent for CTA").
+          - ENFORCE ROLES: You must explicitly identify each color's ROLE as "Primary", "Secondary", "Tertiary", or "Accent".
+          - Include hex codes, assigned ROLES, meanings, and application areas for EXACTLY 4 colors.
+          - LOGO STRATEGIC DIRECTIONS: Provide EXACTLY 2 distinct visual directions:
+            - Concept A (User Anchored): MAXIMUM alignment with the user's specific Brand Feel (${discovery.brandFeel?.join(', ')}) and Visual Direction signals. Use these as the directive anchors.
+            - Concept B (System Optimized): Strategically optimized based on System Discretion, prioritizing the Primary Archetype and industry-specific competitive positioning.
+          - PROPOSITIONAL DENSITY MODEL: Both concepts MUST adhere to the Pd model ($Ps / Pv$ ratio). 
+            - Optimize for HIGH Semantic Propositions ($Ps$) relative to LOW Surface/Visual Propositions ($Pv$). 
+            - Explain how the simplicity of form (shapes/logotypes) carries maximum strategic depth (symbols/metaphors).
+          - For each Direction, provide:
+            - strategy: "User Anchored" or "System Optimized"
+            - description: Core visual strategy.
+            - shapes: 3-5 specific shapes (e.g., 'Geometric Grid', 'Overlapping forms').
+            - logotypes: 2-3 specific types (e.g., 'Custom abstract symbol').
+            - symbols: 3-5 specific metaphors grounded in the Pd model.
+            - propositionalDensity: { surface, semantic, rationale }
+            - rationale: Strategic justification linking the concept to the core values (${discovery.coreValues?.join(', ')}) and Pd efficiency.
           - TYPOGRAPHY: Synthesize a definitive font pairing (Exactly 2 fonts) that serves as the visual voice of the brand.
           - TETHERING: You must select these fonts based on the intersection of the Primary Archetype and the specific 'Visual Direction' signals from the Brand Feel (${discovery.brandFeel?.join(', ')}) and Emotional Outcomes (${discovery.customerEmotionalOutcome?.join(', ')}).
           - FONT TYPES: Consider the full spectrum (Serif, Sans, Slab, Mono, Script, Display) and select the specific category that best embodies the brand's vibe.
@@ -597,9 +611,23 @@ export const brandService = {
                       properties: {
                         name: { type: "string" },
                         x: { type: "number" },
-                        y: { type: "number" }
+                        y: { type: "number" },
+                        website: { type: "string" },
+                        socials: { 
+                          type: "array", 
+                          items: {
+                            type: "object",
+                            properties: {
+                              platform: { type: "string" },
+                              url: { type: "string" }
+                            },
+                            required: ["platform", "url"]
+                          }
+                        },
+                        location: { type: "string" },
+                        established: { type: "string" }
                       },
-                      required: ["name", "x", "y"]
+                      required: ["name", "x", "y", "website", "socials", "location", "established"]
                     }
                   },
                   analysis: { type: "string" },
@@ -607,54 +635,96 @@ export const brandService = {
                 },
                 required: ["axes", "quadrant", "statement", "position", "competitors", "analysis", "gapHighlight"]
               },
-              archetype: {
-                type: "object",
-                properties: {
-                  primary: {
+                  archetype: {
                     type: "object",
                     properties: {
-                      name: { type: "string" },
-                      description: { type: "string" },
-                      jungianModel: { type: "string" },
-                      goal: { type: "string" },
-                      fear: { type: "string" },
-                      weakness: { type: "string" },
-                      talent: { type: "string" },
-                      traits: { type: "array", items: { type: "string" } },
-                      inPractice: { type: "string" }
-                    },
-                    required: ["name", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice"]
-                  },
-                  secondary: {
-                    type: "object",
-                    properties: {
-                      name: { type: "string" },
-                      description: { type: "string" },
-                      jungianModel: { type: "string" },
-                      goal: { type: "string" },
-                      fear: { type: "string" },
-                      weakness: { type: "string" },
-                      talent: { type: "string" },
-                      traits: { type: "array", items: { type: "string" } },
-                      inPractice: { type: "string" }
-                    },
-                    required: ["name", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice"]
-                  },
-                  tertiary: {
-                    type: "object",
-                    properties: {
-                      name: { type: "string" },
-                      description: { type: "string" },
-                      jungianModel: { type: "string" },
-                      goal: { type: "string" },
-                      fear: { type: "string" },
-                      weakness: { type: "string" },
-                      talent: { type: "string" },
-                      traits: { type: "array", items: { type: "string" } },
-                      inPractice: { type: "string" }
-                    },
-                    required: ["name", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice"]
-                  },
+                      primary: {
+                        type: "object",
+                        properties: {
+                          name: { type: "string" },
+                          innerNeed: { type: "string" },
+                          description: { type: "string" },
+                          jungianModel: { type: "string" },
+                          goal: { type: "string" },
+                          fear: { type: "string" },
+                          weakness: { type: "string" },
+                          talent: { type: "string" },
+                          personalityNarrative: { type: "string" },
+                          archetypeStatement: { type: "string" },
+                          traits: { type: "array", items: { type: "string" } },
+                          inPractice: { 
+                            type: "array", 
+                            items: {
+                              type: "object",
+                              properties: {
+                                label: { type: "string" },
+                                content: { type: "string" }
+                              },
+                              required: ["label", "content"]
+                            }
+                          },
+                          strategicRationale: { type: "string" }
+                        },
+                        required: ["name", "innerNeed", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice", "strategicRationale"]
+                      },
+                      secondary: {
+                        type: "object",
+                        properties: {
+                          name: { type: "string" },
+                          innerNeed: { type: "string" },
+                          description: { type: "string" },
+                          jungianModel: { type: "string" },
+                          goal: { type: "string" },
+                          fear: { type: "string" },
+                          weakness: { type: "string" },
+                          talent: { type: "string" },
+                          personalityNarrative: { type: "string" },
+                          archetypeStatement: { type: "string" },
+                          traits: { type: "array", items: { type: "string" } },
+                          inPractice: { 
+                            type: "array", 
+                            items: {
+                              type: "object",
+                              properties: {
+                                label: { type: "string" },
+                                content: { type: "string" }
+                              },
+                              required: ["label", "content"]
+                            }
+                          },
+                          strategicRationale: { type: "string" }
+                        },
+                        required: ["name", "innerNeed", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice", "strategicRationale"]
+                      },
+                      tertiary: {
+                        type: "object",
+                        properties: {
+                          name: { type: "string" },
+                          innerNeed: { type: "string" },
+                          description: { type: "string" },
+                          jungianModel: { type: "string" },
+                          goal: { type: "string" },
+                          fear: { type: "string" },
+                          weakness: { type: "string" },
+                          talent: { type: "string" },
+                          personalityNarrative: { type: "string" },
+                          archetypeStatement: { type: "string" },
+                          traits: { type: "array", items: { type: "string" } },
+                          inPractice: { 
+                            type: "array", 
+                            items: {
+                              type: "object",
+                              properties: {
+                                label: { type: "string" },
+                                content: { type: "string" }
+                              },
+                              required: ["label", "content"]
+                            }
+                          },
+                          strategicRationale: { type: "string" }
+                        },
+                        required: ["name", "innerNeed", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice", "strategicRationale"]
+                      },
                   behavior: {
                     type: "object",
                     properties: {
@@ -707,26 +777,44 @@ export const brandService = {
                 properties: {
                   colors: {
                     type: "array",
+                    minItems: 4,
+                    maxItems: 4,
                     items: {
                       type: "object",
                       properties: {
                         color: { type: "string" },
+                        role: { type: "string", enum: ["Primary", "Secondary", "Tertiary", "Accent"] },
                         meaning: { type: "string" },
                         application: { type: "string" }
                       },
-                      required: ["color", "meaning", "application"]
+                      required: ["color", "role", "meaning", "application"]
                     }
                   },
-                  logoDirection: {
-                    type: "object",
-                    properties: {
-                      description: { type: "string" },
-                      shapes: { type: "array", items: { type: "string" } },
-                      logotypes: { type: "array", items: { type: "string" } },
-                      symbols: { type: "array", items: { type: "string" } },
-                      rationale: { type: "string" }
-                    },
-                    required: ["description", "shapes", "logotypes", "symbols", "rationale"]
+                  logoOptions: {
+                    type: "array",
+                    minItems: 2,
+                    maxItems: 2,
+                    items: {
+                      type: "object",
+                      properties: {
+                        strategy: { type: "string", enum: ["User Anchored", "System Optimized"] },
+                        description: { type: "string" },
+                        shapes: { type: "array", items: { type: "string" } },
+                        logotypes: { type: "array", items: { type: "string" } },
+                        symbols: { type: "array", items: { type: "string" } },
+                        propositionalDensity: {
+                          type: "object",
+                          properties: {
+                            surface: { type: "string" },
+                            semantic: { type: "string" },
+                            rationale: { type: "string" }
+                          },
+                          required: ["surface", "semantic", "rationale"]
+                        },
+                        rationale: { type: "string" }
+                      },
+                      required: ["strategy", "description", "shapes", "logotypes", "symbols", "propositionalDensity", "rationale"]
+                    }
                   },
                   typography: {
                     type: "object",
@@ -757,7 +845,7 @@ export const brandService = {
                     required: ["primary", "secondary"]
                   }
                 },
-                required: ["colors", "logoDirection", "typography"]
+                required: ["colors", "logoOptions", "typography"]
               },
               messaging: {
                 type: "object",

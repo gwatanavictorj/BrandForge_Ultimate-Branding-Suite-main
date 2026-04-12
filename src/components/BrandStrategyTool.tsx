@@ -41,11 +41,17 @@ import {
   Copy,
   Check,
   BarChart3,
-  Lightbulb
+  Lightbulb,
+  Box,
+  Instagram,
+  Linkedin,
+  MapPin,
+  Calendar,
+  ExternalLink
 } from 'lucide-react';
 import { brandService } from '../services/brandService';
 import { motion, AnimatePresence } from 'motion/react';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
 interface Props {
@@ -209,39 +215,59 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
     };
   }, [discovery, onModifyDiscovery]); // Re-bind if props change
 
+  const SECTOR_SEGMENTS: Record<string, { name: string; description: string; needs: string; painPoints: string }[]> = {
+    'technology': [
+      { name: 'Solo Technologists', description: 'Individual developers and creators building modular solutions.', needs: 'Performance, API flexibility, and documentation clarity.', painPoints: 'High integration costs and technical debt.' },
+      { name: 'Scale-up Teams', description: 'Growing technical teams looking for collaborative infrastructure.', needs: 'Concurrency, security, and team management tools.', painPoints: 'Scaling bottlenecks and resource fragmentation.' },
+      { name: 'Enterprise Architects', description: 'Decision-makers in large organizations seeking stable system integration.', needs: 'Compliance, high-availability, and cross-platform support.', painPoints: 'Inertia and complex legacy systems.' },
+      { name: 'Developer Ecosystem', description: 'Open-source contributors and third-party integrators.', needs: 'Access, open standards, and community support.', painPoints: 'Vendor lock-in and opaque roadmaps.' }
+    ],
+    'fintech': [
+      { name: 'Personal Wealth', description: 'Individuals seeking modern financial management and wealth growth.', needs: 'Intuitive UX, security, and low-latency transactions.', painPoints: 'Hidden fees and complex traditional banking.' },
+      { name: 'SME Businesses', description: 'Small-to-medium enterprises requiring streamlined payment/treasury.', needs: 'Working capital, fast settlement, and accounting sync.', painPoints: 'Cashflow gaps and manual reconciliation.' },
+      { name: 'Institutional Finance', description: 'Large-scale investors and funds needing high-volume infrastructure.', needs: 'Regulatory compliance, deep liquidity, and API trade execution.', painPoints: 'Latency and fragmented data sources.' },
+      { name: 'Unbanked / Underbanked', description: 'Individuals in emerging markets seeking first-time digital access.', needs: 'Accessibility, mobile-first design, and trust elements.', painPoints: 'Lack of identification and high barrier to entry.' }
+    ],
+    'healthcare': [
+      { name: 'Care Receivers', description: 'Patients and families seeking outcomes and comfort.', needs: 'Personalization, empathy, and clear health data access.', painPoints: 'Diagnostic delays and confusing billing.' },
+      { name: 'Practitioners', description: 'Doctors, nurses, and clinicians focused on care delivery.', needs: 'Efficiency, integrated diagnostics, and reduced burnout.', painPoints: 'Administrative load and siloed data.' },
+      { name: 'Health Administrators', description: 'Operation leaders optimizing costs and patient flow.', needs: 'Population health data, cost-efficiency, and tech adoption.', painPoints: 'Resource scarcity and compliance gravity.' },
+      { name: 'Community Partners', description: 'Non-profits and local groups improving public health access.', needs: 'Collaboration, outreach data, and funding transparency.', painPoints: 'Systemic inequality and lack of infrastructure.' }
+    ],
+    'events': [
+      { name: 'Celebrants', description: 'Individuals planning milestone personal events including weddings and birthdays.', needs: 'Memorable experiences, aesthetics, and seamless logistics.', painPoints: 'High stress and fear of technical failure.' },
+      { name: 'Corporate & Professional', description: 'Organizations organizing seminars and team-building sessions.', needs: 'Technical reliability and professional environments.', painPoints: 'Budget constraints and rigid schedules.' },
+      { name: 'Nightlife & Entertainment', description: 'Promoters planning parties and live stage shows.', needs: 'Advanced AV tech and high-energy atmosphere.', painPoints: 'Sound limits and lack of "vibe" in venues.' },
+      { name: 'Cultural Groups', description: 'Non-profits hosting community-focused gatherings.', needs: 'Accessibility and inclusive environments.', painPoints: 'Affordability and complex permit requirements.' }
+    ],
+    'default': [
+      { name: 'The Early Adopters', description: 'Forward-thinking users seeking the latest innovative solutions.', needs: 'Functionality, novelty, and premium access.', painPoints: 'Slow innovation and rigid traditional models.' },
+      { name: 'Pragmatic Majority', description: 'Mass-market users seeking reliability and value for money.', needs: 'Proven results, customer support, and ease of use.', painPoints: 'High risk and low return on investment.' },
+      { name: 'Industry Professionals', description: 'Experts requiring high-performance tools and deep integration.', needs: 'Sophistication, customization, and scalability.', painPoints: 'Generic solutions and lack of technical depth.' },
+      { name: 'Aspirational Segment', description: 'Users looking for status and improvement through brand association.', needs: 'Quality, brand prestige, and emotional resonance.', painPoints: 'Inaccessibility and low quality perception.' }
+    ]
+  };
+
+  const getIndustryKey = (industry?: string): string => {
+    if (!industry) return 'default';
+    const normalized = industry.toLowerCase();
+    if (normalized.includes('tech') || normalized.includes('software')) return 'technology';
+    if (normalized.includes('fin') || normalized.includes('bank') || normalized.includes('pay')) return 'fintech';
+    if (normalized.includes('health') || normalized.includes('med')) return 'healthcare';
+    if (normalized.includes('event') || normalized.includes('venue') || normalized.includes('host') || normalized.includes('entertainment')) return 'events';
+    return 'default';
+  };
+
   const alignStrategicArchitecture = () => {
     if (!strategy || !onUpdate) return;
+    const key = getIndustryKey(discovery.industry);
+    const groups = SECTOR_SEGMENTS[key] || SECTOR_SEGMENTS.default;
     
     const updatedStrategy = {
       ...strategy,
       audience: {
         ...strategy.audience,
-        groups: [
-          {
-            name: 'Celebrants',
-            description: 'Individuals planning milestone personal events including weddings, birthdays, and private anniversaries.',
-            needs: 'Memorable experiences, seamless logistics, and high-quality venue aesthetics.',
-            painPoints: 'High stress, fear of technical failure, and difficulty finding unique, reliable locations.'
-          },
-          {
-            name: 'Corporate & Professional',
-            description: 'Organizations and professional groups organizing seminars, team-building sessions, and corporate launches.',
-            needs: 'Technical reliability, professional environment, and scalable catering/seating.',
-            painPoints: 'Budget constraints, need for rigid schedules, and search for impressive yet functional spaces.'
-          },
-          {
-            name: 'Entertainment & Nightlife',
-            description: 'Promoters, performers, and groups planning parties, clubbing events, and live stage shows.',
-            needs: 'Advanced AV/Video mapping tech, high-energy atmosphere, and festival-grade space.',
-            painPoints: 'Inadequate tech support, restrictive sound limits, and lack of "vibe" in standard venues.'
-          },
-          {
-            name: 'Cultural & Community Groups',
-            description: 'Non-profits, local councils, and cultural organizations hosting community-focused gatherings or festivals.',
-            needs: 'Accessibility, inclusive environments, and strong local connection.',
-            painPoints: 'Affordability, complex permit requirements, and lack of large-scale community-safe spaces.'
-          }
-        ]
+        groups: groups
       }
     };
     
@@ -249,9 +275,9 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
     onUpdate(updatedStrategy);
     
     addNotification({
-      title: 'Strategy Aligned',
+      title: 'Audience Architecture Refined',
       type: 'success',
-      message: 'Project audience segments updated to the 4-pillar event framework.',
+      message: `Strategic segments aligned with the ${key.charAt(0).toUpperCase() + key.slice(1)} industry standard.`,
       link: 'step:strategy'
     });
   };
@@ -339,7 +365,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       const brandName = discovery.brandNameLogo || discovery.registeredName || discovery.name || 'Brand';
       const pName = projectName || brandName;
       const cName = clientName || discovery.fullName || '';
-      const location = discovery.address || strategy.overview.whereWeAre || '';
+      const location = discovery.address || strategy.overview?.whereWeAre || '';
       const industry = discovery.industry || 'General';
       const stage = discovery.stage || 'Exploration';
       const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -358,12 +384,13 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
         pdf.setFont('helvetica', 'bold');
         pdf.setFontSize(8);
         pdf.setTextColor(113, 113, 122); // brand-500
-        pdf.text(`${pName.toUpperCase()}  |  ${industry.toUpperCase()} – ${stage.toUpperCase()}`, margin, margin - 5);
+        const headerText = `${String(pName).toUpperCase()}  |  ${String(industry).toUpperCase()} – ${String(stage).toUpperCase()}`;
+        pdf.text(headerText, margin, margin - 5);
         pdf.setDrawColor(244, 244, 245); // brand-100
         pdf.setLineWidth(0.5);
         pdf.line(margin, margin + 5, pageWidth - margin, margin + 5);
 
-        const pageNum = (pdf as any).internal.getCurrentPageInfo().pageNumber;
+        const pageNum = pdf.getNumberOfPages();
         pdf.setFont('helvetica', 'normal');
         pdf.setFontSize(7);
         pdf.setTextColor(161, 161, 170); // brand-400
@@ -378,30 +405,38 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
           pdf.addPage();
           addHeaderFooter();
           y = contentTop;
+          return true;
         }
+        return false;
       };
 
-      const addTitle = (text: string, size = 20) => {
-        checkPage(size + 30);
+      const addTitle = (text: string, size = 22) => {
+        const hasBroken = checkPage(size + 40);
         pdf.setFont('helvetica', 'bold');
         pdf.setFontSize(size);
-        pdf.setTextColor(24, 24, 27); // brand-900
+        pdf.setTextColor(9, 9, 11); // brand-950
         pdf.text(text, margin, y);
-        y += size + 10;
+        y += size + 14;
       };
 
       const addSubtitle = (text: string) => {
         checkPage(30);
         pdf.setFont('helvetica', 'bold');
         pdf.setFontSize(11);
-        pdf.setTextColor(63, 63, 70); // brand-700
-        pdf.text(text.toUpperCase(), margin, y);
-        y += 16;
+        pdf.setTextColor(39, 39, 42); // brand-800
+        pdf.text(String(text).toUpperCase(), margin, y);
+        
+        // Consistent underline for subtitles to define sections
+        pdf.setDrawColor(228, 228, 231); // brand-200
+        pdf.setLineWidth(0.5);
+        pdf.line(margin, y + 4, margin + 40, y + 4);
+        
+        y += 22;
       };
 
       const addBody = (text: string) => {
         if (!text) return;
-        const lines = text.split('\n');
+        const lines = String(text).split('\n');
         const hasBullets = lines.some(l => /^\s*[-*•]/.test(l));
 
         if (hasBullets) {
@@ -413,7 +448,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
               addBodyText(line.trim());
             }
           }
-          y += 4;
+          y += 6;
           return;
         }
         addBodyText(text);
@@ -421,13 +456,13 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
 
       const addBodyText = (text: string) => {
         pdf.setFont('helvetica', 'normal');
-        pdf.setFontSize(9.5);
-        pdf.setTextColor(82, 82, 91); // brand-600
+        pdf.setFontSize(10);
+        pdf.setTextColor(63, 63, 70); // brand-700
         const lines = pdf.splitTextToSize(text, contentWidth);
         for (const line of lines) {
-          checkPage(12);
+          checkPage(14);
           pdf.text(line, margin, y);
-          y += 12;
+          y += 14;
         }
         y += 4;
       };
@@ -435,26 +470,67 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       const addBullet = (text: string) => {
         if (!text) return;
         pdf.setFont('helvetica', 'normal');
-        pdf.setFontSize(9.5);
-        pdf.setTextColor(82, 82, 91); // brand-600
-        const lines = pdf.splitTextToSize(text, contentWidth - 15);
-        checkPage(12);
-        pdf.text('•', margin + 2, y);
+        pdf.setFontSize(10);
+        pdf.setTextColor(63, 63, 70); // brand-700
+        const lines = pdf.splitTextToSize(text, contentWidth - 20);
+        checkPage(14);
+        pdf.text('•', margin + 5, y);
         for (let i = 0; i < lines.length; i++) {
-          if (i > 0) checkPage(12);
-          pdf.text(lines[i], margin + 15, y);
-          y += 12;
+          if (i > 0) checkPage(14);
+          pdf.text(lines[i], margin + 20, y);
+          y += 14;
         }
       };
 
-      const addSpacer = (h = 12) => { y += h; };
+      const addSpacer = (h = 14) => { y += h; };
       
       const addDivider = () => {
-        checkPage(20);
+        // Prevent adding divider if we are at the bottom of the page
+        if (y > pageHeight - margin - 80) return;
+        
         pdf.setDrawColor(244, 244, 245); // brand-100
-        pdf.setLineWidth(0.5);
-        pdf.line(margin, y, pageWidth - margin, y);
-        y += 12;
+        pdf.setLineWidth(0.8);
+        pdf.line(margin, y + 4, pageWidth - margin, y + 4);
+        y += 24;
+      };
+
+      const drawPositioningMap = (position: { x: number; y: number }, xLabel: string, yLabel: string) => {
+        const size = 180;
+        checkPage(size + 60);
+        
+        const centerX = margin + contentWidth / 2;
+        const gridY = y + size / 2;
+        
+        // Labels
+        pdf.setFontSize(8);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setTextColor(161, 161, 170);
+        pdf.text(xLabel.toUpperCase(), centerX, y - 10, { align: 'center' });
+        pdf.text(yLabel.toUpperCase(), margin + contentWidth, gridY + 3, { align: 'right' });
+        
+        // Grid Box
+        pdf.setDrawColor(244, 244, 245);
+        pdf.setLineWidth(1);
+        pdf.rect(centerX - size/2, y, size, size);
+        
+        // Axis lines
+        pdf.setDrawColor(212, 212, 216);
+        pdf.line(centerX, y, centerX, y + size);
+        pdf.line(centerX - size/2, gridY, centerX + size/2, gridY);
+        
+        // The Brand Point
+        const posX = centerX - size/2 + (position.x / 100) * size;
+        const posY = y + size - (position.y / 100) * size;
+        
+        pdf.setDrawColor(59, 130, 246);
+        pdf.setFillColor(59, 130, 246);
+        pdf.circle(posX, posY, 4, 'FD');
+        
+        pdf.setTextColor(24, 24, 27);
+        pdf.setFontSize(9);
+        pdf.text(brandName, posX + 8, posY + 3);
+        
+        y += size + 30;
       };
 
       // ═══ COVER PAGE ═══
@@ -512,174 +588,342 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       
       addTitle('Brand Genesis');
       addSubtitle('Core Story');
-      addBody(strategy.story);
-      addSubtitle('Strategic Identity');
-      addBody(strategy.overview.whoWeAre);
+      addBody(strategy.story || 'N/A');
+      
+      if (strategy.overview?.whoWeAre && strategy.overview.whoWeAre !== strategy.story) {
+        addSubtitle('Strategic Identity');
+        addBody(strategy.overview.whoWeAre);
+      }
       addSubtitle('The Value Proposition');
-      addBody(strategy.overview.whatWeDo);
+      addBody(strategy.overview?.whatWeDo || 'N/A');
       addSubtitle('Operating Model');
-      addBody(strategy.overview.howWeDoIt);
+      addBody(strategy.overview?.howWeDoIt || 'N/A');
       addSubtitle('Market Presence');
-      addBody(strategy.overview.whereWeAre);
+      addBody(strategy.overview?.whereWeAre || 'N/A');
 
       addDivider();
       addTitle('Brand Soul');
       addSubtitle('Purpose & Mission');
-      addBody(strategy.foundation.mission);
+      addBody(strategy.foundation?.mission || 'N/A');
       addSubtitle('Strategic Vision');
-      addBody(strategy.foundation.vision);
+      addBody(strategy.foundation?.vision || 'N/A');
       addSubtitle('Philosophy');
-      addBody(strategy.foundation.philosophy);
+      addBody(strategy.foundation?.philosophy || 'N/A');
       addSubtitle('The Core Essence');
-      addBody(strategy.essence);
+      addBody(strategy.essence || 'N/A');
 
       addDivider();
       addTitle('Audience Architecture');
-      addSubtitle(`Segment Classification: ${strategy.audience.maslowNeedType}`);
-      addBody(strategy.audience.maslowExplanation);
+      addSubtitle(`Segment Classification: ${strategy.audience?.maslowNeedType || 'N/A'}`);
+      addBody(strategy.audience?.maslowExplanation || 'N/A');
       addSpacer();
-      for (const group of strategy.audience.groups) {
-        addSubtitle(group.name);
-        addBody(group.description);
-        addBullet(`Needs: ${group.needs}`);
-        addBullet(`Pain Points: ${group.painPoints}`);
+      const audienceGroups = Array.isArray(strategy.audience?.groups) ? strategy.audience.groups : [];
+      for (const group of audienceGroups) {
+        addSubtitle(group.name || 'Segment');
+        addBody(group.description || 'N/A');
+        addBullet(`Needs: ${group.needs || 'N/A'}`);
+        addBullet(`Pain Points: ${group.painPoints || 'N/A'}`);
         addSpacer(4);
       }
-      addSubtitle('Strategic Audience Narrative');
-      addBody(strategy.audience.narrative);
 
       addDivider();
       addTitle('Market Stance');
-      addSubtitle('Positioning Statement');
-      addBody(strategy.marketPosition.statement);
+      addSubtitle('Comprehensive Market Analysis');
+      addBody(strategy.marketPosition?.analysis || strategy.marketPosition?.statement || 'N/A');
+      
+      addSubtitle('Positioning Perceptual Map');
+      drawPositioningMap(
+        { x: strategy.marketPosition?.x ?? 50, y: strategy.marketPosition?.y ?? 50 },
+        strategy.marketPosition?.xLabel || 'Traditional vs Modern',
+        strategy.marketPosition?.yLabel || 'Value vs Premium'
+      );
+
       addSubtitle('Quadrant Classification');
-      addBody(strategy.marketPosition.quadrant);
-      addSubtitle('Positioning Insights');
-      addBody(strategy.marketPosition.gapHighlight);
+      addBody(strategy.marketPosition?.quadrant || 'N/A');
+      addSubtitle('Strategic Gap Highlights');
+      addBody(strategy.marketPosition?.gapHighlight || 'N/A');
+      
       addSpacer();
-      addSubtitle('Competitive Benchmark');
-      for (const comp of strategy.marketPosition.competitors) {
-        addBullet(comp.name);
+      addSubtitle('Competitive Intelligence Landscape');
+      const competitors = Array.isArray(strategy.marketPosition?.competitors) ? strategy.marketPosition.competitors : [];
+      for (const comp of competitors) {
+        if (!comp.name) continue;
+        checkPage(80);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(10);
+        pdf.setTextColor(24, 24, 27);
+        pdf.text(String(comp.name).toUpperCase(), margin, y);
+        y += 14;
+        
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(8);
+        pdf.setTextColor(113, 113, 122);
+        if (comp.website && comp.website !== 'N/A') {
+          pdf.text(`Digital Hub: ${comp.website}`, margin, y);
+          y += 11;
+        }
+        if (comp.location) {
+          pdf.text(`Geographic Anchor: ${comp.location}`, margin, y);
+          y += 11;
+        }
+        if (comp.established) {
+          pdf.text(`Market Tenure: Established ${comp.established}`, margin, y);
+          y += 11;
+        }
+        addSpacer(6);
       }
 
       addDivider();
       addTitle('Brand Personality');
-      addSubtitle(`Primary Archetype: ${strategy.archetype.primary.name}`);
-      addBody(strategy.archetype.primary.description);
-      addBullet(`Core Traits: ${strategy.archetype.primary.traits.join(', ')}`);
-      addBody(strategy.archetype.primary.inPractice);
-      addSpacer();
-      addSubtitle(`Secondary Influence: ${strategy.archetype.secondary.name}`);
-      addBody(strategy.archetype.secondary.description);
-      addBullet(`Complementary Traits: ${strategy.archetype.secondary.traits.join(', ')}`);
-      addBody(strategy.archetype.secondary.inPractice);
+      
+      // Primary
+      if (strategy.archetype?.primary) {
+        addSubtitle(`Primary Archetype: ${strategy.archetype.primary.name || 'N/A'}`);
+        addBody(strategy.archetype.primary.description || 'N/A');
+        addBullet(`Goal: ${strategy.archetype.primary.goal || 'N/A'}`);
+        addBullet(`Fear: ${strategy.archetype.primary.fear || 'N/A'}`);
+        addBullet(`Talent: ${strategy.archetype.primary.talent || 'N/A'}`);
+        addBullet(`Weakness: ${strategy.archetype.primary.weakness || 'N/A'}`);
+        addBullet(`Strategic Rationale: ${strategy.archetype.primary.strategicRationale || 'N/A'}`);
+        addBullet(`Core Traits: ${(strategy.archetype.primary.traits || []).join(', ')}`);
+        const primaryPractice = Array.isArray(strategy.archetype.primary.inPractice) ? strategy.archetype.primary.inPractice : [];
+        for (const item of primaryPractice) {
+          addBullet(`${item.label || 'Note'}: ${item.content || 'N/A'}`);
+        }
+        addSpacer();
+      }
+
+      // Secondary
+      if (strategy.archetype?.secondary) {
+        addSubtitle(`Secondary Influence: ${strategy.archetype.secondary.name || 'N/A'}`);
+        addBody(strategy.archetype.secondary.description || 'N/A');
+        addBullet(`Goal: ${strategy.archetype.secondary.goal || 'N/A'}`);
+        addBullet(`Fear: ${strategy.archetype.secondary.fear || 'N/A'}`);
+        addBullet(`Talent: ${strategy.archetype.secondary.talent || 'N/A'}`);
+        addBullet(`Weakness: ${strategy.archetype.secondary.weakness || 'N/A'}`);
+        addBullet(`Strategic Rationale: ${strategy.archetype.secondary.strategicRationale || 'N/A'}`);
+        addBullet(`Complementary Traits: ${(strategy.archetype.secondary.traits || []).join(', ')}`);
+        const secondaryPractice = Array.isArray(strategy.archetype.secondary.inPractice) ? strategy.archetype.secondary.inPractice : [];
+        for (const item of secondaryPractice) {
+          addBullet(`${item.label || 'Note'}: ${item.content || 'N/A'}`);
+        }
+        addSpacer();
+      }
+
+      // Tertiary
+      if (strategy.archetype?.tertiary) {
+        addSubtitle(`Tertiary Edge: ${strategy.archetype.tertiary.name || 'N/A'}`);
+        addBody(strategy.archetype.tertiary.description || 'N/A');
+        addBullet(`Goal: ${strategy.archetype.tertiary.goal || 'N/A'}`);
+        addBullet(`Fear: ${strategy.archetype.tertiary.fear || 'N/A'}`);
+        addBullet(`Talent: ${strategy.archetype.tertiary.talent || 'N/A'}`);
+        addBullet(`Weakness: ${strategy.archetype.tertiary.weakness || 'N/A'}`);
+        addBullet(`Strategic Rationale: ${strategy.archetype.tertiary.strategicRationale || 'N/A'}`);
+        addBullet(`Traits: ${(strategy.archetype.tertiary.traits || []).join(', ')}`);
+        const tertiaryPractice = Array.isArray(strategy.archetype.tertiary.inPractice) ? strategy.archetype.tertiary.inPractice : [];
+        for (const item of tertiaryPractice) {
+          addBullet(`${item.label || 'Note'}: ${item.content || 'N/A'}`);
+        }
+        addSpacer();
+      }
       
       addDivider();
       addTitle('Communication Framework');
       addSubtitle('Primary Tone of Voice');
-      addBody(strategy.archetype.behavior.tone.description);
+      addBody(strategy.archetype?.behavior?.tone?.description || 'N/A');
       addSubtitle('Tone Manifestation');
-      addBody(strategy.archetype.behavior.tone.framework || 'Consistent, professional delivery aligned with archetype traits.');
+      addBody(strategy.archetype?.behavior?.tone?.framework || 'Consistent, professional delivery aligned with archetype traits.');
       addSubtitle('Voice Pillars (Examples)');
-      for (const ex of strategy.archetype.behavior.tone.examples) {
+      const toneExamples = Array.isArray(strategy.archetype?.behavior?.tone?.examples) ? strategy.archetype.behavior.tone.examples : [];
+      for (const ex of toneExamples) {
         addBullet(ex);
       }
       
-      if (strategy.archetype.behavior.tone.useCases?.length > 0) {
+      const useCases = Array.isArray(strategy.archetype?.behavior?.tone?.useCases) ? strategy.archetype.behavior.tone.useCases : [];
+      if (useCases.length > 0) {
         addSpacer();
         addSubtitle('Messaging Workbench (Contextual Applications)');
-        for (const useCase of strategy.archetype.behavior.tone.useCases) {
+        for (const useCase of useCases) {
+          if (!useCase.category || !useCase.platform) continue;
           checkPage(60);
           pdf.setFont('helvetica', 'bold');
           pdf.setFontSize(10);
           pdf.setTextColor(24, 24, 27);
-          pdf.text(`${useCase.category.toUpperCase()}: ${useCase.platform}`, margin, y);
+          pdf.text(`${String(useCase.category).toUpperCase()}: ${String(useCase.platform)}`, margin, y);
           y += 14;
-          addBody(useCase.contentTemplate);
-          addBullet(`Strategy: ${useCase.guidelines}`);
+          addBody(useCase.contentTemplate || 'N/A');
+          addBullet(`Strategy: ${useCase.guidelines || 'N/A'}`);
           addSpacer(8);
         }
       }
 
       addDivider();
       addTitle('Identity System');
-      addSubtitle('Visual Essence');
-      addBody(strategy.identitySystem.logoDirection.description);
-      addBullet(`Rationale: ${strategy.identitySystem.logoDirection.rationale}`);
+      addSubtitle('Visual Essence & Logo Strategy');
+      
+      const logoOptions = Array.isArray(strategy.identitySystem?.logoOptions) ? strategy.identitySystem.logoOptions : [];
+      for (const opt of logoOptions) {
+        checkPage(60);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(10);
+        pdf.setTextColor(24, 24, 27);
+        pdf.text(`${(String(opt.strategy || 'Concept')).toUpperCase()} CONCEPT`, margin, y);
+        y += 14;
+        
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(8);
+        pdf.setTextColor(113, 113, 122);
+        pdf.text('PROPOSITIONAL DENSITY ANALYSIS:', margin, y);
+        y += 12;
+        
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(9);
+        addBullet(`Surface (Pv): ${opt.propositionalDensity?.surface || 'N/A'}`);
+        addBullet(`Semantic (Ps): ${opt.propositionalDensity?.semantic || 'N/A'}`);
+        addBullet(`Semantics: ${opt.propositionalDensity?.rationale || 'N/A'}`);
+        
+        addSpacer(4);
+        addBullet(`Visual Language: ${(opt.shapes || []).join(', ')}`);
+        addBullet(`Symbolic Nodes: ${(opt.symbols || []).join(', ')}`);
+        addSpacer(12);
+      }
       addSpacer();
       addSubtitle('Strategic Color Palette');
-      for (let i = 0; i < strategy.identitySystem.colors.length; i++) {
-        const color = strategy.identitySystem.colors[i];
-        const hexMatch = color.color.match(/#[0-9A-Fa-f]{3,6}/);
+      const colors = Array.isArray(strategy.identitySystem?.colors) ? strategy.identitySystem.colors : [];
+      for (let i = 0; i < colors.length; i++) {
+        const color = colors[i];
+        const hexMatch = (color.color || '').match(/#[0-9A-Fa-f]{3,6}/);
         const hex = hexMatch ? hexMatch[0] : '#CBD5E1';
-        const extractedName = color.color.replace(/ ?\(?#[0-9A-Fa-f]{3,6}\)?/, '').trim();
+        const extractedName = (color.color || '').replace(/ ?\(?#[0-9A-Fa-f]{3,6}\)?/, '').trim();
         const descriptiveName = getDescriptiveColorName(hex);
-        const variantName = i === 0 ? 'Primary' : i === 1 ? 'Secondary' : 'Accent';
-        const colorName = extractedName || `${variantName} Color (${descriptiveName})`;
+        
+        // Correct role assignment for the PDF
+        const role = color.role || (i === 0 ? 'Primary' : i === 1 ? 'Secondary' : i === 2 ? 'Tertiary' : 'Accent');
+        const colorName = extractedName || `${role} Color (${descriptiveName})`;
         const cmyk = hexToCMYK(hex);
         
         pdf.setFont('helvetica', 'bold');
         pdf.setFontSize(9);
         pdf.setTextColor(24, 24, 27); // brand-900
         checkPage(14);
-        pdf.text(`${colorName.toUpperCase()}`, margin + 15, y);
+        pdf.text(`${String(role).toUpperCase()}: ${String(colorName).toUpperCase()}`, margin + 15, y);
         y += 12;
         
         pdf.setFont('helvetica', 'normal');
         pdf.setFontSize(8);
         pdf.setTextColor(113, 113, 122); // brand-500
         checkPage(12);
-        pdf.text(`HEX: ${hex.toUpperCase()}  |  CMYK: ${cmyk}`, margin + 15, y);
+        pdf.text(`HEX: ${String(hex).toUpperCase()}  |  CMYK: ${String(cmyk)}`, margin + 15, y);
         y += 12;
         
-        addBullet(`${color.meaning} (${color.application})`);
+        addBullet(`${color.meaning || 'N/A'} (${color.application || 'N/A'})`);
         addSpacer(4);
       }
       addSpacer();
       addSubtitle('Typography Configuration');
-      addBullet(`Primary: ${strategy.identitySystem.typography.primary.name} — ${strategy.identitySystem.typography.primary.usage}`);
-      addBullet(`Secondary: ${strategy.identitySystem.typography.secondary.name} — ${strategy.identitySystem.typography.secondary.usage}`);
+      addBullet(`Primary: ${strategy.identitySystem?.typography?.primary?.name || 'N/A'} — ${strategy.identitySystem?.typography?.primary?.usage || 'N/A'}`);
+      addBullet(`Secondary: ${strategy.identitySystem?.typography?.secondary?.name || 'N/A'} — ${strategy.identitySystem?.typography?.secondary?.usage || 'N/A'}`);
 
       addDivider();
       addTitle('Customer Journey Blueprint');
-      for (const stage of strategy.customerJourney) {
-        addSubtitle(`${stage.phase}: ${stage.stage}`);
-        addBody(stage.action);
-        addBullet(`Key Touchpoints: ${stage.touchpoints.join(', ')}`);
-        addBullet(`KPI Success Metrics: ${stage.kpis.join(', ')}`);
-        addSpacer(6);
+      
+      const journeyColors = [
+        [0, 77, 64],   // Teal
+        [244, 81, 30], // Orange
+        [26, 35, 126], // Navy
+        [77, 182, 172], // Mint
+        [69, 90, 100]  // Slate
+      ];
+
+      const journeyStages = Array.isArray(strategy.customerJourney) ? strategy.customerJourney : [];
+      for (let i = 0; i < journeyStages.length; i++) {
+        const stage = journeyStages[i];
+        const color = journeyColors[i % journeyColors.length];
+        
+        checkPage(120);
+        
+        // Stage Header with Color Block
+        pdf.setFillColor(color[0], color[1], color[2]);
+        pdf.rect(margin, y, 120, 20, 'F');
+        
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(8);
+        pdf.text((String(stage.phase || 'STAGE')).toUpperCase(), margin + 10, y + 13);
+        
+        pdf.setTextColor(24, 24, 27);
+        pdf.setFontSize(11);
+        pdf.text((String(stage.stage || 'UNNAMED')).toUpperCase(), margin + 130, y + 14);
+        
+        y += 28;
+        
+        // Vertical connector line
+        if (i < journeyStages.length - 1) {
+          pdf.setDrawColor(color[0], color[1], color[2]);
+          pdf.setLineWidth(1.5);
+          pdf.line(margin + 60, y - 8, margin + 60, y + 80);
+        }
+        
+        // Content
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(9);
+        pdf.setTextColor(113, 113, 122);
+        pdf.text('CUSTOMER ACTION', margin + 20, y);
+        y += 12;
+        addBody(stage.action || 'N/A');
+        
+        addSpacer(4);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(8);
+        pdf.text('TOUCHPOINTS', margin + 20, y);
+        y += 10;
+        addBody((stage.touchpoints || []).join(' • ') || 'N/A');
+        
+        addSpacer(4);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(8);
+        pdf.text('SUCCESS METRICS (KPIs)', margin + 20, y);
+        y += 10;
+        const kpis = Array.isArray(stage.kpis) ? stage.kpis : [];
+        for(const kpi of kpis) {
+          addBullet(kpi);
+        }
+        
+        addSpacer(16);
       }
 
       addDivider();
       addTitle('Growth & Expansion');
       addSubtitle('Growth Programs');
-      for (const prog of strategy.growthPrograms) {
+      const growthPrograms = Array.isArray(strategy.growthPrograms) ? strategy.growthPrograms : [];
+      for (const prog of growthPrograms) {
         checkPage(40);
         pdf.setFont('helvetica', 'bold');
         pdf.setFontSize(10);
         pdf.setTextColor(24, 24, 27);
-        pdf.text(prog.name, margin, y);
+        pdf.text(prog.name || 'Growth Program', margin, y);
         y += 12;
-        addBody(prog.description);
+        addBody(prog.description || 'N/A');
       }
       addSpacer();
       addSubtitle('Strategic Alliances');
-      for (const part of strategy.partnerships) {
+      const partnerships = Array.isArray(strategy.partnerships) ? strategy.partnerships : [];
+      for (const part of partnerships) {
         checkPage(40);
         pdf.setFont('helvetica', 'bold');
         pdf.setFontSize(10);
         pdf.setTextColor(24, 24, 27);
-        pdf.text(part.name, margin, y);
+        pdf.text(part.name || 'Partnership', margin, y);
         y += 12;
-        addBody(part.description);
+        addBody(part.description || 'N/A');
       }
 
       const safePName = pName.replace(/\s+/g, '_');
       const safeCName = cName ? `_for_${cName.replace(/\s+/g, '_')}` : '';
       pdf.save(`${safePName}${safeCName}_Strategy_Blueprint.pdf`);
-    } catch (err) {
+    } catch (err: any) {
       console.error('PDF generation error:', err);
-      alert('PDF generation encountered an issue. Standard browser print will be used instead.');
+      alert(`PDF generation encountered an issue: ${err.message || 'Unknown error'}. Standard browser print will be used instead.`);
       window.print();
     } finally {
       setIsDownloading(false);
@@ -992,13 +1236,12 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
 
             {/* 3. Target Audience Groups */}
             <Card title="Target Audience Segments" className="border-none shadow-sm bg-white">
-              {(discovery.industry?.toLowerCase().includes('event') || discovery.industry?.toLowerCase().includes('venue') || discovery.industry?.toLowerCase().includes('entertainment')) && 
-               strategy.audience?.groups?.length !== 4 && (
+              {strategy.audience?.groups?.length !== 4 && (
                 <div className="mb-8 p-6 bg-brand-50 border border-brand-100 rounded-[20px] flex items-center justify-between gap-6">
                   <div className="flex items-center gap-4 text-brand-700">
                     <Sparkles className="w-5 h-5 shrink-0" />
-                    <p className="text-sm font-medium leading-relaxed">
-                      We've identified a specialized **4-Segment Architecture** tailored for event environments ($ Celebrants, Corporate, Nightlife, and Cultural Groups $).
+                    <p className="text-sm font-medium leading-relaxed italic">
+                      We've identified a specialized **Target Segment Architecture** tailored for your specific industry sector.
                     </p>
                   </div>
                   <Button 
@@ -1249,30 +1492,152 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-4">
-                    <h4 className="text-sm font-bold text-amber-600 uppercase tracking-widest">Market Analysis</h4>
-                    <div className="text-slate-600 leading-relaxed text-sm">{renderText(strategy.marketPosition?.analysis || '')}</div>
+                <div className="flex flex-col gap-16">
+                  {/* Part A: Market Analysis */}
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3">
+                      <div className="h-px flex-1 bg-amber-100" />
+                      <h4 className="text-xs font-black text-amber-600 uppercase tracking-[0.2em] px-4 py-1.5 bg-amber-50 rounded-full border border-amber-100">
+                        Strategic Market Analysis
+                      </h4>
+                      <div className="h-px flex-1 bg-amber-100" />
+                    </div>
+                    <div className="max-w-4xl mx-auto text-slate-600 leading-relaxed text-base text-center italic font-medium px-8">
+                      {renderText(strategy.marketPosition?.analysis || '')}
+                    </div>
                   </div>
                   
-                  <div className="space-y-4">
-                    <h4 className="label-xs text-brand-600">The Competitors</h4>
-                    <div className="grid grid-cols-1 gap-3">
+                  {/* Part B: Competitor Intelligence */}
+                  <div className="space-y-8 pt-8 border-t border-brand-100">
+                    <div className="flex items-center justify-between px-6">
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-bold text-brand-900">Competitive Intelligence Landscape</h4>
+                        <p className="text-[10px] text-brand-400 font-medium uppercase tracking-widest">Research-Led Benchmark Analysis</p>
+                      </div>
+                      <div className="px-3 py-1 bg-brand-50 text-brand-600 text-[10px] font-bold rounded-lg border border-brand-100">
+                        {strategy.marketPosition?.competitors?.length || 0} Key Players Identified
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-6">
                       {strategy.marketPosition?.competitors?.map((comp, i) => (
-                        <div key={i} className="flex items-center justify-between p-3 bg-brand-50 rounded-[var(--radius-card)] border border-brand-100">
-                          <span className="font-bold text-brand-900 text-sm">{comp.name}</span>
-                          <span className="label-xs text-brand-400">Direct Competitor</span>
+                        <div key={i} className="group p-6 bg-white rounded-[var(--radius-section)] border border-brand-100 shadow-sm hover:shadow-lg hover:border-brand-200 transition-all">
+                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            <div className="flex-1 space-y-4">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xl font-bold text-brand-900 tracking-tight">{comp.name}</span>
+                                <span className="px-3 py-1 bg-brand-50 text-brand-500 text-[10px] font-bold uppercase tracking-wider rounded-full border border-brand-100 italic">
+                                  Direct Sector Competitor
+                                </span>
+                              </div>
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="space-y-4 px-4 py-3 bg-brand-50/50 rounded-xl border border-brand-50">
+                                  <div className="flex flex-col gap-2">
+                                    <span className="text-[9px] font-black text-brand-300 uppercase tracking-widest">High-Fidelity Presence</span>
+                                    {comp.website && comp.website !== 'N/A' ? (
+                                      <a 
+                                        href={comp.website.startsWith('http') ? comp.website : `https://${comp.website}`} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2.5 text-brand-600 hover:text-brand-900 transition-colors group/link"
+                                      >
+                                        <div className="p-2 bg-white rounded-lg shadow-sm border border-brand-100 group-hover/link:shadow-md transition-shadow">
+                                          <Globe className="w-4 h-4" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <span className="text-xs font-bold underline underline-offset-4">{comp.website.replace(/^https?:\/\//, '')}</span>
+                                          <span className="text-[8px] text-brand-400 font-medium">Official Digital Hub</span>
+                                        </div>
+                                        <ExternalLink className="w-3 h-3 opacity-40 group-hover/link:opacity-100 transition-opacity ml-auto" />
+                                      </a>
+                                    ) : (
+                                      <div className="flex items-center gap-2.5 text-brand-300 opacity-60">
+                                        <div className="p-2 bg-white rounded-lg border border-dashed border-brand-200">
+                                          <Globe className="w-4 h-4 animate-pulse" />
+                                        </div>
+                                        <span className="text-xs font-medium italic">Scraping Live Website Data...</span>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <div className="flex flex-col gap-2 pt-2 border-t border-brand-100/50">
+                                    <span className="text-[9px] font-black text-brand-300 uppercase tracking-widest">Intelligence Nodes</span>
+                                    <div className="flex gap-3">
+                                      {comp.socials && comp.socials.length > 0 ? (
+                                        comp.socials.map((soc, si) => {
+                                          let Icon = Globe;
+                                          if (soc.platform.toLowerCase().includes('instagram')) Icon = Instagram;
+                                          if (soc.platform.toLowerCase().includes('linkedin')) Icon = Linkedin;
+                                          return (
+                                            <a key={si} href={soc.url} target="_blank" rel="noopener noreferrer" className="p-2.5 bg-white rounded-xl text-brand-400 hover:bg-brand-900 hover:text-white transition-all shadow-sm border border-brand-100" title={soc.platform}>
+                                              <Icon className="w-4 h-4" />
+                                            </a>
+                                          );
+                                        })
+                                      ) : (
+                                        <div className="flex gap-3">
+                                          <div className="p-2.5 bg-white rounded-xl text-brand-200 border border-dashed border-brand-100 opacity-50">
+                                            <Instagram className="w-4 h-4" />
+                                          </div>
+                                          <div className="p-2.5 bg-white rounded-xl text-brand-200 border border-dashed border-brand-100 opacity-50">
+                                            <Linkedin className="w-4 h-4" />
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <div className="space-y-4 px-4 py-3 bg-brand-50/50 rounded-xl border border-brand-50">
+                                  <div className="flex flex-col gap-2">
+                                    <span className="text-[9px] font-black text-brand-300 uppercase tracking-widest">Geographic Anchor</span>
+                                    <div className="flex items-center gap-3">
+                                      <div className="p-2 bg-white rounded-lg shadow-sm border border-brand-100">
+                                        <MapPin className="w-4 h-4 text-brand-500" />
+                                      </div>
+                                      <div className="flex flex-col">
+                                        <span className="text-xs text-brand-900 font-bold">
+                                          {comp.location && !['Unknown', 'N/A', ''].includes(comp.location) ? comp.location : 'Strategic Regional Cluster'}
+                                        </span>
+                                        <span className="text-[8px] text-brand-400 font-medium uppercase tracking-[0.1em]">Verified Location</span>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="flex flex-col gap-2 pt-2 border-t border-brand-100/50">
+                                    <span className="text-[9px] font-black text-brand-300 uppercase tracking-widest">Market Tenure</span>
+                                    <div className="flex items-center gap-3">
+                                      <div className="p-2 bg-white rounded-lg shadow-sm border border-brand-100">
+                                        <Calendar className="w-4 h-4 text-brand-500" />
+                                      </div>
+                                      <div className="flex flex-col">
+                                        <span className="text-xs text-brand-900 font-bold">
+                                          {comp.established && !['N/A', 'Unknown', ''].includes(comp.established) ? `Established since ${comp.established}` : 'Founding Phase Identified'}
+                                        </span>
+                                        <span className="text-[8px] text-brand-400 font-medium uppercase tracking-[0.1em]">Operational Longevity</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="md:col-span-2 p-6 bg-brand-900 rounded-[var(--radius-section)] text-white space-y-3 shadow-sm">
-                    <div className="flex items-center gap-2 text-brand-400">
-                      <Zap className="w-4 h-4" />
-                      <h4 className="label-xs text-brand-400">The Strategic Gap</h4>
+                  {/* Strategic Gap Footer */}
+                  <div className="p-8 bg-brand-900 rounded-[var(--radius-section)] text-white space-y-4 shadow-xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-brand-800 rounded-full -mr-16 -mt-16 opacity-50 blur-2xl" />
+                    <div className="flex items-center gap-3 text-brand-400 relative z-10">
+                      <Zap className="w-5 h-5" />
+                      <h4 className="text-xs font-black uppercase tracking-[0.2em]">The Strategic Competitive Gap</h4>
                     </div>
-                    <p className="text-sm text-brand-100 font-medium leading-relaxed italic">"{strategy.marketPosition?.gapHighlight || 'N/A'}"</p>
+                    <p className="text-lg text-brand-50 font-display italic leading-relaxed relative z-10 max-w-5xl">
+                      "{strategy.marketPosition?.gapHighlight || 'N/A'}"
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1307,7 +1672,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   <p className="label-xs text-brand-400 uppercase tracking-widest font-bold opacity-80">{strategy.archetype?.primary?.jungianModel || 'N/A'}</p>
                 </div>
                 
-                <div className="space-y-4 flex-grow">
+                <div className="space-y-4">
                   <div className="grid grid-cols-1 gap-3">
                     <div className="space-y-1">
                       <p className="text-[10px] font-bold text-amber-500/60 uppercase tracking-widest">Goal</p>
@@ -1328,16 +1693,42 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   </div>
                 </div>
 
-                <div className="space-y-4 pt-4 border-t border-white/10">
-                  <div className="space-y-1">
+                {strategy.archetype?.primary?.personalityNarrative && (
+                  <p className="text-[11px] leading-relaxed text-brand-200 border-l border-amber-500/20 pl-4 py-0.5">
+                    {strategy.archetype.primary.personalityNarrative}
+                  </p>
+                )}
+
+                <div className="space-y-4 pt-4 border-t border-white/10 flex-grow">
+                  <div className="space-y-4">
                     <h6 className="text-[10px] font-bold text-brand-400 uppercase tracking-widest">In Practice</h6>
-                    <p className="text-xs text-brand-200 leading-relaxed">{strategy.archetype?.primary?.inPractice || 'N/A'}</p>
+                    <div className="grid grid-cols-1 gap-4">
+                      {Array.isArray(strategy.archetype?.primary?.inPractice) ? (
+                        strategy.archetype.primary.inPractice.map((item, i) => (
+                          <div key={i} className="space-y-1">
+                            <p className="text-[9px] font-bold text-amber-500/60 uppercase tracking-widest">{item.label}</p>
+                            <p className="text-[11px] text-brand-100/90 leading-relaxed">{item.content}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-[11px] text-brand-200 leading-relaxed italic opacity-60">Strategic data pending...</p>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 pt-2">
                     {strategy.archetype?.primary?.traits?.map((trait, i) => (
                       <span key={i} className="px-2 py-0.5 bg-white/10 text-brand-100 text-[9px] font-bold rounded-full border border-white/10 uppercase tracking-tighter">{trait}</span>
                     ))}
                   </div>
+
+                  {strategy.archetype?.primary?.strategicRationale && (
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      <p className="text-[9px] font-bold text-amber-500/60 uppercase tracking-widest mb-1.5">Strategic Rationale</p>
+                      <p className="text-[11px] text-brand-200 leading-relaxed italic">
+                        "{strategy.archetype.primary.strategicRationale}"
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -1351,7 +1742,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   <p className="label-xs text-brand-400 uppercase tracking-widest font-bold">{strategy.archetype?.secondary?.jungianModel || 'N/A'}</p>
                 </div>
 
-                <div className="space-y-4 flex-grow">
+                <div className="space-y-4">
                   <div className="grid grid-cols-1 gap-3">
                     <div className="space-y-1">
                       <p className="text-[10px] font-bold text-brand-500 uppercase tracking-widest">Goal</p>
@@ -1372,16 +1763,42 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   </div>
                 </div>
 
-                <div className="space-y-4 pt-4 border-t border-brand-100">
-                  <div className="space-y-1">
+                {strategy.archetype?.secondary?.personalityNarrative && (
+                  <p className="text-[11px] leading-relaxed text-brand-500 border-l border-brand-200 pl-4 py-0.5">
+                    {strategy.archetype.secondary.personalityNarrative}
+                  </p>
+                )}
+
+                <div className="space-y-4 pt-4 border-t border-brand-100 flex-grow">
+                  <div className="space-y-4">
                     <h6 className="text-[10px] font-bold text-brand-400 uppercase tracking-widest">In Practice</h6>
-                    <p className="text-xs text-brand-600 leading-relaxed">{strategy.archetype?.secondary?.inPractice || 'N/A'}</p>
+                    <div className="grid grid-cols-1 gap-4">
+                      {Array.isArray(strategy.archetype?.secondary?.inPractice) ? (
+                        strategy.archetype.secondary.inPractice.map((item, i) => (
+                          <div key={i} className="space-y-1">
+                            <p className="text-[9px] font-bold text-brand-500 uppercase tracking-widest">{item.label}</p>
+                            <p className="text-[11px] text-brand-600 leading-relaxed">{item.content}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-[11px] text-brand-500 leading-relaxed italic opacity-60">Strategic data pending...</p>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 pt-2">
                     {strategy.archetype?.secondary?.traits?.map((trait, i) => (
                       <span key={i} className="px-2 py-0.5 bg-brand-50 text-brand-600 text-[9px] font-bold rounded-full border border-brand-200 uppercase tracking-tighter">{trait}</span>
                     ))}
                   </div>
+
+                  {strategy.archetype?.secondary?.strategicRationale && (
+                    <div className="mt-4 pt-4 border-t border-brand-100">
+                      <p className="text-[9px] font-bold text-brand-500 uppercase tracking-widest mb-1.5">Strategic Rationale</p>
+                      <p className="text-[11px] text-brand-500 leading-relaxed italic">
+                        "{strategy.archetype.secondary.strategicRationale}"
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -1395,7 +1812,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   <p className="label-xs text-indigo-400 uppercase tracking-widest font-bold">{strategy.archetype?.tertiary?.jungianModel || 'N/A'}</p>
                 </div>
 
-                <div className="space-y-4 flex-grow">
+                <div className="space-y-4">
                   <div className="grid grid-cols-1 gap-3">
                     <div className="space-y-1">
                       <p className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Goal</p>
@@ -1416,34 +1833,60 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                   </div>
                 </div>
 
-                <div className="space-y-4 pt-4 border-t border-indigo-200/50">
-                  <div className="space-y-1">
+                {strategy.archetype?.tertiary?.personalityNarrative && (
+                  <p className="text-[11px] leading-relaxed text-indigo-800/80 border-l border-indigo-200/50 pl-4 py-0.5">
+                    {strategy.archetype.tertiary.personalityNarrative}
+                  </p>
+                )}
+
+                <div className="space-y-4 pt-4 border-t border-indigo-200/50 flex-grow">
+                  <div className="space-y-4">
                     <h6 className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">In Practice</h6>
-                    <p className="text-xs text-indigo-700 leading-relaxed">{strategy.archetype?.tertiary?.inPractice || 'N/A'}</p>
+                    <div className="grid grid-cols-1 gap-4">
+                      {Array.isArray(strategy.archetype?.tertiary?.inPractice) ? (
+                        strategy.archetype.tertiary.inPractice.map((item, i) => (
+                          <div key={i} className="space-y-1">
+                            <p className="text-[9px] font-bold text-indigo-500 uppercase tracking-widest">{item.label}</p>
+                            <p className="text-[11px] text-indigo-900/80 leading-relaxed">{item.content}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-[11px] text-indigo-900 leading-relaxed italic opacity-60">Strategic data pending...</p>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 pt-2">
                     {strategy.archetype?.tertiary?.traits?.map((trait, i) => (
                       <span key={i} className="px-2 py-0.5 bg-white text-indigo-600 text-[9px] font-bold rounded-full border border-indigo-200/50 shadow-sm uppercase tracking-tighter">{trait}</span>
                     ))}
                   </div>
+
+                  {strategy.archetype?.tertiary?.strategicRationale && (
+                    <div className="mt-4 pt-4 border-t border-indigo-200/50">
+                      <p className="text-[9px] font-bold text-indigo-500 uppercase tracking-widest mb-1.5">Strategic Rationale</p>
+                      <p className="text-[11px] text-indigo-900/80 leading-relaxed italic">
+                        "{strategy.archetype.tertiary.strategicRationale}"
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
-              <Card className="border-none shadow-sm bg-white overflow-hidden">
-                <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-brand-100">
-                  <div className="p-8 space-y-4 bg-brand-50/30">
-                    <h4 className="label-xs text-brand-500">The Brand's Role</h4>
-                    <p className="body text-brand-900 leading-relaxed">{strategy.archetype?.behavior?.role || 'N/A'}</p>
-                  </div>
-                  <div className="p-8 space-y-4">
-                    <h4 className="label-xs text-brand-500">The Emotional Impact</h4>
-                    <p className="body text-brand-900 leading-relaxed">{strategy.archetype?.behavior?.impact || 'N/A'}</p>
-                  </div>
+            <Card className="border-none shadow-sm bg-white overflow-hidden">
+              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-brand-100">
+                <div className="p-8 space-y-4 bg-brand-50/30">
+                  <h4 className="label-xs text-brand-500">The Brand's Role</h4>
+                  <p className="body text-brand-900 leading-relaxed">{strategy.archetype?.behavior?.role || 'N/A'}</p>
                 </div>
-              </Card>
-            </div>
-          </section>
+                <div className="p-8 space-y-4">
+                  <h4 className="label-xs text-brand-500">The Emotional Impact</h4>
+                  <p className="body text-brand-900 leading-relaxed">{strategy.archetype?.behavior?.impact || 'N/A'}</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </section>
 
         {/* Pillar 5: Identity & Messaging */}
         <section className="space-y-[var(--space-gap)]">
@@ -1458,37 +1901,61 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
             <Card title="Brand Identity System" className="border-none shadow-sm bg-white">
               <div className="space-y-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {strategy.identitySystem?.colors?.map((c, i) => {
+                  {(strategy.identitySystem?.colors || []).slice(0, 4).map((c, i) => {
                     const hexMatch = c.color.match(/#[0-9A-Fa-f]{3,6}/);
                     const hex = hexMatch ? hexMatch[0] : '#CBD5E1';
                     const extractedName = c.color.replace(/ ?\(?#[0-9A-Fa-f]{3,6}\)?/, '').trim();
                     const descriptiveName = getDescriptiveColorName(hex);
-                    const variantName = i === 0 ? 'Primary' : i === 1 ? 'Secondary' : 'Accent';
-                    const colorName = extractedName || `${variantName} Color (${descriptiveName})`;
+                    const colorName = extractedName || `${c.role || 'Brand'} Color (${descriptiveName})`;
                     const cmyk = hexToCMYK(hex);
 
+                    // Role-based styling for the indicator badge
+                    const role = c.role || (i === 0 ? 'Primary' : i === 1 ? 'Secondary' : i === 2 ? 'Tertiary' : 'Accent');
+                    const badgeStyles = role === 'Primary' 
+                      ? 'bg-brand-900 text-white border-brand-800'
+                      : role === 'Tertiary'
+                      ? 'bg-indigo-100 text-indigo-700 border-indigo-200'
+                      : role === 'Accent'
+                      ? 'bg-amber-100 text-amber-700 border-amber-200'
+                      : 'bg-slate-100 text-slate-600 border-slate-200';
+
                     return (
-                      <div key={i} className="bg-brand-50 rounded-[var(--radius-section)] p-4 border border-brand-100 space-y-3">
+                      <div key={i} className="bg-brand-50 rounded-[var(--radius-section)] p-4 border border-brand-100 space-y-3 relative overflow-hidden group min-h-[320px] flex flex-col">
+                        {/* Role Indicator Badge */}
+                        <div className="absolute top-2 right-2 z-10">
+                          <span className={cn(
+                            "px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest border shadow-sm transition-transform group-hover:scale-105",
+                            badgeStyles
+                          )}>
+                            {role}
+                          </span>
+                        </div>
+
                         <div 
-                          className="aspect-video rounded-[var(--radius-card)] shadow-inner border border-black/10 transition-transform hover:scale-[1.02]"
+                          className="aspect-video rounded-[var(--radius-card)] shadow-inner border border-black/10 transition-transform hover:scale-[1.02] shrink-0"
                           style={{ backgroundColor: hex }}
                         />
-                        <div className="space-y-1">
-                          <p className="text-sm font-bold text-brand-900 truncate">{colorName}</p>
-                          <div className="flex flex-col gap-1">
-                            <div className="flex justify-between items-center bg-brand-100/50 px-2 py-1 rounded">
-                              <span className="text-[9px] font-bold text-brand-400 uppercase">HEX</span>
-                              <code className="text-[10px] font-mono text-brand-600 font-bold">{hex.toUpperCase()}</code>
+                        <div className="space-y-1 flex-1 flex flex-col justify-between">
+                          <div className="space-y-1">
+                            <p className="text-sm font-bold text-brand-900 truncate">{colorName}</p>
+                            <div className="flex flex-col gap-1">
+                              <div className="flex justify-between items-center bg-brand-100/50 px-2 py-1 rounded">
+                                <span className="text-[9px] font-bold text-brand-400 uppercase">HEX</span>
+                                <code className="text-[10px] font-mono text-brand-600 font-bold">{hex.toUpperCase()}</code>
+                              </div>
+                              <div className="flex justify-between items-center bg-brand-100/50 px-2 py-1 rounded">
+                                <span className="text-[9px] font-bold text-brand-400 uppercase">CMYK</span>
+                                <code className="text-[10px] font-mono text-brand-600 font-bold">{cmyk}</code>
+                              </div>
                             </div>
-                            <div className="flex justify-between items-center bg-brand-100/50 px-2 py-1 rounded">
-                              <span className="text-[9px] font-bold text-brand-400 uppercase">CMYK</span>
-                              <code className="text-[10px] font-mono text-brand-600 font-bold">{cmyk}</code>
-                            </div>
+                            {/* Psychological Meaning - Removed Truncation */}
+                            <p className="text-[10px] text-brand-500 leading-relaxed pt-1.5">{c.meaning}</p>
                           </div>
-                          <p className="text-[10px] text-brand-500 leading-tight pt-1">{c.meaning}</p>
-                          <div className="pt-2 border-t border-brand-200 mt-2">
-                            <p className="label-xs text-brand-400">Application</p>
-                            <p className="text-[10px] text-brand-600 truncate">{c.application}</p>
+                          
+                          {/* Application Guidance - Removed Truncation */}
+                          <div className="pt-3 border-t border-brand-200 mt-3 shrink-0">
+                            <p className="label-xs text-brand-400 mb-1">Application</p>
+                            <p className="text-[10px] text-brand-600 leading-normal">{c.application}</p>
                           </div>
                         </div>
                       </div>
@@ -1554,57 +2021,101 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                     })}
                   </div>
 
-                  <div className="p-8 bg-slate-50 rounded-[25px] border border-slate-100 space-y-8">
-                    <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                  {/* Logo Strategic Directions - Dual Pathway Grid */}
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between border-b border-brand-200 pb-4">
                       <div className="flex items-center gap-4">
-                        <div className="p-2 bg-white rounded-xl shadow-sm border border-slate-100">
-                          <Palette className="w-5 h-5 text-indigo-600" />
+                        <div className="p-2 bg-white rounded-xl shadow-sm border border-brand-100">
+                          <Palette className="w-5 h-5 text-brand-600" />
                         </div>
                         <div>
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Visual Strategy</p>
-                          <h4 className="text-xl font-bold text-slate-900">Logo Direction</h4>
+                          <p className="text-[10px] font-bold text-brand-400 uppercase tracking-widest leading-none mb-1">Visual Strategy</p>
+                          <h4 className="text-xl font-bold text-brand-900">Logo Strategic Directions</h4>
                         </div>
+                      </div>
+                      <div className="hidden sm:block px-3 py-1 bg-brand-50 text-brand-600 text-[10px] font-bold uppercase tracking-tight rounded-md border border-brand-200">
+                        {strategy.identitySystem.logoOptions?.length || 0} Options Optimized
                       </div>
                     </div>
 
-                    <div className="space-y-6">
-                      <p className="text-lg text-slate-700 leading-relaxed font-light">
-                        {strategy.identitySystem.logoDirection.description}
-                      </p>
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                      {(strategy.identitySystem.logoOptions || []).map((opt, i) => {
+                        const isUserAnchored = opt.strategy === 'User Anchored';
+                        return (
+                          <div key={i} className="bg-white rounded-[20px] p-6 border border-brand-100 shadow-sm flex flex-col space-y-6 transition-all hover:border-brand-200">
+                            <div className="flex items-center justify-between">
+                              <span className={cn(
+                                "px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest border",
+                                isUserAnchored ? "bg-brand-900 text-white border-brand-900" : "bg-indigo-50 text-indigo-700 border-indigo-100"
+                              )}>
+                                {opt.strategy} Concept
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <Box className="w-3.5 h-3.5 text-brand-400" />
+                                <span className="text-[10px] font-bold text-brand-400 uppercase tracking-tighter">Pd Optimized</span>
+                              </div>
+                            </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                        <div className="space-y-3">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Recommended Shapes</p>
-                          <div className="flex flex-wrap gap-2">
-                            {strategy.identitySystem.logoDirection.shapes.map((s, i) => (
-                              <span key={i} className="px-3 py-1.5 bg-white text-slate-600 text-xs font-medium rounded-lg border border-slate-200 shadow-sm">{s}</span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="space-y-3">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Logotypes</p>
-                          <div className="flex flex-wrap gap-2">
-                            {strategy.identitySystem.logoDirection.logotypes.map((l, i) => (
-                              <span key={i} className="px-3 py-1.5 bg-white text-slate-600 text-xs font-medium rounded-lg border border-slate-200 shadow-sm">{l}</span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="space-y-3">
-                          <p className="label-xs text-brand-400">Symbols & Metaphors</p>
-                          <div className="flex flex-wrap gap-2">
-                            {strategy.identitySystem.logoDirection.symbols.map((symbol, i) => (
-                              <span key={i} className="px-3 py-1.5 bg-brand-50 text-brand-700 text-xs font-medium rounded-[var(--radius-control)] border border-brand-100 shadow-sm">{symbol}</span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                            <div className="space-y-4 flex-1">
+                              <p className="text-sm text-brand-700 leading-relaxed font-light italic">
+                                "{opt.description}"
+                              </p>
+                              
+                              {/* Pd Model Analysis Section */}
+                              <div className="bg-brand-50 rounded-xl p-4 border border-brand-100 space-y-4">
+                                <div className="flex items-center gap-2 border-b border-brand-200/50 pb-2">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-brand-500" />
+                                  <p className="text-[9px] font-bold text-brand-500 uppercase tracking-widest">Propositional Density (Pd) Model</p>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div className="space-y-1">
+                                    <p className="text-[9px] font-bold text-brand-400 uppercase">Surface (Pv)</p>
+                                    <p className="text-[10px] text-brand-600 leading-normal">{opt.propositionalDensity.surface}</p>
+                                  </div>
+                                  <div className="space-y-1 border-l border-brand-200/50 pl-4">
+                                    <p className="text-[9px] font-bold text-brand-400 uppercase">Semantic (Ps)</p>
+                                    <p className="text-[10px] text-brand-600 leading-normal">{opt.propositionalDensity.semantic}</p>
+                                  </div>
+                                </div>
+                                <div className="pt-2">
+                                  <p className="text-[9px] font-bold text-brand-400 uppercase mb-1">Pd Rationale</p>
+                                  <p className="text-[10px] text-brand-500 leading-relaxed italic">{opt.propositionalDensity.rationale}</p>
+                                </div>
+                              </div>
+                            </div>
 
-                      <div className="p-6 bg-brand-50/30 rounded-[var(--radius-section)] border border-brand-100 shadow-sm mt-6">
-                        <p className="label-xs text-brand-400 mb-3">Strategic Rationale</p>
-                        <p className="text-sm text-brand-700 leading-relaxed italic">
-                          "{strategy.identitySystem.logoDirection.rationale}"
-                        </p>
-                      </div>
+                            <div className="grid grid-cols-2 gap-6 pt-4 border-t border-brand-100">
+                              <div className="space-y-3">
+                                <p className="label-xs text-brand-400 uppercase tracking-widest">Visual Forms</p>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {(opt.shapes || []).map((s, j) => (
+                                    <span key={j} className="px-2 py-0.5 bg-brand-50 text-brand-600 text-[9px] font-medium rounded border border-brand-100">
+                                      {s}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className="space-y-3">
+                                <p className="label-xs text-brand-400 uppercase tracking-widest">Strategic Symbols</p>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {(opt.symbols || []).map((s, j) => (
+                                    <span key={j} className="px-2 py-0.5 bg-brand-900/5 text-brand-900/60 text-[9px] font-bold rounded border border-brand-900/10">
+                                      {s}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="pt-4">
+                              <p className="label-xs text-brand-400 uppercase tracking-widest mb-2">Technical Rationale</p>
+                              <p className="text-[11px] text-brand-600 leading-relaxed line-clamp-3">
+                                {opt.rationale}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

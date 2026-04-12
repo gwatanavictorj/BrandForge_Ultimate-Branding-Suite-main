@@ -103,7 +103,15 @@ export interface BrandStrategy {
     quadrant: string;
     statement: string;
     position: { x: number; y: number };
-    competitors: { name: string; x: number; y: number }[];
+    competitors: { 
+      name: string; 
+      x: number; 
+      y: number;
+      website?: string;
+      socials?: { platform: string; url: string }[];
+      location?: string;
+      established?: string;
+    }[];
     analysis: string;
     gapHighlight: string;
   };
@@ -117,8 +125,11 @@ export interface BrandStrategy {
       fear: string;
       weakness: string;
       talent: string;
+      personalityNarrative: string;
+      archetypeStatement: string;
       traits: string[];
-      inPractice: string;
+      inPractice: { label: string; content: string }[];
+      strategicRationale: string;
     },
     secondary: {
       name: string;
@@ -129,8 +140,11 @@ export interface BrandStrategy {
       fear: string;
       weakness: string;
       talent: string;
+      personalityNarrative: string;
+      archetypeStatement: string;
       traits: string[];
-      inPractice: string;
+      inPractice: { label: string; content: string }[];
+      strategicRationale: string;
     },
     tertiary: {
       name: string;
@@ -141,8 +155,11 @@ export interface BrandStrategy {
       fear: string;
       weakness: string;
       talent: string;
+      personalityNarrative: string;
+      archetypeStatement: string;
       traits: string[];
-      inPractice: string;
+      inPractice: { label: string; content: string }[];
+      strategicRationale: string;
     };
     behavior: {
       tone: {
@@ -161,14 +178,20 @@ export interface BrandStrategy {
   }[];
   essence: string;
   identitySystem: {
-    colors: { color: string; meaning: string; application: string }[];
-    logoDirection: {
+    colors: { color: string; role: string; meaning: string; application: string }[];
+    logoOptions: {
+      strategy: 'User Anchored' | 'System Optimized';
       description: string;
       shapes: string[];
       logotypes: string[];
       symbols: string[];
+      propositionalDensity: {
+        surface: string; // Pv: What it is visually
+        semantic: string; // Ps: What it means strategically
+        rationale: string; // The Pd argument
+      };
       rationale: string;
-    };
+    }[];
     typography: {
       primary: {
         name: string;

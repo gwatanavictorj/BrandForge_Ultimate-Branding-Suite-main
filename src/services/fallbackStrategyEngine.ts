@@ -25,7 +25,8 @@ interface ArchetypeData {
   jungianModel: string;
   traits: string[];
   inPractice: string;
-  keywords: string[]; // used for matching
+  keywords: string[]; // Standard traits
+  identityMarkers: string[]; // High-potency Jungian signals
 }
 
 const ARCHETYPES: ArchetypeData[] = [
@@ -37,7 +38,8 @@ const ARCHETYPES: ArchetypeData[] = [
     jungianModel: 'Innovation & Structure: The Creator represents the archetypal artist — the drive to express vision and bring new things into existence.',
     traits: ['Innovative', 'Imaginative', 'Expressive', 'Original', 'Visionary'],
     inPractice: 'The brand communicates through bold design, original content, and an emphasis on craft and quality.',
-    keywords: ['innovation', 'creative', 'expressive', 'design', 'art', 'build', 'craft', 'original', 'technology', 'software']
+    keywords: ['innovation', 'creative', 'expressive', 'design', 'art', 'build', 'craft', 'original', 'technology', 'software', 'architect', 'modular'],
+    identityMarkers: ['invention', 'imagination', 'visionary', 'artistic', 'prototype', 'creator', 'masterpiece', 'blueprint', 'sculpt']
   },
   {
     name: 'Caregiver',
@@ -47,7 +49,8 @@ const ARCHETYPES: ArchetypeData[] = [
     jungianModel: 'Service & Structure: The Caregiver embodies the nurturing parent — selfless, compassionate, and devoted to well-being.',
     traits: ['Compassionate', 'Nurturing', 'Generous', 'Supportive', 'Trustworthy'],
     inPractice: 'The brand prioritizes customer well-being, offers exceptional support, and communicates with warmth.',
-    keywords: ['service', 'care', 'health', 'support', 'nurture', 'protect', 'safe', 'medical', 'wellness', 'help', 'comfort']
+    keywords: ['service', 'care', 'health', 'support', 'nurture', 'protect', 'safe', 'medical', 'wellness', 'help', 'comfort', 'hospitality', 'foundation'],
+    identityMarkers: ['altruism', 'generosity', 'protection', 'parental', 'devoted', 'empathy', 'well-being', 'sanctuary', 'guardian']
   },
   {
     name: 'Ruler',
@@ -57,7 +60,8 @@ const ARCHETYPES: ArchetypeData[] = [
     jungianModel: 'Control & Structure: The Ruler represents the sovereign — the drive for stability and leadership that creates order.',
     traits: ['Authoritative', 'Commanding', 'Refined', 'Decisive', 'Responsible'],
     inPractice: 'The brand positions itself as the industry leader, uses polished visuals, and communicates with confidence.',
-    keywords: ['control', 'luxury', 'premium', 'prestige', 'leader', 'authority', 'exclusive', 'elite', 'royal', 'heritage', 'legacy']
+    keywords: ['control', 'luxury', 'premium', 'prestige', 'leader', 'authority', 'exclusive', 'elite', 'royal', 'heritage', 'legacy', 'governance', 'stability'],
+    identityMarkers: ['sovereign', 'dominance', 'empire', 'stability', 'organization', 'leadership', 'power', 'prestige', 'throne']
   },
   {
     name: 'Hero',
@@ -67,7 +71,8 @@ const ARCHETYPES: ArchetypeData[] = [
     jungianModel: 'Mastery & Legacy: The Hero represents the warrior — the inner drive to rise, compete, and triumph against adversity.',
     traits: ['Bold', 'Courageous', 'Determined', 'Inspiring', 'Competitive'],
     inPractice: 'The brand inspires action, showcases achievements, and positions customers as capable of overcoming challenges.',
-    keywords: ['mastery', 'bold', 'impact', 'performance', 'strong', 'fast', 'efficient', 'achieve', 'sports', 'fitness', 'empower']
+    keywords: ['mastery', 'bold', 'impact', 'performance', 'strong', 'fast', 'efficient', 'achieve', 'sports', 'fitness', 'empower', 'resilient', 'brave'],
+    identityMarkers: ['warrior', 'triumph', 'strength', 'discipline', 'heroic', 'combat', 'victory', 'olympian', 'valiance']
   },
   {
     name: 'Explorer',
@@ -77,7 +82,8 @@ const ARCHETYPES: ArchetypeData[] = [
     jungianModel: 'Freedom & Spirituality: The Explorer embodies the wanderer — the search for authenticity and meaning through discovery.',
     traits: ['Adventurous', 'Independent', 'Ambitious', 'Pioneering', 'Authentic'],
     inPractice: 'The brand encourages discovery, uses expansive imagery, and promises new possibilities.',
-    keywords: ['freedom', 'travel', 'adventure', 'explore', 'discover', 'journey', 'outdoor', 'experience', 'tourism']
+    keywords: ['freedom', 'travel', 'adventure', 'explore', 'discover', 'journey', 'outdoor', 'experience', 'tourism', 'frontier', 'pioneer'],
+    identityMarkers: ['wanderer', 'discovery', 'authenticity', 'pioneer', 'unbound', 'destination', 'remote', 'pilgrimage', 'horizon']
   },
   {
     name: 'Sage',
@@ -87,7 +93,8 @@ const ARCHETYPES: ArchetypeData[] = [
     jungianModel: 'Understanding & Spirituality: The Sage represents the wise mentor — the pursuit of truth and knowledge through analysis.',
     traits: ['Wise', 'Analytical', 'Knowledgeable', 'Thoughtful', 'Expert'],
     inPractice: 'The brand leads with data, thought leadership, educational content, and positions itself as the trusted authority.',
-    keywords: ['understanding', 'consulting', 'education', 'knowledge', 'expert', 'research', 'data', 'analytics', 'wisdom']
+    keywords: ['understanding', 'consulting', 'education', 'knowledge', 'expert', 'research', 'data', 'analytics', 'wisdom', 'science', 'theory'],
+    identityMarkers: ['mentor', 'truth', 'analysis', 'cognition', 'guru', 'scholar', 'philosophy', 'objective', 'oracle']
   },
   {
     name: 'Magician',
@@ -95,9 +102,10 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Power',
     description: 'The Magician archetype transforms visions into reality. They create extraordinary experiences that feel almost magical.',
     jungianModel: 'Power & Legacy: The Magician represents the shaman — the ability to transform consciousness and create new realities.',
-    traits: ['Visionary', 'Transformative', 'Charismatic', 'Catalytic', 'Inspiring'],
-    inPractice: 'The brand promises transformation, uses aspirational messaging, and creates experiences that feel elevated.',
-    keywords: ['power', 'transform', 'magic', 'vision', 'innovation', 'tech-driven', 'disrupt', 'unforgettable', 'extraordinary']
+    traits: ['Visionary', 'Charismatic', 'Inventive', 'Transformational', 'Aspirational'],
+    inPractice: 'The brand communicates through awe-inspiring visuals, miraculous claims (backed by results), and a sense of wonder.',
+    keywords: ['transformation', 'visionary', 'future', 'change', 'wonder', 'miracle', 'extraordinary', 'inspire', 'alchemy', 'tech', 'digital'],
+    identityMarkers: ['shaman', 'alchemy', 'catalyst', 'extraordinary', 'transformation', 'metamorphosis', 'wonder', 'metempirical']
   },
   {
     name: 'Everyman',
@@ -107,7 +115,8 @@ const ARCHETYPES: ArchetypeData[] = [
     jungianModel: 'Belonging & Connection: The Everyman represents the common person — the desire for equality and shared human experience.',
     traits: ['Relatable', 'Down-to-earth', 'Honest', 'Friendly', 'Genuine'],
     inPractice: 'The brand uses approachable language, inclusive imagery, and positions itself as accessible.',
-    keywords: ['belonging', 'connection', 'friendly', 'approachable', 'accessible', 'affordable', 'community', 'everyone', 'simple', 'honest']
+    keywords: ['belonging', 'connection', 'friendly', 'approachable', 'accessible', 'affordable', 'community', 'everyone', 'simple', 'honest', 'solidarity'],
+    identityMarkers: ['neighbor', 'solidarity', 'belonging', 'democracy', 'realist', 'humility', 'inclusion', 'community']
   },
   {
     name: 'Lover',
@@ -117,7 +126,8 @@ const ARCHETYPES: ArchetypeData[] = [
     jungianModel: 'Intimacy & Connection: The Lover represents the passionate self — the pursuit of pleasure and aesthetic beauty.',
     traits: ['Passionate', 'Sensual', 'Warm', 'Intimate', 'Elegant'],
     inPractice: 'The brand uses rich, sensory language and visuals, creating emotional connections and premium experiences.',
-    keywords: ['intimacy', 'passion', 'beauty', 'fashion', 'style', 'elegant', 'romance', 'luxury', 'aesthetic']
+    keywords: ['intimacy', 'passion', 'beauty', 'fashion', 'style', 'elegant', 'romance', 'luxury', 'aesthetic', 'partnership'],
+    identityMarkers: ['romance', 'seduction', 'beauty', 'passion', 'devotion', 'sensuality', 'elegance', 'intimacy']
   },
   {
     name: 'Jester',
@@ -127,7 +137,8 @@ const ARCHETYPES: ArchetypeData[] = [
     jungianModel: 'Enjoyment & Connection: The Jester represents the trickster — the desire to live joyfully and bring laughter.',
     traits: ['Playful', 'Humorous', 'Energetic', 'Spontaneous', 'Entertaining'],
     inPractice: 'The brand uses humor, bold colors, and irreverent messaging to stand out and make customers smile.',
-    keywords: ['enjoyment', 'playful', 'vibrant', 'fun', 'entertainment', 'media', 'gaming', 'social', 'lively', 'energetic']
+    keywords: ['enjoyment', 'playful', 'vibrant', 'fun', 'entertainment', 'media', 'gaming', 'social', 'lively', 'energetic', 'joy'],
+    identityMarkers: ['trickster', 'joyous', 'laughter', 'irreverent', 'spontaneous', 'celebration', 'fun-loving', 'carnival']
   },
   {
     name: 'Innocent',
@@ -135,9 +146,10 @@ const ARCHETYPES: ArchetypeData[] = [
     innerNeed: 'Safety',
     description: 'The Innocent archetype seeks happiness, goodness, and simplicity. They want to do things the right way.',
     jungianModel: 'Safety & Spirituality: The Innocent represents the child — the belief in goodness, optimism, and a better world.',
-    traits: ['Optimistic', 'Pure', 'Honest', 'Simple', 'Trustworthy'],
+    traits: ['Optimistic', 'Simple', 'Honest', 'Humble', 'Trustworthy'],
     inPractice: 'The brand communicates with simplicity, transparency, and a positive, wholesome tone.',
-    keywords: ['safety', 'natural', 'organic', 'simple', 'clean', 'pure', 'sustainable', 'wholesome', 'green', 'eco']
+    keywords: ['safety', 'clean', 'pure', 'simple', 'happy', 'natural', 'fresh', 'honest', 'peace', 'organic', 'sustainability', 'integrity'],
+    identityMarkers: ['paradise', 'purity', 'optimism', 'wonder', 'simplicity', 'virtue', 'utopia', 'innocence']
   },
   {
     name: 'Outlaw',
@@ -147,9 +159,25 @@ const ARCHETYPES: ArchetypeData[] = [
     jungianModel: 'Liberation & Legacy: The Outlaw represents the rebel — the refusal to conform and the desire to overturn norms.',
     traits: ['Rebellious', 'Disruptive', 'Bold', 'Revolutionary', 'Unconventional'],
     inPractice: 'The brand challenges industry norms, uses edgy visuals, and positions itself as the bold alternative.',
-    keywords: ['liberation', 'disrupt', 'rebel', 'bold', 'revolution', 'unconventional', 'alternative', 'edgy', 'break', 'change']
+    keywords: ['liberation', 'disrupt', 'rebel', 'bold', 'revolution', 'unconventional', 'alternative', 'edgy', 'break', 'change', 'radical'],
+    identityMarkers: ['rebellion', 'misfit', 'radical', 'freedom-fighter', 'disruption', 'anarchy', 'iconoclast', 'underground']
   }
 ];
+
+// --- HYGIENE & INDUSTRY BIAS SYSTEM ---
+
+const HYGIENE_KEYWORDS = ['sustainable', 'integrity', 'quality', 'excellence', 'trust', 'service', 'professional', 'innovative', 'accountability', 'reliability'];
+
+const INDUSTRY_CONTEXT_MAP: Record<string, string[]> = {
+  'events': ['Magician', 'Jester', 'Everyman'],
+  'culture': ['Magician', 'Explorer', 'Creator'],
+  'industrial': ['Ruler', 'Explorer', 'Hero'],
+  'tech': ['Magician', 'Creator', 'Sage'],
+  'professional': ['Ruler', 'Sage'],
+  'hospitality': ['Everyman', 'Caregiver', 'Lover'],
+  'wellness': ['Caregiver', 'Innocent', 'Sage'],
+  'luxury': ['Ruler', 'Lover']
+};
 
 // ─── COLOR PSYCHOLOGY DATABASE ────────────────────────────────────
 
@@ -215,38 +243,83 @@ const MASLOW_MAP: { level: string; keywords: string[]; explanation: string; need
 
 // ─── INDUSTRY COMPETITOR TEMPLATES ────────────────────────────────
 
-const COMPETITOR_TEMPLATES: Record<string, { name: string; x: number; y: number }[]> = {
-  'technology': [{ name: 'TechCorp Global', x: 75, y: 60 }, { name: 'InnovateTech', x: 55, y: 80 }, { name: 'DigitalFirst', x: 40, y: 45 }],
-  'fintech': [{ name: 'PayStack', x: 70, y: 75 }, { name: 'Flutterwave', x: 65, y: 55 }, { name: 'Kuda Bank', x: 50, y: 65 }],
-  'healthcare': [{ name: 'HealthPlus', x: 60, y: 70 }, { name: 'MedCare Pro', x: 45, y: 55 }, { name: 'WellLife', x: 70, y: 40 }],
-  'education': [{ name: 'LearnHub', x: 55, y: 65 }, { name: 'EduTech Pro', x: 70, y: 50 }, { name: 'SkillForge', x: 40, y: 75 }],
-  'real estate': [{ name: 'PropVest', x: 65, y: 70 }, { name: 'HomeBase', x: 50, y: 45 }, { name: 'UrbanNest', x: 75, y: 55 }],
-  'e-commerce': [{ name: 'ShopEasy', x: 55, y: 60 }, { name: 'MarketPlace+', x: 70, y: 75 }, { name: 'QuickBuy', x: 40, y: 50 }],
-  'default': [{ name: 'Market Leader A', x: 70, y: 65 }, { name: 'Competitor B', x: 50, y: 50 }, { name: 'Challenger C', x: 35, y: 70 }],
+const COMPETITOR_TEMPLATES: Record<string, { name: string; x: number; y: number; website: string; socials: { platform: string; url: string }[]; location: string; established: string }[]> = {
+  'technology': [
+    { name: 'Nvidia', x: 75, y: 85, website: 'www.nvidia.com', socials: [{ platform: 'LinkedIn', url: 'https://linkedin.com/company/nvidia' }, { platform: 'X', url: 'https://x.com/nvidia' }], location: 'Santa Clara, CA', established: '1993' }, 
+    { name: 'Microsoft Azure', x: 65, y: 75, website: 'azure.microsoft.com', socials: [{ platform: 'LinkedIn', url: 'https://linkedin.com/company/microsoft' }], location: 'Redmond, WA', established: '2010' }, 
+    { name: 'Apple Cloud', x: 80, y: 65, website: 'www.apple.com/icloud', socials: [{ platform: 'Instagram', url: 'https://instagram.com/apple' }], location: 'Cupertino, CA', established: '2011' }
+  ],
+  'fintech': [
+    { name: 'Stripe', x: 75, y: 80, website: 'www.stripe.com', socials: [{ platform: 'LinkedIn', url: 'https://linkedin.com/company/stripe' }, { platform: 'X', url: 'https://x.com/stripe' }], location: 'San Francisco, CA', established: '2010' }, 
+    { name: 'Revolut', x: 65, y: 70, website: 'www.revolut.com', socials: [{ platform: 'Instagram', url: 'https://instagram.com/revolut' }], location: 'London, UK', established: '2015' }, 
+    { name: 'Plaid', x: 55, y: 65, website: 'www.plaid.com', socials: [{ platform: 'LinkedIn', url: 'https://linkedin.com/company/plaid' }], location: 'San Francisco, CA', established: '2013' }
+  ],
+  'healthcare': [
+    { name: 'Mayo Clinic', x: 80, y: 75, website: 'www.mayoclinic.org', socials: [{ platform: 'LinkedIn', url: '#' }], location: 'Rochester, MN', established: '1864' }, 
+    { name: 'Pfizer', x: 70, y: 65, website: 'www.pfizer.com', socials: [{ platform: 'LinkedIn', url: '#' }], location: 'New York, NY', established: '1849' }, 
+    { name: 'CVS Health', x: 60, y: 55, website: 'www.cvshealth.com', socials: [{ platform: 'X', url: '#' }], location: 'Woonsocket, RI', established: '1963' }
+  ],
+  'education': [
+    { name: 'Coursera', x: 70, y: 75, website: 'www.coursera.org', socials: [{ platform: 'LinkedIn', url: '#' }], location: 'Mountain View, CA', established: '2012' }, 
+    { name: 'Udemy', x: 55, y: 65, website: 'www.udemy.com', socials: [{ platform: 'Instagram', url: '#' }], location: 'San Francisco, CA', established: '2010' }, 
+    { name: 'Khan Academy', x: 45, y: 80, website: 'www.khanacademy.org', socials: [{ platform: 'YouTube', url: '#' }], location: 'Mountain View, CA', established: '2008' }
+  ],
+  'real estate': [
+    { name: 'Zillow', x: 75, y: 80, website: 'www.zillow.com', socials: [{ platform: 'Instagram', url: '#' }], location: 'Seattle, WA', established: '2006' }, 
+    { name: 'CBRE Group', x: 85, y: 65, website: 'www.cbre.com', socials: [{ platform: 'LinkedIn', url: '#' }], location: 'Dallas, TX', established: '1906' }, 
+    { name: 'Compass', x: 60, y: 70, website: 'www.compass.com', socials: [{ platform: 'LinkedIn', url: '#' }], location: 'New York, NY', established: '2012' }
+  ],
+  'e-commerce': [
+    { name: 'Amazon', x: 85, y: 90, website: 'www.amazon.com', socials: [{ platform: 'LinkedIn', url: '#' }], location: 'Seattle, WA', established: '1994' }, 
+    { name: 'Shopify', x: 75, y: 70, website: 'www.shopify.com', socials: [{ platform: 'X', url: '#' }], location: 'Ottawa, CA', established: '2006' }, 
+    { name: 'Etsy', x: 40, y: 80, website: 'www.etsy.com', socials: [{ platform: 'Instagram', url: '#' }], location: 'Brooklyn, NY', established: '2005' }
+  ],
+  'events': [
+    { name: 'Eventbrite', x: 75, y: 80, website: 'www.eventbrite.com', socials: [{ platform: 'LinkedIn', url: '#' }], location: 'San Francisco, CA', established: '2006' }, 
+    { name: 'Cvent', x: 85, y: 65, website: 'www.cvent.com', socials: [{ platform: 'LinkedIn', url: '#' }], location: 'Tysons, VA', established: '1999' }, 
+    { name: 'Bizzabo', x: 60, y: 70, website: 'www.bizzabo.com', socials: [{ platform: 'Instagram', url: '#' }], location: 'New York, NY', established: '2011' }
+  ],
+  'default': [
+    { name: 'Industry Leader', x: 70, y: 65, website: 'www.market-leader.com', socials: [{ platform: 'LinkedIn', url: '#' }], location: 'Global HQ', established: '2005' }, 
+    { name: 'Global Challenger', x: 50, y: 50, website: 'www.challenger-hub.io', socials: [{ platform: 'Instagram', url: '#' }], location: 'International Office', established: '2018' }, 
+    { name: 'Digital Specialist', x: 35, y: 70, website: 'www.specialist-pro.com', socials: [{ platform: 'X', url: '#' }], location: 'Metropolitan Hub', established: '2021' }
+  ],
 };
 
 // ─── HELPER FUNCTIONS ─────────────────────────────────────────────
 
-function matchArchetype(discovery: BrandDiscovery): { primary: ArchetypeData; secondary: ArchetypeData } {
-  const allText = [
-    discovery.industry, discovery.mission, discovery.vision,
-    discovery.philosophy, discovery.problemSolving,
-    ...(discovery.brandFeel || []),
-    ...(discovery.coreValues || []),
-    ...(discovery.strengths || []),
-    ...(discovery.customerBenefits || []),
-    discovery.differentiation || ''
-  ].filter(v => typeof v === 'string').join(' ').toLowerCase();
+function matchArchetype(discovery: BrandDiscovery): { primary: ArchetypeData; secondary: ArchetypeData; tertiary: ArchetypeData } {
+  // 1. Segment Data into tiers of strategic intent
+  const soulSource = [discovery.mission, discovery.problemSolving, discovery.differentiation, discovery.industry].join(' ').toLowerCase();
+  const behaviorSource = [...(discovery.brandFeel || []), ...(discovery.coreValues || []), discovery.vision].join(' ').toLowerCase();
+  const contextSource = discovery.industry.toLowerCase();
 
   const scores = ARCHETYPES.map(a => {
     let score = 0;
-    // CRITICAL: Weighted matching for "Inner Need" and "Group" keywords from Jungian Wheel
-    if (allText.includes(a.innerNeed.toLowerCase())) score += 15;
-    if (allText.includes(a.group.toLowerCase())) score += 5;
 
-    // Standard trait matching
+    // --- TIER 1: THE INNER NEED (SOUL) - 10X WEIGHT ---
+    if (soulSource.includes(a.innerNeed.toLowerCase())) score += 150;
+    
+    // Identity Markers check (High potency Junigan signals)
+    a.identityMarkers.forEach(im => {
+      if (soulSource.includes(im.toLowerCase())) score += 25;
+    });
+
+    // --- TIER 2: INDUSTRY CONTEXTUAL BIAS ---
+    Object.entries(INDUSTRY_CONTEXT_MAP).forEach(([key, list]) => {
+      if (contextSource.includes(key) && list.includes(a.name)) {
+        score += 50;
+      }
+    });
+
+    // --- TIER 3: TEXTUAL ANALYSIS (IDENTITY VS NOISE) ---
+    const allText = (soulSource + ' ' + behaviorSource).toLowerCase();
+    
     a.keywords.forEach(k => {
-      if (allText.includes(k.toLowerCase())) score += 1;
+      if (allText.includes(k.toLowerCase())) {
+        const isHygiene = HYGIENE_KEYWORDS.includes(k.toLowerCase());
+        score += isHygiene ? 0.5 : 2.5;
+      }
     });
 
     return { archetype: a, score };
@@ -254,7 +327,8 @@ function matchArchetype(discovery: BrandDiscovery): { primary: ArchetypeData; se
 
   return {
     primary: scores[0].archetype,
-    secondary: scores[1]?.archetype || scores[0].archetype
+    secondary: scores[1]?.archetype || scores[0].archetype,
+    tertiary: scores[2]?.archetype || scores[1]?.archetype || scores[0].archetype
   };
 }
 
@@ -274,7 +348,7 @@ function matchMaslow(discovery: BrandDiscovery): typeof MASLOW_MAP[0] {
   return scores[0].level;
 }
 
-function selectColors(discovery: BrandDiscovery): { color: string; meaning: string; application: string }[] {
+function selectColors(discovery: BrandDiscovery): { color: string; role: string; meaning: string; application: string }[] {
   const industry = (typeof discovery.industry === 'string' ? discovery.industry : '').toLowerCase();
   const feels = (discovery.brandFeel || []).filter(f => typeof f === 'string').map(f => f.toLowerCase());
   const userColorText = (discovery.colorSymbols || '').toLowerCase();
@@ -298,7 +372,7 @@ function selectColors(discovery: BrandDiscovery): { color: string; meaning: stri
   const picked: ColorPalette[] = [];
   
   // Always include anchors first
-  anchors.forEach(a => picked.push(a));
+  anchors.forEach(a => { if (picked.length < 4) picked.push(a); });
 
   // 3. Fill with Complementary / Balanced choices
   scored.forEach(c => {
@@ -323,18 +397,26 @@ function selectColors(discovery: BrandDiscovery): { color: string; meaning: stri
     picked.push(c);
   });
 
-  // Final fallback to ensure 4 colors
+  // Final fallback to ensure exactly 4 colors
   if (picked.length < 4) {
     COLOR_DATABASE.forEach(c => {
       if (picked.length < 4 && !picked.find(p => p.hex === c.hex)) picked.push(c);
     });
   }
 
-  return picked.map(c => ({
-    color: `${c.color} (${c.hex})`,
-    meaning: c.meaning,
-    application: c.application
-  }));
+  // Ensure exactly 4 by slicing if somehow exceeded
+  const final4 = picked.slice(0, 4);
+
+  return final4.map((c, i) => {
+    // Definitive role assignment based on selection priority
+    const role = i === 0 ? 'Primary' : i === 1 ? 'Secondary' : i === 2 ? 'Tertiary' : 'Accent';
+    return {
+      color: `${c.color} (${c.hex})`,
+      role: role,
+      meaning: c.meaning,
+      application: c.application
+    };
+  });
 }
 
 function selectTypography(discovery: BrandDiscovery): string {
@@ -474,8 +556,15 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
         fear: 'Being mediocre or having a vision that fails to materialize.',
         weakness: 'Perfectionism and creating impractical solutions.',
         talent: 'Creativity, imagination, and the ability to turn concepts into reality.',
+        personalityNarrative: `As a ${primary.name}, ${brandName} follows a transformative and visionary sequence to seek and deliver innovation. At their core, ${brandName} is a catalyst for change and finds fulfillment in turning ambitious dreams into tangible results.`,
+        archetypeStatement: `${brandName} is a ${primary.name} brand that exists to transform possibilities into reality by providing powerful tools and insight, helping users achieve meaningful change.`,
         traits: primary.traits,
-        inPractice: `Dominant Need: ${primary.innerNeed}. For ${brandName}, the ${primary.name} archetype manifests through ${String(primary.inPractice || '').toLowerCase()}`
+        inPractice: [
+          { label: 'Messaging', content: 'Focus on transformation, wonder, and the impossible made possible. Use inspiring and catalytic language.' },
+          { label: 'Visuals', content: 'Use ethereal, dynamic, and high-contrast imagery that suggests movement, power, and evolution.' },
+          { label: 'Interaction', content: 'The experience should feel effortless, intuitive, and almost magical in its ability to solve complex problems.' }
+        ],
+        strategicRationale: `${brandName}'s core identity is rooted in the ${primary.name} archetype, as it directly mirrors the brand's primary mission to ${discovery.mission || 'deliver excellence'}.`
       },
       secondary: {
         name: secondary.name,
@@ -486,8 +575,15 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
         fear: 'Being isolated or unable to help those in need.',
         weakness: 'Self-sacrifice to the point of burnout or losing individuality.',
         talent: 'Compassion, generosity, and strong interpersonal skills.',
+        personalityNarrative: `As a ${secondary.name}, ${brandName} follows a nurturing and protective sequence to seek and deliver support. At their core, ${brandName} is a reliable guardian and finds fulfillment in fostering safety and well-being for all.`,
+        archetypeStatement: `${brandName} is a ${secondary.name} brand that exists to support and protect its audience through reliable and thoughtful solutions, helping them feel secure and cared for.`,
         traits: secondary.traits,
-        inPractice: `Supporting Need: ${secondary.innerNeed}. The ${secondary.name} archetype adds depth by ${String(secondary.inPractice || '').toLowerCase()}`
+        inPractice: [
+          { label: 'Messaging', content: 'Focus on empathy, protection, and reliability. Use warm, reassuring, and inclusive language.' },
+          { label: 'Visuals', content: 'Use soft lighting, gentle colors, and imagery that emphasizes connection, safety, and domestic comfort.' },
+          { label: 'Interaction', content: 'The relationship should feel supportive, responsive, and genuinely cares for the individual\'s unique needs.' }
+        ],
+        strategicRationale: `The ${secondary.name} archetype provides a critical supporting layer, adding the necessary ${secondary.traits[0]?.toLowerCase()} flavor that completes the brand personality.`
       },
       tertiary: {
         name: 'The Explorer',
@@ -498,8 +594,15 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
         fear: 'Getting trapped, conformity, and inner emptiness.',
         weakness: 'Aimless wandering and becoming a misfit.',
         talent: 'Autonomy, ambition, and being true to one\'s soul.',
+        personalityNarrative: `As an Explorer, ${brandName} follows an adventurous and independent sequence to seek and deliver freedom. At their core, ${brandName} is a pioneer and finds fulfillment in discovering new horizons and authentic experiences.`,
+        archetypeStatement: `${brandName} is an Explorer brand that exists to provide freedom and discovery through specialized insight, helping users experience a more authentic and fulfilling life.`,
         traits: ['Adventurous', 'Innovative', 'Boundless'],
-        inPractice: 'The Aspirational Edge represents the brand\'s ambition to explore new territories and lead through specialized discovery.'
+        inPractice: [
+          { label: 'Messaging', content: 'Focus on freedom, self-discovery, and breaking boundaries. Use daring, authentic, and evocative language.' },
+          { label: 'Visuals', content: 'Use expansive landscapes, rugged textures, and imagery that suggests movement and the great outdoors.' },
+          { label: 'Interaction', content: 'The experience should feel liberating, offering choices and paths that allow the user to define their own journey.' }
+        ],
+        strategicRationale: `The Explorer archetype acts as the brand's 'Aspirational Edge', driving the competitive spirit and market-specific ambition needed for long-term growth.`
       },
       behavior: {
         tone: {
@@ -548,19 +651,44 @@ export function generateFallbackStrategy(rawDiscovery: BrandDiscovery): BrandStr
 
     identitySystem: {
       colors: colors,
-      logoDirection: {
-        description: `The visual identity for ${brandName} should embody the ${primary.name} archetype — ${primary.traits.slice(0, 2).join(' and ').toLowerCase()} in character, with a strong focus on ${(discovery.brandFeel || ['modernity'])[0]?.toLowerCase()}.`,
-        shapes: discovery.industry?.toString().toLowerCase()?.includes('tech') 
-          ? ['Geometric Grid', 'Clean Vectors', 'Angular Forms'] 
-          : ['Organic Curves', 'Balanced Circles', 'Symmetrical Forms'],
-        logotypes: ['Custom Wordmark', 'Minimalist Icon', 'Modern Sans-Serif'],
-        symbols: [
-          `${primary.name}-inspired mark`,
-          discovery.industry ? `${discovery.industry} metaphor` : 'Abstract growth symbol',
-          'Integration element'
-        ],
-        rationale: `These visual choices directly support the ${primary.name} strategy of ${primary.traits[0]?.toLowerCase() || 'bold'} leadership and the brand's mission to ${(discovery.mission || 'deliver excellence').toLowerCase().slice(0, 50)}...`
-      },
+      logoOptions: [
+        {
+          strategy: 'User Anchored',
+          description: `Concept A focuses on direct visual translation of the ${discovery.brandFeel?.join(', ') || 'modern'} aesthetic requested during discovery, prioritizing immediate familiarity and industry alignment.`,
+          shapes: discovery.industry?.toString().toLowerCase()?.includes('tech') 
+            ? ['Geometric Grid', 'Clean Vectors', 'Angular Forms'] 
+            : ['Organic Curves', 'Balanced Circles', 'Symmetrical Forms'],
+          logotypes: ['Custom Wordmark', 'Minimalist Icon', 'Modern Sans-Serif'],
+          symbols: [
+            `${primary.name}-inspired mark`,
+            discovery.industry ? `${discovery.industry} metaphor` : 'Abstract growth symbol',
+            'Integration element'
+          ],
+          propositionalDensity: {
+            surface: 'Clean geometric lines and a balanced composition.',
+            semantic: `Represents the brand's commitment to ${(discovery.coreValues || ['excellence'])[0]} and ${primary.traits[0]} leadership.`,
+            rationale: 'High Pd achieved by using familiar industry shapes to anchor deep core value metaphors.'
+          },
+          rationale: `This anchor concept ensures maximum alignment with the user's visual vision for ${brandName}.`
+        },
+        {
+          strategy: 'System Optimized',
+          description: `Concept B is a strategically optimized direction that prioritizes the ${primary.name} archetype's psychological impact, using abstract forms to maximize propositional density and long-term brand equity.`,
+          shapes: ['Abstract Minimalist Form', 'Symbolic Negative Space', 'Universal Geometry'],
+          logotypes: ['Bespoke Serif Wordmark', 'Abstract Monogram'],
+          symbols: [
+            'Metaphor of Transformation',
+            'Core Essence Catalyst',
+            'Synthesis of Impact'
+          ],
+          propositionalDensity: {
+            surface: 'A singular, hyper-minimalist abstract mark.',
+            semantic: `A deep synthesis of ${primary.innerNeed} and the brand's mission to ${discovery.mission || 'evolve the market'}.`,
+            rationale: 'Maximized Pd by striping away all visual noise to leave only the core strategic metaphor.'
+          },
+          rationale: `Optimized for long-term recognition and the ${primary.name} archetype's authoritative presence.`
+        }
+      ],
       typography: {
         primary: {
           name: typo.primary,
