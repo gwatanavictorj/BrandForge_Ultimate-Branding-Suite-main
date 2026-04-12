@@ -304,3 +304,20 @@ This is the official record of all BrandForge features and UI refinements that h
 - **Improved Alignment**: Standardized spacing between icons and text in the project filtering tabs for a more balanced visual rhythm.
 - **Project Card Menu Visibility**: Fixed a UI bug where the project action dropdown was being clipped by the card's boundaries. By standardizing the container to `overflow-visible`, menus now correctly overlay the dashboard grid for improved accessibility.
 
+---
+
+## 📅 2026-04-12: Dual-View Dashboard Architecture (CERTIFIED)
+
+### 🏗️ Perspective Switching
+- **List & Grid Toggle**: Introduced a state-aware toggle in the project header allowing users to switch between high-fidelity Grid cards and a high-density List view.
+- **Persistent Preferences**: Integrated `localStorage` persistence to ensure the user's preferred view mode is remembered across browser sessions.
+
+### 🛠️ High-Density List View
+- **Compact UI Layout**: Developed a row-based project layout optimized for large workspace management.
+- **Condensed Metadata**: Rows display project status, client name, and progress bars in a single horizontal line, doubling the information density on desktop viewports.
+- **Responsive Adaptation**: List rows intelligently collapse metadata (dates, progress) on smaller breakpoints to maintain legibility.
+
+### 🛠️ Key Files Finalized
+- `src/components/Dashboard.tsx` (State Management & View Injection)
+- `log_certified_updates.md` (Certification of dual-view architecture)
+

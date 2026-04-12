@@ -22,7 +22,8 @@ import {
   Trash,
   Eye,
   RotateCcw,
-  AlertTriangle
+  AlertTriangle,
+  List
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
@@ -79,6 +80,13 @@ export const Dashboard = ({
   const [newProject, setNewProject] = useState({ name: '', client: '', tools: ['discovery', 'strategy', 'logo', 'system', 'guide'] });
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>(() => {
+    return (localStorage.getItem('brandforge_dashboard_view') as 'grid' | 'list') || 'grid';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('brandforge_dashboard_view', viewMode);
+  }, [viewMode]);
 
   React.useEffect(() => {
     const handleClickOutside = () => setOpenMenuId(null);
@@ -222,6 +230,30 @@ export const Dashboard = ({
             </button>
           </div>
           <div className="flex items-center gap-2 shrink-0">
+            {/* View Toggle */}
+            <div className="flex items-center bg-slate-100 p-0.5 rounded-lg mr-2">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={cn(
+                  "p-1.5 rounded-md transition-all",
+                  viewMode === 'grid' ? "bg-white text-brand-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                )}
+                title="Grid View"
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={cn(
+                  "p-1.5 rounded-md transition-all",
+                  viewMode === 'list' ? "bg-white text-brand-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                )}
+                title="List View"
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
+
             {activeTab === 'active' ? (
               <button
                 onClick={() => {/* View All logic */}}
@@ -293,64 +325,252 @@ export const Dashboard = ({
           )}
         </AnimatePresence>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[var(--space-gap)]">
+        <div className={cn(
+          viewMode === 'grid' 
+            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[var(--space-gap)]"
+            : "flex flex-col gap-3"
+        )}>
           {displayProjects.map(project => (
             <Card 
               key={project.id} 
               className={cn(
-                "group transition-all p-0 relative rounded-[32px] overflow-visible",
-                activeTab === 'active' ? "hover:border-brand-300 cursor-pointer" : "cursor-default"
+                "group transition-all p-0 relative overflow-visible",
+                viewMode === 'grid' ? "rounded-[32px] overflow-hidden" : "rounded-2xl",
+                activeTab === 'active' ? "hover:border-brand-300 cursor-pointer" : "cursor-default",
+                viewMode === 'list' && "hover:bg-slate-50/50"
               )} 
             >
-              {/* Clickable Area for Navigation */}
-              {activeTab === 'active' ? (
-                <div 
-                  className="absolute inset-0 z-0" 
-                  onClick={() => onSelectProject(project)}
-                />
-              ) : (
-                <div className="absolute top-0 left-0 w-12 h-12 flex items-center justify-center z-20 group-hover:bg-slate-50/50 rounded-tl-2xl transition-colors">
-                  <div className="relative flex items-center justify-center">
-                    <input
-                      type="checkbox"
-                      id={`select-${project.id}`}
-                      checked={selectedIds.has(project.id)}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        const next = new Set(selectedIds);
-                        if (next.has(project.id)) {
-                          next.delete(project.id);
-                        } else {
-                          next.add(project.id);
-                        }
-                        setSelectedIds(next);
-                      }}
-                      className="peer w-5 h-5 rounded-md border-slate-200 text-brand-600 focus:ring-brand-500/20 cursor-pointer pointer-events-auto transition-all bg-white"
+              {viewMode === 'grid' ? (
+                <>
+                  {/* Clickable Area for Navigation */}
+                  {activeTab === 'active' ? (
+                    <div 
+                      className="absolute inset-0 z-0" 
+                      onClick={() => onSelectProject(project)}
                     />
-                    <div className="absolute inset-0 pointer-events-none border-2 border-transparent peer-checked:border-brand-600 rounded-md transition-all scale-110 opacity-0 peer-checked:opacity-100" />
-                  </div>
-                </div>
-              )}
-              
-              <div className="p-[var(--space-card-p)] space-y-4 relative z-10 pointer-events-none">
-                <div className="flex items-start justify-between pointer-events-auto">
-                  <div className={cn("flex-1 min-w-0", activeTab === 'trash' && "pl-10")}>
-                    <h3 className="h3 truncate">{project.name}</h3>
-                    <div className="flex items-center gap-1.5 caption mt-0.5">
-                      <Users className="w-3.5 h-3.5" />
-                      <span className="truncate">{project.client || 'Internal Project'}</span>
+                  ) : (
+                    <div className="absolute top-0 left-0 w-12 h-12 flex items-center justify-center z-20 group-hover:bg-slate-50/50 rounded-tl-2xl transition-colors">
+                      <div className="relative flex items-center justify-center">
+                        <input
+                          type="checkbox"
+                          id={`select-${project.id}`}
+                          checked={selectedIds.has(project.id)}
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            const next = new Set(selectedIds);
+                            if (next.has(project.id)) {
+                              next.delete(project.id);
+                            } else {
+                              next.add(project.id);
+                            }
+                            setSelectedIds(next);
+                          }}
+                          className="peer w-5 h-5 rounded-md border-slate-200 text-brand-600 focus:ring-brand-500/20 cursor-pointer pointer-events-auto transition-all bg-white"
+                        />
+                        <div className="absolute inset-0 pointer-events-none border-2 border-transparent peer-checked:border-brand-600 rounded-md transition-all scale-110 opacity-0 peer-checked:opacity-100" />
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="p-[var(--space-card-p)] space-y-4 relative z-10 pointer-events-none">
+                    <div className="flex items-start justify-between pointer-events-auto">
+                      <div className={cn("flex-1 min-w-0", activeTab === 'trash' && "pl-10")}>
+                        <h3 className="h3 truncate">{project.name}</h3>
+                        <div className="flex items-center gap-1.5 caption mt-0.5">
+                          <Users className="w-3.5 h-3.5" />
+                          <span className="truncate">{project.client || 'Internal Project'}</span>
+                        </div>
+                      </div>
+                      <div className="relative">
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenMenuId(openMenuId === project.id ? null : project.id);
+                          }}
+                          className="p-1 hover:bg-slate-100 rounded-md text-slate-400 cursor-pointer"
+                        >
+                          <MoreVertical className="w-4 h-4" />
+                        </button>
+                        <AnimatePresence>
+                          {openMenuId === project.id && (
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.95, originY: 0, originX: 1 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.95 }}
+                              className="absolute right-0 top-full mt-1 w-36 bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 py-1 z-50 fixed-inside-flow"
+                            >
+                              {activeTab === 'active' && (
+                                <>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setOpenMenuId(null);
+                                      setProjectDetails(project);
+                                    }}
+                                    className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors"
+                                  >
+                                    <Eye className="w-3.5 h-3.5 mr-2" /> Details
+                                  </button>
+                                  {onRenameProject && (
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setOpenMenuId(null);
+                                        setProjectToRename({ id: project.id, name: project.name });
+                                      }}
+                                      className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors cursor-pointer"
+                                    >
+                                      <Edit className="w-3.5 h-3.5 mr-2" /> Rename
+                                    </button>
+                                  )}
+                                  {onDuplicateProject && (
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setOpenMenuId(null);
+                                        onDuplicateProject(project);
+                                      }}
+                                      className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors cursor-pointer"
+                                    >
+                                      <Copy className="w-3.5 h-3.5 mr-2" /> Duplicate
+                                    </button>
+                                  )}
+                                  <div className="h-px bg-slate-100 my-1 mx-2" />
+                                  {onDeleteProject && (
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setOpenMenuId(null);
+                                        setProjectToDelete({ id: project.id, name: project.name });
+                                      }}
+                                      className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-500 hover:bg-slate-50 hover:text-orange-600 flex items-center transition-colors"
+                                    >
+                                      <Trash className="w-3.5 h-3.5 mr-2" /> Move to Trash
+                                    </button>
+                                  )}
+                                </>
+                              )}
+                              {activeTab === 'trash' && (
+                                <>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setOpenMenuId(null);
+                                      onRestoreProject(project.id);
+                                    }}
+                                    className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors"
+                                  >
+                                    <RotateCcw className="w-3.5 h-3.5 mr-2" /> Restore
+                                  </button>
+                                  <div className="h-px bg-slate-100 my-1 mx-2" />
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setOpenMenuId(null);
+                                      setProjectToPermanentDelete({ id: project.id, name: project.name });
+                                    }}
+                                    className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-rose-600 hover:bg-rose-50 flex items-center transition-colors"
+                                  >
+                                    <Trash className="w-3.5 h-3.5 mr-2" /> Delete Permanently
+                                  </button>
+                                </>
+                              )}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between caption mb-1.5">
+                        <span>Progress</span>
+                        <span className="font-bold text-brand-600">{project.tracking.progress}%</span>
+                      </div>
+                      <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-brand-500" style={{ width: `${project.tracking.progress}%` }} />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="flex -space-x-2">
+                        {project.selectedTools.map(tool => {
+                          const Icon = TOOL_OPTIONS.find(t => t.id === tool)?.icon || Folder;
+                          return (
+                            <div key={tool} className="w-7 h-7 rounded-full bg-white border-2 border-slate-50 flex items-center justify-center text-slate-400 shadow-sm">
+                              <Icon className="w-3 h-3" />
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="flex items-center gap-1 caption">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {new Date(project.createdAt).toLocaleDateString()}
+                      </div>
                     </div>
                   </div>
-                  <div className="relative">
+                </>
+              ) : (
+                <div 
+                  className="flex items-center gap-4 p-3 pr-4 group/list"
+                  onClick={() => activeTab === 'active' && onSelectProject(project)}
+                >
+                  {/* Selection/Icon */}
+                  <div className="flex items-center gap-3 shrink-0" onClick={e => e.stopPropagation()}>
+                    {activeTab === 'trash' && (
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.has(project.id)}
+                        onChange={(e) => {
+                          const next = new Set(selectedIds);
+                          if (next.has(project.id)) next.delete(project.id);
+                          else next.add(project.id);
+                          setSelectedIds(next);
+                        }}
+                        className="w-4 h-4 rounded-md border-slate-200 text-brand-600"
+                      />
+                    )}
+                    <div className={cn(
+                      "w-10 h-10 rounded-xl flex items-center justify-center transition-all",
+                      activeTab === 'active' ? "bg-brand-50 text-brand-600 group-hover/list:bg-brand-600 group-hover/list:text-white" : "bg-slate-100 text-slate-400"
+                    )}>
+                      <Folder className="w-5 h-5" />
+                    </div>
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0 flex items-center gap-6">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-sm font-bold text-slate-900 truncate">{project.name}</h4>
+                      <p className="text-[10px] font-medium text-slate-500 truncate">{project.client || 'Internal Project'}</p>
+                    </div>
+
+                    {/* Progress (Desktop) */}
+                    <div className="hidden md:flex items-center gap-4 w-48">
+                      <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="h-full bg-brand-500" style={{ width: `${project.tracking.progress}%` }} />
+                      </div>
+                      <span className="label-xs text-brand-600 w-8 text-right">{project.tracking.progress}%</span>
+                    </div>
+
+                    {/* Date (Desktop) */}
+                    <div className="hidden lg:flex items-center gap-2 text-slate-400 w-28">
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span className="label-xs">{new Date(project.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="relative shrink-0" onClick={e => e.stopPropagation()}>
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
                         setOpenMenuId(openMenuId === project.id ? null : project.id);
                       }}
-                      className="p-1 hover:bg-slate-100 rounded-md text-slate-400 cursor-pointer"
+                      className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 transition-colors"
                     >
                       <MoreVertical className="w-4 h-4" />
                     </button>
+                    
                     <AnimatePresence>
                       {openMenuId === project.id && (
                         <motion.div
@@ -359,79 +579,25 @@ export const Dashboard = ({
                           exit={{ opacity: 0, scale: 0.95 }}
                           className="absolute right-0 top-full mt-1 w-36 bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 py-1 z-50 fixed-inside-flow"
                         >
-                          {activeTab === 'active' && (
+                          {activeTab === 'active' ? (
                             <>
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setOpenMenuId(null);
-                                  setProjectDetails(project);
-                                }}
-                                className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors"
-                              >
+                              <button onClick={() => { setOpenMenuId(null); setProjectDetails(project); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 flex items-center">
                                 <Eye className="w-3.5 h-3.5 mr-2" /> Details
                               </button>
-                              {onRenameProject && (
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setOpenMenuId(null);
-                                    setProjectToRename({ id: project.id, name: project.name });
-                                  }}
-                                  className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors cursor-pointer"
-                                >
-                                  <Edit className="w-3.5 h-3.5 mr-2" /> Rename
-                                </button>
-                              )}
-                              {onDuplicateProject && (
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setOpenMenuId(null);
-                                    onDuplicateProject(project);
-                                  }}
-                                  className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors cursor-pointer"
-                                >
-                                  <Copy className="w-3.5 h-3.5 mr-2" /> Duplicate
-                                </button>
-                              )}
-                              <div className="h-px bg-slate-100 my-1 mx-2" />
-                              {onDeleteProject && (
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setOpenMenuId(null);
-                                    setProjectToDelete({ id: project.id, name: project.name });
-                                  }}
-                                  className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-500 hover:bg-slate-50 hover:text-orange-600 flex items-center transition-colors"
-                                >
-                                  <Trash className="w-3.5 h-3.5 mr-2" /> Move to Trash
-                                </button>
-                              )}
+                              <button onClick={() => { setOpenMenuId(null); setProjectToRename({ id: project.id, name: project.name }); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 flex items-center">
+                                <Edit className="w-3.5 h-3.5 mr-2" /> Rename
+                              </button>
+                              <button onClick={() => { setOpenMenuId(null); onDeleteProject?.(project.id); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-500 hover:bg-rose-50 hover:text-rose-600 flex items-center border-t border-slate-50 mt-1 pt-2">
+                                <Trash className="w-3.5 h-3.5 mr-2" /> Trash
+                              </button>
                             </>
-                          )}
-                          {activeTab === 'trash' && (
+                          ) : (
                             <>
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setOpenMenuId(null);
-                                  onRestoreProject(project.id);
-                                }}
-                                className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors"
-                              >
+                              <button onClick={() => { setOpenMenuId(null); onRestoreProject(project.id); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 flex items-center">
                                 <RotateCcw className="w-3.5 h-3.5 mr-2" /> Restore
                               </button>
-                              <div className="h-px bg-slate-100 my-1 mx-2" />
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setOpenMenuId(null);
-                                  setProjectToPermanentDelete({ id: project.id, name: project.name });
-                                }}
-                                className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-rose-600 hover:bg-rose-50 flex items-center transition-colors"
-                              >
-                                <Trash className="w-3.5 h-3.5 mr-2" /> Delete Permanently
+                              <button onClick={() => { setOpenMenuId(null); setProjectToPermanentDelete({ id: project.id, name: project.name }); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-rose-600 hover:bg-rose-50 flex items-center border-t border-slate-50 mt-1 pt-2">
+                                <Trash className="w-3.5 h-3.5 mr-2" /> Delete
                               </button>
                             </>
                           )}
@@ -440,34 +606,7 @@ export const Dashboard = ({
                     </AnimatePresence>
                   </div>
                 </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between caption mb-1.5">
-                    <span>Progress</span>
-                    <span className="font-bold text-brand-600">{project.tracking.progress}%</span>
-                  </div>
-                  <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-brand-500" style={{ width: `${project.tracking.progress}%` }} />
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between pt-2">
-                  <div className="flex -space-x-2">
-                    {project.selectedTools.map(tool => {
-                      const Icon = TOOL_OPTIONS.find(t => t.id === tool)?.icon || Folder;
-                      return (
-                        <div key={tool} className="w-7 h-7 rounded-full bg-white border-2 border-slate-50 flex items-center justify-center text-slate-400 shadow-sm">
-                          <Icon className="w-3 h-3" />
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="flex items-center gap-1 caption">
-                    <Calendar className="w-3.5 h-3.5" />
-                    {new Date(project.createdAt).toLocaleDateString()}
-                  </div>
-                </div>
-              </div>
+              )}
             </Card>
           ))}
 
