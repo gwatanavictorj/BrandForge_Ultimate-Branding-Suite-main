@@ -24,7 +24,10 @@ import {
   User,
   HardDrive,
   Activity,
-  Shield
+  Shield,
+  Eye,
+  RotateCcw,
+  AlertTriangle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
