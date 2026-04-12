@@ -892,24 +892,24 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-[20px] sm:rounded-[25px] bg-slate-900 p-8 sm:p-16 text-white shadow-2xl"
+        className="relative overflow-hidden rounded-[var(--radius-section)] bg-slate-900 p-6 sm:p-10 text-white shadow-lg"
       >
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-indigo-500/10 to-transparent pointer-events-none" />
-        <div className="relative z-10 flex flex-col items-center text-center space-y-10">
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-sm font-bold uppercase tracking-widest">
-            <Sparkles className="w-4 h-4" />
+        <div className="relative z-10 flex flex-col items-center text-center space-y-6">
+          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-xs font-bold uppercase tracking-widest">
+            <Sparkles className="w-3.5 h-3.5" />
             Strategic North Star
           </div>
-          <div className="space-y-6 max-w-4xl w-full">
-            <h3 className="text-2xl sm:text-4xl md:text-[56px] font-normal tracking-tight leading-tight">
+          <div className="space-y-4 max-w-4xl w-full">
+            <h3 className="text-xl sm:text-3xl md:text-4xl font-medium tracking-tight leading-snug text-slate-50">
               {strategy.coreIdea}
             </h3>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <div className="w-12 h-px bg-indigo-500/50 hidden sm:block" />
-              <p className="text-lg sm:text-2xl text-slate-400 leading-relaxed font-light italic">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <div className="w-8 h-px bg-indigo-500/50 hidden sm:block" />
+              <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-light italic">
                 "{strategy.essence}"
               </p>
-              <div className="w-12 h-px bg-indigo-500/50 hidden sm:block" />
+              <div className="w-8 h-px bg-indigo-500/50 hidden sm:block" />
             </div>
           </div>
         </div>
