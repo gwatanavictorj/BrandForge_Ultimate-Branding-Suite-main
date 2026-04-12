@@ -500,10 +500,15 @@ This is the official record of all BrandForge features and UI refinements that h
 
 ---
 
-## 📅 2026-04-12: Strategy PDF Refinement (CERTIFIED)
+## 📅 2026-04-12: High-Fidelity PDF Visual Parity & Stability (CERTIFIED)
+
+### 🏗️ Visual Intelligence Optimization
+- **1:1 Visual Parity**: Implemented `html2canvas` capturing for the **Positioning Map** and **Customer Journey** modules. The PDF now exports exact snapshots of the UI, preserving complex gradients, vector shapes, and brand markers from the strategy dashboard.
+- **Robust Capture Fallbacks**: Integrated a dual-mode engine that automatically reverts to internal manual drawing if the high-fidelity snapshot fails. This prevents "Unavailable" errors and ensures data presence across all browser environments.
+- **Messaging Workbench Formatting**: Refined the "Communication Framework" export section with structured headers, background accents, and explicit template/strategy labeling for improved professional legibility.
 
 ### 🏗️ Content Streamlining
-- **Removed Logo Concepts**: Excised the "Visual Essence & Logo Strategy" section from the Strategy PDF. This removes the "SYSTEM OPTIMIZED" and "USER ANCHORED" technical logo direction modules, focusing the export purely on high-level strategic intelligence (Positioning, Archetypes, Core Identity).
+- **Removed Logo Concepts**: Excised the "Visual Essence & Logo Strategy" section from the Strategy PDF (SYSTEM OPTIMIZED/USER ANCHORED concepts) to keep the export focused on strategic intelligence.
 
 ### 🛠️ Key Files Finalized
 - `src/components/BrandStrategyTool.tsx`
