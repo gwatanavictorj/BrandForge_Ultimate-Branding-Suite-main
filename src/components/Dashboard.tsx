@@ -598,13 +598,18 @@ export const Dashboard = ({
                         >
                           {activeTab === 'active' ? (
                             <>
-                              <button onClick={() => { setOpenMenuId(null); setProjectDetails(project); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 flex items-center">
+                              <button onClick={() => { setOpenMenuId(null); setProjectDetails(project); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors">
                                 <Eye className="w-3.5 h-3.5 mr-2" /> Details
                               </button>
-                              <button onClick={() => { setOpenMenuId(null); setProjectToRename({ id: project.id, name: project.name }); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 flex items-center">
+                              <button onClick={() => { setOpenMenuId(null); setProjectToRename({ id: project.id, name: project.name }); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors">
                                 <Edit className="w-3.5 h-3.5 mr-2" /> Rename
                               </button>
-                              <button onClick={() => { setOpenMenuId(null); onDeleteProject?.(project.id); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-500 hover:bg-rose-50 hover:text-rose-600 flex items-center border-t border-slate-50 mt-1 pt-2">
+                              {onDuplicateProject && (
+                                <button onClick={() => { setOpenMenuId(null); onDuplicateProject(project); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors">
+                                  <Copy className="w-3.5 h-3.5 mr-2" /> Duplicate
+                                </button>
+                              )}
+                              <button onClick={() => { setOpenMenuId(null); onDeleteProject?.(project.id); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-500 hover:bg-rose-50 hover:text-rose-600 flex items-center border-t border-slate-50 mt-1 pt-2 transition-colors">
                                 <Trash className="w-3.5 h-3.5 mr-2" /> Trash
                               </button>
                             </>
