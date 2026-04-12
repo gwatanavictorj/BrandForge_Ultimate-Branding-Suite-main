@@ -386,14 +386,14 @@ export const Dashboard = ({
               className={cn(
                 "group transition-all p-0 relative overflow-visible",
                 viewMode === 'grid' ? "rounded-[32px]" : "rounded-2xl",
-                activeTab === 'active' ? "hover:border-brand-300 cursor-pointer" : "cursor-default",
+                activeTab !== 'trash' ? "hover:border-brand-300 cursor-pointer" : "cursor-default",
                 viewMode === 'list' && "hover:bg-slate-50/50"
               )} 
             >
               {viewMode === 'grid' ? (
                 <>
                   {/* Clickable Area for Navigation */}
-                  {activeTab === 'active' ? (
+                  {activeTab !== 'trash' ? (
                     <div 
                       className="absolute inset-0 z-0" 
                       onClick={() => onSelectProject(project)}
@@ -449,7 +449,7 @@ export const Dashboard = ({
                               exit={{ opacity: 0, scale: 0.95 }}
                               className="absolute right-0 top-full mt-1 w-36 bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 py-1 z-50 fixed-inside-flow"
                             >
-                              {activeTab === 'active' && (
+                              {activeTab !== 'trash' && (
                                 <>
                                   <button
                                     onClick={(e) => {
@@ -562,7 +562,7 @@ export const Dashboard = ({
               ) : (
                 <div 
                   className="flex items-center gap-4 p-3 pr-4 group/list"
-                  onClick={() => activeTab === 'active' && onSelectProject(project)}
+                  onClick={() => activeTab !== 'trash' && onSelectProject(project)}
                 >
                   {/* Selection/Icon */}
                   <div className="flex items-center gap-3 shrink-0" onClick={e => e.stopPropagation()}>
@@ -581,7 +581,7 @@ export const Dashboard = ({
                     )}
                     <div className={cn(
                       "w-10 h-10 flex items-center justify-center transition-all",
-                      activeTab === 'active' ? "text-brand-600 group-hover/list:text-brand-700" : "text-slate-400"
+                      activeTab !== 'trash' ? "text-brand-600 group-hover/list:text-brand-700" : "text-slate-400"
                     )}>
                       <Folder className="w-6 h-6" />
                     </div>
@@ -595,7 +595,7 @@ export const Dashboard = ({
                       
                       {/* Inline Action Bar (WordPress style) */}
                       <div className="flex items-center gap-1.5 opacity-0 group-hover/list:opacity-100 transition-opacity duration-200">
-                        {activeTab === 'active' ? (
+                        {activeTab !== 'trash' ? (
                           <>
                             <button 
                               onClick={(e) => { e.stopPropagation(); setProjectDetails(project); }} 
