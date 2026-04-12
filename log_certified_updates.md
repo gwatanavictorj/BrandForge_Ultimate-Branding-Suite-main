@@ -330,6 +330,8 @@ This is the official record of all BrandForge features and UI refinements that h
 ## 📅 2026-04-12: Strict Design Token Standardization (CERTIFIED)
 
 ### 🏗️ Modal Information Architecture
+- **Strict Design Token Standardization**: Refactored the Project Details modal to use strict CSS variables for padding, gaps, and corner radii, ensuring pixel-perfect consistency with the platform suite.
+- **List View Functional Parity**: Restored the missing 'Duplicate' action to the project card menu in List view, ensuring all workspace management tools are available across all perspective modes.
 - **Token-Based Layout**: Refactored the Project Details modal to use strict CSS variables for padding (`--space-gutter`), gaps (`--space-gap`), and corner radii (`--radius-modal`, `--radius-section`).
 - **Typography Normalization**: Applied universal typography classes (`.h2`, `.body-sm`, `.label`, `.label-xs`) to all content, eliminating ad-hoc font-sizing and ensuring pixel-perfect consistency with the rest of the BrandForge suite.
 - **Visual Rhythm**: Standardized internal grouping and spacing to align with the platform's established high-density "Blueprint" aesthetic.
@@ -347,4 +349,26 @@ This is the official record of all BrandForge features and UI refinements that h
 ### 🛠️ Key Files Finalized
 - `src/components/Dashboard.tsx` (State Management & View Injection)
 - `log_certified_updates.md` (Certification of dual-view architecture)
+
+---
+
+### **Update 15: WordPress-Inspired Dashboard List View & UI Cleanup**
+**Status**: 🟢 CERTIFIED (UX Modernization)
+**Objective**: Improve project management efficiency via high-density hover actions and interface de-cluttering.
+
+#### **Technical Improvements:**
+*   **Inline Hover Action Bar**:
+    *   Replaced the traditional vertically-stacked menu with a horizontal action bar (`Details`, `Rename`, `Duplicate`, `Trash`) that triggers on row hover (`group-hover/list`).
+    *   Maintained 100% functional parity with the grid view.
+    *   Transitioned the menu to a high-density `text-[11px]` scale with pipe separators for a professional "Creative Suite" look.
+*   **Redundant UI Removal**:
+    *   Excised the "View All" button from the dashboard header to streamline the filtering interface.
+*   **Duplicate Action Integration**:
+    *   Resolved the missing "Duplicate" action in both Grid and List view project cards.
+*   **Layout Rectification**:
+    *   Fixed JSX column nesting issues in the List view to ensure Progress Bars and Date stamps align perfectly with the project information stack.
+
+#### **Files Verified:**
+- `src/components/Dashboard.tsx`
+- `log_certified_updates.md`
 

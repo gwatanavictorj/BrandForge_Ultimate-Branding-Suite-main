@@ -248,7 +248,7 @@ export const Dashboard = ({
           </div>
           <div className="flex items-center gap-2 shrink-0">
             {/* View Toggle */}
-            <div className="flex items-center bg-slate-100 p-0.5 rounded-lg mr-2">
+            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-[var(--radius-card)] ml-auto">
               <button
                 onClick={() => setViewMode('grid')}
                 className={cn(
@@ -271,14 +271,7 @@ export const Dashboard = ({
               </button>
             </div>
 
-            {activeTab === 'active' ? (
-              <button
-                onClick={() => {/* View All logic */}}
-                className="label text-slate-400 hover:text-brand-600 transition-colors shrink-0"
-              >
-                View All
-              </button>
-            ) : (
+            {activeTab === 'trash' && (
               <div className="flex items-center gap-2">
                 <Button 
                   variant="secondary" 
@@ -558,7 +551,66 @@ export const Dashboard = ({
                   <div className="flex-1 min-w-0 flex items-center gap-6">
                     <div className="flex-1 min-w-0">
                       <h4 className="text-sm font-bold text-slate-900 truncate">{project.name}</h4>
-                      <p className="text-[10px] font-medium text-slate-500 truncate">{project.client || 'Internal Project'}</p>
+                      <p className="text-[10px] font-medium text-slate-500 truncate mb-1">{project.client || 'Internal Project'}</p>
+                      
+                      {/* Inline Action Bar (WordPress style) */}
+                      <div className="flex items-center gap-1.5 opacity-0 group-hover/list:opacity-100 transition-opacity duration-200">
+                        {activeTab === 'active' ? (
+                          <>
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); setProjectDetails(project); }} 
+                              className="text-[11px] font-semibold text-brand-600 hover:text-brand-700 transition-colors"
+                            >
+                              Details
+                            </button>
+                            <span className="text-[10px] text-slate-300">|</span>
+                            {onRenameProject && (
+                              <>
+                                <button 
+                                  onClick={(e) => { e.stopPropagation(); setProjectToRename({ id: project.id, name: project.name }); }} 
+                                  className="text-[11px] font-semibold text-slate-500 hover:text-brand-600 transition-colors"
+                                >
+                                  Rename
+                                </button>
+                                <span className="text-[10px] text-slate-300">|</span>
+                              </>
+                            )}
+                            {onDuplicateProject && (
+                              <>
+                                <button 
+                                  onClick={(e) => { e.stopPropagation(); onDuplicateProject(project); }} 
+                                  className="text-[11px] font-semibold text-slate-500 hover:text-brand-600 transition-colors"
+                                >
+                                  Duplicate
+                                </button>
+                                <span className="text-[10px] text-slate-300">|</span>
+                              </>
+                            )}
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); setProjectToDelete({ id: project.id, name: project.name }); }} 
+                              className="text-[11px] font-semibold text-slate-400 hover:text-rose-600 transition-colors"
+                            >
+                              Trash
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); onRestoreProject(project.id); }} 
+                              className="text-[11px] font-semibold text-brand-600 hover:text-brand-700 transition-colors"
+                            >
+                              Restore
+                            </button>
+                            <span className="text-[10px] text-slate-300">|</span>
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); setProjectToPermanentDelete({ id: project.id, name: project.name }); }} 
+                              className="text-[11px] font-semibold text-rose-500 hover:text-rose-700 transition-colors"
+                            >
+                              Delete Permanently
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </div>
 
                     {/* Progress (Desktop) */}
@@ -574,58 +626,6 @@ export const Dashboard = ({
                       <Calendar className="w-3.5 h-3.5" />
                       <span className="label-xs">{new Date(project.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
                     </div>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="relative shrink-0" onClick={e => e.stopPropagation()}>
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setOpenMenuId(openMenuId === project.id ? null : project.id);
-                      }}
-                      className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-400 transition-colors"
-                    >
-                      <MoreVertical className="w-4 h-4" />
-                    </button>
-                    
-                    <AnimatePresence>
-                      {openMenuId === project.id && (
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.95, originY: 0, originX: 1 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.95 }}
-                          className="absolute right-0 top-full mt-1 w-36 bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 py-1 z-50 fixed-inside-flow"
-                        >
-                          {activeTab === 'active' ? (
-                            <>
-                              <button onClick={() => { setOpenMenuId(null); setProjectDetails(project); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors">
-                                <Eye className="w-3.5 h-3.5 mr-2" /> Details
-                              </button>
-                              <button onClick={() => { setOpenMenuId(null); setProjectToRename({ id: project.id, name: project.name }); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors">
-                                <Edit className="w-3.5 h-3.5 mr-2" /> Rename
-                              </button>
-                              {onDuplicateProject && (
-                                <button onClick={() => { setOpenMenuId(null); onDuplicateProject(project); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-600 flex items-center transition-colors">
-                                  <Copy className="w-3.5 h-3.5 mr-2" /> Duplicate
-                                </button>
-                              )}
-                              <button onClick={() => { setOpenMenuId(null); onDeleteProject?.(project.id); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-500 hover:bg-rose-50 hover:text-rose-600 flex items-center border-t border-slate-50 mt-1 pt-2 transition-colors">
-                                <Trash className="w-3.5 h-3.5 mr-2" /> Trash
-                              </button>
-                            </>
-                          ) : (
-                            <>
-                              <button onClick={() => { setOpenMenuId(null); onRestoreProject(project.id); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-slate-600 hover:bg-slate-50 flex items-center">
-                                <RotateCcw className="w-3.5 h-3.5 mr-2" /> Restore
-                              </button>
-                              <button onClick={() => { setOpenMenuId(null); setProjectToPermanentDelete({ id: project.id, name: project.name }); }} className="w-full text-left px-3 py-1.5 text-[13px] font-medium text-rose-600 hover:bg-rose-50 flex items-center border-t border-slate-50 mt-1 pt-2">
-                                <Trash className="w-3.5 h-3.5 mr-2" /> Delete
-                              </button>
-                            </>
-                          )}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </div>
                 </div>
               )}
