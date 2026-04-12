@@ -252,7 +252,7 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onCo
         <div className="space-y-[var(--space-gap)]">
           <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">50 name-ready constructs, each with a clear visual anchor — categorized by linguistic type.</p>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[var(--space-gap)]">
+          <div className="flex flex-col gap-10">
             {[
               { label: 'Real Words', items: data.nouns.realWords, color: 'bg-blue-50 text-blue-700' },
               { label: 'Invented Words', items: data.nouns.inventedWords, color: 'bg-purple-50 text-purple-700' },

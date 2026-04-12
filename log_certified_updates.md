@@ -413,3 +413,18 @@ This is the official record of all BrandForge features and UI refinements that h
 - `src/App.tsx`
 - `log_certified_updates.md`
 
+### **Update 18: Noun Toolkit Vertical Layout**
+**Created**: 2026-04-12 11:05 AM
+**Status**: 🟢 CERTIFIED (UI/UX Refinement)
+**Objective**: Optimize the layout of the Brand Noun Toolkit for better scanning and clarity.
+
+#### **Technical Improvements:**
+*   **Vertical Category Stacking**:
+    *   Refactored the noun result categories in `LogoAssistant.tsx` from a multi-column grid to a single-column vertical stack.
+    *   Increased spacing (`gap-10`) between categories to prevent visual fatigue and improve the "toolkit" aesthetic.
+*   **Scanning Efficiency**:
+    *   Stacked layout allows users to scan through linguistic types (Real Words, Invented, etc.) linearly without horizontal eye movement.
+
+#### **Files Verified:**
+- `src/components/LogoAssistant.tsx`
+- `log_certified_updates.md`
