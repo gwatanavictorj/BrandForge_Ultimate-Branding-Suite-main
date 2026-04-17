@@ -65,9 +65,17 @@ const ALL_STEPS: { id: Step; label: string; icon: any }[] = [
 
 export default function App() {
   const { user, signOut } = useAuth();
-  const [currentStep, setCurrentStep] = useState<Step>('dashboard');
+  const [currentStep, setCurrentStep] = useState<Step>(() => {
+    try {
+      return (localStorage.getItem('brandforge_nav_step') as Step) || 'dashboard';
+    } catch { return 'dashboard'; }
+  });
   const [projects, setProjects] = useState<BrandProject[]>([]);
-  const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
+  const [activeProjectId, setActiveProjectId] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem('brandforge_active_id');
+    } catch { return null; }
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isImporting, setIsImporting] = useState(false);
@@ -199,6 +207,29 @@ export default function App() {
       if (updateTimeoutRef.current) clearTimeout(updateTimeoutRef.current);
     };
   }, [user]);
+
+  // Persist navigation state to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('brandforge_nav_step', currentStep);
+      if (activeProjectId) {
+        localStorage.setItem('brandforge_active_id', activeProjectId);
+      } else {
+        localStorage.removeItem('brandforge_active_id');
+      }
+    } catch (err) {
+      console.warn('Failed to persist navigation state', err);
+    }
+  }, [currentStep, activeProjectId]);
+
+  // Sanity check: If we have an active ID but it's not in the projects list after loading, reset
+  useEffect(() => {
+    if (!loading && activeProjectId && !projects.some(p => p.id === activeProjectId)) {
+      console.log('Restored project ID not found, resetting to dashboard');
+      setActiveProjectId(null);
+      setCurrentStep('dashboard');
+    }
+  }, [loading, projects, activeProjectId]);
 
   // Load and sync notifications
   useEffect(() => {

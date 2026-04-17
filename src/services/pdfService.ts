@@ -135,6 +135,11 @@ class PDFLayoutEngine {
     const lines = this.doc.splitTextToSize(safeStr, this.contentWidth);
     for (const line of lines) {
       this.checkPage(this.LH);
+      // Re-assert font state in case checkPage added a header/footer which changed it
+      this.doc.setFont(this.FONT_MAIN, 'normal');
+      this.doc.setFontSize(10);
+      this.doc.setTextColor(this.CLR_BODY[0], this.CLR_BODY[1], this.CLR_BODY[2]);
+      
       this.doc.text(line, this.margin, this.y);
       this.y += this.LH;
     }
@@ -167,8 +172,8 @@ class PDFLayoutEngine {
     this.doc.setFontSize(10);
     this.doc.setTextColor(this.CLR_LABEL[0], this.CLR_LABEL[1], this.CLR_LABEL[2]);
     
-    const displayLabel = label.trim() ? `${label}: ` : '';
-    const safePrefix = this.safeText(`• ${displayLabel}`);
+    const displayLabel = label.trim() ? `${label}:` : '';
+    const safePrefix = this.safeText(`• ${displayLabel} `);
     const labelWidth = this.doc.getTextWidth(safePrefix);
     
     this.checkPage(this.LH);
@@ -189,6 +194,9 @@ class PDFLayoutEngine {
       const restLines = this.doc.splitTextToSize(remainingText, this.contentWidth);
       restLines.forEach((line: string) => {
         this.checkPage(this.LH);
+        this.doc.setFont(this.FONT_MAIN, 'normal');
+        this.doc.setFontSize(10);
+        this.doc.setTextColor(this.CLR_BODY[0], this.CLR_BODY[1], this.CLR_BODY[2]);
         this.doc.text(line, this.margin, this.y);
         this.y += this.LH;
       });
@@ -224,6 +232,9 @@ class PDFLayoutEngine {
       const restLines = this.doc.splitTextToSize(remainingText, this.contentWidth);
       restLines.forEach((line: string) => {
         this.checkPage(12);
+        this.doc.setFont(this.FONT_MAIN, 'normal');
+        this.doc.setFontSize(9);
+        this.doc.setTextColor(this.CLR_TITLE[0], this.CLR_TITLE[1], this.CLR_TITLE[2]);
         this.doc.text(line, this.margin, this.y);
         this.y += 12;
       });
@@ -618,35 +629,83 @@ export const pdfService = {
     doc.line(engine.margin, engine.pageHeight - 80, engine.pageWidth - engine.margin, engine.pageHeight - 80);
 
     // --- CONTENT ---
-    engine.addSectionHeader('Project Foundation');
-    engine.addTitle('Core Identity Parameters');
-    engine.addBullet('Registered Name', discovery.registeredName);
-    engine.addBullet('Industry', discovery.industry);
-    engine.addBullet('Business Stage', discovery.stage);
-    engine.addBullet('Target Audience', discovery.idealCustomers);
-    
-    engine.addSectionHeader('Core Philosophy');
-    engine.addSubtitle('Mission Statement');
-    engine.addBody(discovery.mission);
-    engine.addSubtitle('Vision Statement');
-    engine.addBody(discovery.vision);
-    engine.addSubtitle('Operating Philosophy');
-    engine.addBody(discovery.philosophy);
+    const resolveOther = (val: string, otherVal?: string) => val === 'Other' && otherVal ? otherVal : val;
+    const resolveListOther = (arr: string[] = [], otherVal?: string) => 
+      arr.map(i => i === 'Other' && otherVal ? otherVal : i).filter(Boolean).join(', ');
 
-    engine.addSectionHeader('Problem & Solution');
-    engine.addSubtitle('The Problem');
+    // Section 2: Client Details
+    engine.addSectionHeader('Client Details');
+    engine.addBullet('Email', discovery.email);
+    engine.addBullet('Full Name', discovery.fullName);
+    engine.addBullet('Business Owner Title', discovery.ownerTitle);
+    engine.addBullet('Phone Number', discovery.phone);
+    engine.addBullet('Can we contact you?', discovery.canContact ? 'Yes' : 'No');
+
+    // Section 3: Brand Profile
+    engine.addSectionHeader('Brand Profile');
+    engine.addBullet('Registered Business Name', discovery.registeredName);
+    engine.addBullet('Tagline / Motto', discovery.tagline);
+    engine.addBullet('Business Address', discovery.address);
+    engine.addBullet('Date Established', discovery.dateEstablished);
+    engine.addBullet('Industry', resolveOther(discovery.industry, discovery.industryOther));
+    engine.addBullet('Stage of Business', resolveOther(discovery.stage, discovery.stageOther));
+
+    // Section 4: Your Story
+    engine.addSectionHeader('Your Story');
+    engine.addSubtitle('What is the mission of this Brand?');
+    engine.addBody(discovery.mission);
+    engine.addSubtitle('What is the vision of this Brand?');
+    engine.addBody(discovery.vision);
+    engine.addSubtitle('What is Your Brand Philosophy');
+    engine.addBody(discovery.philosophy);
+    engine.addSubtitle('What Problem is your Business Solving?');
     engine.addBody(discovery.problemSolving);
-    engine.addSubtitle('The Solution');
+    engine.addSubtitle('What service or products do you offer?');
     engine.addBody(discovery.productsServices);
-    engine.addSubtitle('Unique Differentiation');
+    engine.addSubtitle('Who are you offering the Services to?');
+    engine.addBody(discovery.idealCustomers);
+
+    // Section 5: How Your Business Works
+    engine.addSectionHeader('How Your Business Works');
+    engine.addSubtitle('How are you offering this service?');
+    engine.addBody(resolveListOther(discovery.deliveryModel, discovery.deliveryModelOther));
+    engine.addSubtitle('What benefits do you provide for your customers?');
+    engine.addBody(resolveListOther(discovery.customerBenefits, discovery.customerBenefitsOther));
+
+    // Section 6: Your Brand Foundation
+    engine.addSectionHeader('Your Brand Foundation');
+    engine.addSubtitle('What are your Brand Core Values?');
+    engine.addBody(resolveListOther(discovery.coreValues, discovery.coreValuesOther));
+    engine.addSubtitle('What are your Brand Strengths?');
+    engine.addBody(resolveListOther(discovery.strengths, discovery.strengthsOther));
+    engine.addSubtitle('What are your Weakness / Limitations?');
+    engine.addBody(resolveListOther(discovery.weaknesses, discovery.weaknessesOther));
+
+    // Section 7: Brand Identity
+    engine.addSectionHeader('Brand Identity');
+    engine.addBullet('What is your Brand Name?', discovery.brandNameLogo);
+    engine.addBullet('Colour & Symbols', discovery.colorSymbols);
+    engine.addSubtitle('What is the meaning or story behind your Brand Name?');
+    engine.addBody(discovery.brandStory);
+    engine.addSubtitle('Brand Feel / Visual Direction');
+    engine.addBody(resolveListOther(discovery.brandFeel, discovery.brandFeelOther));
+    engine.addSubtitle('Emotional Experience');
+    engine.addBody(resolveListOther(discovery.customerEmotionalOutcome, discovery.customerEmotionalOutcomeOther));
+
+    // Section 8: Competition
+    engine.addSectionHeader('Competition');
+    engine.addSubtitle('Who are your competitors and why?');
+    engine.addBody(discovery.competitors);
+    engine.addSubtitle('What are their Strengths and weaknesses?');
+    engine.addBody(discovery.competitorAnalysis);
+    engine.addSubtitle('What makes you different from your competitors?');
     engine.addBody(discovery.differentiation);
 
-    engine.addSectionHeader('Strategic Attributes');
-    engine.addBullet('Core Values', (discovery.coreValues || []).join(', '));
-    engine.addBullet('Brand Strengths', (discovery.strengths || []).join(', '));
-    engine.addBullet('Market Benefits', (discovery.customerBenefits || []).join(', '));
-    engine.addBullet('Emotional Outcomes', (discovery.customerEmotionalOutcome || []).join(', '));
-    engine.addBullet('Brand Feel', (discovery.brandFeel || []).join(', '));
+    // Section 9: Project Details
+    engine.addSectionHeader('Project Details');
+    engine.addBullet('What is your deadline for this project?', discovery.deadline);
+    engine.addSubtitle('Future Plans / Innovation');
+    engine.addBody(discovery.futurePlans);
 
     engine.save(`${(engine.brandName || 'Brand').replace(/\s+/g, '_')}_Discovery_Blueprint.pdf`);
   },

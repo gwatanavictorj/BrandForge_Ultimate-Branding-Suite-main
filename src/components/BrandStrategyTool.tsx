@@ -216,6 +216,53 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
     };
   }, [discovery, onModifyDiscovery]); // Re-bind if props change
 
+  const alignStrategicArchitecture = useCallback(() => {
+    if (!strategy) return;
+    
+    // Pro-Tier Segment Architecture
+    const optimizedGroups = [
+      {
+        name: 'The Primary Pursuer',
+        description: `Your core audience segment whose primary need is direct transformation through your ${discovery.industry || 'core'} solution.`,
+        needs: discovery.customerBenefits?.join(', ') || 'Quality, reliability, and immediate results.',
+        painPoints: discovery.problemSolving || 'Inconsistent quality and lack of specialized expertise in the current market.'
+      },
+      {
+        name: 'The Value Evaluator',
+        description: 'Strategic decision-makers who focus on ROI, long-term stability, and the measurable value of your delivery model.',
+        needs: 'Proven track record, transparent reporting, and competitive pricing frameworks.',
+        painPoints: 'Budget instability and risk of choosing unproven or non-scalable solutions.'
+      },
+      {
+        name: 'The Brand Advocate',
+        description: 'Long-term loyalists who align personally with your mission and drive organic community growth through word-of-mouth.',
+        needs: 'Community belonging, recognition, and consistent alignment with your brand values.',
+        painPoints: 'Feeling undervalued or disconnected from the brands they support regularly.'
+      },
+      {
+        name: 'The Adjacent Explorer',
+        description: `Emerging segments in related sectors who are beginning to face the ${discovery.problemSolving || 'challenges'} your brand solves best.`,
+        needs: 'Innovative applications of your technology/service and approachable entry points.',
+        painPoints: 'High barrier to entry and lack of awareness regarding advanced industry solutions.'
+      }
+    ];
+
+    setStrategy({
+      ...strategy,
+      audience: {
+        ...strategy.audience,
+        groups: optimizedGroups
+      }
+    });
+
+    addNotification({
+      title: 'Framework Applied',
+      type: 'success',
+      message: 'Successfully deployed the specialized 4-Segment Target Architecture.',
+      link: 'step:strategy'
+    });
+  }, [strategy, discovery, setStrategy, addNotification]);
+
   useEffect(() => {
     if (initialData) {
       const normalized = normalizeBrandStrategy(initialData);
