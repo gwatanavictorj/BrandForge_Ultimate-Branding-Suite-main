@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsc server.ts --noEmit false --target ES2022 --module ESNext --moduleResolution node --esModuleInterop --skipLibCheck && node server.js",
+    "dev": "tsx server.ts",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",

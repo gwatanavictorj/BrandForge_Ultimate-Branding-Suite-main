@@ -1,62 +1,7 @@
-export const INDUSTRIES = [
-  "Technology / Software", "Fintech / Financial Services", "Healthcare / Medical", 
-  "Education / EdTech", "Real Estate / Property", "Architecture, Engineering, and Construction",
-  "Travel & Tourism", "E-commerce / Retail", "Logistics / Transportation", 
-  "Agriculture / Agritech", "Media / Entertainment", "Marketing / Advertising", 
-  "Consulting / Professional Services", "Energy / Utilities", "Manufacturing / Industrial", 
-  "Non-profit / NGO", "Government / Public Sector", "Hospitality / Food Services", 
-  "Fashion / Apparel", "Sports / Fitness", "Other"
-];
-
-export const STAGES = ["Idea stage", "MVP / Early stage", "Growing", "Established", "Scaling", "Other"];
-
-export const DELIVERY_MODELS = [
-  "Direct sales", "Agency", "Marketplace", "Subscription-based", "E-commerce", 
-  "Freemium", "Franchise", "SaaS (Software as a Service)", "Brick-and-mortar retail", 
-  "Consultancy", "Other"
-];
-
-export const BENEFITS = [
-  "Saves time", "Saves money", "Convenience", "Reliability", 
-  "Improved performance", "Comfort / ease", "Status / prestige", "Safety / security", "Other"
-];
-
-export const VALUES = [
-  "Integrity", "Innovation", "Customer-centricity", "Excellence / Quality", 
-  "Transparency", "Accountability", "Sustainability", "Collaboration / Teamwork", 
-  "Empathy", "Reliability / Consistency", "Growth mindset", "Social impact", 
-  "Inclusivity / Diversity", "Efficiency", "Other"
-];
-
-export const STRENGTHS = [
-  "Affordable pricing", "Premium quality", "Strong brand reputation", 
-  "Unique product/service offering", "Fast delivery / speed", "Excellent customer service", 
-  "Innovation / technology-driven", "Wide product range", "Strong partnerships", 
-  "Location advantage", "Convenience / accessibility", "Customization / personalization", 
-  "Trust & reliability", "Strong online presence", "Scalability potential", "Other"
-];
-
-export const WEAKNESSES = [
-  "Low brand awareness", "Limited budget / funding", "Weak online presence", 
-  "Limited product/service range", "Poor customer retention", "Operational inefficiencies", 
-  "Lack of skilled team", "High pricing (uncompetitive)", "Dependence on few customers", 
-  "Weak distribution channels", "Slow delivery time", "Limited technology adoption", 
-  "Poor brand positioning", "Regulatory challenges", "Other"
-];
-
-export const BRAND_FEELS = [
-  "Heritage & Legacy", "Royal, Luxury & Prestige", "Modern, Minimal & Clean", 
-  "Innovative & Tech-Driven", "Bold & High-Impact", "Friendly & Approachable", 
-  "Playful & Vibrant", "Professional & Corporate", "Trustworthy & Reliable", 
-  "Fast & Efficient", "Creative & Expressive", "Natural & Organic", "Other"
-];
-
-export const EMOTIONAL_OUTCOMES = [
-  "Confident & Empowered", "Excited & Inspired", "Safe & Secure", 
-  "Trusted & Confident", "Valued & Appreciated", "Happy & Delighted", 
-  "Calm & Relaxed", "Connected & Understood", "Exclusive & Privileged", 
-  "Curious & Engaged", "Satisfied & Fulfilled", "Motivated to Take Action", "Other"
-];
+export { 
+  INDUSTRIES, STAGES, DELIVERY_MODELS, BENEFITS, 
+  VALUES, STRENGTHS, WEAKNESSES, BRAND_FEELS, EMOTIONAL_OUTCOMES 
+} from '../data/strategicData';
 
 const KEYWORD_MAPS: { [key: string]: { [key: string]: string[] } } = {
   industry: {

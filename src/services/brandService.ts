@@ -1,8 +1,8 @@
 import { BrandDiscovery, BrandStrategy, LogoNounGroup, ConceptSmush, LogoAssistantData } from "../types";
 import { 
-  INDUSTRIES, STAGES, DELIVERY_MODELS, BENEFITS, 
-  VALUES, STRENGTHS, WEAKNESSES, BRAND_FEELS, EMOTIONAL_OUTCOMES 
-} from "../utils/mappingUtils";
+  INDUSTRIES, STAGES, DELIVERY_MODELS, 
+  VALUES, BRAND_FEELS, EMOTIONAL_OUTCOMES 
+} from "../data/strategicData";
 import { generateFallbackStrategy, getArchetypeByName } from './fallbackStrategyEngine';
 import { AIProvider, getAIKeys } from './aiProvider';
 
