@@ -647,10 +647,28 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       addSubtitle('The Core Essence');
       addBody(strategy.essence || 'N/A');
 
+      const coreValues = Array.isArray(strategy.values) ? strategy.values : [];
+      if (coreValues.length > 0) {
+        addSpacer();
+        addSubtitle('Core Values & Ethical Foundation');
+        for (const val of coreValues) {
+          addBullet(`${val.name || 'Value'}: ${val.description || 'N/A'}`);
+        }
+      }
+
       addDivider();
       addTitle('Audience Architecture');
       addSubtitle(`Segment Classification: ${strategy.audience?.maslowNeedType || 'N/A'}`);
+      if (strategy.audience?.maslowLevel) {
+        addBody(`Psychological Driver Level: ${strategy.audience.maslowLevel}`);
+      }
       addBody(strategy.audience?.maslowExplanation || 'N/A');
+      
+      if (strategy.audience?.narrative) {
+        addSpacer(8);
+        addBody(`Audience Narrative: "${strategy.audience.narrative}"`);
+      }
+      
       addSpacer();
       const audienceGroups = Array.isArray(strategy.audience?.groups) ? strategy.audience.groups : [];
       for (const group of audienceGroups) {
@@ -664,7 +682,13 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       addDivider();
       addTitle('Market Stance');
       addSubtitle('Comprehensive Market Analysis');
-      addBody(strategy.marketPosition?.analysis || strategy.marketPosition?.statement || 'N/A');
+      addBody(strategy.marketPosition?.analysis || 'N/A');
+      
+      if (strategy.marketPosition?.statement) {
+        addSpacer(8);
+        addSubtitle('Strategic Positioning Statement');
+        addBody(strategy.marketPosition.statement);
+      }
       
       addSubtitle('Positioning Perceptual Map');
       if (mapImg) {
@@ -714,11 +738,28 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
           pdf.text(`Market Tenure: Established ${comp.established}`, margin, y);
           y += 11;
         }
+        
+        const socs = Array.isArray(comp.socials) ? comp.socials : [];
+        if (socs.length > 0) {
+          pdf.text(`Social Nodes: ${socs.map(s => s.platform).join(', ')}`, margin, y);
+          y += 11;
+        }
         addSpacer(6);
       }
 
       addDivider();
       addTitle('Brand Personality');
+      
+      if (strategy.archetype?.primary?.behavior?.role || strategy.archetype?.primary?.behavior?.impact) {
+        addSubtitle('Behavioral Foundation');
+        if (strategy.archetype.primary.behavior.role) {
+          addBullet(`Brand's Role: ${strategy.archetype.primary.behavior.role}`);
+        }
+        if (strategy.archetype.primary.behavior.impact) {
+          addBullet(`Emotional Impact: ${strategy.archetype.primary.behavior.impact}`);
+        }
+        addSpacer();
+      }
       
       // Primary
       if (strategy.archetype?.primary) {
@@ -837,6 +878,20 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
         }
       }
 
+      if (strategy.messaging?.coreMessage || strategy.messaging?.keywords) {
+        addSpacer();
+        addSubtitle('Core Messaging Framework');
+        if (strategy.messaging.coreMessage) {
+          pdf.setFont('helvetica', 'italic');
+          addBody(`"${strategy.messaging.coreMessage}"`);
+          pdf.setFont('helvetica', 'normal');
+        }
+        if (strategy.messaging.keywords && strategy.messaging.keywords.length > 0) {
+          addSpacer(8);
+          addBullet(`Strategic Keywords: ${strategy.messaging.keywords.join(', ')}`);
+        }
+      }
+
       addDivider();
       addTitle('Identity System');
       
@@ -873,8 +928,44 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
       }
       addSpacer();
       addSubtitle('Typography Configuration');
-      addBullet(`Primary: ${strategy.identitySystem?.typography?.primary?.name || 'N/A'} — ${strategy.identitySystem?.typography?.primary?.usage || 'N/A'}`);
-      addBullet(`Secondary: ${strategy.identitySystem?.typography?.secondary?.name || 'N/A'} — ${strategy.identitySystem?.typography?.secondary?.usage || 'N/A'}`);
+      const pType = strategy.identitySystem?.typography?.primary;
+      const sType = strategy.identitySystem?.typography?.secondary;
+      
+      let pPlatforms = Array.isArray(pType?.platforms) ? pType.platforms.join(', ') : '';
+      let sPlatforms = Array.isArray(sType?.platforms) ? sType.platforms.join(', ') : '';
+
+      addBullet(`Primary: ${pType?.name || 'N/A'} — ${pType?.usage || 'N/A'}${pPlatforms ? ` (${pPlatforms})` : ''}`);
+      addBullet(`Secondary: ${sType?.name || 'N/A'} — ${sType?.usage || 'N/A'}${sPlatforms ? ` (${sPlatforms})` : ''}`);
+
+      const logoOpts = Array.isArray(strategy.identitySystem?.logoOptions) ? strategy.identitySystem.logoOptions : [];
+      if (logoOpts.length > 0) {
+        addSpacer();
+        addSubtitle('Logo Strategic Directions');
+        for (const opt of logoOpts) {
+          checkPage(40);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(9);
+          pdf.setTextColor(24, 24, 27);
+          pdf.text(`${String(opt.name || 'Concept').toUpperCase()} (Pd: Surface ${opt.surfacePd || 0} / Semantic ${opt.semanticPd || 0})`, margin, y);
+          y += 12;
+          addBody(opt.description || 'N/A');
+          if (opt.symbols) addBullet(`Visual Symbols: ${opt.symbols}`);
+          addSpacer(8);
+        }
+      }
+
+      const tPoints = strategy.identitySystem?.touchPoints;
+      if (tPoints) {
+        addSpacer();
+        addSubtitle('Brand Touchpoints & Omnichannel Presence');
+        const categories = Object.keys(tPoints);
+        for (const cat of categories) {
+          const items = Array.isArray(tPoints[cat]) ? tPoints[cat] : [];
+          if (items.length > 0) {
+            addBullet(`${cat.charAt(0).toUpperCase() + cat.slice(1)}: ${items.join(', ')}`);
+          }
+        }
+      }
 
       addDivider();
       addTitle('Customer Journey Blueprint');
@@ -912,12 +1003,36 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
           pdf.setFontSize(11);
           pdf.text((String(stage.stage || 'UNNAMED')).toUpperCase(), margin + 130, y + 14);
           y += 28;
+          
           pdf.setFont('helvetica', 'bold');
           pdf.setFontSize(9);
           pdf.setTextColor(113, 113, 122);
           pdf.text('CUSTOMER ACTION', margin + 20, y);
           y += 12;
           addBody(stage.action || 'N/A');
+          
+          if (stage.touchpoints) {
+            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(8);
+            pdf.text('TOUCHPOINTS:', margin + 20, y);
+            y += 10;
+            addBody(stage.touchpoints);
+          }
+          
+          if (stage.kpis) {
+            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(8);
+            pdf.text('SUCCESS METRICS:', margin + 20, y);
+            y += 10;
+            addBody(stage.kpis);
+          }
+
+          if (stage.insights) {
+            pdf.setFont('helvetica', 'italic');
+            addBody(`Insight: ${stage.insights}`);
+            pdf.setFont('helvetica', 'normal');
+          }
+          
           addSpacer(10);
         }
       }
