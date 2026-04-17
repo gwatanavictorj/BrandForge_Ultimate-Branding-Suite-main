@@ -895,7 +895,7 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
                       transform: 'translate(12px, -12px)'
                     }}
                   >
-                    <p className="text-[10px] font-bold text-slate-900">Your Brand</p>
+                    <p className="text-[10px] font-bold text-slate-900">{projectName || discovery.name || 'Your Brand'}</p>
                   </div>
 
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

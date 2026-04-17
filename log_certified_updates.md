@@ -797,3 +797,15 @@ This is the official record of all BrandForge features and UI refinements that h
 - `src/utils/mappingUtils.ts` (Import scope binding fix)
 - `server.ts` (API transparency)
 - `log_certified_updates.md` (Certification)
+
+---
+
+## 📅 2026-04-17: UI Context Standardization (CERTIFIED)
+
+### 🐛 Market Positioning Map Normalization
+- **Dynamic Context Anchoring**: Replaced the hardcoded "Your Brand" placeholder text on the visual Market Positioning Map marker within `BrandStrategyTool.tsx`.
+- **Props Fallback Chain**: The marker now dynamically inherits and renders the actual brand name via `projectName || discovery.name || 'Your Brand'`, ensuring professional continuity and precision when the UI is generated or exported.
+
+### 🛠️ Key Files Finalized
+- `src/components/BrandStrategyTool.tsx` (Dynamic string resolution)
+- `log_certified_updates.md` (Certification)
