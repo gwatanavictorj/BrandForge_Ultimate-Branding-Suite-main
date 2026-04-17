@@ -134,6 +134,8 @@ export const BrandStrategyTool = ({ discovery, onUpdate, onComplete, onModifyDis
   const [strategyError, setStrategyError] = useState<string | null>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const journeyRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
   const renderRef = useRef(true);
 
   // Auto-save whenever strategy changes (Debounced to save quota)
