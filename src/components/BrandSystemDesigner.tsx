@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrandDiscovery, BrandSystem, BrandStrategy, AppNotification } from '../types';
 import { Card, Button, Input } from './UI';
-import { Palette, Type, CheckCircle2, Sparkles } from 'lucide-react';
+import { Palette, Type, CheckCircle2, Sparkles, LayoutGrid, Image as ImageIcon, Box, Ruler } from 'lucide-react';
 
 interface Props {
   discovery: BrandDiscovery;
@@ -30,7 +30,11 @@ export const BrandSystemDesigner = ({ discovery, strategy, initialData, onUpdate
     typography: {
       primary: strategy.identitySystem.typography.primary.name || 'Space Grotesk',
       secondary: strategy.identitySystem.typography.secondary.name || 'Inter'
-    }
+    },
+    logoUsage: { clearSpace: '150%', minimumSize: '32px' },
+    gridSpacing: { columns: '12-Column', baseUnit: '8px' },
+    imagery: { style: 'Authentic & Warm' },
+    uiElements: { borderRadius: '8px', shadows: 'Soft & Elevated' }
   });
 
   const renderRef = useRef(true);
@@ -132,6 +136,99 @@ export const BrandSystemDesigner = ({ discovery, strategy, initialData, onUpdate
               <p className="text-sm text-slate-600" style={{ fontFamily: data.typography.secondary }}>
                 Jumps over the lazy dog. This is how your brand typography will look in practice.
               </p>
+            </div>
+          </div>
+        </Card>
+
+        <Card title="Logo Usage & Rules" icon={Ruler}>
+          <div className="space-y-[var(--space-gap)]">
+            <div>
+              <label className="text-sm font-medium text-slate-700 mb-2 block">Clear Space Ratio</label>
+              <select 
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                value={data.logoUsage?.clearSpace || '150%'}
+                onChange={e => setData({ ...data, logoUsage: { ...data.logoUsage, clearSpace: e.target.value, minimumSize: data.logoUsage?.minimumSize || '32px' } })}
+              >
+                {['100%', '150%', '200%', '0.5x Width'].map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-slate-700 mb-2 block">Minimum Digital Size</label>
+              <select 
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                value={data.logoUsage?.minimumSize || '32px'}
+                onChange={e => setData({ ...data, logoUsage: { ...data.logoUsage, minimumSize: e.target.value, clearSpace: data.logoUsage?.clearSpace || '150%' } })}
+              >
+                {['24px', '32px', '48px', '64px'].map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
+            </div>
+          </div>
+        </Card>
+
+        <Card title="Grid & Layout System" icon={LayoutGrid}>
+          <div className="space-y-[var(--space-gap)]">
+            <div>
+              <label className="text-sm font-medium text-slate-700 mb-2 block">Desktop Grid Columns</label>
+              <select 
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                value={data.gridSpacing?.columns || '12-Column'}
+                onChange={e => setData({ ...data, gridSpacing: { ...data.gridSpacing, columns: e.target.value, baseUnit: data.gridSpacing?.baseUnit || '8px' } })}
+              >
+                {['8-Column', '12-Column', '16-Column', 'Modular'].map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-slate-700 mb-2 block">Base Unit Scale</label>
+              <select 
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                value={data.gridSpacing?.baseUnit || '8px'}
+                onChange={e => setData({ ...data, gridSpacing: { ...data.gridSpacing, baseUnit: e.target.value, columns: data.gridSpacing?.columns || '12-Column' } })}
+              >
+                {['4px', '8px', '10px', 'Golden Ratio'].map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
+            </div>
+          </div>
+        </Card>
+
+        <Card title="Imagery & Photography" icon={ImageIcon}>
+          <div className="space-y-[var(--space-gap)]">
+            <div>
+              <label className="text-sm font-medium text-slate-700 mb-2 block">Visual Style</label>
+              <select 
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                value={data.imagery?.style || 'Authentic & Warm'}
+                onChange={e => setData({ ...data, imagery: { style: e.target.value } })}
+              >
+                {['Authentic & Warm', 'High-Contrast Studio', 'Minimal & Geometric', 'Abstract 3D', 'Cinematic & Moody'].map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200 flex items-center justify-center py-6">
+               <ImageIcon className="w-8 h-8 text-slate-300" />
+            </div>
+          </div>
+        </Card>
+
+        <Card title="Digital UI Components" icon={Box}>
+          <div className="space-y-[var(--space-gap)]">
+            <div>
+              <label className="text-sm font-medium text-slate-700 mb-2 block">Border Radiuses</label>
+              <select 
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                value={data.uiElements?.borderRadius || '8px'}
+                onChange={e => setData({ ...data, uiElements: { ...data.uiElements, borderRadius: e.target.value, shadows: data.uiElements?.shadows || 'Soft & Elevated' } })}
+              >
+                {['0px (Sharp)', '4px (Subtle)', '8px (Soft)', '16px (Rounded)', '999px (Pill)'].map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium text-slate-700 mb-2 block">Elevation Strategy</label>
+              <select 
+                className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500/20"
+                value={data.uiElements?.shadows || 'Soft & Elevated'}
+                onChange={e => setData({ ...data, uiElements: { ...data.uiElements, shadows: e.target.value, borderRadius: data.uiElements?.borderRadius || '8px' } })}
+              >
+                {['Flat Design (None)', 'Soft & Elevated', 'Hard Brutalist Shadows', 'Neumorphic'].map(f => <option key={f} value={f}>{f}</option>)}
+              </select>
             </div>
           </div>
         </Card>

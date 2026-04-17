@@ -209,6 +209,50 @@ export const brandService = {
     return JSON.parse(response || "[]");
   },
 
+  async evaluatePropositionalDensity(discovery: BrandDiscovery, strategy: BrandStrategy, imageBase64: string): Promise<LogoAssistantData['densityFeedback']> {
+    const ai = getAI();
+    const response = await ai.analyzeImage(
+      `# ROLE
+      You are an expert Logo Analyst assessing Propositional Density (Pd). 
+      Propositional Density is the ratio of deep, semantic meaning (Ps) to the surface visual elements (Pv). 
+      High density (Pd > 1) means the logo looks simple but communicates a lot.
+      
+      # BRAND CONTEXT
+      Company Name: ${discovery.brandNameLogo || discovery.registeredName}
+      Core Idea: ${strategy.coreIdea}
+      Archetype: ${strategy.archetype.primary.name}
+      Industry: ${discovery.industry}
+      
+      # TASK
+      Analyze the attached logo image:
+      1. List the Surface Elements (Pv) - what is literally drawn (e.g., "blue circle", "two overlapping triangles", "bold sans-serif font").
+      2. List the Semantic Meanings (Ps) - what these elements symbolically communicate (e.g., "trust", "synergy", "modernity").
+      3. Calculate a rough density score (Ps count / Pv count).
+      4. Provide a brief actionable rationale (is it too complex? Is it clever? Does it fit the brand?).
+
+      Return a JSON object exactly matching this structure:
+      {
+        "surfaceElements": ["element1", "element2"],
+        "semanticMeanings": ["meaning1", "meaning2", "meaning3"],
+        "densityScore": 1.5,
+        "rationale": "Your analysis here..."
+      }
+      `,
+      imageBase64,
+      {
+        type: "object",
+        properties: {
+          surfaceElements: { type: "array", items: { type: "string" } },
+          semanticMeanings: { type: "array", items: { type: "string" } },
+          densityScore: { type: "number" },
+          rationale: { type: "string" }
+        },
+        required: ["surfaceElements", "semanticMeanings", "densityScore", "rationale"]
+      }
+    );
+    return JSON.parse(response || "{}");
+  },
+
   async generateMockupHighlights(discovery: BrandDiscovery, strategy: BrandStrategy): Promise<string[]> {
     const ai = getAI();
     const response = await ai.generateContent(
@@ -283,15 +327,20 @@ export const brandService = {
       
       Visual Identity:
       - Colors: ${strategy.identitySystem.colors.map(c => `${c.color} (${c.meaning})`).join(", ")}
-      - Typography: ${system.typography.primary} — ${system.typography.primaryTraits[0]}-driven geometric style for high-impact headings and identity-focused display. | Secondary: ${system.typography.secondary} — Clean, readable, and professional sans-serif for body text and supportive technical information.
-      - Logo Strategic Directions (Dual Pathway): ${strategy.identitySystem.logoOptions.map(o => `${o.strategy}: ${o.description} (Pd Model Optimized)`).join(' | ')}
+      - Typography: Primary: ${system.typography?.primary || 'Space Grotesk'} | Secondary: ${system.typography?.secondary || 'Inter'}
+      - Logo Strategic Directions: ${strategy.identitySystem.logoOptions.map(o => `${o.strategy}: ${o.description}`).join(' | ')}
+      - Logo Usage: Clear Space: ${system.logoUsage?.clearSpace || '150%'}, Minimum Size: ${system.logoUsage?.minimumSize || '32px'}
+      - Layout & Grid: Columns: ${system.gridSpacing?.columns || '12-Column'}, Base Unit: ${system.gridSpacing?.baseUnit || '8px'}
+      - Imagery Style: ${system.imagery?.style || 'Authentic & Warm'}
+      - Digital UI Elements: Border Radius: ${system.uiElements?.borderRadius || '8px'}, Shadows: ${system.uiElements?.shadows || 'Soft & Elevated'}
       
       The guide should include:
       1. Brand Introduction
       2. Core Strategy (Mission, Vision, Idea)
       3. Brand Voice & Archetype
-      4. Visual Standards (Colors, Typography)
-      5. Practical Do's and Don'ts for the Brand Identity.`
+      4. Visual Standards (Colors, Typography, Imagery)
+      5. Digital Design System (Grid, Logo Usage, UI Elements)
+      6. Practical Do's and Don'ts for the Brand Identity.`
     );
     return response || "";
   },

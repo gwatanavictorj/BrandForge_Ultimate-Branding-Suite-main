@@ -242,6 +242,21 @@ export interface BrandSystem {
     primary: string;
     secondary: string;
   };
+  logoUsage?: {
+    clearSpace: string;
+    minimumSize: string;
+  };
+  gridSpacing?: {
+    columns: string;
+    baseUnit: string;
+  };
+  imagery?: {
+    style: string;
+  };
+  uiElements?: {
+    borderRadius: string;
+    shadows: string;
+  };
 }
 
 export interface LogoNoun {
@@ -272,6 +287,12 @@ export interface LogoAssistantData {
   mockupHighlights: string[];
   inspirationStyle?: string;
   inspirationUrl?: string;
+  densityFeedback?: {
+    surfaceElements: string[];
+    semanticMeanings: string[];
+    densityScore: number;
+    rationale: string;
+  };
 }
 
 export interface Task {

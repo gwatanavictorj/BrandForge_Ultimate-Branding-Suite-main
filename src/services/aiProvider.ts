@@ -76,6 +76,23 @@ export class AIProvider {
     }
   }
 
+  async analyzeImage(prompt: string, base64Image: string, schema?: any): Promise<string> {
+    if (!this.config.apiKey || this.config.apiKey.trim().length < 5) {
+      throw new Error(`Connection stalled: No API key provided for ${this.config.provider.toUpperCase()}. Please open Settings and enter a valid key.`);
+    }
+    
+    if (this.config.provider !== 'gemini') {
+      throw new Error(`Vision analysis is currently optimized for Gemini. Switch your AI Provider to Gemini in Settings.`);
+    }
+
+    try {
+      return await this.analyzeImageGemini(prompt, base64Image, schema);
+    } catch (error: any) {
+      console.error(`Image Analysis Error:`, error);
+      throw error;
+    }
+  }
+
   async generateImage(prompt: string): Promise<string> {
     if (!this.config.apiKey || this.config.apiKey.trim().length < 5) {
       throw new Error(`Connection stalled: No API key provided for ${this.config.provider.toUpperCase()}. Please open Settings and enter a valid key.`);
@@ -102,6 +119,31 @@ export class AIProvider {
     const response = await this.gemini.models.generateContent({
       model: this.config.model || "gemini-2.5-flash",
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      config: schema ? {
+        responseMimeType: "application/json",
+        responseSchema: schema
+      } : undefined
+    });
+    
+    return response.text || "";
+  }
+
+  private async analyzeImageGemini(prompt: string, base64Image: string, schema?: any): Promise<string> {
+    if (!this.gemini) throw new Error('Gemini not initialized');
+    
+    // Extract base64 without prefix if present
+    const base64Data = base64Image.includes('base64,') ? base64Image.split('base64,')[1] : base64Image;
+    const mimeType = base64Image.includes('data:') ? base64Image.split('data:')[1].split(';')[0] : 'image/png';
+
+    const response = await this.gemini.models.generateContent({
+      model: this.config.model?.includes('pro') ? this.config.model : "gemini-2.5-pro", // Pro models are better for vision
+      contents: [{
+        role: 'user', 
+        parts: [
+          { text: prompt },
+          { inlineData: { data: base64Data, mimeType: mimeType } }
+        ]
+      }],
       config: schema ? {
         responseMimeType: "application/json",
         responseSchema: schema

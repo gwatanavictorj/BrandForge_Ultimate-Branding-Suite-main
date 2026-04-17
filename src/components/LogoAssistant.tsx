@@ -3,6 +3,9 @@ import { BrandDiscovery, LogoAssistantData, BrandStrategy, AppNotification, Logo
 import { Card, Button } from './UI';
 import { brandService } from '../services/brandService';
 import { pdfService } from '../services/pdfService';
+import { Sparkles, Lightbulb, Layers, FolderTree, ImageIcon, Loader, Loader2 } from 'lucide-react';
+import { cn } from '../lib/utils';
+
 
 interface Props {
   discovery: BrandDiscovery;
@@ -243,33 +246,72 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onSa
     }
   };
 
-  const generateInspiration = async () => {
-    setLoading(prev => ({ ...prev, inspiration: true }));
-    addNotification({
-      title: 'Visual Engine Active',
-      type: 'info',
-      message: 'Synthesizing visual inspiration for your brand identity...',
-      link: 'step:logo'
-    });
-    try {
-      const url = await brandService.generateLogoInspiration(discovery, strategy, data);
-      setData(prev => ({ ...prev, inspirationUrl: url }));
-      addNotification({
-        title: 'Visual Blueprint Ready',
-        type: 'success',
-        message: 'AI-powered visual inspiration is now available.',
-        link: 'step:logo'
-      });
-    } catch (err: any) {
-      addNotification({
-        title: 'Visual Generation Failed',
-        type: 'error',
-        message: err.message || 'The AI was unable to generate visual inspiration.',
-        link: 'step:logo'
-      });
-    } finally {
-      setLoading(prev => ({ ...prev, inspiration: false }));
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const evaluateDensity = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("[evaluateDensity] Triggered! File count:", e.target.files?.length);
+    const file = e.target.files?.[0];
+    if (!file) {
+      console.log("[evaluateDensity] No file selected, aborting.");
+      return;
     }
+
+    console.log(`[evaluateDensity] File selected: ${file.name} (${file.size} bytes)`);
+
+    // Convert file to base64
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      console.log("[evaluateDensity] reader.onload fired!");
+      const base64 = event.target?.result as string;
+      
+      setLoading(prev => ({ ...prev, density: true }));
+      addNotification({
+        title: 'Analyzing Propositional Density',
+        type: 'info',
+        message: 'Evaluating the visual-to-semantic ratio of your logo...',
+        link: 'step:logo'
+      });
+      
+      try {
+        console.log("[evaluateDensity] Calling brandService.evaluatePropositionalDensity...");
+        const feedback = await brandService.evaluatePropositionalDensity(discovery, strategy, base64);
+        console.log("[evaluateDensity] Raw feedback received:", feedback);
+        setData(prev => ({ ...prev, densityFeedback: feedback }));
+        addNotification({
+          title: 'Density Analysis Complete',
+          type: 'success',
+          message: `Propositional Density scored at ${feedback.densityScore}.`,
+          link: 'step:logo'
+        });
+      } catch (err: any) {
+        console.error("[evaluateDensity] Analysis failed with error:", err);
+        addNotification({
+          title: 'Analysis Failed',
+          type: 'error',
+          message: err.message || 'Unable to evaluate the logo.',
+          link: 'step:logo'
+        });
+      } finally {
+        console.log("[evaluateDensity] Clearing loading state and resetting input.");
+        setLoading(prev => ({ ...prev, density: false }));
+        if (fileInputRef.current) fileInputRef.current.value = '';
+      }
+    };
+    
+    // Fallback if reader fails
+    reader.onerror = () => {
+      console.error("[evaluateDensity] reader.onerror fired. Could not load file.");
+      addNotification({
+        title: 'File Read Failed',
+        type: 'error',
+        message: 'Could not read the uploaded image.',
+        link: 'step:logo'
+      });
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
+    console.log("[evaluateDensity] Initiating reader.readAsDataURL...");
+    reader.readAsDataURL(file);
   };
 
   const generateVariations = async () => {
@@ -468,81 +510,67 @@ export const LogoAssistant = ({ discovery, strategy, initialData, onUpdate, onSa
         </div>
       </Card>
 
-      <Card title="Visual Inspiration" icon={ImageIcon}>
-        <div className="space-y-4">
-          <p className="text-sm text-slate-500">Generate AI-powered visual ideas for your logo.</p>
-          
-          <div className="space-y-3 p-4 bg-slate-50 border border-slate-100 rounded-2xl">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Choose Strategic Vibe</label>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-              {[
-                'Minimalist', '3D / Depth', 'Hand-drawn', 
-                'Vintage', 'Geometric', 'Organic'
-              ].map((vibe) => (
-                <label
-                  key={vibe}
-                  className={cn(
-                    "relative flex items-center gap-2 py-2 px-3 rounded-xl border transition-all cursor-pointer group shrink-0",
-                    data.inspirationStyle === vibe 
-                      ? "bg-brand-50 border-brand-200 shadow-sm" 
-                      : "bg-white border-slate-100 hover:border-brand-100 hover:bg-slate-50/50"
-                  )}
-                >
-                  <input
-                    type="radio"
-                    name="vibe-selection"
-                    className="sr-only"
-                    checked={data.inspirationStyle === vibe}
-                    onChange={() => setData(prev => ({ ...prev, inspirationStyle: vibe }))}
-                  />
-                  <div className={cn(
-                    "w-4 h-4 rounded-full border flex items-center justify-center transition-all",
-                    data.inspirationStyle === vibe 
-                      ? "border-brand-600 bg-brand-600" 
-                      : "border-slate-300 bg-white group-hover:border-brand-300"
-                  )}>
-                    {data.inspirationStyle === vibe && (
-                      <div className="w-1.5 h-1.5 rounded-full bg-white shadow-sm" />
-                    )}
-                  </div>
-                  <span className={cn(
-                    "text-xs font-bold transition-colors",
-                    data.inspirationStyle === vibe ? "text-brand-900" : "text-slate-600"
-                  )}>
-                    {vibe}
-                  </span>
-                </label>
-              ))}
+      <Card title="Propositional Density Check" icon={ImageIcon}>
+        <div className="space-y-[var(--space-gap)]">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-slate-500">Upload your logo to evaluate its visual-to-semantic ratio (Pd).</p>
+            <div>
+              <input 
+                ref={fileInputRef}
+                type="file" 
+                accept="image/*" 
+                onChange={evaluateDensity} 
+                className="hidden"
+                disabled={loading.density}
+              />
+              <Button 
+                disabled={loading.density} 
+                size="sm" 
+                variant="secondary" 
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {loading.density ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Upload Logo'}
+              </Button>
             </div>
           </div>
 
-          {data.inspirationUrl ? (
-            <div className="relative group rounded-2xl overflow-hidden border border-slate-200">
-              <img 
-                src={data.inspirationUrl} 
-                alt="Logo Inspiration" 
-                className="w-full aspect-square object-cover"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Button variant="secondary" size="micro" onClick={() => window.open(data.inspirationUrl)}>View Full</Button>
+          {data.densityFeedback && (
+            <div className="mt-4 p-5 bg-slate-50 border border-slate-100 rounded-2xl space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                <span className="text-sm font-bold text-slate-700">Density Score (Pd)</span>
+                <span className={cn(
+                  "text-lg font-black",
+                  data.densityFeedback.densityScore > 1 ? "text-green-600" : "text-amber-500"
+                )}>
+                  {data.densityFeedback.densityScore.toFixed(2)}
+                </span>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 className="text-[11px] uppercase tracking-widest text-slate-400 font-bold mb-2">Surface (Pv)</h4>
+                  <ul className="list-disc pl-4 space-y-1">
+                    {data.densityFeedback.surfaceElements.map((el, i) => (
+                      <li key={i} className="text-sm text-slate-600">{el}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-[11px] uppercase tracking-widest text-slate-400 font-bold mb-2">Semantic (Ps)</h4>
+                  <ul className="list-disc pl-4 space-y-1">
+                    {data.densityFeedback.semanticMeanings.map((el, i) => (
+                      <li key={i} className="text-sm text-brand-700">{el}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="pt-3 border-t border-slate-200">
+                <h4 className="text-[11px] uppercase tracking-widest text-slate-400 font-bold mb-2">AI Rationale</h4>
+                <p className="text-sm text-slate-700 leading-relaxed">{data.densityFeedback.rationale}</p>
               </div>
             </div>
-          ) : (
-            <div className="aspect-square bg-slate-50 rounded-2xl border border-dashed border-slate-200 flex items-center justify-center text-slate-400 text-[10px] text-center p-6 space-y-2 flex-col">
-              <Sparkles className="w-8 h-8 text-slate-200" />
-              <p>Pick a vibe and click generate to see strategy-driven sketches.</p>
-            </div>
           )}
-
-          <Button 
-            onClick={generateInspiration} 
-            disabled={loading.inspiration || !data.nouns.realWords.length} 
-            size="md"
-            className="w-full"
-          >
-            {loading.inspiration ? <Loader2 className="animate-spin" /> : 'Generate Visuals'}
-          </Button>
         </div>
       </Card>
 
