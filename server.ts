@@ -34,6 +34,7 @@ async function startServer() {
   app.get("/api/auth/google/url", (req, res) => {
     const scopes = [
       "https://www.googleapis.com/auth/forms.responses.readonly",
+      "https://www.googleapis.com/auth/forms.body.readonly",
       "https://www.googleapis.com/auth/drive.readonly",
       "https://www.googleapis.com/auth/userinfo.profile",
       "https://www.googleapis.com/auth/userinfo.email"
@@ -189,9 +190,10 @@ async function startServer() {
         response: response.data,
         formattedAnswers: answersWithTitles
       });
-    } catch (error) {
-      console.error("Error getting response:", error);
-      res.status(500).json({ error: "Failed to get response" });
+    } catch (error: any) {
+      console.error("Error getting response:", error?.response?.data || error);
+      const detailedMsg = error?.response?.data?.error?.message || error.message || "Failed to get response";
+      res.status(500).json({ error: `Google API Error: ${detailedMsg}` });
     }
   });
 

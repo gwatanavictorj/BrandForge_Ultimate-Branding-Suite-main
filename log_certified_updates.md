@@ -578,10 +578,222 @@ This is the official record of all BrandForge features and UI refinements that h
 
 ### 📤 AI Usage Guide Generation Integration
 - **Contextual Prompt Sync**: Upgraded `brandService.generateUsageGuide` to pass the entire expanded Design System to the AI generator.
+    *   Embedded a high-density `Search` input within the project header, featuring a persistent icon and an inline clear trigger (`X`).
+    *   Transitioned the dashboard header to a flexible `flex-col md:flex-row` architecture to handle the new input gracefully on mobile devices.
+*   **Intelligent Empty Results**:
+    *   Developed a dedicated "No results" state with an explicit "Clear search" action, maintaining a frictionless UX when queries yield no matches.
+*   **JSX Architecture Hardening**:
+    *   Audited and resolved several complex JSX tag-balancing issues in the `Dashboard` header and modal overlay sections, ensuring build stability.
+
+#### **Files Verified:**
+- `src/components/Dashboard.tsx`
+- `log_certified_updates.md`
+
+---
+
+### **Update 17: Global Project Renaming & Navbar Clarity (CERTIFIED)**
+**Status**: 🟢 CERTIFIED (UI/UX Refinement)
+**Objective**: Optimize project identity management via inline renaming and improved visibility.
+
+#### **Technical Improvements:**
+*   **Inline Renaming Architecture**:
+    *   Transitioned the static navbar project label into an interactive, state-aware component (`App.tsx`).
+    *   Implemented a seamless "Click-to-Edit" pattern with real-time Firestore persistence via the `updateProjectData` callback.
+    *   Integrated professional UX logic: Focus trapping, automatic saving on `Enter`/`Blur`, and revert capabilities on `Escape`.
+*   **Navbar Layout Optimization**:
+    *   Eliminated aggressive project name truncation (`max-w-100px`) in favor of a flexible, full-width display model.
+    *   Added contextual visual cues (Lucide `Edit` icon) on hover to signal interactivity without cluttering the persistent UI.
+
+#### **Files Verified:**
+- `src/App.tsx`
+- `log_certified_updates.md`
+
+### **Update 18: Noun Toolkit Vertical Layout**
+**Created**: 2026-04-12 11:05 AM
+**Status**: 🟢 CERTIFIED (UI/UX Refinement)
+**Objective**: Optimize the layout of the Brand Noun Toolkit for better scanning and clarity.
+
+#### **Technical Improvements:**
+*   **Vertical Category Stacking**:
+    *   Refactored the noun result categories in `LogoAssistant.tsx` from a multi-column grid to a single-column vertical stack.
+    *   Increased spacing (`gap-10`) between categories to prevent visual fatigue and improve the "toolkit" aesthetic.
+*   **Scanning Efficiency**:
+    *   Stacked layout allows users to scan through linguistic types (Real Words, Invented, etc.) linearly without horizontal eye movement.
+
+- `src/components/LogoAssistant.tsx`
+- `log_certified_updates.md`
+
+---
+
+## 📅 2026-04-12: Logo Assistant Calibration & High-Fidelity PDF Export (CERTIFIED)
+
+### 🏗️ Stabilization & Navigation Bridge
+- **Event Bridge Stabilization**: Implemented stable `useRef` handlers in `LogoAssistant.tsx` to prevent event listener staleness, ensuring the global header's **Save** and **Export** buttons are 100% responsive.
+- **Persistence Hardening**: Added an `onSave` prop bridge to trigger immediate Firestore synchronization upon manual save, bypassing the standard debounce for instant feedback.
+
+### 📤 High-Fidelity Strategy Export
+- **Professional Blueprint Engine**: Refactored the PDF export logic with a modular helper system, enabling automatic page breaks, a dedicated **Cover Page**, and persistent **Header/Footer branding**.
+- **Rich Noun Detail Integration**: Upgraded the "Brand Noun Toolkit" section to include full strategic context. Results now display the **Word**, **Linguistic Territory**, and **Visual Anchor** (e.g., "Tapestry (Human-Centric): Intricately woven fabric").
+- **Visual Rhythm**: Standardized all PDF sections (Directions, Smushes, Variations) with professional Slate 800/600 typography and brand blue accents.
+
+### 🛠️ Key Files Finalized
+- `src/components/LogoAssistant.tsx`
+- `src/App.tsx`
+- `log_certified_updates.md`
+
+---
+
+## 📅 2026-04-12: Dynamic Notification Interactivity & Deep-Linking (CERTIFIED)
+
+### 🏗️ Workflow-Drive Interactivity
+- **Click-to-Navigate Logic**: Implemented "Universal Step Navigation" across the suite. Notifications now serve as direct deep-links to specific tools (Discovery, Strategy, Logo) and projects.
+- **Historical Archive Activation**: Refactored the notification center within the **Settings Modal** to handle navigation clicks. The modal automatically closes while triggering a state-aware transition to the referenced resource.
+- **Visual Intelligence**: Added `ExternalLink` indicator glyphs and high-density labels ("Click to access resource") to distinguish interactive notifications from purely informational alerts.
+
+### 🛡️ System-Wide Navigation Audit
+- **Logo Assistant Interactivity**: Audited all 14 progression events (Noun generation, Smush pairings, Visual inspiration, Mockups) to ensure they link back to the Logo tool workspace.
+- **Strategy & Discovery Foundations**: Integrated context-aware links to the Strategy and Discovery screens for all internal AI processing and synchronization milestones.
+- **One-Click Library Access**: Optimized the "Library Imported" notification to include an immediate shortcut to the Dashboard, streamlining the data restoration workflow.
+
+### 🛠️ Key Files Finalized
+- `src/App.tsx` (Deep-link resolution)
+- `src/components/SettingsModal.tsx` (Archive interactivity)
+- `src/components/LogoAssistant.tsx` (Logo event tethering)
+- `src/components/BrandStrategyTool.tsx` (Strategy event tethering)
+- `src/components/BrandDiscoveryForm.tsx` (Foundation event tethering)
+- `src/components/NotificationPopover.tsx` (Visual indicator sync)
+
+---
+
+## 📅 2026-04-12: Dashboard View Normalization & Metrics Optimization (CERTIFIED)
+
+### 📊 Workspace Layout Refinement
+- **"All Projects" Filter**: Introduced an "All Projects" tab alongside "Recent Projects" and "Trash". This view specifically aggregates all active workspace items while strictly excluding softly deleted (trashed) items.
+- **Interaction Parity**: Synchronized row interactions across "All Projects" and "Recent Projects" views. Click-to-navigate works identically in both tabs, while bulk-action checkboxes have been restricted strictly to the "Trash" view to prevent accidental wide-spread mutations.
+- **Metrics Accuracy**: Renamed the potentially confusing "Tasks Completed" stat on the main dashboard cards to "Projects Completed" to better reflect the system's actual data model.
+
+### 🛠️ Key Files Finalized
+- `src/components/Dashboard.tsx` (Tab logic, View scaling, and text updates)
+- `log_certified_updates.md`
+
+---
+
+## 📅 2026-04-12: Strategy PDF Resilience & Deep Hardening (CERTIFIED)
+
+### 🏗️ Export Engine Stabilization
+- **jsPDF API Standardization**: Successfully resolved the "standard browser print" fallback loop by migrating from unstable internal properties (`internal.getCurrentPageInfo()`) to documented high-level APIs (`getNumberOfPages()`).
+- **Import Pattern Hardening**: Transitioned to a named `jsPDF` import, ensuring reliable initialization across modern ESM build pipelines and resolving constructor-undefined errors.
+- **Universal String Safety**: Implemented global `String()` casting for all strategic text processing. This definitively prevents runtime `TypeError` crashes (e.g., `.toUpperCase()` or `.split()`) when AI models return unexpected data types.
+
+### 📤 Strategic Information Integrity
+- **Deduplication**: Cleaned the export schema to remove redundant headers and narrative modules (e.g., "Audience Narrative", "Logo Direction"), focusing the output on high-fidelity strategic intelligence.
+- **Data Fallbacks**: Integrated comprehensive null-safety checks and safe placeholders for all complex modules including Competitor Maps, Archetype Psychology, and Color Palettes.
+
+### 🛠️ Key Files Finalized
+- `src/components/BrandStrategyTool.tsx` (Complete PDF logic refactor)
+- `log_certified_updates.md`
+
+---
+
+## 📅 2026-04-12: High-Fidelity PDF Visual Parity & Stability (CERTIFIED)
+
+### 🏗️ Visual Intelligence Optimization
+- **1:1 Visual Parity**: Implemented `html2canvas` capturing for the **Positioning Map** and **Customer Journey** modules. The PDF now exports exact snapshots of the UI, preserving complex gradients, vector shapes, and brand markers from the strategy dashboard.
+- **Robust Capture Fallbacks**: Integrated a dual-mode engine that automatically reverts to internal manual drawing if the high-fidelity snapshot fails. This prevents "Unavailable" errors and ensures data presence across all browser environments.
+- **Messaging Workbench Formatting**: Refined the "Communication Framework" export section with structured headers, background accents, and explicit template/strategy labeling for improved professional legibility.
+
+### 🏗️ Content Streamlining
+- **Removed Logo Concepts**: Excised the "Visual Essence & Logo Strategy" section from the Strategy PDF (SYSTEM OPTIMIZED/USER ANCHORED concepts) to keep the export focused on strategic intelligence.
+
+### 🛠️ Key Files Finalized
+- `src/components/BrandStrategyTool.tsx`
+- `log_certified_updates.md`
+
+---
+
+## 📅 2026-04-12: Brand Archetype Intelligence & Data Healer Architecture (CERTIFIED)
+
+### 🏗️ Intelligence Normalization Layer
+- **"The Data Healer" Engine**: Implemented `normalizeBrandStrategy` in `brandService.ts`. This middleware automatically repairs incomplete AI-generated strategy objects by matching archetype signatures against the master reference database.
+- **Reference Database Expansion**: Updated `fallbackStrategyEngine.ts` to provide 100% field parity (Goal, Fear, Talent, Weakness, and structured `inPractice` models) for all 12 Jungian archetypes.
+- **Real-Time Data Upgrading**: Integrated a mount-time normalization hook in `BrandStrategyTool.tsx`, ensuring legacy projects and fresh AI outputs are immediately "healed" for high-fidelity rendering.
+
+### 📊 UI & Messaging Refinement
+- **Triple-Archetype Fidelity**: Finalized rendering logic for Primary, Secondary, and Tertiary archetypes. All tiers now display complete psychological profiles and strategic applications.
+- **Messaging Workbench Formatting**: Applied `whitespace-pre-line` to the Communication Framework UI and PDF export. This ensures professional line breaks and vertical spacing are preserved in messaging templates.
+- **Enhanced Category Branding**: Upgraded workbench headers (e.g., "MARKETING WORKBENCH") with high-density `label-xs` typography and category-specific accents.
+
+### 📤 Precision PDF Export
+- **Expansion Resilience**: Added explicit `checkPage()` triggers before and during the Archetype and Messaging sections to prevent content clipping and orphaning on multi-page reports.
+- **Unified Strategic Output**: Standardized the PDF export to include full psychological data for all three archetype tiers, maintaining 1:1 parity with the digital dashboard.
+
+### 🛠️ Key Files Finalized
+- `src/services/brandService.ts` (Normalization Engine)
+- `src/services/fallbackStrategyEngine.ts` (Reference Master)
+- `src/components/BrandStrategyTool.tsx` (UI/PDF Alignment)
+- `log_certified_updates.md`
+
+---
+
+## 📅 2026-04-12: Universal PDF Parity & Intelligence Synchronization (CERTIFIED)
+
+### 🏗️ Export Engine Convergence
+- **100% Data Parity**: Synchronized the `handleDownloadPDF` engine with the web-based Brand Strategy Tool. The PDF now captures every piece of strategic intelligence rendered on-screen, eliminating all previous data gaps.
+- **Dynamic Content Integration**:
+    - **Brand Soul**: Integrated the **Core Values** loop, capturing the ethical foundation of the brand.
+    - **Audience Deep-Dive**: Added the **Audience Narrative** and **Psychological Driver Level** (Maslow) segments.
+    - **Market Stance**: Added the **Positioning Statement** and verified **Competitor Social Nodes** (Instagram, LinkedIn, etc.) for direct sector competitors.
+- **Identity & Messaging Architecture**:
+    - **Logo Concepts**: Integrated **Logo Strategic Directions** including **Surface & Semantic Propositional Density (Pd)** metrics and Visual Symbol anchors.
+    - **Omnichannel Touchpoints**: Added the full list of identity touchpoints by category (Digital, Social, physical, etc.).
+    - **Messaging Framework**: Captured the primary **Core Message** and **Strategic Keyword Cloud**.
+
+### 🛡️ Resilience & Formatting
+- **Behavioral Profiling**: Added **Brand's Role** and **Emotional Impact** modules to the Personality section for all archetype tiers.
+- **Typography Precision**: Expanded font documentation to include specific **Deployment Platforms** (Web, UI, Print).
+- **Journey Hardening**: Enhanced the manual drawing fallback for the Customer Journey to include **KPIs**, **Touchpoints**, and **Strategic Insights** per stage.
+- **Advanced Page Break Logic**: Implemented aggressive `checkPage()` monitoring to handle the significantly increased document density without content clipping.
+
+### 🛠️ Key Files Finalized
+- `src/components/BrandStrategyTool.tsx` (Major engine overhaul)
+- `log_certified_updates.md` (Certification of full parity)
+
+---
+
+## 📅 2026-04-17: Comprehensive Design System Integration (CERTIFIED)
+
+### 🏗️ Brand System Designer Upgrade
+- **Schema Expansion**: Expanded the `BrandSystem` interface in `types.ts` to include `logoUsage`, `gridSpacing`, `imagery`, and `uiElements`. 
+- **Digital Dashboard UI**: Integrated new configuration cards into `BrandSystemDesigner.tsx` for deeply structured brand identity specifications:
+  - **Logo Usage & Rules** (Clear space ratio, minimum digital size)
+  - **Grid & Layout System** (Desktop grid columns, base unit scale)
+  - **Imagery & Photography** (Visual style direction)
+  - **Digital UI Components** (Border radiuses, elevation strategies)
+- **Intelligent Defaults**: Added smart defaults and presets for all new dropdown fields, ensuring no empty or broken states are passed to the AI.
+
+### 📤 AI Usage Guide Generation Integration
+- **Contextual Prompt Sync**: Upgraded `brandService.generateUsageGuide` to pass the entire expanded Design System to the AI generator.
 - **Holistic Documentation**: The generated `brand_guide.md` file now explicitly synthesizes Visual Standards (Colors, Typography, Imagery) and Digital Design Systems (Grid, Logo Usage, UI Elements), finalizing a high-impact, professional handoff document.
 
 ### 🛠️ Key Files Finalized
 - `src/types.ts` (Interface extension)
 - `src/components/BrandSystemDesigner.tsx` (Component expansion)
 - `src/services/brandService.ts` (Generator prompt scaling)
+- `log_certified_updates.md` (Certification)
+
+---
+
+## 📅 2026-04-17: Extraction Initialization & API Propogation Fix (CERTIFIED)
+
+### 🐛 Import Binding Scope Fix
+- **ES Module Architecture**: Identified a silent cyclic initialization bug in `mappingUtils.ts` where re-exporting modules (`export { INDUSTRIES } from ...`) failed to create local variable bindings, triggering `ReferenceError: INDUSTRIES is not defined` during local fallback extraction.
+- **Local Instantiation**: Restructured `mappingUtils.ts` to `import` the strategy constants explicitly into the file's local scope before exporting them, resolving the `ReferenceError` permanently.
+
+### 🌐 API Resilience Update
+- **Detailed Error Propagation**: Refactored the Google Forms proxy endpoint within `server.ts` (`/api/google/forms/...`) to extract the nested `error.response.data.error.message` from Google APIs. 
+- **Actionable UI Feedback**: When `BrandDiscoveryForm` receives errors like `Insufficient authentication scopes`, it now explicitly displays "Google API Error: [Reason]" rather than swallowing the message behind a generic "Failed to get response" prompt, directly allowing users to diagnose OAuth disconnection issues.
+
+### 🛠️ Key Files Finalized
+- `src/utils/mappingUtils.ts` (Import scope binding fix)
+- `server.ts` (API transparency)
 - `log_certified_updates.md` (Certification)

@@ -360,7 +360,12 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
     setError(null);
     try {
       const res = await fetch(`/api/google/forms/${selectedFormId}/responses/${responseId}`);
-      const { formattedAnswers } = await res.json();
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `HTTP ${res.status} error fetching response`);
+      }
+      const data = await res.json();
+      const { formattedAnswers } = data;
 
       let extractedData: Partial<BrandDiscovery>;
 
@@ -446,7 +451,9 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
       setCurrentStep(2); // Go to first section after import
       setHighestStep(9); // Unlock progress bar after import
     } catch (err) {
-      setError('Failed to extract data from form response');
+      console.error('Detailed extraction error:', err);
+      const msg = err instanceof Error ? err.message : String(err);
+      setError(`Failed to extract data: ${msg}`);
     } finally {
       setLoading(false);
     }
@@ -1100,12 +1107,13 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
     switch (currentStep) {
       case 0: return renderIntro();
       case 1: return (
-        <div className="space-y-8">
-          <div className="text-center space-y-2">
-            <h3 className="text-2xl font-bold text-brand-900 font-display">Choose Import Method</h3>
-            <p className="body text-brand-500">How would you like to provide your brand details?</p>
-          </div>
-          <div className="flex justify-center gap-3">
+        <div className="flex flex-col items-center justify-center min-h-[60vh] w-full px-4">
+          <div className="space-y-8 w-full max-w-lg mx-auto">
+            <div className="text-center space-y-2">
+              <h3 className="text-2xl font-bold text-brand-900 font-display">Choose Import Method</h3>
+              <p className="body text-brand-500">How would you like to provide your brand details?</p>
+            </div>
+          <div className="flex flex-wrap justify-center gap-3 w-full">
             <button
               onClick={() => {
                 setImportMethod('manual');
@@ -1214,6 +1222,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
               )}
             </Card>
           )}
+          </div>
         </div>
       );
       case 2: return renderSection2();

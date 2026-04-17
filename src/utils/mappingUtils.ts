@@ -1,7 +1,12 @@
-export { 
+import { 
   INDUSTRIES, STAGES, DELIVERY_MODELS, BENEFITS, 
   VALUES, STRENGTHS, WEAKNESSES, BRAND_FEELS, EMOTIONAL_OUTCOMES 
 } from '../data/strategicData';
+
+export { 
+  INDUSTRIES, STAGES, DELIVERY_MODELS, BENEFITS, 
+  VALUES, STRENGTHS, WEAKNESSES, BRAND_FEELS, EMOTIONAL_OUTCOMES 
+};
 
 const KEYWORD_MAPS: { [key: string]: { [key: string]: string[] } } = {
   industry: {
