@@ -1,13 +1,14 @@
-# Technical Architecture: The BrandForge Standard
+# Framework Reference: BrandForge Technical Architecture
 
-BrandForge is built on the **"Modern Blueprint"** design philosophy—a high-density, professional aesthetic optimized for a 1:1 **"Commander Console"** experience. This document provides the authoritative technical breakdown of the platform's anatomy.
+This document provides the authoritative technical reference for the BrandForge Branding Suite. It details the **Sequential Intelligence Pipeline (S.I.P)**, service orchestration logic, and data schema requirements.
 
 ---
 
-## 🔄 Sequential Intelligence Pipeline (S.I.P)
+## 🔄 System Workflow: S.I.P Engine
 
-BrandForge uses a strict one-way data flow to ensure that brand identity is anchored in discovery data.
+The **Sequential Intelligence Pipeline (S.I.P)** is a deterministic data-flow architecture that ensures brand identity assets are derived from discovery data.
 
+### Sequence Flow
 ```mermaid
 sequenceDiagram
     participant User
@@ -33,108 +34,82 @@ sequenceDiagram
     Strategy->>Logo: Visual Inspiration
 ```
 
-## 📂 Directory Anatomy
-A map for developers navigating the BrandForge workspace:
+---
 
-- **`src/`**: The core application root.
-    - **`components/`**: Atomic and complex UI elements (Dashboard, Discovery, Settings).
-    - **`services/`**: The Intelligence Layer (AI providers, strategy orchestration, PDF generation).
-    - **`utils/`**: Deterministic logic (mapping, cleanup, data portability).
-    - **`types.ts`**: The central source of truth for all data interfaces.
-    - **`localDb.ts`**: The persistence abstraction layer.
-    - **`AuthContext.tsx`**: Identity and session management.
-- **`docs/`**: Technical and strategic documentation hub.
-- **`dist/`**: Production build output.
+## 🧠 Service Orchestration (Intelligence Layer)
+
+BrandForge core logic is decoupled into specialized services, ensuring localized fault tolerance and strategic fidelity.
+
+### 1. `brandService` (The Orchestrator)
+**Namespace**: `src/services/brandService.ts`
+
+| Function | Responsibility |
+| :--- | :--- |
+| `normalizeBrandStrategy` | Intercepts AI-generated JSON and executes "Data Healing" on malformed archetype objects. |
+| `generateNouns` | Synthesizes 50 visual-naming constructs using the S.I.P metadata. |
+| `generateConceptSmushes` | Executes visual-strategic pairings to create logo mark inspirations. |
+
+**The "Data Healer" Middleware**
+The `normalizeBrandStrategy` function serves as a critical normalization layer. It validates AI outputs against the Jungian Archetype model, filling missing psychological fields (Goal, Fear, Talent) using deterministic reference anchors.
+
+### 2. `aiProvider` (Multi-Model Adapter)
+**Namespace**: `src/services/aiProvider.ts`
+
+- **Adapter Model**: Implements a unified interface for Gemini (Google) and OpenAI.
+- **Error Propagation**: Handles API rate limits and connection retries via a proactive state-testing mechanism.
+
+### 3. `fallbackStrategyEngine` (Offline Logic)
+**Namespace**: `src/services/fallbackStrategyEngine.ts`
+
+- **Deterministic Mapping**: Generates "Base Strategies" derived from industry and stage metadata. 
+- **Usage**: Automatically engaged when AI connectivity is interrupted to maintain platform availability.
 
 ---
 
-## 🧠 The Intelligence Layer (Services)
+## 📐 Data Schemas (The S.I.P Model)
 
-BrandForge logic is distributed across four specialized services that ensure 100% strategic fidelity.
+The following interfaces in `src/types.ts` represent the absolute data requirements for the branding engine.
 
-### 1. `brandService.ts` (The Orchestrator)
-The central hub for the **Sequential Intelligence Pipeline (S.I.P)**. 
-- **Responsibilities**: Converting discovery data into strategy, managing state-inheritance, and triggering the "Data Healer" to repair fragmented AI outputs.
-- **The "Data Healer" (Normalization Layer)**: Located in `brandService.ts`, this layer intercepts AI-generated JSON to:
-    -   Repair missing Jungian fields (Goal, Fear, Talent) using reference anchors.
-    -   Normalize `inPractice` arrays to prevent rendering crashes.
-    -   Sanitize string formatting (fixing encoded newlines in messaging templates).
-- **Standards**: All strategic outputs must satisfy the Jungian Archetype validation model.
+### `BrandDiscovery`
+The structural ingestion blueprint for client DNA.
 
-### 2. `aiProvider.ts` (The Multi-Model Adapter)
-A unified interface for LLM interaction.
-- **Supported Models**: 
-    - **Gemini (Nano Banana)**: Used for core strategy synthesis and noun toolkit generation.
-    - **OpenAI (DALL-E 3)**: Targeted for visual concept inspiration.
-- **Governance**: Implements proactive key testing and error propagation.
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `registeredName` | `string` | The legal entity name. |
+| `industry` | `string` | Primary vertical (mapped to S.I.P logic). |
+| `customerEmotionalOutcome` | `string[]` | List of targeted psychological outcomes. |
 
-### 3. `fallbackStrategyEngine.ts` (The Safety Net)
-Ensures the platform remains functional during offline states or API failures.
-- **Logic**: Uses a deterministic mapping engine to generate "Base Strategies" derived from industry and stage metadata without requiring a live AI call.
+### `BrandStrategy`
+The synthesized high-fidelity strategic asset.
 
-### 4. `pdfService.ts` (The Snapshot Engine)
-Generates high-fidelity project handoffs.
-- **Tech Stack**: `jsPDF` + `html2canvas`.
-- **Logic**: Uses a 1:1 UI snapshot model to ensure that the Positioning Maps and Archetype Wheels in the PDF are identical to the screen interface.
+| Section | Content | Requirement |
+| :--- | :--- | :--- |
+| **Foundation** | Mission/Vision/Philosophy | 100% S.I.P Alignment |
+| **Personality** | Jungian Archetype Profiles | Tiered (Primary/Sec/Tert) |
+| **Messaging** | Archetype-based Tone Cases | 5 Usage Territories |
 
 ---
 
-## 🖥️ Server Anatomy (`server.ts`)
+## 🖥️ Infrastructure & Persistence
 
-The Node.js Express layer serves as the "Bridge" between the Vite frontend and third-party data ecosystems.
+### Server Anatomy (`server.ts`)
+The Node.js Express layer manages the "Global Handshake."
+- **Authentication**: Executes OAuth2 protocols for third-party ingestion (Google Workspace).
+- **Industry Mapping**: Normalizes raw question IDs into semantic keys for the `brandService`.
 
-### Core Responsibilities
--   **OAuth2 Protocol**: Manages Google Identity tokens for secure Drive and Forms access.
--   **Industry Mapping**: Translates raw form question IDs into semantic keys used by the Branding Engine.
--   **Static Orchestration**: Serves the optimized production build (`/dist`) and handles SPA routing fallbacks.
-
----
-
-## 💾 The Memory Layer (Persistence & State)
-
-### 1. `localDb.ts` & `localStorage`
-- **Philosophy**: Local-first development. All projects are stored as JSON blobs in `localStorage`.
-- **Portability**: Includes logic for atomic imports and exports of the entire project library.
-
-### 2. `AuthContext.tsx`
-- **Philosophy**: State-aware identity.
-- **Logic**: Manages the user profile (Role, Avatar, Agency Details) and serves as the gatekeeper for Firebase Firestore synchronization.
+### Persistence Layer (`localDb.ts`)
+- **Storage Model**: `localStorage` JSON serialization.
+- **Portability Protocol**: Enables full-library exports and atomic project snapshots for environment migration.
 
 ---
 
-## 📐 Data Schema (The S.I.P Model)
+## 🎨 Professional UX Constraints
 
-The platform is anchored by two primary interfaces in `types.ts`:
-
-### 1. `BrandDiscovery`
-The 9-phase intake blueprint. Captures client DNA, industry markers, and psychological "feels."
-
-### 2. `BrandStrategy`
-The absolute strategic asset. Includes:
-- **Overview**: 4-Point Strategic Definition (Who, What, How, Where).
-- **Foundation**: Mission, Vision, and Philosophy.
-- **Audience**: Maslow-level needs mapping and narrative groups.
-- **Personality**: Jungian Archetype primary/secondary profiles and Pd (Propositional Density) scores.
-
----
-
-## 🎨 Spatial Optimization (Zero-Scroll Standard)
-Technically enforced across the entire platform:
-- **Viewport-Relative Containers**: Components use `h-[75vh]` or `max-h-screen` constraints.
-- **Internal Overflow Management**: High-density lists (e.g., Notification Audit Center) use hidden custom scrollbars to maintain visual integrity.
-- **Global Frame Integrity**: The Sidebar (`w-20` on desktop) and Notification popover are pinned to the edge of the viewport to ensure they never scroll with page content.
-
----
-
-## 🎨 Design System Reference (Tokens)
-
-| Token | Category | Value / Hex | Usage |
-| :--- | :--- | :--- | :--- |
-| **Surface** | Background | `#09090b` (Zinc-950) | Main App Background |
-| **Blueprint** | Border | `#27272a` (Zinc-800) | Structural Dividers |
-| **Accent** | Brand | `#3f3f46` (Zinc-700) | Hover States / Primary Buttons |
-| **Typography** | Primary | `#fafafa` (Zinc-50) | Headers / High Importance |
-| **Typography** | Muted | `#a1a1aa` (Zinc-400) | Metadata / Labels |
+| Standard | Implementation | Goal |
+| :--- | :--- | :--- |
+| **Zero-Scroll** | `h-[75vh]` & Viewport-Relative UI | Focus-lock. |
+| **Blueprint UI** | Zinc-950 Surface / Zinc-800 Borders | Technical Density. |
+| **Global Frame** | Pin-edge Sidebar & Persistent Notification Popovers | Spatial Integrity. |
 
 ---
 

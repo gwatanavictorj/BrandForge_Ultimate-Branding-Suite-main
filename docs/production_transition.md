@@ -1,117 +1,110 @@
-# Road to Production: The Hardened Roadmap
+# Deployment & Operations Guide: BrandForge Production Roadmap
 
-This document serves as the authoritative guide for transitioning BrandForge from its local `localStorage` development environment to a live, cloud-hosted **Commander Console**. Every phase follows the **Step → Infrastructure → Security** documentation standard.
+[← Back to Overview](../README.md)
+
+This guide provides the authoritative procedures for transitioning BrandForge from a local development environment to a hardened, enterprise-grade production infrastructure. 
 
 ---
 
-## Phase 1: Environment & Config Governance
+### In this article
+- [Pre-flight Checklist](#pre-flight-checklist)
+- [Configuration Reference](#configuration-reference)
+- [Identity & Access Management](#identity--access-management)
+- [Data Layer Hardening (Firestore)](#data-layer-hardening-firestore)
+- [Continuous Deployment (CI/CD)](#continuous-deployment-cicd)
+- [Security Hardening Protocols](#security-hardening-protocols)
 
-Before deployment, you must synchronize your environment variables. 
+---
 
-### ⚙️ Master Environment Config Table
+## Pre-flight Checklist
+Before initializing the production build, ensure the following absolute standards are satisfied:
+- [ ] **Node.js**: v18.0.0+ verified in the production environment.
+- [ ] **SSL Certification**: Valid wildcard or domain-specific certificate provisioned.
+- [ ] **Secret Hygiene**: All API keys removed from source code and moved to environmental injection.
+- [ ] **Browser Compatibility**: Polyfills verified for ES2022+ targets.
 
-| Variable | Source | Required | Security Level |
+---
+
+## Configuration Reference
+BrandForge utilizes environmental injection to govern API interaction and platform state.
+
+| Variable | Scope | Required | Security |
 | :--- | :--- | :--- | :--- |
-| `GEMINI_API_KEY` | Google AI Studio | **Yes** | **Critical** (Server) |
-| `OPENAI_API_KEY` | OpenAI Platform | Optional | **Critical** (Server) |
-| `APP_URL` | Production Domain | **Yes** | Public/Internal |
-| `GOOGLE_CLIENT_ID` | Google Cloud Console | Optional | Public (Client) |
-| `GOOGLE_CLIENT_SECRET`| Google Cloud Console | Optional | **Critical** (Server) |
-| `VITE_FIREBASE_API_KEY`| Firebase Console | **Yes** | Public (Client) |
-
-- **Step**: Create a `.env.production` file in the project root.
-- **Infrastructure**: Use **GitHub Secrets** or **Google Cloud Secret Manager** to inject these keys during CI/CD.
-- **Security**: **NEVER** expose the `GOOGLE_CLIENT_SECRET` or `OPENAI_API_KEY` in client-side code prefixing with `VITE_`.
+| `GEMINI_API_KEY` | Server | **Yes** | Secret Manager |
+| `OPENAI_API_KEY` | Server | Optional | Secret Manager |
+| `VITE_FIREBASE_CONFIG`| Client | **Yes** | Public/Restricted |
+| `GOOGLE_CLIENT_SECRET`| Server | **Yes** | Secret Manager |
 
 ---
 
-## Phase 2: Authentication (Global & Local)
+## Identity & Access Management
+BrandForge requires a hardened identity layer to maintain project isolation and ownership.
 
-BrandForge requires a hardened identity layer to manage project ownership.
+### Google OAuth2 Configuration
+1. Navigate to the **Google Cloud Console** > **APIs & Services**.
+2. Configure the **OAuth Consent Screen** with your verified production domain.
+3. Restrict **Authorized Redirect URIs** to `https://[your-domain].com/auth/callback`.
 
-### 1. Email/Password (The Absolute Local Standard)
-- **Step**: Enable the **Email/Password** provider in Microsoft/Firebase Authentication.
-- **Infrastructure**: Implement the `AuthContext.tsx` registration/login hooks using standard SDK methods.
-- **Security**: Implement 8-character minimum passwords and utilize **Recaptcha Enterprise** in the login UI to prevent automated brute-force attacks.
-
-### 2. Google OAuth (Enterprise Handshake)
-- **Step**: Configure the OAuth consent screen with your production domain.
-- **Infrastructure**: Restrict the redirect URIs strictly to `brandforge.io/auth/callback`.
-- **Security**: Enable **Domain Verification** to prevent impersonation.
+> [!IMPORTANT]
+> Enable **Domain Verification** to prevent unauthorized identity impersonation.
 
 ---
 
-## Phase 3: Firestore Optimization & Security
+## Data Layer Hardening (Firestore)
+For production environments, Firestore must be constrained by strict security rules and optimized via composite indexing.
 
-### 1. Composite Indexing (Query Speed)
-- **Step**: Identify query patterns that use multiple filters (e.g., Filtering `projects` by `industry` and `owner`).
-- **Infrastructure**: Navigate to the Firebase **Indexes** tab and provision composite indices for your primary collections. 
-- **Security**: Without proper indexing, the "Commander Console" speed standard cannot be maintained in production.
-
-### 2. Security Rules (Data Isolation)
-- **Step**: Deploy the production `firestore.rules`.
-- **Infrastructure**:
-  ```javascript
-  service cloud.firestore {
-    match /databases/{database}/documents {
-      match /projects/{project} {
-        allow read, write: if request.auth != null && request.auth.uid == resource.data.ownerId;
-      }
+### Security Rules Protocol
+Implement the following rule set to ensure 100% project isolation:
+```javascript
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /projects/{project} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.ownerId;
     }
   }
-  ```
-- **Security**: Implement **Field-Level Validation** to ensure AI results injected into Firestore conform to the `BrandStrategy` JSON schema.
+}
+```
+
+### Query Optimization
+- Identify query patterns utilizing multiple filters (e.g., `industry` + `ownerId`).
+- Manually provision **Composite Indexes** in the Firebase Console to maintain the **Commander Console** speed standard.
 
 ---
 
-## Phase 4: Atomic Deployment & Scaling
+## Continuous Deployment (CI/CD)
+BrandForge utilizes GitHub Actions for automated, zero-downtime deployment.
 
-### 1. Build & Sanitization
-- **Step**: Execute `npm run build`.
-- **Infrastructure**: Use a **Vite 6** build target that optimizes for modern browsers (ES2022+).
-- **Security**: Remove all `.map` files from the `dist/` directory to prevent reverse-engineering of the S.I.P logic.
-
-### 2. SSL & Global Frame Integrity
-- **Step**: Provision a custom domain with **Wildcard SSL**.
-- **Infrastructure**: Ensure **HSTS (HTTP Strict Transport Security)** is enabled in your `firebase.json` or server config.
-- **Security**: Configure **CORS** to only allow requests from your specific `APP_URL`.
+### Production Workflow (`.github/workflows/deploy.yml`)
+```yaml
+name: Production Deployment
+on:
+  push:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Assets
+        run: |
+          npm install
+          npm run build
+      - name: Deploy to Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          channelId: live
+```
 
 ---
 
-## Phase 5: Automated Continuity (CI/CD)
+## Security Hardening Protocols
+Post-deployment, execute the following hardening steps:
 
-### 1. GitHub Actions (Continuous Intelligence)
-- **Step**: Create `.github/workflows/deploy.yml`.
-- **Infrastructure**:
-  ```yaml
-  name: Build and Deploy
-  on:
-    push:
-      branches: [ main ]
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - name: Install & Build
-          run: |
-            npm install
-            npm run build
-        - name: Deploy to Firebase
-          uses: FirebaseExtended/action-hosting-deploy@v0
-          with:
-            repoToken: '${{ secrets.GITHUB_TOKEN }}'
-            firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-            channelId: live
-            projectId: brandforge-ultimate
-  ```
-
-### 2. Server Deployment (The Backend Bridge)
-- **Step**: Deploy the `server.ts` layer.
-- **Infrastructure (Railway/GCR)**:
-    - **Procfile**: `web: npm start`
-    - **Environment**: Inject `GOOGLE_CLIENT_SECRET` and `GEMINI_API_KEY` as primary secrets.
-    - **Scaling**: Set a minimum of 1 instance to avoid "Cold Start" lag when clients trigger Form Ingestion.
+1. **HSTS Enforcement**: Enable **HTTP Strict Transport Security** in your `firebase.json` or server headers.
+2. **CORS Restriction**: Constraint cross-origin requests strictly to your production `APP_URL`.
+3. **Map Sanitization**: Remove all `.map` files from the `/dist` directory before public serving to prevent reverse-engineering of the S.I.P logic.
 
 ---
 

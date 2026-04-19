@@ -1,128 +1,111 @@
-# BrandForge User Guide: The Commander's Manual
+# BrandForge Knowledge Base: User Guide & Manual
 
-Welcome to **BrandForge**, your absolute branding command center. This guide is designed to help you master the **"Commander Console"** and forge world-class brand identities with precision.
+[← Back to Overview](../README.md)
+
+Welcome to the definitive manual for BrandForge. This guide provide step-by-step instructions for mastering the **Commander Console** and executing high-fidelity branding synthesis.
 
 ---
 
-## 🚀 1. The Screen-to-Screen Commander Flow
+### In this article
+- [The Commander Flow](#the-commander-flow)
+- [Managing AI Connectivity](#managing-ai-connectivity)
+- [Automating Client Intake (Google Forms)](#automating-client-intake-google-forms)
+- [Data Governance & Portability](#data-governance--portability)
+- [Visual Alchemy Standards (Pd)](#visual-alchemy-standards-pd)
+- [The Jungian Archetype Dictionary](#the-jungian-archetype-dictionary)
+- [Troubleshooting & FAQ](#troubleshooting--faq)
 
-Follow this station-by-station pipeline to forge a world-class brand identity.
+---
 
-| Station | Commander Activity | Key Strategic Goal |
+## The Commander Flow
+The BrandForge experience is structured as a sequential workstation pipeline. Every phase inherits data from the previous station to ensure absolute strategic continuity.
+
+1. **Dashboard**: Navigate to the **Projects** view to initialize or resume a workspace.
+2. **Discovery**: Execute a 9-Phase Blueprint audit via manual data entry or Google Forms synchronization.
+3. **Strategy**: Synthesize the **Jungian Archetype** engine and establish relative market positioning.
+4. **Logo Lab**: Generate a 50-Noun visual toolkit and trigger the AI-driven **Concept Smushing** engine.
+5. **Systems**: Consolidate typography, color scales, and spatial grid standards.
+6. **Handoff**: Execute the **PDF Generation** process for professional export.
+
+---
+
+## Managing AI Connectivity
+BrandForge leverages advanced Large Language Models (LLMs) to power the strategic engine. You can maintain your own **Free Tier** credentials to drive the platform.
+
+### Testing Your Keys
+1. Open the **Settings Console** (⚙️ icon) in the primary sidebar.
+2. Select the **AI Providers** tab.
+3. Input your API key for Gemini (Google) or OpenAI.
+4. Select **Test Connection**. 
+
+> [!NOTE]
+> The platform performs a micro-synthesis call to verify key validity and quota availability before allowing project initialization.
+
+---
+
+## Automating Client Intake (Google Forms)
+You can automate the **Discovery** phase by importing data directly from a client questionnaire.
+
+1. Navigate to the **Discovery** station.
+2. Select **Import from Google Forms**.
+3. Authenticate via the secure OAuth flow.
+4. Provide the **Form URL** containing client responses.
+5. Select **Map and Sync**.
+
+> [!IMPORTANT]
+> Ensure the Google Form question IDs correspond to the semantic headers listed in the **Architecture Reference**.
+
+---
+
+## Data Governance & Portability
+BrandForge prioritizes data sovereignty. All project data is stored locally in your browser's persistent storage, with manual backup protocols available.
+
+### Exporting Your Library
+- In the **Library Console**, select **Export Project Archive**.
+- A `.json` snapshot of all projects, strategies, and assets will be downloaded to your local machine.
+
+### Importing a Snapshot
+- Select **Restore/Import Snapshot** to migrate your entire branding environment to a different workspace or machine.
+
+---
+
+## Visual Alchemy Standards (Pd)
+The **Logo Assistant** utilizes the **Propositional Density (Pd)** scoring model to evaluate visual effectiveness.
+
+- **High Pd (7.0+)**: A simple mark with high strategic resonance.
+- **Low Pd (< 4.0)**: An overly complex or decorative mark with weak strategic ties.
+
+---
+
+## The Jungian Archetype Dictionary
+BrandForge utilizes 12 psychological anchors to drive all narrative and visual synthesis.
+
+| Archetype | Drive | Strategic Need |
 | :--- | :--- | :--- |
-| **01. Dashboard** | Manage project library and global settings. | **Orchestration** |
-| **02. Discovery** | Populate the 9-phase Blueprint (Manual/GForms). | **DNA Extraction** |
-| **03. Strategy** | Synthesize Jungian Archetypes & Positioning. | **Intelligence Synthesis** |
-| **04. Logo Lab** | Build visual noun toolkits & AI inspiration. | **Visual Infrastructure** |
-| **05. Systems** | Finalize typography, color, and grid standards. | **Identity Consolidation** |
-| **06. Handoff** | Generate Markdown and PDF strategic reports. | **Asset Delivery** |
+| **The Sage** | Truth / Analysis | Understanding |
+| **The Hero** | Courage / Mastery | Achievement |
+| **The Creator** | Innovation / Vision | Expression |
+| **The Outlaw** | Disruption / Freedom | Change |
+| **The Ruler** | Order / Authority | Control |
+| **The Caregiver** | Service / Empathy | Nurturing |
 
 ---
 
-## 🔑 2. The Global Frame (Navigation & Alerts)
-
-The BrandForge interface is a persistent, zero-scroll environment.
-- **The Sidebar**: Your persistent navigation hub. Quickly switch between tools without losing project state.
-- **The Notification Audit Center**: Click the bell icon 🔔 to see a real-time history of all strategic events, AI completions, and data syncs. Use the deep-linked shortcuts to jump directly to tool views.
-
----
-
-## 🧠 3. Connecting the Brain (AI Connectivity)
-
-BrandForge uses advanced AI to synthesize your brand strategy. You can leverage your preferred **Free AI Accounts** to power the suite.
-
-### Proactive Testing:
-- Open the **Settings Console** ⚙️ > **AI Settings**.
-- Paste your keys and click **"Test Connection."** 
-- The platform will perform a micro-synthesis to ensure your keys are active and quota-compliant before you start a project.
+## Glossary of Terms
+- **Commander Console**: The zero-scroll, high-density UI standard.
+- **S.I.P Pipeline**: The Sequential Intelligence Pipeline governing data flow.
+- **Data Healer**: The automated middleware that repairs fragmented AI JSON outputs.
+- **Concept Smushing**: The AI process of pairing a brand "Noun" with a strategic "Quality."
 
 ---
 
-## 🧭 4. Advanced Client Intake (Google Forms)
+## Troubleshooting & FAQ
 
-For agencies, you can automate your client data collection:
-1. Provide your client with a branding questionnaire.
-2. In the **Discovery** tool, select **"Import from Google Forms."**
-3. Authenticate with Google and paste the **Form URL**.
-4. The platform will automatically map client answers directly into the 9-phase Blueprint.
-
----
-
-## 💾 5. Data Portability & Backups
-
-Your branding data belongs to you. BrandForge provides enterprise-grade portability:
-- **Exporting**: In the **Data Console**, click **"Export Project Library."** This generates a single JSON file containing every strategic asset for all your projects.
-- **Importing**: Use the **"Import Snapshot"** feature to restore your library or move projects between different workspace environments.
-
----
-
-## 🛠️ 6. Manual Intelligence Cleanup (The Healer)
-
-Occasionally, AI outputs may need strategic refinement.
-- **The Healer UI**: In the **Strategy Tool**, look for the "Refine" icon on strategic cards.
-- **Cleanup**: If the strategy appears fragmented, use the "Force Clean" button to trigger the **Data Healer** middleware, which repairs the JSON structure and ensures absolute strategic fidelity.
-
----
-
-## 📐 7. Visual Alchemy Standards
-
-### Propositional Density (Pd) Scoring
-When using the **Logo Assistant**, every concept is assigned a Pd score.
-- **High Pd (Green)**: Simple visual with deep meaning (Absolute Brand Standard).
-- **Low Pd (Amber)**: Overly complex visual or weak strategic link.
-
----
-
-## 🏛️ 8. The Jungian Archetype Dictionary
-
-BrandForge uses these 12 anchors to drive all AI strategic synthesis.
-
--   **The Sage**: Driven by truth and analysis. (Need: Understanding)
--   **The Hero**: Driven by courage and mastery. (Need: Achievement)
--   **The Creator**: Driven by innovation and vision. (Need: Expression)
--   **The Everyman**: Driven by belonging and realism. (Need: Connection)
--   **The Innocent**: Driven by safety and optimism. (Need: Happiness)
--   **The Outlaw**: Driven by disruption and freedom. (Need: Change)
--   **The Magician**: Driven by transformation and power. (Need: Impact)
--   **The Ruler**: Driven by control and leadership. (Need: Order)
--   **The Caregiver**: Driven by service and empathy. (Need: Nurturing)
--   **The Explorer**: Driven by adventure and discovery. (Need: Expansion)
--   **The Jester**: Driven by joy and irreverence. (Need: Entertainment)
--   **The Lover**: Driven by intimacy and beauty. (Need: Passion)
-
----
-
-## 📢 9. Messaging Frameworks (Tone Categories)
-
-The engine supports 5 messaging "territories" for every archetype:
-1.  **Marketing & Growth**: High-conversion, benefit-forward copy.
-2.  **Product & Service**: Functional, clarity-first instructions.
-3.  **Crisis & Support**: Empathy-led, calming reassurance.
-4.  **Internal Culture**: Visionary, community-building language.
-5.  **Direct Sales**: High-urgency, scarcity-based persuasion.
-
----
-
-## ⌨️ 10. Commander Shortcuts
-
-| Key | Action |
+| Problem | Solution |
 | :--- | :--- |
-| `Alt + S` | Open Strategy Hub |
-| `Alt + L` | Open Logo Assistant |
-| `Alt + D` | Open Discovery Tool |
-| `Alt + G` | Open Usage Guide |
-| `Shift + ?` | Open Keyboard Help |
-
----
-
-## ❓ 11. FAQ & Troubleshooting
-
-- **"Why is the interface not scrolling?"**
-  - BrandForge is a **Zero-Scroll** platform. Use the internal tabs and vertical kategorization to navigate. This is a feature, not a bug—designed to keep you focused on the "Elite Workspace."
-- **"The PDF generation is hanging."**
-  - Ensure you are not in a private browsing window that restricts `html2canvas`. If it persists, try reducing the complexity of the Positioning Map.
-- **"I reached my AI limit."**
-  - The platform will automatically switch to the **Fallback Strategy Engine**, providing base strategic data without a live API call until your quota resets.
+| **UI is not scrolling** | BrandForge is a **Zero-Scroll** platform by design. Use the internal station tabs to navigate content vertically. |
+| **PDF Export Hanging** | This usually indicates a cross-origin isolation issue. Ensure you are using a Chromium-based browser (Chrome, Edge). |
+| **AI Quota Exceeded** | The platform will automatically engage the **Fallback Strategy Engine** to provide base strategic data. |
 
 ---
 
