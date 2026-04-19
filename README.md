@@ -34,7 +34,7 @@ BrandForge utilizes the **Commander Console** UX framework—a professional, non
 | Document | Purpose | Audience |
 | :--- | :--- | :--- |
 | [Architecture Reference](docs/architecture.md) | Technical deep-dive into the S.I.P engine and services. | Developers |
-| [User Guide](docs/user_guide.md) | Article-based onboarding and feature walkthroughs. | End-Users |
+| [The Usage Guide](docs/usage_guide.md) | Itemized screen-to-screen platform walkthrough. | End-Users |
 | [Technical Case Study](docs/case_study.md) | A white paper on the "Interface vs. Intelligence" model. | Stakeholders |
 | [Deployment Guide](docs/production_transition.md) | Checklist for transitioning to cloud production. | DevOps |
 | [Change Log](docs/history_and_milestones.md) | SemVer milestone and anatomical evolution history. | Maintenance |

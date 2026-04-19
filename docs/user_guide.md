@@ -1,5 +1,9 @@
 # BrandForge Knowledge Base: User Guide & Manual
 
+> [!IMPORTANT]
+> **A new, highly detailed screen-by-screen walkthrough is now available.** 
+> For the comprehensive platform manual, please refer to **[The Ultimate Platform Usage Guide](usage_guide.md)**.
+
 [← Back to Overview](../README.md)
 
 Welcome to the definitive manual for BrandForge. This guide provide step-by-step instructions for mastering the **Commander Console** and executing high-fidelity branding synthesis.
