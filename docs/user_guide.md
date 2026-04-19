@@ -4,7 +4,22 @@ Welcome to **BrandForge**, your absolute branding command center. This guide is 
 
 ---
 
-## 🔑 1. The Global Frame (Navigation & Alerts)
+## 🚀 1. The Screen-to-Screen Commander Flow
+
+Follow this station-by-station pipeline to forge a world-class brand identity.
+
+| Station | Commander Activity | Key Strategic Goal |
+| :--- | :--- | :--- |
+| **01. Dashboard** | Manage project library and global settings. | **Orchestration** |
+| **02. Discovery** | Populate the 9-phase Blueprint (Manual/GForms). | **DNA Extraction** |
+| **03. Strategy** | Synthesize Jungian Archetypes & Positioning. | **Intelligence Synthesis** |
+| **04. Logo Lab** | Build visual noun toolkits & AI inspiration. | **Visual Infrastructure** |
+| **05. Systems** | Finalize typography, color, and grid standards. | **Identity Consolidation** |
+| **06. Handoff** | Generate Markdown and PDF strategic reports. | **Asset Delivery** |
+
+---
+
+## 🔑 2. The Global Frame (Navigation & Alerts)
 
 The BrandForge interface is a persistent, zero-scroll environment.
 - **The Sidebar**: Your persistent navigation hub. Quickly switch between tools without losing project state.
@@ -12,7 +27,7 @@ The BrandForge interface is a persistent, zero-scroll environment.
 
 ---
 
-## 🧠 2. Connecting the Brain (AI Connectivity)
+## 🧠 3. Connecting the Brain (AI Connectivity)
 
 BrandForge uses advanced AI to synthesize your brand strategy. You can leverage your preferred **Free AI Accounts** to power the suite.
 
@@ -23,7 +38,7 @@ BrandForge uses advanced AI to synthesize your brand strategy. You can leverage 
 
 ---
 
-## 🧭 3. Advanced Client Intake (Google Forms)
+## 🧭 4. Advanced Client Intake (Google Forms)
 
 For agencies, you can automate your client data collection:
 1. Provide your client with a branding questionnaire.
@@ -33,7 +48,7 @@ For agencies, you can automate your client data collection:
 
 ---
 
-## 💾 4. Data Portability & Backups
+## 💾 5. Data Portability & Backups
 
 Your branding data belongs to you. BrandForge provides enterprise-grade portability:
 - **Exporting**: In the **Data Console**, click **"Export Project Library."** This generates a single JSON file containing every strategic asset for all your projects.
@@ -41,7 +56,7 @@ Your branding data belongs to you. BrandForge provides enterprise-grade portabil
 
 ---
 
-## 🛠️ 5. Manual Intelligence Cleanup (The Healer)
+## 🛠️ 6. Manual Intelligence Cleanup (The Healer)
 
 Occasionally, AI outputs may need strategic refinement.
 - **The Healer UI**: In the **Strategy Tool**, look for the "Refine" icon on strategic cards.
@@ -49,7 +64,7 @@ Occasionally, AI outputs may need strategic refinement.
 
 ---
 
-## 📐 6. Visual Alchemy Standards
+## 📐 7. Visual Alchemy Standards
 
 ### Propositional Density (Pd) Scoring
 When using the **Logo Assistant**, every concept is assigned a Pd score.
@@ -58,7 +73,49 @@ When using the **Logo Assistant**, every concept is assigned a Pd score.
 
 ---
 
-## ❓ 7. FAQ & Troubleshooting
+## 🏛️ 8. The Jungian Archetype Dictionary
+
+BrandForge uses these 12 anchors to drive all AI strategic synthesis.
+
+-   **The Sage**: Driven by truth and analysis. (Need: Understanding)
+-   **The Hero**: Driven by courage and mastery. (Need: Achievement)
+-   **The Creator**: Driven by innovation and vision. (Need: Expression)
+-   **The Everyman**: Driven by belonging and realism. (Need: Connection)
+-   **The Innocent**: Driven by safety and optimism. (Need: Happiness)
+-   **The Outlaw**: Driven by disruption and freedom. (Need: Change)
+-   **The Magician**: Driven by transformation and power. (Need: Impact)
+-   **The Ruler**: Driven by control and leadership. (Need: Order)
+-   **The Caregiver**: Driven by service and empathy. (Need: Nurturing)
+-   **The Explorer**: Driven by adventure and discovery. (Need: Expansion)
+-   **The Jester**: Driven by joy and irreverence. (Need: Entertainment)
+-   **The Lover**: Driven by intimacy and beauty. (Need: Passion)
+
+---
+
+## 📢 9. Messaging Frameworks (Tone Categories)
+
+The engine supports 5 messaging "territories" for every archetype:
+1.  **Marketing & Growth**: High-conversion, benefit-forward copy.
+2.  **Product & Service**: Functional, clarity-first instructions.
+3.  **Crisis & Support**: Empathy-led, calming reassurance.
+4.  **Internal Culture**: Visionary, community-building language.
+5.  **Direct Sales**: High-urgency, scarcity-based persuasion.
+
+---
+
+## ⌨️ 10. Commander Shortcuts
+
+| Key | Action |
+| :--- | :--- |
+| `Alt + S` | Open Strategy Hub |
+| `Alt + L` | Open Logo Assistant |
+| `Alt + D` | Open Discovery Tool |
+| `Alt + G` | Open Usage Guide |
+| `Shift + ?` | Open Keyboard Help |
+
+---
+
+## ❓ 11. FAQ & Troubleshooting
 
 - **"Why is the interface not scrolling?"**
   - BrandForge is a **Zero-Scroll** platform. Use the internal tabs and vertical kategorization to navigate. This is a feature, not a bug—designed to keep you focused on the "Elite Workspace."

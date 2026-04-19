@@ -78,4 +78,41 @@ BrandForge requires a hardened identity layer to manage project ownership.
 
 ---
 
+## Phase 5: Automated Continuity (CI/CD)
+
+### 1. GitHub Actions (Continuous Intelligence)
+- **Step**: Create `.github/workflows/deploy.yml`.
+- **Infrastructure**:
+  ```yaml
+  name: Build and Deploy
+  on:
+    push:
+      branches: [ main ]
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Install & Build
+          run: |
+            npm install
+            npm run build
+        - name: Deploy to Firebase
+          uses: FirebaseExtended/action-hosting-deploy@v0
+          with:
+            repoToken: '${{ secrets.GITHUB_TOKEN }}'
+            firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+            channelId: live
+            projectId: brandforge-ultimate
+  ```
+
+### 2. Server Deployment (The Backend Bridge)
+- **Step**: Deploy the `server.ts` layer.
+- **Infrastructure (Railway/GCR)**:
+    - **Procfile**: `web: npm start`
+    - **Environment**: Inject `GOOGLE_CLIENT_SECRET` and `GEMINI_API_KEY` as primary secrets.
+    - **Scaling**: Set a minimum of 1 instance to avoid "Cold Start" lag when clients trigger Form Ingestion.
+
+---
+
 *Copyright © 2026 TANATEQ INNOVATIONS LTD. All Rights Reserved.*

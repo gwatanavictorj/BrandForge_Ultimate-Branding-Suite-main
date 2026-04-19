@@ -61,10 +61,26 @@ Dive deeper into the technical and strategic foundations of BrandForge:
 
 ---
 
-## ⚡ Quick Start
-1. **Clone the repo**
-2. **Install dependencies**: `npm install`
-3. **Run local dev server**: `npm run dev`
-4. **Connect the Brain**: Add your **Free Tier** Gemini or OpenAI keys in the Settings console.
+## 🚦 Environment Validation Checklist
+
+Ensure your environment satisfies these absolute standards before starting:
+- **Node.js**: v18.0.0 or higher.
+- **npm**: v9.0.0 or higher.
+- **AI Models**: 
+    - `gemini-1.5-flash` (Recommended for speed).
+    - `dall-e-3` (Required for visual inspiration).
+- **Google Client**: A valid OAuth2 Client ID for Google Forms ingestion.
+
+---
+
+## 🤝 Contribution Protocol
+
+BrandForge is designed for modular expansion. To extend a module:
+1. **Define the Type**: Update `src/types.ts` with the new module interface.
+2. **Standardize the UI**: Follow the **Zero-Scroll** and **Blueprint** aesthetic standards.
+3. **Inherit Intelligence**: Ensure the new module receives State-Aware data via the `S.I.P` pipeline.
+4. **Test Connection**: Verify and document the AI logic in a relevant `docs/*.md` file.
+
+---
 
 *Copyright © 2026 TANATEQ INNOVATIONS LTD. All Rights Reserved.*

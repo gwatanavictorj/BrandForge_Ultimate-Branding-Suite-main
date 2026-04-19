@@ -4,6 +4,35 @@ BrandForge is built on the **"Modern Blueprint"** design philosophy—a high-den
 
 ---
 
+## 🔄 Sequential Intelligence Pipeline (S.I.P)
+
+BrandForge uses a strict one-way data flow to ensure that brand identity is anchored in discovery data.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Dashboard
+    participant Discovery
+    participant Server as Node/Express Server
+    participant GForms as Google Forms API
+    participant AI as AI Provider (Gemini/OpenAI)
+    participant Strategy
+    participant Logo as Logo Assistant
+
+    User->>Dashboard: Create Project
+    User->>Discovery: Start Extraction
+    Discovery->>Server: Request Form Data
+    Server->>GForms: Fetch Responses
+    GForms-->>Server: JSON Payload
+    Server-->>Discovery: Normalized Responses
+    Discovery->>AI: synthesizeStrategy(Responses)
+    AI-->>Discovery: BrandStrategy JSON
+    Discovery->>Strategy: Populate Archetypes
+    Strategy->>AI: generateNouns(Strategy)
+    AI-->>Strategy: 50 Brand Nouns
+    Strategy->>Logo: Visual Inspiration
+```
+
 ## 📂 Directory Anatomy
 A map for developers navigating the BrandForge workspace:
 
@@ -26,6 +55,10 @@ BrandForge logic is distributed across four specialized services that ensure 100
 ### 1. `brandService.ts` (The Orchestrator)
 The central hub for the **Sequential Intelligence Pipeline (S.I.P)**. 
 - **Responsibilities**: Converting discovery data into strategy, managing state-inheritance, and triggering the "Data Healer" to repair fragmented AI outputs.
+- **The "Data Healer" (Normalization Layer)**: Located in `brandService.ts`, this layer intercepts AI-generated JSON to:
+    -   Repair missing Jungian fields (Goal, Fear, Talent) using reference anchors.
+    -   Normalize `inPractice` arrays to prevent rendering crashes.
+    -   Sanitize string formatting (fixing encoded newlines in messaging templates).
 - **Standards**: All strategic outputs must satisfy the Jungian Archetype validation model.
 
 ### 2. `aiProvider.ts` (The Multi-Model Adapter)
@@ -43,6 +76,17 @@ Ensures the platform remains functional during offline states or API failures.
 Generates high-fidelity project handoffs.
 - **Tech Stack**: `jsPDF` + `html2canvas`.
 - **Logic**: Uses a 1:1 UI snapshot model to ensure that the Positioning Maps and Archetype Wheels in the PDF are identical to the screen interface.
+
+---
+
+## 🖥️ Server Anatomy (`server.ts`)
+
+The Node.js Express layer serves as the "Bridge" between the Vite frontend and third-party data ecosystems.
+
+### Core Responsibilities
+-   **OAuth2 Protocol**: Manages Google Identity tokens for secure Drive and Forms access.
+-   **Industry Mapping**: Translates raw form question IDs into semantic keys used by the Branding Engine.
+-   **Static Orchestration**: Serves the optimized production build (`/dist`) and handles SPA routing fallbacks.
 
 ---
 
@@ -79,6 +123,18 @@ Technically enforced across the entire platform:
 - **Viewport-Relative Containers**: Components use `h-[75vh]` or `max-h-screen` constraints.
 - **Internal Overflow Management**: High-density lists (e.g., Notification Audit Center) use hidden custom scrollbars to maintain visual integrity.
 - **Global Frame Integrity**: The Sidebar (`w-20` on desktop) and Notification popover are pinned to the edge of the viewport to ensure they never scroll with page content.
+
+---
+
+## 🎨 Design System Reference (Tokens)
+
+| Token | Category | Value / Hex | Usage |
+| :--- | :--- | :--- | :--- |
+| **Surface** | Background | `#09090b` (Zinc-950) | Main App Background |
+| **Blueprint** | Border | `#27272a` (Zinc-800) | Structural Dividers |
+| **Accent** | Brand | `#3f3f46` (Zinc-700) | Hover States / Primary Buttons |
+| **Typography** | Primary | `#fafafa` (Zinc-50) | Headers / High Importance |
+| **Typography** | Muted | `#a1a1aa` (Zinc-400) | Metadata / Labels |
 
 ---
 
