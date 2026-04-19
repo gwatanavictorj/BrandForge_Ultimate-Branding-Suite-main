@@ -17,6 +17,39 @@ Traditional branding workflows often suffer from a "Strategy-Visual Disconnect"�
 
 ---
 
+## 🧩 Platform Core: Interface vs. Intelligence
+BrandForge is structured as a series of specialized stations, each with a dedicated **Interface (UI)** and **Intelligence (Logic)** layer.
+
+### Station 1: Brand Discovery (Extraction)
+- **Interface**: The 9-Phase Blueprint stepper or automated Google Forms ingestion.
+- **Intelligence**: High-density schema mapping that extracts 100% of the customer's brand DNA.
+
+### Station 2: Strategy Engine (Synthesis)
+- **Interface**: Interactive Jungian Archetype Wheels and SWOT mapping modules.
+- **Intelligence**: The **"Data Healer" Middleware** sanitizes AI fragments and ensures 1:1 strategic integrity.
+
+### Station 3: Logo Assistant (Alchemy)
+- **Interface**: Vertical, category-stacked Noun Toolkit with real-time "Concept Smush" previews.
+- **Intelligence**: The **Propositional Density (Pd) Model** evaluates visual concepts against strategic data.
+
+### Station 4: Design System (The Engine)
+- **Interface**: Interactive "Theme Forge" with real-time accessibility contrast auditing.
+- **Intelligence**: Deterministic mapping of "vibe" markers directly to WCAG-compliant design tokens.
+
+---
+
+## ⚡ Performance Benchmarks (Est. v1.0)
+
+| Module | Activity | Time (Avg) | Technology |
+| :--- | :--- | :--- | :--- |
+| **Discovery** | Form Ingestion | < 1.5s | Express / GForms API |
+| **Strategy** | Personality Synthesis | 4.2s - 6.8s | Gemini-1.5-Flash |
+| **Logo** | Noun Generation (50) | 3.5s - 5.1s | Gemini-1.5-Flash |
+| **System** | Theme Generation | 0.8s | Deterministic Engine |
+| **PDF** | Manual Generation | 1.2s - 2.5s | jsPDF / Snapshot |
+
+---
+
 ## ⚙️ The "Commander Console" Standard
 
 BrandForge utilizes the **Commander Console** UX framework—a professional, non-distractive environment optimized for technical focus.
@@ -34,7 +67,7 @@ BrandForge utilizes the **Commander Console** UX framework—a professional, non
 | Document | Purpose | Audience |
 | :--- | :--- | :--- |
 | [Architecture Reference](docs/architecture.md) | Technical deep-dive into the S.I.P engine and services. | Developers |
-| [The Usage Guide](docs/usage_guide.md) | Itemized screen-to-screen platform walkthrough. | End-Users |
+| [Master User Guide](docs/user_guide.md) | Itemized screen-to-screen platform walkthrough & FAQ. | End-Users |
 | [Technical Case Study](docs/case_study.md) | A white paper on the "Interface vs. Intelligence" model. | Stakeholders |
 | [Deployment Guide](docs/production_transition.md) | Checklist for transitioning to cloud production. | DevOps |
 | [Change Log](docs/history_and_milestones.md) | SemVer milestone and anatomical evolution history. | Maintenance |

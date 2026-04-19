@@ -36,6 +36,24 @@ sequenceDiagram
 
 ---
 
+## 🏗️ The Platform Core: Interface vs. Intelligence
+BrandForge is architected on a dual-layer module model that ensures strategic fidelity is preserved across all visual transitions.
+
+- **The Interface (UI)**: Technically constrained by the **Zero-Scroll Standard**, the UI layer focus is on "Eliminating Friction." It uses grid-based density to provide the user with maximum strategic visibility.
+- **The Intelligence (Logic)**: Operated by the **S.I.P (Sequential Intelligence Pipeline)**, this layer focuses on "Strategic Inheritance." Data from each station flow-controls the parameters of the next (e.g., Discovery data weights the Archetype synthesis).
+
+---
+
+## 🧬 S.I.P: The Sequential Intelligence Pipeline
+The S.I.P is the technical backbone of BrandForge, ensuring a state-aware workflow.
+
+1. **Extraction (Discovery)**: Captures raw DNA strings and user intent (100% manual or GForms sync).
+2. **Synthesis (Strategy)**: Processes DNA through the archetypal mapping logic and market SWOT profiles.
+3. **Alchemy (Logo)**: Translates strategy into visual Pd (Propositional Density) metadata and noun toolkits.
+4. **Forging (System)**: Converts Pd data into deterministic, WCAG-compliant design tokens.
+
+---
+
 ## 🧠 Service Orchestration (Intelligence Layer)
 
 BrandForge core logic is decoupled into specialized services, ensuring localized fault tolerance and strategic fidelity.
