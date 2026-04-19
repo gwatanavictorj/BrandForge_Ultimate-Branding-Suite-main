@@ -1,138 +1,175 @@
-# BrandForge Master User Guide: The Ultimate Platform Walkthrough
+# BrandForge Master User Guide
 
-[← Back to Overview](../README.md)
-
-Welcome to the definitive, high-resolution manual for BrandForge. This guide provide a 100% itemized, station-by-station walkthrough of the **Commander Console**, synthesising strategic data, and forging world-class brand identities.
+Welcome to the **BrandForge Ultimate Branding Suite**, an enterprise-grade platform designed to synthesize high-fidelity brand identities through a state-aware, 5-station architecture. This guide provides an exhaustive breakdown of every action, tool, and strategic mechanism within the suite.
 
 ---
 
-### In this article
-- [The 'Commander Console' Philosophy](#the-commander-console-philosophy)
-- [Station 1: The Dashboard (Mission Control)](#station-1-the-dashboard-mission-control)
-- [Station 2: Brand Discovery (The 9-Phase Blueprint)](#station-2-brand-discovery-the-9-phase-blueprint)
-- [Station 3: Strategy Engine (The Synthesis Logic)](#station-3-strategy-engine-the-synthesis-logic)
-- [Station 4: Logo Assistant (Visual Alchemy)](#station-4-logo-assistant-visual-alchemy)
-- [Station 5: Brand Identity Systems (The Engine)](#station-5-brand-identity-systems-the-engine)
-- [Station 6: The Export Engine (Handoff)](#station-6-the-export-engine-handoff)
-- [Technical Reference: Archetypes, FAQ, and Shortcuts](#technical-reference-archetypes-faq-and-shortcuts)
+## 1. Platform Overview
+
+BrandForge operates on the **S.I.P (Strategy-Identity-Persistence) Framework**. Data captured in early stations flows horizontally into later modules, ensuring that visual outputs (logos, colors, typography) are always tethered to the brand's psychological core.
+
+### Core Value Proposition
+- **Data Inheritance**: Your brand strategy informs your logo design which informs your usage guide. No data is lost between phases.
+- **AI Synthesis**: Leverages Google Gemini, OpenAI, and Anthropic for deep psychological profiling and linguistic brainstorming.
+- **Professional Handoff**: Automated generation of vector-ready folder structures and comprehensive brand guidelines.
 
 ---
 
-## The 'Commander Console' Philosophy
-BrandForge is an "Elite Workspace" designed for technical focus.
-- **Zero-Scroll Standard**: Core modules are technically constrained to the viewport. Use internal station tabs to navigate content vertically.
-- **Blueprint Aesthetic**: A high-density UI utilizing a Zinc/Slate hybrid scale to minimize cognitive drift.
+## 2. The Command Center (Dashboard)
+
+The Dashboard is your project orchestration layer.
+
+### Key Actions
+- **Create New Project**: Use the `+` button to initialize a brand workspace. Each project maintains its own isolated state across all 5 stations.
+- **View Modes**: Toggle between **Grid View** (visual-first) and **List View** (data-density). Your preference is persisted via local storage (`brandforge_dashboard_view`).
+- **Bulk Actions**: 
+    - **Restore**: Recover deleted projects from the archive.
+    - **Delete**: Move projects to the bin (remains recoverable until "Empty Bin" is triggered).
+- **Global Navigation**: Access the 5 stations directly from the cards:
+    - `01 Discovery` → `02 Strategy` → `03 Logo` → `04 System` → `05 Guide`
 
 ---
 
-## Station 1: The Dashboard (Mission Control)
-The primary hub for project lifecycle management.
+## 3. Station 1: Brand Discovery Form
 
-### Project Management
-- **Initialize Project**: Create a fresh container for a new brand identity.
-- **Library View Toggle**: Switch between **Grid View** (visual cards) and **List View** (data-dense).
-- **Project Action Bar**: Hover over a project path to reveal **Resume**, **Archive**, or **Delete** actions.
+The entry point for all brand data.
 
-### Global Configuration
-- **Settings (⚙️)**: Access the console to manage your Agency Avatar, Profile, and **AI Provider** credentials (Gemini/OpenAI).
-- **Audit Center (🔔)**: Real-time notifications for background strategy completions and sync events.
+### 📥 Data Ingestion
+- **Manual Input**: Standard structured form for brand name, industry, and core mission.
+- **Google Forms Import**: Authenticate via Google to pull discovery data directly from client-facing forms, mapping responses to BrandForge fields.
 
----
+### 🧩 Interaction Modules
+- **Benefit Multi-Select**: Choose from curated tiles (e.g., "Increased Efficiency", "Peace of Mind"). Hover over tiles for detailed definitions.
+- **Core Values**: Dynamic selection of brand values that will later influence the "Brand Soul" section of the Strategy Tool.
+- **Brand Personality**: Selection of traits (e.g., "Minimalist", "Playful", "Corporate") that calibrate the AI's tone of voice settings.
 
-## Station 2: Brand Discovery (The 9-Phase Blueprint)
-The engine for absolute data extraction and brand DNA modeling.
-
-### The 9-Phase Walkthrough
-1. **Foundations**: Legal names, current taglines, and registration identifiers.
-2. **Product Core**: Defining the "What" and the primary value proposition.
-3. **Identity (Feel)**: High-density grid for selecting the brand's emotional markers.
-4. **Target Insights**: Mapping narrative groups and primary audience demographics.
-5. **Emotions**: Mapping emotional outcomes using the Maslow-Need grid.
-6. **Industry Vertical**: Selecting the market category for AI context anchoring.
-7. **Company Stage**: Defining growth context (e.g., Startup, Growth, Enterprise).
-8. **Narrative Loop**: Capturing the "Why" and founding story hooks.
-9. **Core Values**: Establishing the principles that drive internal brand culture.
-
-> [!TIP]
-> **Automated Ingestion**: Select **Import from Google Forms** to bypass manual entry and sync client data directly via the Google Apps API.
+### 💾 Persistence & Export
+- **Step Autosave**: Data is saved locally as you progress through the stepper.
+- **PDF Export**: Generate a "Discovery Brief" immediately upon completion of Station 1 to share with stakeholders for initial alignment.
 
 ---
 
-## Station 3: Strategy Engine (The Synthesis Logic)
-Translates Discovery data into an actionable personality and positioning model.
+## 4. Station 2: Brand Strategy Tool
 
-### Strategic Modules
-- **Archetype Wheels**: Visualizes the weighted blend of **Primary** and **Secondary** archetypes.
-- **SWOT Matrix**: Automated mapping of Strengths, Weaknesses, Opportunities, and Threats based on market context.
-- **The Data Healer**: If an AI call results in fragmented data, the **Healer** icon will appear. Select it to manually repair or re-synthesize strategic JSON blocks.
+The strategic engine that synthesizes raw discovery data into a cohesive brand blueprint.
 
----
+### 🏛️ Strategic Pillars
+- **Brand Soul**: 
+    - **Mission Statement**: The singular "Why" of the brand.
+    - **Vision**: The long-term aspirational trajectory.
+    - **Philosophy**: The core principles guiding brand behavior.
+- **Audience & Experience**:
+    - **4-Segment Target Architecture**: Detailed breakdown of primary, secondary, tertiary, and niche audiences.
+    - **Maslow Modeling**: Mapping brand value to the hierarchy of human needs.
+- **Market Positioning**:
+    - **Competitive Landscape**: Auto-generated list of 3-5 competitors with SWOT analysis.
+    - **Positioning Map**: A draggable visual map to plot the brand against axes like "Elite vs. Accessible" and "Modern vs. Classic".
 
-## Station 4: Logo Assistant (Visual Alchemy)
-Translates abstract strategy into tangible visual nomenclature through **Propositional Density (Pd)** logic.
+### 🎭 Archetype System
+- **The Triple-Archetype Model**: Unlike simple models, BrandForge defines a **Primary**, **Secondary**, and **Tertiary** archetype to create a nuanced psychological profile.
+- **Data Healer**: If archetypes are inconsistently generated by AI, the "Healer" hook automatically recalibrates the UI to ensure 100% rendering parity.
 
-### Building Visual Assets
-1. **Category Mapping**: Select a visual style (Minimalist, Abstract, Pictorial).
-2. **Noun Toolkit**: AI generates 50 tangible nouns derived from the brand's primary archetype.
-3. **Concept Smushing**: Select a "Noun" and as "Strategic Quality" to generate a unique visual metaphor.
-
-> [!NOTE]
-> **Pd Goal**: Aim for a **Propositional Density score of 7.0+** to ensure the logo is "Simple but Deep."
-
----
-
-## Station 5: Brand Identity Systems (The Engine)
-Synthesis of technical design tokens and visual standards.
-
-- **Theme Forge**: Generation of WCAG-compliant primary, secondary, and accent colors.
-- **Typography Engine**: Automated assignment of typeface families based on the archetype's vocal tone.
-- **Spatial Grids**: Definition of baseline grids, corner radii, and elevation standards.
+### 🤖 Generation Engine
+- **Generate Strategy**: Triggers the AI synthesis. Includes a **Fallback Mechanism** that uses a local "Universal Strategy Engine" if third-party APIs are unavailable.
 
 ---
 
-## Station 6: The Export Engine (Handoff)
-Professional asset delivery and documentation.
+## 5. Station 3: Logo Assistant
 
-- **Automated Guide**: Renders a clean Markdown manual synthesized from the entire 6-station process.
-- **High-Fidelity PDF**: A 1:1 screen-to-print snapshot that ensures complex positioning maps are captured without distortion.
+A linguistic and visual brainstorming toolkit for designers.
 
----
+### 🔤 Linguistic Noun Toolkit
+- **Generate 50 Brand Nouns**: AI generates tangible visual anchors across 5 categories:
+    1. **Real Words**: Standard industry-specific terms.
+    2. **Invented Words**: Neologisms and abstract naming constructs.
+    3. **Compound Words**: Clever pairings (e.g., "GreenScale").
+    4. **Metaphorical Nouns**: Symbolic objects unrelated to the industry.
+    5. **Abstract Constructs**: Geometric and conceptual shapes.
 
-## Technical Reference: Archetypes, FAQ, and Shortcuts
+### ➕ Concept Smushing
+- **Smush Pairings**: Select two nouns from your toolkit and trigger the "Smush" action. The AI will synthesize 5-10 clever visual pairings that combine the two concepts into a singular logo mark rationale.
 
-### The Jungian Archetype Dictionary
-| Archetype | Drive | Strategic Need |
-| :--- | :--- | :--- |
-| **The Sage** | Truth / Analysis | Understanding |
-| **The Creator** | Innovation / Vision | Expression |
-| **The Hero** | Courage / Mastery | Achievement |
-| **The Outlaw** | Disruption / Freedom | Change |
-| **The Ruler** | Order / Authority | Control |
-| **The Caregiver** | Service / Empathy | Nurturing |
-| **The Innocent** | Optimism / Safety | Happiness |
-| **The Explorer** | Adventure / Discovery | Experience |
-| **The Magician** | Impact / Vision | Transformation |
-| **The Lover** | Passion / Beauty | Connection |
-| **The Jester** | Joy / Play | Fun |
-| **The Everyman** | Realism / Commonality | Belonging |
+### 📊 Propositional Density (Pd) Check
+- **Pd Analysis**: Upload a draft logo. The AI evaluates the **Surface Elements (Pv)** vs. **Semantic Meanings (Ps)**. 
+- **Pd Formula**: `Pd = Ps / Pv`. A score > 1 indicates a high-density, memorable logo.
 
-### ⌨️ Commander Shortcuts
-| Key | Action |
-| :--- | :--- |
-| `Alt + D` | Jump to Discovery |
-| `Alt + S` | Jump to Strategy |
-| `Alt + L` | Jump to Logo Lab |
-| `Alt + G` | Jump to System Engine |
-| `Alt + H` | Jump to Dashboard |
-
-### ❓ Troubleshooting & FAQ
-- **"Why is the interface not scrolling?"**
-    - This is a feature of the **Zero-Scroll Standard**. Use internal modular tabs for vertical navigation.
-- **"The PDF generation is hanging."**
-    - Ensure you are using a modern Chromium browser. If the issue persists, reduce the complexity of the Positioning Map SVG.
-- **"What is the Data Healer?"**
-    - It is a specialized middleware that sanitizes fragmented AI JSON. If a strategy looks "incomplete," the Healer repairs the object structure.
+### 📱 Adaptive Variations
+- **Responsive Lockups**: Automated definition of horizontal, stacked, and monogram variations.
+- **Mockup Highlights**: High-impact scenario generation (e.g., "Premium Unboxing Experience", "App Icon Legibility").
 
 ---
 
-*Copyright © 2026 TANATEQ INNOVATIONS LTD. All Rights Reserved.*
+## 6. Station 4: Brand System Designer
+
+Defining the visual DNA of the project.
+
+### 🎨 Color Palette
+- **Primary & Accent Definitions**: Input HEX codes or select from **Preset Palettes** (e.g., "Tech-Forward Blue", "Organic Green").
+- **Contrast Ratios**: Real-time validation of text legibility against selected backgrounds.
+
+### 🔡 Typography
+- **Font Pairing**: Select Primary (Headings) and Secondary (Body) fonts from a curated list of high-performance web fonts (Inter, Space Grotesk, Outfit, etc.).
+- **Live Preview**: See your font choices applied to a sample "Hero Section" instantly.
+
+### 📏 Rules & UI Tokens
+- **Logo Usage**: Define clear space ratios (e.g., 150%) and minimum pixel sizes for digital handoff.
+- **UI Element Tokens**: Define global border-radius (Sharp to Pill) and elevation strategies (Flat to Neumorphic).
+
+---
+
+## 7. Station 5: Usage Guide Generator
+
+The final synthesis and handoff phase.
+
+### 📄 Documentation Synthesis
+- **AI Writing Engine**: Combines all data from Stations 1-4 into a professional, multi-page Brand Guideline document.
+- **Markdown Architecture**: The guide is generated in Markdown for maximum portability.
+
+### 📤 Handoff Actions
+- **Download .md**: Export the guide for use in Notion, GitHub, or static site generators.
+- **Copy Markdown**: One-click copy for immediate pasting into external tools.
+- **Folder Structure Template**: Provides the industry-standard folder hierarchy for final asset delivery:
+    ```bash
+    📁 01_Master_Logos
+    📁 02_Web_Assets
+    📁 03_Print_Assets
+    📄 Brand_Guidelines.pdf
+    ```
+
+---
+
+## 8. Global Settings Console
+
+### 👤 Account & Identity
+- **Avatar Picker**: Select from 10+ professional avatars (`DiceBear` integration).
+- **Professional Credits**: Update your Discipline (e.g., "Strategist", "Agency") which is appended to all exported PDF headers.
+
+### 🔔 Notifications
+- **Activity Log**: Real-time record of all system events (e.g., "Strategy Saved", "PDF Exported").
+- **Persistence**: Activity history is persisted across sessions for project auditing.
+
+### 🔑 AI Integrations (The Vault)
+- **Multi-Provider Support**: 
+    - **Google Gemini**: Configure Flash or Pro models (up to 2M context).
+    - **OpenAI**: Configure GPT-4o or GPT-4-Turbo models.
+    - **Anthropic**: Configure Claude 3.5 Sonnet or Opus models.
+- **Connection Testing**: Trigger a "Test Pulse" to verify API keys before starting a generation cycle.
+
+### 📂 Data Management
+- **Library Export**: Backup your entire project library as a single JSON file.
+- **Library Import**: Restore projects from a backup file, enabling workspace migration.
+
+---
+
+## 9. Troubleshooting & Support
+
+### AI API Errors
+- **429 (Rate Limit)**: Switch to an alternative provider in Settings or wait 60 seconds for quota reset.
+- **Invalid Key**: Ensure the key in "The Vault" matches the provider's dashboard exactly.
+
+### Data Recovery
+- If a project appears "stuck", use the **Wipe Cache** action in Data Management (Caution: Back up first).
+
+---
+*Documentation Version: 1.4.2*
+*Last Updated: April 2026*
