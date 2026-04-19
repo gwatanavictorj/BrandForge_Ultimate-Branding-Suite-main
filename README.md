@@ -7,12 +7,14 @@ BrandForge is a professional, high-fidelity brand strategy and visual identity o
 ## 🚀 Vision & Purpose
 BrandForge democratizes elite brand strategy by moving from subjective "gut feelings" to a systematic, data-driven Jungian framework. Every decision—from color theory to logo geometry—is anchored in psychological truth.
 
-## 🛠️ Feature Highlights (S.I.P Workflow)
-- **Phase I-II: Identity & Studio**: Professional role-mapping and high-velocity project governance.
-- **Phase III: Discovery Extraction**: Automated Google Form extraction with detailed API transparency.
-- **Phase IV: The Strategy Hub**: 8-Model Strategy Stack (Jungian, Maslow, CDTS, Propositional Density, etc.) for absolute psychological and market truth.
-- **Phase V: Logo Assistant**: Visual "Smush" logic based on Propositional Density (Pd) models.
-- **Phase VI-VII: Systems & Export**: Algorithmically generated brand systems and high-fidelity PDF manuals.
+## 🛠️ The Tool Suite (Sequential Anatomy)
+- **1. Dashboard**: The central control room for managing all your branding projects and tracking your real-time "Intelligence Stats."
+- **2. Discovery Tool**: A foundational "Interview" system that captures the soul of your business manually or via automated Google Form extraction.
+- **3. Brand Strategy Engine**: The "Strategic Brain" that synthesizes your data into 8 specialized models (Archetypes, Messaging, Positioning, SWOT, etc.).
+- **4. Logo Assistant**: An AI-powered brainstorming lab for creating visual ideas and checking **Propositional Density (Pd)**—the ratio of logo meaning to visual simplicity.
+- **5. Brand System Designer**: The "Visual Blueprint" tool for finalizing your brand's colors, typography, grid layouts, and digital UI components.
+- **6. Usage Guide**: The final "Instruction Manual" that consolidates all your strategic and visual assets into a professional brand book.
+- **7. Global Hubs**: Secure **Authentication** for your proprietary data and a real-time **Notification Hub** for live project updates.
 
 ## 📖 Documentation Suite
 Explore the technical and strategic depth of the platform:
