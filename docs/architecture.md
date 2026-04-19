@@ -1,115 +1,69 @@
-# BrandForge Technical Architecture
+# Technical Architecture: The BrandForge Standard
 
-This document outlines the core technical stack, data flow, and design standards of the BrandForge Branding Suite.
+BrandForge is built on the **"Modern Blueprint"** design philosophy—a high-density, professional aesthetic optimized for a 1:1 "Commander Console" experience.
 
-## Core Tech Stack
+---
 
-- **Frontend**: [React 19](https://react.dev/)
-- **Build Tool**: [Vite 6](https://vitejs.dev/)
-- **Server**: [Express](https://expressjs.com/) (serving as a local API proxy and static asset host)
-- **Styling**: [TailwindCSS v4](https://tailwindcss.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Animations**: [motion/react](https://www.framer.com/motion/) (Kinetic UI core)
-- **AI Integration**: Sequential Intelligence Pipeline (S.I.P) utilizing Google Gemini (Nano Banana) and OpenAI DALL-E 3.
+## 🎨 Design Tokens (The Truth Layer)
 
-## Data Persistence & Storage
+All UI elements are driven by the CSS variables defined in [index.css](file:///c:/Users/user/Documents/GitHub/BrandForge_Ultimate-Branding-Suite-main/src/index.css).
 
-### Current State: Local Mock
-To enable rapid prototyping and local-first development, BrandForge currently uses a **Mock Firebase** layer.
-- **Location**: `src/firebase.ts`
-- **Mechanism**: Persists data to the browser's `localStorage` under the `brandforge_` prefix.
-- **Capabilities**: Simulates Auth (Google/Email), Firestore CRUD operations, and real-time storage event listeners.
+### 1. The Zinc/Slate Color Scale
+BrandForge uses a sophisticated custom neutral scale for professional depth.
+- **Brand Primary**: Zinc 950 (`#0A0D12`) for high-contrast visibility.
+- **Surface Scale**:
+  - `brand-50`: `#FAFAFA` (Global Background)
+  - `brand-100`: `#F5F5F5` (Card Gutters)
+  - `brand-200`: `#E9EAEB` (Borders/Dividers)
+  - `brand-500`: `#717680` (Secondary Text)
+  - `brand-900`: `#181D27` (Primary Text)
 
-### Target State: Production Firebase
-The architecture is designed for a seamless transition to a live Google Cloud/Firebase environment:
-- **Firestore**: For structured project and user data.
-- **Firebase Auth**: For secure Google OAuth and email-based identity.
-- **Firebase Hosting**: Primary production deployment target.
+### 2. Typography: Triple-Font Stack
+- **Display (`Space Grotesk`)**: Used for Headers (`h1`, `h2`, `h3`). Technical, geometric, and distinct.
+- **Sans (`Inter`)**: Used for Body, Buttons, and System UI. High legibility at all scales.
+- **Mono (`JetBrains Mono`)**: Used for Metadata, Badge Labels, and Data Points.
 
-## Design System: "The Blueprint"
+### 3. Kinetic Spacing Tokens
+The system uses a responsive spacing model that adapts between Mobile and Desktop.
 
-BrandForge adheres to a high-density, professional "Creative Suite" aesthetic known internally as the **Blueprint** standard.
-
-### Spatial Tokens & Persistent Architecture
-- **The Global Frame**: A persistent infrastructure layer comprising the Navigation Sidebar and real-time Notification Audit Center.
-- **Global Track**: `max-w-screen-2xl` (1536px) for widescreen desktop precision.
-- **Zero-Scroll Standard**: All core tools are optimized to be scroll-free on standard displays, ensuring a 1:1 "Commander Console" feel.
-
-### Design Tokens & Token Hierarchy
-
-The suite utilizes a strict token-based hierarchy designed for high-density information display and tactical legibility.
-
-#### **Spatial & Radius Tokens**
-| Element | Mobile (Default) | Desktop (md+) |
-| :--- | :--- | :--- |
-| **Modal Radius** | 14px | 20px |
-| **Section Radius** | 12px | 16px |
-| **Card Radius** | 8px | 12px |
-| **Control Radius** | 6px | 8px |
-
-#### **Color Palette (Brand Core)**
-The palette utilizes the **Slate** and **Brand (Zinc)** scales for a neutral, professional environment that ensures brand colors (in the strategy phase) remain the hero elements.
-- **Brand Neutral**: `--color-brand-50` (#FAFAFA) through `--color-brand-950` (#0A0D12).
-- **Primary Action**: `brand-600` (Core) / `brand-700` (Hover).
-- **Backgrounds**: `slate-50` (Platform) / `white` (Canvas/Cards).
-- **Feedback**: `slate-500` (Labels) / `slate-900` (Headings).
-
-#### **Typography System**
-BrandForge uses a triple-font stack to differentiate between **Instruction**, **Action**, and **Data**.
-- **Display (Space Grotesk)**: High-character headings and brand anchors.
-- **Sans (Inter)**: Platform navigation, body text, and complex data forms.
-- **Mono (JetBrains Mono)**: Intelligence logs, strategist notes, and mathematical outputs (Pd scores).
-
-| Style | Tokens | Use Case |
-| :--- | :--- | :--- |
-| **H1** | `2xl` / `5xl` bold | Hero section headers |
-| **H2** | `xl` / `3xl` bold | Tool/Module headers |
-| **Body** | `sm` / `base` | General platform text |
-| **Label** | `10px` / `12px` bold uppercase | Form labels / Metadata labels |
-| **Label XS** | `9px` black uppercase | Visual density badges / Tagging |
-
-### Component Patterns
-
-#### **Buttons**
-- **Variants**: 
-    - `Primary`: Solid `brand-600`, focused action.
-    - `Secondary`: Outlined `brand-200`, supporting actions.
-    - `Ghost`: Transparent, low-priority navigation.
-- **Micro-Interactions**: `active:scale-[0.98]` and `transition-all` enforced on all interactive elements.
-
-#### **Cards & Containers**
-- **Blueprint Card**: `bg-white`, `border-slate-100`, `shadow-sm`.
-- **Strategy Glass**: `.glass` utility (bg-white/80, 20px blur) for overlaying strategic data on visual canvases.
-- **Hover State**: Cards transition to `shadow-md` and `border-brand-100` on interactive hover.
-
-#### **Spacing System (Kinetic Standard)**
-| Token | Mobile | Desktop | Use Case |
+| Token | Mobile | Desktop | Purpose |
 | :--- | :--- | :--- | :--- |
-| **Gutter** | 16px | 32px | Page edge padding |
-| **Section** | 32px | 64px | Vertical module spacing |
-| **Gap** | 12px | 24px | Grid/Flex item spacing |
-| **Item** | 8px | 16px | Internal component spacing |
+| `space-gutter` | 16px | 32px | Global safety margins |
+| `space-section` | 32px | 64px | Horizontal tool grouping |
+| `space-gap` | 12px | 24px | Card & Grid spacing |
+| `space-item` | 8px | 16px | Internal element spacing |
 
-## Sequential Intelligence Pipeline (S.I.P)
-The heart of BrandForge is the **S.I.P Methodology** (`src/services/brandService.ts`). It follows a strict 7-phase state-aware journey where each phase consumes the validated output of the previous one.
+### 4. Component Standards
+- **Radius Hierarchy**: 20px (Modal) > 16px (Section) > 12px (Card) > 8px (Control).
+- **Button Variants**:
+  - **Hero (`lg`)**: 44px height (AAA Accessibility).
+  - **Standard (`md`)**: 40px height.
+  - **Compact (`sm`)**: 36px height.
+  - **Micro (`xs`)**: 32px height.
 
-### The 8-Model Strategy Stack
-Strategic synthesis is governed by the **8-Model Strategy Stack**, a high-fidelity intelligence layer that ensures absolute psychological and market alignment.
+---
 
-1.  **Carl Jung Archetypal Model:** Determines the psychological soul using a 3-tier matrix (Soul, Behavior, Industry Baseline).
-2.  **Maslow’s Hierarchy of Needs:** Tethers value to human motivation (e.g., *Survival* to *Self-Actualization*).
-3.  **Perceptual Positioning Model:** Cartesian mapping ($X/Y$) used to identify "Blue Ocean" market gaps.
-4.  **Competitor Intelligence Synthesis:** Real-time, location-aware research feeding a tactical **SWOT** (Strengths, Weaknesses, Opportunities, Threats) matrix.
-5.  **CDTS Narrative Framework:** Sequential brand storytelling: **C (Context)**, **D (Demand)**, **T (Tension)**, **S (Solution)**.
-6.  **Propositional Density (Pd) Model:** Mathematical audit of symbolic efficiency. Ratio of **Semantic Meaning (Ps)** to **Visual Elements (Pv)**.
-7.  **Signal-to-Font Mapping:** Deterministic alignment of brand traits to typographic categories.
-8.  **Strategic Core Values Mapping:** Normalization of subjective values against industry-standard benchmarks.
+## 🏛️ Spatial Architecture
 
-### S.I.P Phase Progression
-1.  **Identity**: Authentication and professional lens establishment.
-2.  **Genesis (Discovery)**: Extraction of "Truth Signals" from raw intake data.
-3.  **Synthesis (Strategy)**: Hydration of the 8-Model Stack using the **Data Healer** middleware.
-4.  **Enrichment (Competitive Lab)**: Automated competitive research and SWOT alignment.
-5.  **Visualization (Logo Strategy)**: Noun synthesis and Pd-scored concept smushing.
-6.  **Standardization (Brand System)**: Algorithmic color/type harmonization.
-7.  **Export (PDF Hub)**: High-fidelity generation with 1:1 UI visual parity.
+### The Global Frame
+The platform environment comprises three core persistent layers:
+1. **Sidebar Navigation**: Static on desktop, drawer-style on mobile. Fixed to `h-screen`.
+2. **Notification Audit Center**: Real-time activity log with deep-linked navigation.
+3. **Settings Console**: A 6-category configuration hub (Absolute state control).
+
+### The "Zero-Scroll" Standard
+- **Constraint**: All core branding tools (Discovery, Strategy, Logo, etc.) are optimized to be 100% scroll-free on a standard 1024px display.
+- **Track**: The main content track is strictly **`max-w-screen-2xl` (1536px)** to prevent information dilution on ultrawide monitors.
+
+---
+
+## 🧠 Sequential Intelligence Pipeline (S.I.P)
+
+BrandForge logic is governed by a **state-inheritance model**:
+- **Persistence Foundation**: Local-first `localStorage` architecture (Bridgeable to Firestore).
+- **Normalization Layer**: The "Data Healer" engine that repairs fragmented AI outputs.
+- **State Flow**: `Discovery` → `Strategy` → `Visuals` → `Systems`. Each phase inherits the validated JSON of the previous phase.
+
+---
+
+*Copyright © 2026 TANATEQ INNOVATIONS LTD.*

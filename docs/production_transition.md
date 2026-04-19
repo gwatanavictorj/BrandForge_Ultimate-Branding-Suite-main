@@ -1,58 +1,84 @@
 # Road to Production: Firebase Transition Guide
 
-This document provides a step-by-step roadmap for transitioning BrandForge from its current local `localStorage` mock to a live, cloud-hosted production environment using Firebase.
+This document provides a rigorous roadmap for transitioning BrandForge from its local `localStorage` mock to a live, cloud-hosted environment. All steps follow the **Step → Infrastructure → Security** documentation standard.
 
-## Phase 1: Cloud Foundation
+---
 
-1. **Create Project**: Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project named `BrandForge`.
-2. **Setup Firebase CLI**:
-   ```bash
-   npm install -g firebase-tools
-   firebase login
-   firebase init
-   ```
-3. **Register Web App**: Add a new Web App to the project and copy the configuration details.
+## Phase 1: Cloud Foundation & Infrastructure
 
-## Phase 2: Authentication
+### 1. Project Initialization
+- **Step**: Go to the [Firebase Console](https://console.firebase.google.com/) and initialize a new project.
+- **Infrastructure**: Provision a "Web App" and record the API Key, Auth Domain, and Project ID.
+- **Security**: In the Google Cloud Console, restrict the API key to only allow requests from your production domain (e.g., `brandforge.io`).
 
-BrandForge currently simulates auth locally. To go live:
-1. **Enable Google Sign-In**: In the Firebase Auth dashboard, enable the Google provider.
-2. **Update `src/firebase.ts`**: Replace the mock functions with actual Firebase Auth SDK calls:
-   ```typescript
-   // Example transition
-   import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-   export const auth = getAuth(app);
-   export const signInWithGoogle = () => signInWithPopup(auth, new GoogleAuthProvider());
-   ```
+### 2. CLI Configuration
+- **Step**: Initialize the workspace using `firebase init`.
+- **Infrastructure**: Select **Hosting**, **Firestore**, and **Authentication**.
+- **Security**: Ensure `.firebaserc` is ignored in `.gitignore` to prevent accidental credential exposure in cross-team environments.
 
-## Phase 3: Firestore Database
+---
 
-1. **Provision Database**: Create a Firestore database in "Production Mode."
-2. **Deploy Rules**: Use the existing `firestore.rules` file in the root directory.
-   ```bash
-   firebase deploy --only firestore:rules
-   ```
-3. **Data Schema**: Refer to `firebase-blueprint.json` for the required document structures for `users` and `projects`.
+## Phase 2: Authentication (Global & Local)
 
-## Phase 4: Production Environment Variables
+BrandForge requires a unified state-aware authentication layer. Transition the `src/firebase.ts` mock to the following standard:
 
-1. **CI/CD**: If using GitHub Actions, add your `GEMINI_API_KEY` and Firebase Config as Repository Secrets.
-2. **Local Production Test**:
-   - Create a `.env.production` file.
-   - Run `npm run build` followed by `npm run preview` to test the production bundle.
+### 1. Email/Password (Local Sign-In)
+- **Step**: Enable the **Email/Password** provider in the Firebase Auth dashboard.
+- **Infrastructure**: Implement the registration/login logic in `src/AuthContext.tsx`:
+  ```typescript
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+  
+  const auth = getAuth();
+  
+  // Registration
+  export const registerLocal = (email, password) => 
+    createUserWithEmailAndPassword(auth, email, password);
+    
+  // Login
+  export const loginLocal = (email, password) => 
+    signInWithEmailAndPassword(auth, email, password);
+  ```
+- **Security**: Implement robust front-end validation (min 8 chars, 1 special char) and utilize Firebase's built-in **Brute Force Protection**.
 
-## Phase 5: Deployment
+### 2. Google Sign-In (Enterprise Access)
+- **Step**: Enable the **Google** provider and configure your OAuth consent screen.
+- **Infrastructure**: Use `signInWithPopup` with `GoogleAuthProvider`.
+- **Security**: In production, prefer `signInWithRedirect` for mobile browser stability.
 
-1. **Build & Deploy**:
-   ```bash
-   npm run build
-   firebase deploy --only hosting
-   ```
-2. **Domain Mapping**: Connect your custom domain in the Firebase Hosting panel and verify SSL certificate status.
+---
 
-## Phase 6: AI Governance
+## Phase 3: Firestore Persistence & Schemas
 
-Given the **Sequential Intelligence Pipeline (S.I.P)** requirements, production environments must maintain absolute key security:
-1. **Multi-Provider Keys**: Ensure both `VITE_GEMINI_API_KEY` and `VITE_OPENAI_API_KEY` are configured in your hosting provider's environment variables (e.g., Firebase Functions Config or Vercel Secrets).
-2. **Quota Management**: Monitor API usage in the Google Cloud Console (Gemini) and OpenAI Dashboard to prevent service interruption during high-traffic branding sessions.
-3. **The Data Healer Persistence**: Periodically audit the `brandService.ts` logs (if logging to a cloud sink) to ensure the AI output normalization continues to meet the 100% fidelity standard in production.
+### 1. Data Hardening
+- **Step**: Deploy the production rules located in `firestore.rules`.
+- **Infrastructure**: Provision the database in **Production Mode** to ensure all access is denied by default.
+- **Security**: 
+  ```javascript
+  // Standard Security Policy
+  match /users/{userId} {
+    allow read, write: if request.auth != null && request.auth.uid == userId;
+  }
+  ```
+
+---
+
+## Phase 4: Environmental Parity (AI Governance)
+
+### 1. API Key Sanitization
+- **Infrastructure**: Ensure all AI keys (Gemini/OpenAI) are prefixed with `VITE_` for client-side injection during the build process.
+- **Security**: **NEVER** commit your `.env.local` or `.env.production` files. Use GitHub Secrets or Vercel Environment Variables.
+
+### 2. Quota & Cost Management
+- **Infrastructure**: Set up billing alerts in both Google Cloud (Gemini) and OpenAI dashboards.
+- **Security**: Implement rate-limiting in your server proxy (`server.ts`) to prevent API key depletion during unauthorized automated scraping.
+
+---
+
+## Phase 5: Build & Deployment
+
+### 1. Atomic Deployment
+- **Step**: Execute `npm run build && firebase deploy --only hosting`.
+- **Infrastructure**: Verify that the build output (dist/ folder) does not contain any sensitive `.map` files that expose source code.
+- **Security**: Enable **SSL Enforcement** and **HSTS** in the Firebase Hosting configuration (`firebase.json`).
+
+*Copyright © 2026 TANATEQ INNOVATIONS LTD.*
