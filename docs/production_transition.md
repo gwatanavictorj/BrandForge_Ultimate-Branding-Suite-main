@@ -1,60 +1,38 @@
-# Deployment & Operations Guide: BrandForge Production Roadmap
+# Deployment & Operations Guide: Hardened Production Roadmap
 
-[← Back to Overview](../README.md)
+[← Back to Index](../README.md) | [Operator Manual](operations.md) | [Vault Reference](security_and_environment.md)
 
-This guide provides the authoritative procedures for transitioning BrandForge from a local development environment to a hardened, enterprise-grade production infrastructure. 
-
----
-
-### In this article
-- [Pre-flight Checklist](#pre-flight-checklist)
-- [Configuration Reference](#configuration-reference)
-- [Identity & Access Management](#identity--access-management)
-- [Data Layer Hardening (Firestore)](#data-layer-hardening-firestore)
-- [Continuous Deployment (CI/CD)](#continuous-deployment-cicd)
-- [Security Hardening Protocols](#security-hardening-protocols)
+This guide provides the authoritative procedures for transitioning BrandForge from a local development environment to an executive-grade production infrastructure. 
 
 ---
 
-## Pre-flight Checklist
+## 🏗️ Pre-Flight Verification Checklist
 Before initializing the production build, ensure the following absolute standards are satisfied:
-- [ ] **Node.js**: v18.0.0+ verified in the production environment.
-- [ ] **SSL Certification**: Valid wildcard or domain-specific certificate provisioned.
+
 - [ ] **Secret Hygiene**: All API keys removed from source code and moved to environmental injection.
-- [ ] **Browser Compatibility**: Polyfills verified for ES2022+ targets.
+- [ ] **Node.js Environment**: v20.x verified in the target production environment.
+- [ ] **SSL Certification**: Valid HSTS-compliant certificates provisioned.
+- [ ] **Bundle Audit**: Run `npm run build` and verify that the `/dist` directory contains no `.map` files unless debugging is explicitly required.
 
 ---
 
-## Configuration Reference
-BrandForge utilizes environmental injection to govern API interaction and platform state.
+## 🔐 The Configuration Vault
+BrandForge utilizes environmental injection to govern API interactions and platform state. 
 
-| Variable | Scope | Required | Security |
+| Variable | Scope | Requirement | Security Standard |
 | :--- | :--- | :--- | :--- |
-| `GEMINI_API_KEY` | Server | **Yes** | Secret Manager |
+| `GEMINI_API_KEY` | Server | **Mandatory** | Secret Manager |
 | `OPENAI_API_KEY` | Server | Optional | Secret Manager |
-| `VITE_FIREBASE_CONFIG`| Client | **Yes** | Public/Restricted |
-| `GOOGLE_CLIENT_SECRET`| Server | **Yes** | Secret Manager |
+| `VITE_FIREBASE_CONFIG` | Client | **Mandatory** | Restricted Public |
+| `GOOGLE_CLIENT_SECRET` | Server | **Mandatory** | Secret Manager |
 
 ---
 
-## Identity & Access Management
-BrandForge requires a hardened identity layer to maintain project isolation and ownership.
+## 🧬 Data Layer Hardening (Firestore)
 
-### Google OAuth2 Configuration
-1. Navigate to the **Google Cloud Console** > **APIs & Services**.
-2. Configure the **OAuth Consent Screen** with your verified production domain.
-3. Restrict **Authorized Redirect URIs** to `https://[your-domain].com/auth/callback`.
+### 1. Security Rules Protocol
+For production, Firestore must be constrained to prevent cross-project data leakage. 
 
-> [!IMPORTANT]
-> Enable **Domain Verification** to prevent unauthorized identity impersonation.
-
----
-
-## Data Layer Hardening (Firestore)
-For production environments, Firestore must be constrained by strict security rules and optimized via composite indexing.
-
-### Security Rules Protocol
-Implement the following rule set to ensure 100% project isolation:
 ```javascript
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -65,14 +43,15 @@ service cloud.firestore {
 }
 ```
 
-### Query Optimization
-- Identify query patterns utilizing multiple filters (e.g., `industry` + `ownerId`).
-- Manually provision **Composite Indexes** in the Firebase Console to maintain the **Commander Console** speed standard.
+### 2. Composite Index Provisioning
+To maintain the **Commander Console** performance standard, manually provision index patterns for high-frequency queries:
+*   `ownerId` (Asc) + `updatedAt` (Desc)
+*   `industry` (Asc) + `ownerId` (Asc)
 
 ---
 
-## Continuous Deployment (CI/CD)
-BrandForge utilizes GitHub Actions for automated, zero-downtime deployment.
+## 🚀 Continuous Deployment (CI/CD)
+BrandForge utilizes GitHub Actions for hardened, zero-downtime deployments.
 
 ### Production Workflow (`.github/workflows/deploy.yml`)
 ```yaml
@@ -85,11 +64,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build Assets
+      - name: Hardened Build
         run: |
           npm install
           npm run build
-      - name: Deploy to Hosting
+      - name: Firebase Deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
@@ -99,13 +78,14 @@ jobs:
 
 ---
 
-## Security Hardening Protocols
-Post-deployment, execute the following hardening steps:
+## 🛡️ Security Hardening Protocols
+Post-deployment, execute the following industrial hardening steps:
 
-1. **HSTS Enforcement**: Enable **HTTP Strict Transport Security** in your `firebase.json` or server headers.
-2. **CORS Restriction**: Constraint cross-origin requests strictly to your production `APP_URL`.
-3. **Map Sanitization**: Remove all `.map` files from the `/dist` directory before public serving to prevent reverse-engineering of the S.I.P logic.
+1. **HSTS Enforcement**: Enable **HTTP Strict Transport Security** in the hosting configuration.
+2. **CORS Restriction**: Explicitly whitelist the production domain in `server.ts` to prevent unauthorized cross-origin requests.
+3. **API Key Scoping**: Restrict the `GEMINI_API_KEY` to specific IP addresses (if supported by provider) or rotate credentials every 90 days.
 
 ---
 
 *Copyright © 2026 TANATEQ INNOVATIONS LTD. All Rights Reserved.*
+*Authoritative Revision: 2.1.0*

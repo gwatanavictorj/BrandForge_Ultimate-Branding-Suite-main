@@ -1,4 +1,6 @@
-# BrandForge Master User Guide
+# Master User Guide: The BrandForge Branding Suite
+
+[← Back to Index](../README.md) | [Architecture](architecture.md) | [White Paper](case_study.md)
 
 Welcome to the **BrandForge Ultimate Branding Suite**, an enterprise-grade platform designed to synthesize high-fidelity brand identities through a state-aware, 5-station architecture. This guide provides an exhaustive breakdown of every action, tool, and strategic mechanism within the suite.
 

@@ -1,4 +1,6 @@
-# BrandForge Operational Manual
+# Operational Manual: BrandForge Infrastructure & CI/CD
+
+[← Back to Index](../README.md) | [Deployment](production_transition.md) | [Vault Reference](security_and_environment.md)
 
 This manual contains technical specifications for deploying, maintaining, and scaling the BrandForge platform. It is intended for DevOps engineers and technical leads.
 

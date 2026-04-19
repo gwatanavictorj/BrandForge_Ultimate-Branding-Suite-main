@@ -1,46 +1,61 @@
-# Security & Environment Configuration
+# Strategic Intelligence Vault: Security & Environment Reference
 
-BrandForge relies on sensitive AI and Cloud API integrations. This document provides guidelines for managing keys, OAuth credentials, and environment-specific variables.
+[← Back to Index](../README.md) | [Operations](operations.md) | [Deployment](production_transition.md)
 
-## Sensitive API Keys
+This document provides the authoritative guidelines for managing BrandForge's sensitive AI integrations, Cloud API credentials, and environment-specific governance.
 
-The following keys are required for full platform functionality:
+---
 
-- **GEMINI_API_KEY**: Required for the Brand Strategy Engine and Logo Assistant (Nano Banana).
-- **ANTHROPIC_API_KEY**: (Optional) Secondary intelligence provider.
-- **OPENAI_API_KEY**: Required for DALL-E 3 visual inspiration.
+## 🔑 Sensitive API Credentials
+BrandForge relies on high-fidelity AI models. The following keys are required for full platform tactical capability.
 
-### Local Management
-Keys should be stored in a `.env` file in the project root. **Never commit `.env` to version control.**
+*   **`GEMINI_API_KEY`**: Drives the Brand Strategy Engine and Logo Assistant (Nano Banana).
+*   **`OPENAI_API_KEY`**: Optional provider for DALL-E 3 visual inspiration.
+*   **`ANTHROPIC_API_KEY`**: Optional alternative intelligence provider.
+
+### Local Development Standard
+Keys must be stored in a `.env` file in the project root. **Commiting these values to version control is a critical security failure.**
 
 ```env
-GEMINI_API_KEY=your_key_here
-OPENAI_API_KEY=your_key_here
-PORT=3000
+GEMINI_API_KEY=v1_xxxx_xxxx
+OPENAI_API_KEY=sk_xxxx_xxxx
+GOOGLE_CLIENT_ID=xxxxxxxx.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=GOXXXX-xxxx
 ```
 
-## Google OAuth & Form Extraction
+---
 
-The Brand Discovery tool integrates with Google Forms to extract data. This requires professional OAuth configuration in the [Google Cloud Console](https://console.cloud.google.com/).
+## 🧬 Google OAuth & Data Ingestion
+The Brand Discovery extraction engine requires professional-grade OAuth2 configuration in the [Google Cloud Console](https://console.cloud.google.com/).
 
-### Required Scopes
-- `https://www.googleapis.com/auth/forms.responses.readonly`
-- `https://www.googleapis.com/auth/userinfo.profile`
+### Required OAuth Scopes
+| Scope | Purpose |
+| :--- | :--- |
+| `forms.responses.readonly` | Enables the extraction of client qualitative DNA. |
+| `userinfo.profile` | Handles identity mapping for project ownership. |
 
-### Handling Scopes in Production
-- Ensure the OAuth Consent Screen is configured with the correct BrandForge identity.
-- Production environments must use verified domains for OAuth redirects.
+### Production Governance
+*   Ensure the **OAuth Consent Screen** is verified with the BrandForge industrial identity.
+*   Authorized redirect URIs must be constrained strictly to proven production domains (e.g., `https://brandforge.app/auth/callback`).
 
-## Production Secret Strategy
+---
 
-When transitioning to a hosted environment (e.g., Firebase, Vercel, AWS):
+## 🏛️ Production Secret Strategy
+When transitioning to a hosted environment (Firebase App Hosting, Google Cloud Run), adhere to the following absolute standards:
 
-1. **Secret Managers**: Use Google Secret Manager or Firebase Secrets instead of plain environment variables.
-2. **Key Rotation**: Rotate your `GEMINI_API_KEY` every 90 days.
-3. **CORS Hardening**: In `server.ts`, restrict CORS origins strictly to your production URL.
+1.  **Secret Managers**: Use **Google Secret Manager** or **Firebase Secrets** instead of plain environment variables. Injected secrets are encrypted at rest and in transit.
+2.  **Key Rotation Protocol**: Rotate your `GEMINI_API_KEY` every 90 days to minimize exposure risk.
+3.  **CORS Hardening**: In `server.ts`, restrict `Access-Control-Allow-Origin` strictly to your production URL.
 
-## Local API Proxy Security
+---
 
-The local Express server (`server.ts`) acts as a proxy to avoid CORS issues with third-party APIs. 
-- The proxy should only allow requests from the trusted frontend origin.
-- Sensitive headers (like Bearer tokens) are injected at the server level to prevent exposure in the client-side network tab.
+## 🛡️ Proxy Security Anatomy
+The local Express server acts as a secured proxy to prevent CORS anomalies and protect client-side integrity.
+
+*   **Credential Masking**: Sensitive headers (Bearer tokens) are injected at the server level, preventing exposure via the browser's Network tab.
+*   **Origin Validation**: The proxy layer rejects any request not originating from the trusted development or production frontend.
+
+---
+
+*Copyright © 2026 TANATEQ INNOVATIONS LTD. All Rights Reserved.*
+*Security Clearance: L1-Industrial Standard*

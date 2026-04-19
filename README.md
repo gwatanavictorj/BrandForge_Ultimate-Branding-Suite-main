@@ -61,7 +61,10 @@ BrandForge utilizes a **Sequential Intelligence Pipeline (S.I.P)**—a state-awa
 | 📘 [**Master User Guide**](docs/user_guide.md) | Exhaustive screen-by-screen platform walkthrough. |
 | 🛠️ [**Operational Manual**](docs/operations.md) | Technical setup for CI/CD, Docker, and environment validation. |
 | 🚀 [**Deployment Guide**](docs/production_transition.md) | Hardening protocols for production environments. |
-| 🔐 [**Security & Environment**](docs/security_and_environment.md) | AI Key management and OAuth configuration reference. |
+| 📐 [**Technical Architecture**](docs/architecture.md) | S.I.P logic, service map, and data schema reference. |
+| 🔐 [**Security & Vault**](docs/security_and_environment.md) | AI Key management and OAuth configuration reference. |
+| 📋 [**History & Roadmap**](docs/history_and_milestones.md) | Phase-based evolution and future feature pipeline. |
+| 🔬 [**Technical White Paper**](docs/case_study.md) | Intelligence model performance and problem-solving vignettes. |
 
 ---
 
