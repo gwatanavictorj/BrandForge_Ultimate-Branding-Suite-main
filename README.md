@@ -8,7 +8,21 @@ BrandForge is a high-resolution, data-tethered intelligence suite designed to br
 
 Traditional branding workflows often suffer from a "Strategy-Visual Disconnect"—the loss of strategic intent during the transition to visual design. BrandForge eliminates this friction by maintaining a persistent, state-aware intelligence layer that governs all branding phases.
 
-### Key Capabilities
+### 🎯 Who is it for?
+BrandForge is an **Enterprise-Grade Branding Intelligence Suite** designed for:
+- **Brand Strategists**: Who require a systematic, data-tethered bridge between abstract theory and visual execution.
+- **Design Agencies**: Needing to eliminate the "Strategy-Visual Disconnect" in their internal handoffs.
+- **Project Stakeholders**: Who demand high-fidelity, strategy-anchored brand manuals in real-time.
+
+### 💡 What it does?
+It transforms abstract brand DNA into a deterministic visual system. BrandForge orchestrates the entire branding lifecycle—from automated discovery and Jungian archetype mapping to the generation of WCAG-compliant design tokens and 1:1 professional PDF manuals.
+
+### 🌟 Value Proposition
+- **Strategy-Visual Parity**: Ensures that every visual asset is 100% anchored in strategic data.
+- **Zero-Friction Handoff**: Professional-grade PDF reporting that mirrors the digital workbench exactly.
+- **Technical Rigor**: Built on a non-distractive **Commander Console** framework with absolute technical focus.
+
+### 🚀 Key Capabilities
 - **Automated Discovery**: High-density extraction of brand DNA via manual input or automated Google Forms ingestion.
 - **Psychological Synthesis**: Deep mapping of Jungian Archetypes and Maslow-need hierarchies.
 - **Visual Infrastructure**: Data-tethered "Noun Toolkits" and AI-driven "Concept Smushing" for rapid visual prototyping.
