@@ -7,30 +7,24 @@
 ## 🎯 The Purpose
 BrandForge was engineered to solve the "Strategy Gap"—the disconnect between a brand's psychological core and its visual execution. We provide a unified, sequential workspace where deep strategic theory is forged into tangible, high-density brand systems.
 
-## ⚠️ The Problem
-Traditional branding workflows are fragmented. Strategy stays in a slide deck, while design happens in an aesthetic vacuum. This results in:
-- **Design-Logic Debt**: Visuals that look good but mean nothing.
-- **Superficial Strategy**: Archetypes and positioning that never leave the Google Doc.
-- **Workflow Friction**: Navigating 10+ tools to create 1 cohesive brand.
+## ⚙️ The "Commander Console" Standard
+BrandForge is not just a tool; it is an **Elite Branding Environment**. Every module within the suite is built on the **Commander Console Standard**, ensuring a professional, distraction-free, and high-density branding experience.
 
-## ✅ The Solution
-BrandForge is an **All-in-One Branding Command Center**. It utilizes the **Sequential Intelligence Pipeline (S.I.P)** to ensure that every pixel is tethered to a strategic decision. From the first discovery question to the final brand guide, the intelligence is persistent, state-aware, and absolute.
-
-## 👥 For Who?
-- **Agencies**: Scale your premium strategy output without increasing headcount.
-- **Solopreneurs**: Build enterprise-grade brand foundations in hours, not months.
-- **Creative Teams**: Maintain absolute visual and strategic consistency across global projects.
+### The Three Pillars (Platform-Wide)
+1. **Zero-Scroll Standard**: 100% scroll-free views on all core tools to maximize focus and minimize cognitive load.
+2. **Modern Blueprint Aesthetic**: A high-density, professional UI utilizing a Zinc/Slate hybrid scale that feels like a precision instrument.
+3. **Global Frame Integrity**: A persistent infrastructure layer comprising the primary Navigation Sidebar and the real-time Notification Audit Center, unified across the entire platform.
 
 ---
 
-## ⚙️ How It Works: The S.I.P Standard
-BrandForge operates on a linear, state-inheritance model. Each phase feeds the next, ensuring total strategic integrity.
+## ✅ The Solution: The S.I.P Pipeline
+BrandForge utilizes the **Sequential Intelligence Pipeline (S.I.P)** to ensure that every pixel is tethered to a strategic decision. From the first discovery question to the final brand guide, the intelligence is persistent, state-aware, and absolute.
 
 1. **Discovery (The Blueprint)**: A 9-phase audit that extracts the brand's DNA.
-2. **Intelligence (The Healer)**: Our proprietary middleware normalizes AI insights into absolute strategic JSON.
-3. **Strategy (The Soul)**: Defining Jungian archetypes, positioning, and messaging.
-4. **Logo Assistant (The Alchemist)**: Building visual identities through **Propositional Density (Pd)** logic.
-5. **Brand System (The Engine)**: Synthesizing visual standards (Color, Type, Grids) directly from the strategy.
+2. **Strategy (The Soul)**: Defining Jungian archetypes, positioning, and messaging.
+3. **Logo Assistant (The Alchemist)**: Building visual identities through **Propositional Density (Pd)** logic.
+4. **Brand System (The Engine)**: Synthesizing visual standards (Color, Type, Grids) directly from the strategy.
+5. **Usage Guide (The Manual)**: Automated, high-fidelity branding manual generation.
 
 ---
 
@@ -47,19 +41,11 @@ BrandForge operates on a linear, state-inheritance model. Each phase feeds the n
 
 ---
 
-## 🖥️ The "Commander Console" Experience
-BrandForge is optimized for the **Elite Workspace Standard**:
-- **Zero-Scroll Standard**: 100% scroll-free views on all core tools to maximize focus.
-- **Modern Blueprint Aesthetic**: A high-density, professional UI that feels like a precision instrument.
-- **Global Frame Integrity**: Persistent sidebar and real-time Notification Audit Center.
-
----
-
 ## 📚 Documentation Center
 Dive deeper into the technical and strategic foundations of BrandForge:
 
-- 🏗️ **[Architecture Guide](docs/architecture.md)**: Design tokens, tech stack, and spatial logic.
-- 📖 **[User Guide](docs/user_guide.md)**: Non-technical onboarding and tool-by-tool walkthroughs.
+- 🏗️ **[Architecture Guide](docs/architecture.md)**: Deep-dive into services, design tokens, and the S.I.P logic.
+- 📖 **[User Guide](docs/user_guide.md)**: Non-technical onboarding, Google Form imports, and power-user workflows.
 - 🧪 **[Technical Case Study](docs/case_study.md)**: Deep-dive into the "Interface vs. Intelligence" anatomy.
 - 🛣️ **[Production Roadmap](docs/production_transition.md)**: Moving from local-first to cloud-hosted.
 - 🕰️ **[History & Milestones](docs/history_and_milestones.md)**: The anatomical evolution of the platform.
@@ -70,7 +56,7 @@ Dive deeper into the technical and strategic foundations of BrandForge:
 - **Framework**: React 19 + Vite 6
 - **Styling**: Tailwind CSS (Blueprint Standard)
 - **Intelligence**: Gemini API (Nano Banana) + OpenAI (DALL-E 3)
-- **Persistence**: Firebase (Firestore/Auth)
+- **Persistence**: Firebase (Firestore/Auth) + LocalStorage (Atomic Backup)
 - **Export**: jsPDF + html2canvas (1:1 Parity)
 
 ---

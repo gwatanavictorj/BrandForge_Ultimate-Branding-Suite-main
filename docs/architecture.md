@@ -1,69 +1,85 @@
 # Technical Architecture: The BrandForge Standard
 
-BrandForge is built on the **"Modern Blueprint"** design philosophy—a high-density, professional aesthetic optimized for a 1:1 "Commander Console" experience.
+BrandForge is built on the **"Modern Blueprint"** design philosophy—a high-density, professional aesthetic optimized for a 1:1 **"Commander Console"** experience. This document provides the authoritative technical breakdown of the platform's anatomy.
 
 ---
 
-## 🎨 Design Tokens (The Truth Layer)
+## 📂 Directory Anatomy
+A map for developers navigating the BrandForge workspace:
 
-All UI elements are driven by the CSS variables defined in [index.css](file:///c:/Users/user/Documents/GitHub/BrandForge_Ultimate-Branding-Suite-main/src/index.css).
-
-### 1. The Zinc/Slate Color Scale
-BrandForge uses a sophisticated custom neutral scale for professional depth.
-- **Brand Primary**: Zinc 950 (`#0A0D12`) for high-contrast visibility.
-- **Surface Scale**:
-  - `brand-50`: `#FAFAFA` (Global Background)
-  - `brand-100`: `#F5F5F5` (Card Gutters)
-  - `brand-200`: `#E9EAEB` (Borders/Dividers)
-  - `brand-500`: `#717680` (Secondary Text)
-  - `brand-900`: `#181D27` (Primary Text)
-
-### 2. Typography: Triple-Font Stack
-- **Display (`Space Grotesk`)**: Used for Headers (`h1`, `h2`, `h3`). Technical, geometric, and distinct.
-- **Sans (`Inter`)**: Used for Body, Buttons, and System UI. High legibility at all scales.
-- **Mono (`JetBrains Mono`)**: Used for Metadata, Badge Labels, and Data Points.
-
-### 3. Kinetic Spacing Tokens
-The system uses a responsive spacing model that adapts between Mobile and Desktop.
-
-| Token | Mobile | Desktop | Purpose |
-| :--- | :--- | :--- | :--- |
-| `space-gutter` | 16px | 32px | Global safety margins |
-| `space-section` | 32px | 64px | Horizontal tool grouping |
-| `space-gap` | 12px | 24px | Card & Grid spacing |
-| `space-item` | 8px | 16px | Internal element spacing |
-
-### 4. Component Standards
-- **Radius Hierarchy**: 20px (Modal) > 16px (Section) > 12px (Card) > 8px (Control).
-- **Button Variants**:
-  - **Hero (`lg`)**: 44px height (AAA Accessibility).
-  - **Standard (`md`)**: 40px height.
-  - **Compact (`sm`)**: 36px height.
-  - **Micro (`xs`)**: 32px height.
+- **`src/`**: The core application root.
+    - **`components/`**: Atomic and complex UI elements (Dashboard, Discovery, Settings).
+    - **`services/`**: The Intelligence Layer (AI providers, strategy orchestration, PDF generation).
+    - **`utils/`**: Deterministic logic (mapping, cleanup, data portability).
+    - **`types.ts`**: The central source of truth for all data interfaces.
+    - **`localDb.ts`**: The persistence abstraction layer.
+    - **`AuthContext.tsx`**: Identity and session management.
+- **`docs/`**: Technical and strategic documentation hub.
+- **`dist/`**: Production build output.
 
 ---
 
-## 🏛️ Spatial Architecture
+## 🧠 The Intelligence Layer (Services)
 
-### The Global Frame
-The platform environment comprises three core persistent layers:
-1. **Sidebar Navigation**: Static on desktop, drawer-style on mobile. Fixed to `h-screen`.
-2. **Notification Audit Center**: Real-time activity log with deep-linked navigation.
-3. **Settings Console**: A 6-category configuration hub (Absolute state control).
+BrandForge logic is distributed across four specialized services that ensure 100% strategic fidelity.
 
-### The "Zero-Scroll" Standard
-- **Constraint**: All core branding tools (Discovery, Strategy, Logo, etc.) are optimized to be 100% scroll-free on a standard 1024px display.
-- **Track**: The main content track is strictly **`max-w-screen-2xl` (1536px)** to prevent information dilution on ultrawide monitors.
+### 1. `brandService.ts` (The Orchestrator)
+The central hub for the **Sequential Intelligence Pipeline (S.I.P)**. 
+- **Responsibilities**: Converting discovery data into strategy, managing state-inheritance, and triggering the "Data Healer" to repair fragmented AI outputs.
+- **Standards**: All strategic outputs must satisfy the Jungian Archetype validation model.
+
+### 2. `aiProvider.ts` (The Multi-Model Adapter)
+A unified interface for LLM interaction.
+- **Supported Models**: 
+    - **Gemini (Nano Banana)**: Used for core strategy synthesis and noun toolkit generation.
+    - **OpenAI (DALL-E 3)**: Targeted for visual concept inspiration.
+- **Governance**: Implements proactive key testing and error propagation.
+
+### 3. `fallbackStrategyEngine.ts` (The Safety Net)
+Ensures the platform remains functional during offline states or API failures.
+- **Logic**: Uses a deterministic mapping engine to generate "Base Strategies" derived from industry and stage metadata without requiring a live AI call.
+
+### 4. `pdfService.ts` (The Snapshot Engine)
+Generates high-fidelity project handoffs.
+- **Tech Stack**: `jsPDF` + `html2canvas`.
+- **Logic**: Uses a 1:1 UI snapshot model to ensure that the Positioning Maps and Archetype Wheels in the PDF are identical to the screen interface.
 
 ---
 
-## 🧠 Sequential Intelligence Pipeline (S.I.P)
+## 💾 The Memory Layer (Persistence & State)
 
-BrandForge logic is governed by a **state-inheritance model**:
-- **Persistence Foundation**: Local-first `localStorage` architecture (Bridgeable to Firestore).
-- **Normalization Layer**: The "Data Healer" engine that repairs fragmented AI outputs.
-- **State Flow**: `Discovery` → `Strategy` → `Visuals` → `Systems`. Each phase inherits the validated JSON of the previous phase.
+### 1. `localDb.ts` & `localStorage`
+- **Philosophy**: Local-first development. All projects are stored as JSON blobs in `localStorage`.
+- **Portability**: Includes logic for atomic imports and exports of the entire project library.
+
+### 2. `AuthContext.tsx`
+- **Philosophy**: State-aware identity.
+- **Logic**: Manages the user profile (Role, Avatar, Agency Details) and serves as the gatekeeper for Firebase Firestore synchronization.
 
 ---
 
-*Copyright © 2026 TANATEQ INNOVATIONS LTD.*
+## 📐 Data Schema (The S.I.P Model)
+
+The platform is anchored by two primary interfaces in `types.ts`:
+
+### 1. `BrandDiscovery`
+The 9-phase intake blueprint. Captures client DNA, industry markers, and psychological "feels."
+
+### 2. `BrandStrategy`
+The absolute strategic asset. Includes:
+- **Overview**: 4-Point Strategic Definition (Who, What, How, Where).
+- **Foundation**: Mission, Vision, and Philosophy.
+- **Audience**: Maslow-level needs mapping and narrative groups.
+- **Personality**: Jungian Archetype primary/secondary profiles and Pd (Propositional Density) scores.
+
+---
+
+## 🎨 Spatial Optimization (Zero-Scroll Standard)
+Technically enforced across the entire platform:
+- **Viewport-Relative Containers**: Components use `h-[75vh]` or `max-h-screen` constraints.
+- **Internal Overflow Management**: High-density lists (e.g., Notification Audit Center) use hidden custom scrollbars to maintain visual integrity.
+- **Global Frame Integrity**: The Sidebar (`w-20` on desktop) and Notification popover are pinned to the edge of the viewport to ensure they never scroll with page content.
+
+---
+
+*Copyright © 2026 TANATEQ INNOVATIONS LTD. All Rights Reserved.*

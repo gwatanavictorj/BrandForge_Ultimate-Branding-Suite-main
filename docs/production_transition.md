@@ -1,84 +1,81 @@
-# Road to Production: Firebase Transition Guide
+# Road to Production: The Hardened Roadmap
 
-This document provides a rigorous roadmap for transitioning BrandForge from its local `localStorage` mock to a live, cloud-hosted environment. All steps follow the **Step → Infrastructure → Security** documentation standard.
+This document serves as the authoritative guide for transitioning BrandForge from its local `localStorage` development environment to a live, cloud-hosted **Commander Console**. Every phase follows the **Step → Infrastructure → Security** documentation standard.
 
 ---
 
-## Phase 1: Cloud Foundation & Infrastructure
+## Phase 1: Environment & Config Governance
 
-### 1. Project Initialization
-- **Step**: Go to the [Firebase Console](https://console.firebase.google.com/) and initialize a new project.
-- **Infrastructure**: Provision a "Web App" and record the API Key, Auth Domain, and Project ID.
-- **Security**: In the Google Cloud Console, restrict the API key to only allow requests from your production domain (e.g., `brandforge.io`).
+Before deployment, you must synchronize your environment variables. 
 
-### 2. CLI Configuration
-- **Step**: Initialize the workspace using `firebase init`.
-- **Infrastructure**: Select **Hosting**, **Firestore**, and **Authentication**.
-- **Security**: Ensure `.firebaserc` is ignored in `.gitignore` to prevent accidental credential exposure in cross-team environments.
+### ⚙️ Master Environment Config Table
+
+| Variable | Source | Required | Security Level |
+| :--- | :--- | :--- | :--- |
+| `GEMINI_API_KEY` | Google AI Studio | **Yes** | **Critical** (Server) |
+| `OPENAI_API_KEY` | OpenAI Platform | Optional | **Critical** (Server) |
+| `APP_URL` | Production Domain | **Yes** | Public/Internal |
+| `GOOGLE_CLIENT_ID` | Google Cloud Console | Optional | Public (Client) |
+| `GOOGLE_CLIENT_SECRET`| Google Cloud Console | Optional | **Critical** (Server) |
+| `VITE_FIREBASE_API_KEY`| Firebase Console | **Yes** | Public (Client) |
+
+- **Step**: Create a `.env.production` file in the project root.
+- **Infrastructure**: Use **GitHub Secrets** or **Google Cloud Secret Manager** to inject these keys during CI/CD.
+- **Security**: **NEVER** expose the `GOOGLE_CLIENT_SECRET` or `OPENAI_API_KEY` in client-side code prefixing with `VITE_`.
 
 ---
 
 ## Phase 2: Authentication (Global & Local)
 
-BrandForge requires a unified state-aware authentication layer. Transition the `src/firebase.ts` mock to the following standard:
+BrandForge requires a hardened identity layer to manage project ownership.
 
-### 1. Email/Password (Local Sign-In)
-- **Step**: Enable the **Email/Password** provider in the Firebase Auth dashboard.
-- **Infrastructure**: Implement the registration/login logic in `src/AuthContext.tsx`:
-  ```typescript
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-  
-  const auth = getAuth();
-  
-  // Registration
-  export const registerLocal = (email, password) => 
-    createUserWithEmailAndPassword(auth, email, password);
-    
-  // Login
-  export const loginLocal = (email, password) => 
-    signInWithEmailAndPassword(auth, email, password);
-  ```
-- **Security**: Implement robust front-end validation (min 8 chars, 1 special char) and utilize Firebase's built-in **Brute Force Protection**.
+### 1. Email/Password (The Absolute Local Standard)
+- **Step**: Enable the **Email/Password** provider in Microsoft/Firebase Authentication.
+- **Infrastructure**: Implement the `AuthContext.tsx` registration/login hooks using standard SDK methods.
+- **Security**: Implement 8-character minimum passwords and utilize **Recaptcha Enterprise** in the login UI to prevent automated brute-force attacks.
 
-### 2. Google Sign-In (Enterprise Access)
-- **Step**: Enable the **Google** provider and configure your OAuth consent screen.
-- **Infrastructure**: Use `signInWithPopup` with `GoogleAuthProvider`.
-- **Security**: In production, prefer `signInWithRedirect` for mobile browser stability.
+### 2. Google OAuth (Enterprise Handshake)
+- **Step**: Configure the OAuth consent screen with your production domain.
+- **Infrastructure**: Restrict the redirect URIs strictly to `brandforge.io/auth/callback`.
+- **Security**: Enable **Domain Verification** to prevent impersonation.
 
 ---
 
-## Phase 3: Firestore Persistence & Schemas
+## Phase 3: Firestore Optimization & Security
 
-### 1. Data Hardening
-- **Step**: Deploy the production rules located in `firestore.rules`.
-- **Infrastructure**: Provision the database in **Production Mode** to ensure all access is denied by default.
-- **Security**: 
+### 1. Composite Indexing (Query Speed)
+- **Step**: Identify query patterns that use multiple filters (e.g., Filtering `projects` by `industry` and `owner`).
+- **Infrastructure**: Navigate to the Firebase **Indexes** tab and provision composite indices for your primary collections. 
+- **Security**: Without proper indexing, the "Commander Console" speed standard cannot be maintained in production.
+
+### 2. Security Rules (Data Isolation)
+- **Step**: Deploy the production `firestore.rules`.
+- **Infrastructure**:
   ```javascript
-  // Standard Security Policy
-  match /users/{userId} {
-    allow read, write: if request.auth != null && request.auth.uid == userId;
+  service cloud.firestore {
+    match /databases/{database}/documents {
+      match /projects/{project} {
+        allow read, write: if request.auth != null && request.auth.uid == resource.data.ownerId;
+      }
+    }
   }
   ```
+- **Security**: Implement **Field-Level Validation** to ensure AI results injected into Firestore conform to the `BrandStrategy` JSON schema.
 
 ---
 
-## Phase 4: Environmental Parity (AI Governance)
+## Phase 4: Atomic Deployment & Scaling
 
-### 1. API Key Sanitization
-- **Infrastructure**: Ensure all AI keys (Gemini/OpenAI) are prefixed with `VITE_` for client-side injection during the build process.
-- **Security**: **NEVER** commit your `.env.local` or `.env.production` files. Use GitHub Secrets or Vercel Environment Variables.
+### 1. Build & Sanitization
+- **Step**: Execute `npm run build`.
+- **Infrastructure**: Use a **Vite 6** build target that optimizes for modern browsers (ES2022+).
+- **Security**: Remove all `.map` files from the `dist/` directory to prevent reverse-engineering of the S.I.P logic.
 
-### 2. Quota & Cost Management
-- **Infrastructure**: Set up billing alerts in both Google Cloud (Gemini) and OpenAI dashboards.
-- **Security**: Implement rate-limiting in your server proxy (`server.ts`) to prevent API key depletion during unauthorized automated scraping.
+### 2. SSL & Global Frame Integrity
+- **Step**: Provision a custom domain with **Wildcard SSL**.
+- **Infrastructure**: Ensure **HSTS (HTTP Strict Transport Security)** is enabled in your `firebase.json` or server config.
+- **Security**: Configure **CORS** to only allow requests from your specific `APP_URL`.
 
 ---
 
-## Phase 5: Build & Deployment
-
-### 1. Atomic Deployment
-- **Step**: Execute `npm run build && firebase deploy --only hosting`.
-- **Infrastructure**: Verify that the build output (dist/ folder) does not contain any sensitive `.map` files that expose source code.
-- **Security**: Enable **SSL Enforcement** and **HSTS** in the Firebase Hosting configuration (`firebase.json`).
-
-*Copyright © 2026 TANATEQ INNOVATIONS LTD.*
+*Copyright © 2026 TANATEQ INNOVATIONS LTD. All Rights Reserved.*
