@@ -35,14 +35,60 @@ BrandForge adheres to a high-density, professional "Creative Suite" aesthetic kn
 - **Global Track**: `max-w-screen-2xl` (1536px) for widescreen desktop precision.
 - **Zero-Scroll Standard**: All core tools are optimized to be scroll-free on standard displays, ensuring a 1:1 "Commander Console" feel.
 
-### Design Tokens
-| Element | Token Value |
-| :--- | :--- |
-| **Modal Radius** | 20px |
-| **Section Radius** | 16px |
-| **Card Radius** | 12px |
-| **Control Radius** | 8px |
-| **Typography** | 9px `label-xs` font-black for badges |
+### Design Tokens & Token Hierarchy
+
+The suite utilizes a strict token-based hierarchy designed for high-density information display and tactical legibility.
+
+#### **Spatial & Radius Tokens**
+| Element | Mobile (Default) | Desktop (md+) |
+| :--- | :--- | :--- |
+| **Modal Radius** | 14px | 20px |
+| **Section Radius** | 12px | 16px |
+| **Card Radius** | 8px | 12px |
+| **Control Radius** | 6px | 8px |
+
+#### **Color Palette (Brand Core)**
+The palette utilizes the **Slate** and **Brand (Zinc)** scales for a neutral, professional environment that ensures brand colors (in the strategy phase) remain the hero elements.
+- **Brand Neutral**: `--color-brand-50` (#FAFAFA) through `--color-brand-950` (#0A0D12).
+- **Primary Action**: `brand-600` (Core) / `brand-700` (Hover).
+- **Backgrounds**: `slate-50` (Platform) / `white` (Canvas/Cards).
+- **Feedback**: `slate-500` (Labels) / `slate-900` (Headings).
+
+#### **Typography System**
+BrandForge uses a triple-font stack to differentiate between **Instruction**, **Action**, and **Data**.
+- **Display (Space Grotesk)**: High-character headings and brand anchors.
+- **Sans (Inter)**: Platform navigation, body text, and complex data forms.
+- **Mono (JetBrains Mono)**: Intelligence logs, strategist notes, and mathematical outputs (Pd scores).
+
+| Style | Tokens | Use Case |
+| :--- | :--- | :--- |
+| **H1** | `2xl` / `5xl` bold | Hero section headers |
+| **H2** | `xl` / `3xl` bold | Tool/Module headers |
+| **Body** | `sm` / `base` | General platform text |
+| **Label** | `10px` / `12px` bold uppercase | Form labels / Metadata labels |
+| **Label XS** | `9px` black uppercase | Visual density badges / Tagging |
+
+### Component Patterns
+
+#### **Buttons**
+- **Variants**: 
+    - `Primary`: Solid `brand-600`, focused action.
+    - `Secondary`: Outlined `brand-200`, supporting actions.
+    - `Ghost`: Transparent, low-priority navigation.
+- **Micro-Interactions**: `active:scale-[0.98]` and `transition-all` enforced on all interactive elements.
+
+#### **Cards & Containers**
+- **Blueprint Card**: `bg-white`, `border-slate-100`, `shadow-sm`.
+- **Strategy Glass**: `.glass` utility (bg-white/80, 20px blur) for overlaying strategic data on visual canvases.
+- **Hover State**: Cards transition to `shadow-md` and `border-brand-100` on interactive hover.
+
+#### **Spacing System (Kinetic Standard)**
+| Token | Mobile | Desktop | Use Case |
+| :--- | :--- | :--- | :--- |
+| **Gutter** | 16px | 32px | Page edge padding |
+| **Section** | 32px | 64px | Vertical module spacing |
+| **Gap** | 12px | 24px | Grid/Flex item spacing |
+| **Item** | 8px | 16px | Internal component spacing |
 
 ## Sequential Intelligence Pipeline (S.I.P)
 The heart of BrandForge is the **S.I.P Methodology** (`src/services/brandService.ts`). It follows a strict 7-phase state-aware journey where each phase consumes the validated output of the previous one.
