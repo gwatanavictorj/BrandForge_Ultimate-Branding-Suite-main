@@ -82,13 +82,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setError(null);
     try {
       const cred = await signUpWithEmail(e, p, n);
+      const photoURL = `https://api.dicebear.com/7.x/avataaars/svg?seed=${n.replace(/\s+/g, '')}`;
       await updateProfile(cred.user, {
         displayName: n,
-        photoURL: `https://api.dicebear.com/7.x/avataaars/svg?seed=${n.replace(/\s+/g, '')}`
+        photoURL
       });
+
+      // Persist User Document to Firestore
+      // This is critical for security rules that depend on the user's role 
+      // or check the user document for existence (isAdmin).
+      await setDoc(doc(db, 'users', cred.user.uid), {
+        uid: cred.user.uid,
+        email: e,
+        displayName: n,
+        photoURL,
+        role: 'user',
+        createdAt: new Date().toISOString()
+      }, { merge: true });
+
       // Updating state manually is not strictly needed because onAuthStateChanged handles it,
       // but forces a refresh context
-      setUser({ ...cred.user, displayName: n });
+      setUser({ ...cred.user, displayName: n, photoURL });
     } catch (error: any) {
       setError(error.message || 'Failed to create account.');
       throw error;

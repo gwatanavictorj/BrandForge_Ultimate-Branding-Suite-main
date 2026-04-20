@@ -15,6 +15,46 @@ const getAI = () => {
   });
 };
 
+// Reference blueprint for one-shot learning to ensure strict consistency with the BrandStrategy interface
+const REFERENCE_BLUEPRINT = {
+  overview: { whoWeAre: "", whatWeDo: "", howWeDoIt: "", whereWeAre: "" },
+  foundation: { mission: "", vision: "", philosophy: "" },
+  coreIdea: "",
+  story: "",
+  audience: {
+    groups: [{ name: "", description: "", needs: "", painPoints: "" }],
+    maslowLevel: "", maslowExplanation: "", maslowNeedType: "", narrative: ""
+  },
+  marketPosition: {
+    axes: { x: "", y: "" },
+    quadrant: "", statement: "", position: { x: 50, y: 50 },
+    competitors: [{ name: "", x: 0, y: 0, website: "", socials: [], location: "", established: "" }],
+    analysis: "", gapHighlight: ""
+  },
+  archetype: {
+    primary: { name: "", description: "", jungianModel: "", goal: "", fear: "", weakness: "", talent: "", personalityNarrative: "", archetypeStatement: "", traits: [], inPractice: [], strategicRationale: "" },
+    secondary: { name: "", description: "", jungianModel: "", goal: "", fear: "", weakness: "", talent: "", personalityNarrative: "", archetypeStatement: "", traits: [], inPractice: [], strategicRationale: "" },
+    tertiary: { name: "", description: "", jungianModel: "", goal: "", fear: "", weakness: "", talent: "", personalityNarrative: "", archetypeStatement: "", traits: [], inPractice: [], strategicRationale: "" },
+    behavior: { tone: { description: "", framework: "", examples: [], useCases: [] }, role: "", impact: "" }
+  },
+  values: [{ name: "", description: "" }],
+  essence: "",
+  identitySystem: {
+    colors: [{ color: "", role: "", meaning: "", application: "" }],
+    logoOptions: [{ strategy: "System Optimized", description: "", shapes: [], logotypes: [], symbols: [], propositionalDensity: { surface: "", semantic: "", rationale: "" }, rationale: "" }],
+    typography: {
+      primary: { name: "", usage: "", platforms: [], traits: [], description: "" },
+      secondary: { name: "", usage: "", platforms: [], traits: [], description: "" }
+    }
+  },
+  messaging: { coreMessage: "", keywords: [] },
+  experienceDesign: "",
+  touchPoints: [{ category: "", items: [] }],
+  growthPrograms: [{ name: "", description: "" }],
+  partnerships: [{ name: "", description: "" }],
+  customerJourney: [{ phase: "", stage: "", action: "", touchpoints: [], kpis: [], insights: "" }]
+};
+
 export function normalizeBrandStrategy(strategy: any): BrandStrategy {
   if (!strategy) return strategy;
 
@@ -57,47 +97,39 @@ export function normalizeBrandStrategy(strategy: any): BrandStrategy {
       }));
     }
   }
+  // Deep Merge with REFERENCE_BLUEPRINT to ensure all UI fields have at least an empty string/array
+  const normalized = {
+    ...REFERENCE_BLUEPRINT,
+    ...strategy,
+    overview: { ...REFERENCE_BLUEPRINT.overview, ...(strategy.overview || {}) },
+    foundation: { ...REFERENCE_BLUEPRINT.foundation, ...(strategy.foundation || {}) },
+    audience: { ...REFERENCE_BLUEPRINT.audience, ...(strategy.audience || {}) },
+    marketPosition: { 
+      ...REFERENCE_BLUEPRINT.marketPosition, 
+      ...(strategy.marketPosition || {}),
+      axes: { ...REFERENCE_BLUEPRINT.marketPosition.axes, ...(strategy.marketPosition?.axes || {}) },
+      position: { ...REFERENCE_BLUEPRINT.marketPosition.position, ...(strategy.marketPosition?.position || {}) }
+    },
+    archetype: { 
+      ...REFERENCE_BLUEPRINT.archetype, 
+      ...(strategy.archetype || {}),
+      behavior: { 
+        ...REFERENCE_BLUEPRINT.archetype.behavior, 
+        ...(strategy.archetype?.behavior || {}),
+        tone: { ...REFERENCE_BLUEPRINT.archetype.behavior.tone, ...(strategy.archetype?.behavior?.tone || {}) }
+      }
+    },
+    identitySystem: { 
+      ...REFERENCE_BLUEPRINT.identitySystem, 
+      ...(strategy.identitySystem || {}),
+      typography: { ...REFERENCE_BLUEPRINT.identitySystem.typography, ...(strategy.identitySystem?.typography || {}) }
+    },
+    messaging: { ...REFERENCE_BLUEPRINT.messaging, ...(strategy.messaging || {}) }
+  };
+
+  return normalized as BrandStrategy;
 }
 
-// Reference blueprint for one-shot learning to ensure strict consistency with the BrandStrategy interface
-const REFERENCE_BLUEPRINT = {
-  overview: { whoWeAre: "", whatWeDo: "", howWeDoIt: "", whereWeAre: "" },
-  foundation: { mission: "", vision: "", philosophy: "" },
-  coreIdea: "",
-  story: "",
-  audience: {
-    groups: [{ name: "", description: "", needs: "", painPoints: "" }],
-    maslowLevel: "", maslowExplanation: "", maslowNeedType: "", narrative: ""
-  },
-  marketPosition: {
-    axes: { x: "", y: "" },
-    quadrant: "", statement: "", position: { x: 50, y: 50 },
-    competitors: [{ name: "", x: 0, y: 0, website: "", socials: [], location: "", established: "" }],
-    analysis: "", gapHighlight: ""
-  },
-  archetype: {
-    primary: { name: "", description: "", jungianModel: "", goal: "", fear: "", weakness: "", talent: "", personalityNarrative: "", archetypeStatement: "", traits: [], inPractice: [], strategicRationale: "" },
-    secondary: { name: "", description: "", jungianModel: "", goal: "", fear: "", weakness: "", talent: "", personalityNarrative: "", archetypeStatement: "", traits: [], inPractice: [], strategicRationale: "" },
-    tertiary: { name: "", description: "", jungianModel: "", goal: "", fear: "", weakness: "", talent: "", personalityNarrative: "", archetypeStatement: "", traits: [], inPractice: [], strategicRationale: "" },
-    behavior: { tone: { description: "", framework: "", examples: [], useCases: [] }, role: "", impact: "" }
-  },
-  values: [{ name: "", description: "" }],
-  essence: "",
-  identitySystem: {
-    colors: [{ color: "", role: "", meaning: "", application: "" }],
-    logoOptions: [{ strategy: "System Optimized", description: "", shapes: [], logotypes: [], symbols: [], propositionalDensity: { surface: "", semantic: "", rationale: "" }, rationale: "" }],
-    typography: {
-      primary: { name: "", usage: "", platforms: [], traits: [], description: "" },
-      secondary: { name: "", usage: "", platforms: [], traits: [], description: "" }
-    }
-  },
-  messaging: { coreMessage: "", keywords: [] },
-  experienceDesign: "",
-  touchPoints: [{ category: "", items: [] }],
-  growthPrograms: [{ name: "", description: "" }],
-  partnerships: [{ name: "", description: "" }],
-  customerJourney: [{ phase: "", stage: "", action: "", touchpoints: [], kpis: [], insights: "" }]
-};
 
 export const brandService = {
   async generateNouns(discovery: BrandDiscovery, strategy: BrandStrategy): Promise<LogoNounGroup> {
@@ -683,15 +715,15 @@ export const brandService = {
               audience: { type: "object" },
               marketPosition: { type: "object" },
               archetype: { type: "object" },
-              values: { type: "array" },
+              values: { type: "array", items: { type: "object" } },
               essence: { type: "string" },
               identitySystem: { type: "object" },
               messaging: { type: "object" },
               experienceDesign: { type: "string" },
-              touchPoints: { type: "array" },
-              growthPrograms: { type: "array" },
-              partnerships: { type: "array" },
-              customerJourney: { type: "array" }
+              touchPoints: { type: "array", items: { type: "object" } },
+              growthPrograms: { type: "array", items: { type: "object" } },
+              partnerships: { type: "array", items: { type: "object" } },
+              customerJourney: { type: "array", items: { type: "object" } }
             },
             required: [
               "overview", "foundation", "coreIdea", "story", "audience", 

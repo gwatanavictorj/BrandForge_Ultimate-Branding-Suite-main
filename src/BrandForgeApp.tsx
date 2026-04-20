@@ -221,14 +221,6 @@ export default function BrandForgeApp() {
     }
   }, [currentStep, activeProjectId]);
 
-  // Sanity check: If we have an active ID but it's not in the projects list after loading, reset
-  useEffect(() => {
-    if (!loading && activeProjectId && !projects.some(p => p.id === activeProjectId)) {
-      console.log('Restored project ID not found, resetting to dashboard');
-      setActiveProjectId(null);
-      setCurrentStep('dashboard');
-    }
-  }, [loading, projects, activeProjectId]);
 
   // Load and sync notifications
   useEffect(() => {
@@ -248,6 +240,7 @@ export default function BrandForgeApp() {
     if (!user) return;
 
     const projectId = Math.random().toString(36).substr(2, 9);
+    const now = Date.now();
     const newProject: BrandProject = {
       id: projectId,
       ownerId: user.uid,
@@ -262,15 +255,22 @@ export default function BrandForgeApp() {
       tracking: {
         progress: 0,
         status: 'planning',
-        lastUpdated: Date.now()
+        lastUpdated: now
       },
-      createdAt: Date.now()
+      createdAt: now,
+      updatedAt: now,
+      isDeleted: false,
+      deletedAt: null
     };
 
     try {
+      // Optimistically add to local state to prevent race conditions with the sanity check effect
+      setProjects(prev => [newProject, ...prev]);
+      
       await setDoc(doc(db, 'projects', projectId), newProject);
       setActiveProjectId(projectId);
-      setCurrentStep(tools[0] as Step);
+      setCurrentStep(tools[0] as Step || 'discovery');
+      
       addNotification({
         type: 'success',
         title: 'Project Created',
@@ -278,6 +278,8 @@ export default function BrandForgeApp() {
         link: `project:${projectId}:step:discovery`
       });
     } catch (error) {
+      // Rollback optimistic update on error
+      setProjects(prev => prev.filter(p => p.id !== projectId));
       handleFirestoreError(error, OperationType.CREATE, `projects/${projectId}`);
     }
   };
@@ -285,7 +287,10 @@ export default function BrandForgeApp() {
   const handleRenameProject = async (projectId: string, newName: string) => {
     if (!newName.trim()) return;
     try {
-      await updateDoc(doc(db, 'projects', projectId), { name: newName });
+      await updateDoc(doc(db, 'projects', projectId), { 
+        name: newName,
+        updatedAt: Date.now()
+      });
     } catch (error) {
       setError(`Failed to rename project: ${error}`);
     }
@@ -294,14 +299,18 @@ export default function BrandForgeApp() {
   const handleDuplicateProject = async (project: BrandProject) => {
     if (!user) return;
     const newProjectId = Math.random().toString(36).substr(2, 9);
+    const now = Date.now();
     const newProject: BrandProject = {
       ...project,
       id: newProjectId,
       name: `${project.name} (Copy)`,
-      createdAt: Date.now(),
+      createdAt: now,
+      updatedAt: now,
+      isDeleted: false,
+      deletedAt: undefined,
       tracking: {
         ...project.tracking,
-        lastUpdated: Date.now()
+        lastUpdated: now
       }
     };
     try {
@@ -315,7 +324,8 @@ export default function BrandForgeApp() {
     try {
       await updateDoc(doc(db, 'projects', projectId), { 
         isDeleted: true,
-        deletedAt: Date.now()
+        deletedAt: Date.now(),
+        updatedAt: Date.now()
       });
       if (activeProjectId === projectId) {
         setActiveProjectId(null);
@@ -380,6 +390,7 @@ export default function BrandForgeApp() {
     if (updated.system && updated.discovery) progress += 20; // Guide ready
     updated.tracking.progress = Math.min(progress, 100);
     updated.tracking.lastUpdated = Date.now();
+    updated.updatedAt = Date.now();
 
     const performUpdate = async () => {
       console.log('Performing Firestore update...');

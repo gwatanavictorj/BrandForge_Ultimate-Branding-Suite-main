@@ -135,7 +135,8 @@ app.get("/auth/callback", async (req, res) => {
         }
     }
     try {
-        const oauth2Client = getOAuth2Client();
+        const redirectUri = `${targetOrigin}/auth/callback`;
+        const oauth2Client = getOAuth2Client(redirectUri);
         const { tokens } = await oauth2Client.getToken(code);
         // Create a temporary handshake record in Firestore
         const handshakeId = crypto_1.default.randomUUID();

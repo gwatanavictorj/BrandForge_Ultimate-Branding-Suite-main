@@ -53,9 +53,11 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return isAuthenticated() &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-          (request.auth.token.email == "victorjeremah@gmail.com" && request.auth.token.email_verified == true));
+      return isAuthenticated() && (
+        (request.auth.token.email == "victorjeremah@gmail.com" && (request.auth.token.email_verified == true || request.auth.provider_id == "google.com")) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
     }
 
     function isValidEmail(email) {
@@ -87,15 +89,16 @@ service cloud.firestore {
     }
 
     function isValidProject(data) {
-      return hasOnlyAllowedFields(['id', 'ownerId', 'name', 'client', 'discovery', 'strategy', 'system', 'logoAssistant', 'tasks', 'tracking', 'selectedTools', 'createdAt', 'isDeleted', 'deletedAt']) &&
+      return hasOnlyAllowedFields(['id', 'ownerId', 'name', 'client', 'discovery', 'strategy', 'system', 'logoAssistant', 'tasks', 'tracking', 'selectedTools', 'createdAt', 'updatedAt', 'isDeleted', 'deletedAt']) &&
              data.id is string && data.id.size() > 0 &&
              data.ownerId is string && data.ownerId == request.auth.uid &&
              data.name is string && data.name.size() > 0 && data.name.size() < 200 &&
              (data.client == null || (data.client is string && data.client.size() < 200)) &&
              data.selectedTools is list && data.selectedTools.size() > 0 &&
              data.createdAt is number &&
-             (data.isDeleted == null || data.isDeleted is bool) &&
-             (data.deletedAt == null || data.deletedAt is number);
+             data.updatedAt is number &&
+             data.get('isDeleted', false) is bool &&
+             (data.get('deletedAt', null) == null || data.get('deletedAt', null) is number);
     }
 
     // ===============================================================
@@ -113,6 +116,10 @@ service cloud.firestore {
       allow update: if isAuthenticated() && isValidUser(request.resource.data) && 
                     ((isOwner(userId) && request.resource.data.role == resource.data.role) || isAdmin());
       allow delete: if isAdmin();
+
+      match /notifications/{notificationId} {
+        allow read, write: if isOwner(userId) || isAdmin();
+      }
     }
 
     match /projects/{projectId} {

@@ -332,6 +332,7 @@ export interface BrandProject {
   tracking: ProjectTracking;
   selectedTools: ('discovery' | 'strategy' | 'logo' | 'system' | 'guide')[];
   createdAt: number;
+  updatedAt: number;
   isDeleted?: boolean;
   deletedAt?: number;
 }

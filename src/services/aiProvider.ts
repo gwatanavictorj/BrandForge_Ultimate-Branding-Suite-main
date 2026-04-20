@@ -123,16 +123,21 @@ export class AIProvider {
     
     console.log(`[Gemini] Syncing with engine: ${modelId}`);
 
-    // COMPLEXITY GUARD: The 'too many states' 400 error is triggered by large schemas.
-    // For the high-fidelity Brand Strategy (forceJson=true), we use prompt-based guidance 
-    // and application/json mode, but we bypass the strict API-level responseSchema.
-    const isComplex = forceJson && !schema?.items; 
+    // COMPLEXITY GUARD: The 'too many states' 400 error is triggered by large schemas on high-tier models.
+    // We use a 'Skeleton Schema' approach: 
+    // 1. If the model is Pro, we use a minimal root schema to bypass complexity limits.
+    // 2. We always ensure responseMimeType is "application/json" for structural integrity.
+    const isPro = modelId.includes('pro');
+    const useSkeleton = isPro || (forceJson && !schema?.items);
     
+    // Skeleton: A valid but minimal schema that forces JSON mode without state-bloat.
+    const skeletonSchema = { type: "object" };
+
     const model = this.gemini.getGenerativeModel({ 
       model: modelId,
       generationConfig: {
         responseMimeType: "application/json",
-        responseSchema: isComplex ? undefined : schema
+        responseSchema: useSkeleton ? (schema?.type === "array" ? { type: "array" } : skeletonSchema) : schema
       }
     });
 
