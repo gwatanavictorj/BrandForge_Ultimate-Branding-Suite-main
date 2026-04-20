@@ -1,90 +1,70 @@
-// Local Mock of Firebase Services
+import { initializeApp } from "firebase/app";
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signOut, 
+  onAuthStateChanged as firebaseOnAuthStateChanged 
+} from "firebase/auth";
+import { 
+  getFirestore, 
+  enableIndexedDbPersistence
+} from "firebase/firestore";
 
-export const db = {}; // Mock database instance
-export const auth = {
-  get currentUser() {
-    const userStr = localStorage.getItem('brandforge_user');
-    return userStr ? JSON.parse(userStr) : null;
+const firebaseConfig = {
+  apiKey: "AIzaSyC7pnDesYupv814wPMVfMEB3C8Oafsv-dM",
+  authDomain: "brandforge-492618.firebaseapp.com",
+  projectId: "brandforge-492618",
+  storageBucket: "brandforge-492618.firebasestorage.app",
+  messagingSenderId: "30465031003",
+  appId: "1:30465031003:web:cd6a58e73b41d8dd75b87e",
+  measurementId: "G-4DQY363CQG"
+};
+
+// Initialize Firebase Production App
+export const app = initializeApp(firebaseConfig);
+
+// Initialize Services
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+
+// Enable offline persistence for Local-First Sync
+enableIndexedDbPersistence(db).catch((err) => {
+  if (err.code == 'failed-precondition') {
+    // Multiple tabs open, persistence can only be enabled in one tab at a a time.
+    console.warn("Multiple tabs open, persistence can only be enabled in one tab at a a time.");
+  } else if (err.code == 'unimplemented') {
+    // The current browser does not support all of the features required to enable persistence
+    console.warn("The current browser does not support all of the features required to enable persistence");
   }
-};
-export const googleProvider = {};
+});
+export const googleProvider = new GoogleAuthProvider();
 
-// Helper to get all users from localStorage
-const getLocalUsers = () => {
-  try {
-    const usersStr = localStorage.getItem('brandforge_users');
-    const parsed = usersStr ? JSON.parse(usersStr) : [];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (error) {
-    console.error('Error parsing local users:', error);
-    return [];
-  }
-};
-
-// Simulate onAuthStateChanged
-export const onAuthStateChanged = (authObj: any, callback: (user: any) => void) => {
-  callback(authObj.currentUser);
-  // Realtime listening not fully needed for this, but we can listen to storage changes
-  const listener = () => callback(authObj.currentUser);
-  window.addEventListener('storage', listener);
-  return () => window.removeEventListener('storage', listener);
-};
+export const onAuthStateChanged = firebaseOnAuthStateChanged;
 
 export const signInWithGoogle = async () => {
-  const dummyUser = {
-    uid: 'local-user-123',
-    email: 'local@brandforge.app',
-    displayName: 'Local Designer',
-    photoURL: ''
-  };
-  localStorage.setItem('brandforge_user', JSON.stringify(dummyUser));
-  window.dispatchEvent(new Event('storage')); // Trigger update across logic
-  window.location.reload(); // Simple reload to re-run all context cleanly
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    return result;
+  } catch (error) {
+    console.error("Error signing in with Google", error);
+    throw error;
+  }
 };
 
 export const signInWithEmail = async (email: string, pass: string) => {
-  const users = getLocalUsers();
-  const user = users.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
-  
-  if (!user) {
-    throw new Error('No user found with this email.');
-  }
-
-  if (user.password && user.password !== pass) {
-    throw new Error('Incorrect password.');
-  }
-
-  localStorage.setItem('brandforge_user', JSON.stringify(user));
-  window.dispatchEvent(new Event('storage'));
-  window.location.reload();
+  return await signInWithEmailAndPassword(auth, email, pass);
 };
-export const signUpWithEmail = async (email: string, pass: string, displayName: string) => {
-  const users = getLocalUsers();
-  if (users.find((u: any) => u.email.toLowerCase() === email.toLowerCase())) {
-    throw new Error('Email already in use.');
-  }
 
-  const newUser = {
-    uid: `user-${Math.random().toString(36).substr(2, 9)}`,
-    email,
-    password: pass,
-    displayName,
-    photoURL: ''
-  };
-
-  users.push(newUser);
-  localStorage.setItem('brandforge_users', JSON.stringify(users));
-  localStorage.setItem('brandforge_user', JSON.stringify(newUser));
-  localStorage.setItem('brandforge_just_signed_up', 'true');
-  
-  window.dispatchEvent(new Event('storage'));
-  window.location.reload();
+export const signUpWithEmail = async (email: string, pass: string, name: string) => {
+  const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+  return userCredential;
 };
 
 export const logout = async () => {
-  localStorage.removeItem('brandforge_user');
-  window.dispatchEvent(new Event('storage'));
-  window.location.reload();
+  await signOut(auth);
 };
 
 export enum OperationType {
@@ -97,5 +77,5 @@ export enum OperationType {
 }
 
 export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
-  console.error('[LocalDB Error]', operationType, path, error);
+  console.error('[Firestore Error]', operationType, path, error);
 }

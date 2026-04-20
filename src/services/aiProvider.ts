@@ -17,6 +17,8 @@ export class AIProvider {
   private openai?: OpenAI;
   private anthropic?: Anthropic;
 
+  // Diagnostic method removed - problem solved via model discovery.
+
   constructor(config: AIConfig) {
     this.config = config;
     this.initProvider();
@@ -25,10 +27,9 @@ export class AIProvider {
   private initProvider() {
     switch (this.config.provider) {
       case 'gemini':
-        this.gemini = new GoogleGenAI({ 
-          apiKey: this.config.apiKey,
-          httpOptions: { apiVersion: 'v1beta' }
-        });
+        // Standard initialization for stability. 
+        // We let the SDK handle versioning defaulted to 'v1' for maximum key compatibility.
+        this.gemini = new GoogleGenAI(this.config.apiKey);
         break;
       case 'openai':
         this.openai = new OpenAI({ apiKey: this.config.apiKey, dangerouslyAllowBrowser: true });
@@ -39,14 +40,14 @@ export class AIProvider {
     }
   }
 
-  async generateContent(prompt: string, schema?: any): Promise<string> {
+  async generateContent(prompt: string, schema?: any, forceJson?: boolean): Promise<string> {
     if (!this.config.apiKey || this.config.apiKey.trim().length < 5) {
       throw new Error(`Connection stalled: No API key provided for ${this.config.provider.toUpperCase()}. Please open Settings and enter a valid key.`);
     }
     try {
       switch (this.config.provider) {
         case 'gemini':
-          return await this.generateGemini(prompt, schema);
+          return await this.generateGemini(prompt, schema, forceJson);
         case 'openai':
           return await this.generateOpenAI(prompt, schema);
         case 'anthropic':
@@ -112,20 +113,32 @@ export class AIProvider {
     }
   }
 
-  private async generateGemini(prompt: string, schema?: any): Promise<string> {
+  private async generateGemini(prompt: string, schema?: any, forceJson?: boolean): Promise<string> {
     if (!this.gemini) throw new Error('Gemini not initialized');
     
-    // Use the official SDK structure: contents as array, generationConfig for schema
-    const response = await this.gemini.models.generateContent({
-      model: this.config.model || "gemini-2.5-flash",
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      config: schema ? {
-        responseMimeType: "application/json",
-        responseSchema: schema
-      } : undefined
-    });
+    // Model Healer: Map experimental/typo IDs to current stable production models
+    let modelId = this.config.model || "gemini-1.5-flash";
+    if (modelId.includes('2.5')) modelId = modelId.replace('2.5', '1.5');
+    if (modelId.includes('3-pro')) modelId = 'gemini-1.5-pro';
     
-    return response.text || "";
+    console.log(`[Gemini] Syncing with engine: ${modelId}`);
+
+    // COMPLEXITY GUARD: The 'too many states' 400 error is triggered by large schemas.
+    // For the high-fidelity Brand Strategy (forceJson=true), we use prompt-based guidance 
+    // and application/json mode, but we bypass the strict API-level responseSchema.
+    const isComplex = forceJson && !schema?.items; 
+    
+    const model = this.gemini.getGenerativeModel({ 
+      model: modelId,
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema: isComplex ? undefined : schema
+      }
+    });
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    return response.text() || "";
   }
 
   private async analyzeImageGemini(prompt: string, base64Image: string, schema?: any): Promise<string> {
@@ -135,28 +148,33 @@ export class AIProvider {
     const base64Data = base64Image.includes('base64,') ? base64Image.split('base64,')[1] : base64Image;
     const mimeType = base64Image.includes('data:') ? base64Image.split('data:')[1].split(';')[0] : 'image/png';
 
-    const response = await this.gemini.models.generateContent({
-      model: this.config.model?.includes('pro') ? this.config.model : "gemini-2.5-pro", // Pro models are better for vision
+    const response = await this.gemini.getGenerativeModel({
+      model: this.config.model?.includes('pro') 
+             ? (this.config.model.includes('2.5') ? 'gemini-1.5-pro' : this.config.model) 
+             : "gemini-1.5-pro",
+      generationConfig: schema ? {
+        responseMimeType: "application/json",
+        responseSchema: schema
+      } : undefined
+    }).generateContent({
       contents: [{
         role: 'user', 
         parts: [
           { text: prompt },
           { inlineData: { data: base64Data, mimeType: mimeType } }
         ]
-      }],
-      config: schema ? {
-        responseMimeType: "application/json",
-        responseSchema: schema
-      } : undefined
+      }]
     });
     
-    return response.text || "";
+    // In SDK version 1.29.0, we access response differently
+    const res = await response.response;
+    return res.text() || "";
   }
 
   private async generateOpenAI(prompt: string, schema?: any): Promise<string> {
     if (!this.openai) throw new Error('OpenAI not initialized');
     const response = await this.openai.chat.completions.create({
-      model: this.config.model || "gpt-5.4-pro",
+      model: this.config.model || "gpt-4o",
       messages: [{ role: "user", content: prompt }],
       response_format: schema ? { type: "json_object" } : undefined
     });
@@ -166,7 +184,7 @@ export class AIProvider {
   private async generateAnthropic(prompt: string, schema?: any): Promise<string> {
     if (!this.anthropic) throw new Error('Anthropic not initialized');
     const response = await this.anthropic.messages.create({
-      model: this.config.model || "claude-3-sonnet-4-6",
+      model: this.config.model || "claude-3-5-sonnet-latest",
       max_tokens: 4096,
       messages: [{ role: "user", content: prompt }],
       system: schema ? "You must respond with a valid JSON object." : undefined
@@ -212,8 +230,10 @@ export class AIProvider {
 
 // Helper to get keys from localStorage
 export const getAIKeys = () => {
-  const keys = localStorage.getItem('brandforge_ai_keys');
-  return keys ? JSON.parse(keys) : {
+  const stored = localStorage.getItem('brandforge_ai_keys');
+  let keys = stored ? JSON.parse(stored) : null;
+  
+  const defaults = {
     gemini: import.meta.env.VITE_GEMINI_API_KEY || '',
     openai: import.meta.env.VITE_OPENAI_API_KEY || '',
     anthropic: import.meta.env.VITE_ANTHROPIC_API_KEY || '',
@@ -222,6 +242,39 @@ export const getAIKeys = () => {
       gemini: 'gemini-1.5-flash',
       openai: 'gpt-4o',
       anthropic: 'claude-3-5-sonnet-20240620'
+    }
+  };
+
+  // Filter out literal placeholder strings that might be in .env
+  const isPlaceholder = (key: string) => 
+    !key || key.includes('MY_GEMINI_API_KEY') || key.includes('YOUR_KEY');
+
+  if (!keys) {
+    return {
+      ...defaults,
+      gemini: isPlaceholder(defaults.gemini) ? '' : defaults.gemini,
+      openai: isPlaceholder(defaults.openai) ? '' : defaults.openai,
+      anthropic: isPlaceholder(defaults.anthropic) ? '' : defaults.anthropic
+    };
+  }
+
+  // Ensure all keys are sanitized from placeholders
+  keys.gemini = isPlaceholder(keys.gemini) ? '' : keys.gemini;
+  keys.openai = isPlaceholder(keys.openai) ? '' : keys.openai;
+  keys.anthropic = isPlaceholder(keys.anthropic) ? '' : keys.anthropic;
+
+  // Migration / Healer: If we find old 1.5 models that are now deprecated for this key
+  if (keys.models?.gemini?.includes('1.5') && !keys.models.gemini.includes('flash')) {
+    keys.models.gemini = 'gemini-1.5-flash';
+  }
+
+  // Ensure all fields exist
+  return {
+    ...defaults,
+    ...keys,
+    models: {
+      ...defaults.models,
+      ...(keys.models || {})
     }
   };
 };

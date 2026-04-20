@@ -97,6 +97,8 @@ export const SettingsModal = ({
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const [testStatus, setTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [testError, setTestError] = useState<string | null>(null);
+  const [diagResult, setDiagResult] = useState<any>(null);
+  const [isDiagRunning, setIsDiagRunning] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleNotificationClick = (n: AppNotification) => {
@@ -208,9 +210,9 @@ export const SettingsModal = ({
         type: 'error',
         message: err.message || 'The AI service could not be reached.'
       });
-      setTimeout(() => setTestStatus('idle'), 5000);
     }
   };
+  
 
   const handleImportClick = () => {
     fileInputRef.current?.click();
@@ -240,7 +242,7 @@ export const SettingsModal = ({
   ];
 
   const AI_PROVIDERS = [
-    { id: 'gemini', name: 'Google Gemini', icon: Zap, color: 'text-blue-600', bgColor: 'bg-blue-50', description: 'Advanced reasoning and massive context windows (up to 2M tokens).', models: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-1.5-flash-8b'] },
+    { id: 'gemini', name: 'Google Gemini', icon: Zap, color: 'text-blue-600', bgColor: 'bg-blue-50', description: 'Advanced reasoning and massive context windows (up to 2M tokens).', models: ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.5-pro', 'gemini-flash-latest', 'gemini-3-pro-preview'] },
     { id: 'openai', name: 'OpenAI (GPT)', icon: Cpu, color: 'text-emerald-600', bgColor: 'bg-emerald-50', description: 'Industry leading logic and multimodal capabilities.', models: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo'] },
     { id: 'anthropic', name: 'Anthropic (Claude)', icon: Key, color: 'text-orange-600', bgColor: 'bg-orange-50', description: 'Human-centric reasoning with high nuance and safety.', models: ['claude-3-5-sonnet-20240620', 'claude-3-opus-20240229', 'claude-3-haiku-20240307'] },
   ];
@@ -809,7 +811,7 @@ export const SettingsModal = ({
                           </p>
                         </div>
                       </div>
-                      {testError && <p className="text-[10px] text-rose-500 font-bold text-center px-4">{testError}</p>}
+                      {testError && <p className="text-[10px] text-rose-500 font-bold text-center px-4 mt-2">{testError}</p>}
                     </div>
                   ))}
                 </motion.div>

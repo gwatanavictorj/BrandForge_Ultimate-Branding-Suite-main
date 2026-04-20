@@ -57,9 +57,47 @@ export function normalizeBrandStrategy(strategy: any): BrandStrategy {
       }));
     }
   }
-
-  return strategy as BrandStrategy;
 }
+
+// Reference blueprint for one-shot learning to ensure strict consistency with the BrandStrategy interface
+const REFERENCE_BLUEPRINT = {
+  overview: { whoWeAre: "", whatWeDo: "", howWeDoIt: "", whereWeAre: "" },
+  foundation: { mission: "", vision: "", philosophy: "" },
+  coreIdea: "",
+  story: "",
+  audience: {
+    groups: [{ name: "", description: "", needs: "", painPoints: "" }],
+    maslowLevel: "", maslowExplanation: "", maslowNeedType: "", narrative: ""
+  },
+  marketPosition: {
+    axes: { x: "", y: "" },
+    quadrant: "", statement: "", position: { x: 50, y: 50 },
+    competitors: [{ name: "", x: 0, y: 0, website: "", socials: [], location: "", established: "" }],
+    analysis: "", gapHighlight: ""
+  },
+  archetype: {
+    primary: { name: "", description: "", jungianModel: "", goal: "", fear: "", weakness: "", talent: "", personalityNarrative: "", archetypeStatement: "", traits: [], inPractice: [], strategicRationale: "" },
+    secondary: { name: "", description: "", jungianModel: "", goal: "", fear: "", weakness: "", talent: "", personalityNarrative: "", archetypeStatement: "", traits: [], inPractice: [], strategicRationale: "" },
+    tertiary: { name: "", description: "", jungianModel: "", goal: "", fear: "", weakness: "", talent: "", personalityNarrative: "", archetypeStatement: "", traits: [], inPractice: [], strategicRationale: "" },
+    behavior: { tone: { description: "", framework: "", examples: [], useCases: [] }, role: "", impact: "" }
+  },
+  values: [{ name: "", description: "" }],
+  essence: "",
+  identitySystem: {
+    colors: [{ color: "", role: "", meaning: "", application: "" }],
+    logoOptions: [{ strategy: "System Optimized", description: "", shapes: [], logotypes: [], symbols: [], propositionalDensity: { surface: "", semantic: "", rationale: "" }, rationale: "" }],
+    typography: {
+      primary: { name: "", usage: "", platforms: [], traits: [], description: "" },
+      secondary: { name: "", usage: "", platforms: [], traits: [], description: "" }
+    }
+  },
+  messaging: { coreMessage: "", keywords: [] },
+  experienceDesign: "",
+  touchPoints: [{ category: "", items: [] }],
+  growthPrograms: [{ name: "", description: "" }],
+  partnerships: [{ name: "", description: "" }],
+  customerJourney: [{ phase: "", stage: "", action: "", touchpoints: [], kpis: [], insights: "" }]
+};
 
 export const brandService = {
   async generateNouns(discovery: BrandDiscovery, strategy: BrandStrategy): Promise<LogoNounGroup> {
@@ -630,375 +668,30 @@ export const brandService = {
           
           CURRENT STRATEGY (FOR REFINEMENT):
           ${currentStrategy ? JSON.stringify(currentStrategy, null, 2) : 'No current strategy (Initial Generation)'}
+
+          # ONE-SHOT REFERENCE BLUEPRINT (STRICT ADHERENCE REQUIRED)
+          Return a JSON object exactly mirroring this structure:
+          ${JSON.stringify(REFERENCE_BLUEPRINT, null, 2)}
           `,
           {
             type: "object",
             properties: {
-              overview: {
-                type: "object",
-                properties: {
-                  whoWeAre: { type: "string" },
-                  whatWeDo: { type: "string" },
-                  howWeDoIt: { type: "string" },
-                  whereWeAre: { type: "string" }
-                },
-                required: ["whoWeAre", "whatWeDo", "howWeDoIt", "whereWeAre"]
-              },
-              foundation: {
-                type: "object",
-                properties: {
-                  mission: { type: "string" },
-                  vision: { type: "string" },
-                  philosophy: { type: "string" }
-                },
-                required: ["mission", "vision", "philosophy"]
-              },
+              overview: { type: "object" },
+              foundation: { type: "object" },
               coreIdea: { type: "string" },
               story: { type: "string" },
-              audience: {
-                type: "object",
-                properties: {
-                  groups: {
-                    type: "array",
-                    items: {
-                      type: "object",
-                      properties: {
-                        name: { type: "string" },
-                        description: { type: "string" },
-                        needs: { type: "string" },
-                        painPoints: { type: "string" }
-                      },
-                      required: ["name", "description", "needs", "painPoints"]
-                    }
-                  },
-                  maslowLevel: { type: "string" },
-                  maslowExplanation: { type: "string" },
-                  maslowNeedType: { type: "string" },
-                  narrative: { type: "string" }
-                },
-                required: ["groups", "maslowLevel", "maslowExplanation", "maslowNeedType", "narrative"]
-              },
-              marketPosition: {
-                type: "object",
-                properties: {
-                  axes: {
-                    type: "object",
-                    properties: {
-                      x: { type: "string" },
-                      y: { type: "string" }
-                    },
-                    required: ["x", "y"]
-                  },
-                  quadrant: { type: "string" },
-                  statement: { type: "string" },
-                  position: {
-                    type: "object",
-                    properties: {
-                      x: { type: "number" },
-                      y: { type: "number" }
-                    },
-                    required: ["x", "y"]
-                  },
-                  competitors: {
-                    type: "array",
-                    items: {
-                      type: "object",
-                      properties: {
-                        name: { type: "string" },
-                        x: { type: "number" },
-                        y: { type: "number" },
-                        website: { type: "string" },
-                        socials: { 
-                          type: "array", 
-                          items: {
-                            type: "object",
-                            properties: {
-                              platform: { type: "string" },
-                              url: { type: "string" }
-                            },
-                            required: ["platform", "url"]
-                          }
-                        },
-                        location: { type: "string" },
-                        established: { type: "string" }
-                      },
-                      required: ["name", "x", "y", "website", "socials", "location", "established"]
-                    }
-                  },
-                  analysis: { type: "string" },
-                  gapHighlight: { type: "string" }
-                },
-                required: ["axes", "quadrant", "statement", "position", "competitors", "analysis", "gapHighlight"]
-              },
-                  archetype: {
-                    type: "object",
-                    properties: {
-                      primary: {
-                        type: "object",
-                        properties: {
-                          name: { type: "string" },
-                          innerNeed: { type: "string" },
-                          description: { type: "string" },
-                          jungianModel: { type: "string" },
-                          goal: { type: "string" },
-                          fear: { type: "string" },
-                          weakness: { type: "string" },
-                          talent: { type: "string" },
-                          personalityNarrative: { type: "string" },
-                          archetypeStatement: { type: "string" },
-                          traits: { type: "array", items: { type: "string" } },
-                          inPractice: { 
-                            type: "array", 
-                            items: {
-                              type: "object",
-                              properties: {
-                                label: { type: "string" },
-                                content: { type: "string" }
-                              },
-                              required: ["label", "content"]
-                            }
-                          },
-                          strategicRationale: { type: "string" }
-                        },
-                        required: ["name", "innerNeed", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice", "strategicRationale"]
-                      },
-                      secondary: {
-                        type: "object",
-                        properties: {
-                          name: { type: "string" },
-                          innerNeed: { type: "string" },
-                          description: { type: "string" },
-                          jungianModel: { type: "string" },
-                          goal: { type: "string" },
-                          fear: { type: "string" },
-                          weakness: { type: "string" },
-                          talent: { type: "string" },
-                          personalityNarrative: { type: "string" },
-                          archetypeStatement: { type: "string" },
-                          traits: { type: "array", items: { type: "string" } },
-                          inPractice: { 
-                            type: "array", 
-                            items: {
-                              type: "object",
-                              properties: {
-                                label: { type: "string" },
-                                content: { type: "string" }
-                              },
-                              required: ["label", "content"]
-                            }
-                          },
-                          strategicRationale: { type: "string" }
-                        },
-                        required: ["name", "innerNeed", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice", "strategicRationale"]
-                      },
-                      tertiary: {
-                        type: "object",
-                        properties: {
-                          name: { type: "string" },
-                          innerNeed: { type: "string" },
-                          description: { type: "string" },
-                          jungianModel: { type: "string" },
-                          goal: { type: "string" },
-                          fear: { type: "string" },
-                          weakness: { type: "string" },
-                          talent: { type: "string" },
-                          personalityNarrative: { type: "string" },
-                          archetypeStatement: { type: "string" },
-                          traits: { type: "array", items: { type: "string" } },
-                          inPractice: { 
-                            type: "array", 
-                            items: {
-                              type: "object",
-                              properties: {
-                                label: { type: "string" },
-                                content: { type: "string" }
-                              },
-                              required: ["label", "content"]
-                            }
-                          },
-                          strategicRationale: { type: "string" }
-                        },
-                        required: ["name", "innerNeed", "description", "jungianModel", "goal", "fear", "weakness", "talent", "traits", "inPractice", "strategicRationale"]
-                      },
-                  behavior: {
-                    type: "object",
-                    properties: {
-                      tone: {
-                        type: "object",
-                        properties: {
-                          description: { type: "string" },
-                          framework: { type: "string" },
-                          examples: { type: "array", items: { type: "string" } },
-                          useCases: {
-                            type: "array",
-                            items: {
-                              type: "object",
-                              properties: {
-                                category: { type: "string", enum: ["marketing", "announcement", "acknowledgement", "support", "internal"] },
-                                platform: { type: "string" },
-                                targetAudience: { type: "string" },
-                                contentTemplate: { type: "string" },
-                                guidelines: { type: "string" },
-                                archetypeSync: { type: "string" }
-                              },
-                              required: ["category", "platform", "targetAudience", "contentTemplate", "guidelines", "archetypeSync"]
-                            }
-                          }
-                        },
-                        required: ["description", "framework", "examples", "useCases"]
-                      },
-                      role: { type: "string" },
-                      impact: { type: "string" }
-                    },
-                    required: ["tone", "role", "impact"]
-                  }
-                },
-                required: ["primary", "secondary", "tertiary", "behavior"]
-              },
-              values: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    name: { type: "string" },
-                    description: { type: "string" }
-                  },
-                  required: ["name", "description"]
-                }
-              },
+              audience: { type: "object" },
+              marketPosition: { type: "object" },
+              archetype: { type: "object" },
+              values: { type: "array" },
               essence: { type: "string" },
-              identitySystem: {
-                type: "object",
-                properties: {
-                  colors: {
-                    type: "array",
-                    minItems: 4,
-                    maxItems: 4,
-                    items: {
-                      type: "object",
-                      properties: {
-                        color: { type: "string" },
-                        role: { type: "string", enum: ["Primary", "Secondary", "Tertiary", "Accent"] },
-                        meaning: { type: "string" },
-                        application: { type: "string" }
-                      },
-                      required: ["color", "role", "meaning", "application"]
-                    }
-                  },
-                  logoOptions: {
-                    type: "array",
-                    minItems: 2,
-                    maxItems: 2,
-                    items: {
-                      type: "object",
-                      properties: {
-                        strategy: { type: "string", enum: ["User Anchored", "System Optimized"] },
-                        description: { type: "string" },
-                        shapes: { type: "array", items: { type: "string" } },
-                        logotypes: { type: "array", items: { type: "string" } },
-                        symbols: { type: "array", items: { type: "string" } },
-                        propositionalDensity: {
-                          type: "object",
-                          properties: {
-                            surface: { type: "string" },
-                            semantic: { type: "string" },
-                            rationale: { type: "string" }
-                          },
-                          required: ["surface", "semantic", "rationale"]
-                        },
-                        rationale: { type: "string" }
-                      },
-                      required: ["strategy", "description", "shapes", "logotypes", "symbols", "propositionalDensity", "rationale"]
-                    }
-                  },
-                  typography: {
-                    type: "object",
-                    properties: {
-                      primary: {
-                        type: "object",
-                        properties: {
-                          name: { type: "string" },
-                          usage: { type: "string" },
-                          platforms: { type: "array", items: { type: "string" } },
-                          traits: { type: "array", items: { type: "string" } },
-                          description: { type: "string" }
-                        },
-                        required: ["name", "usage", "platforms", "traits", "description"]
-                      },
-                      secondary: {
-                        type: "object",
-                        properties: {
-                          name: { type: "string" },
-                          usage: { type: "string" },
-                          platforms: { type: "array", items: { type: "string" } },
-                          traits: { type: "array", items: { type: "string" } },
-                          description: { type: "string" }
-                        },
-                        required: ["name", "usage", "platforms", "traits", "description"]
-                      }
-                    },
-                    required: ["primary", "secondary"]
-                  }
-                },
-                required: ["colors", "logoOptions", "typography"]
-              },
-              messaging: {
-                type: "object",
-                properties: {
-                  coreMessage: { type: "string" },
-                  keywords: { type: "array", items: { type: "string" } }
-                },
-                required: ["coreMessage", "keywords"]
-              },
+              identitySystem: { type: "object" },
+              messaging: { type: "object" },
               experienceDesign: { type: "string" },
-              touchPoints: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    category: { type: "string" },
-                    items: { type: "array", items: { type: "string" } }
-                  },
-                  required: ["category", "items"]
-                }
-              },
-              growthPrograms: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    name: { type: "string" },
-                    description: { type: "string" }
-                  },
-                  required: ["name", "description"]
-                }
-              },
-              partnerships: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    name: { type: "string" },
-                    description: { type: "string" }
-                  },
-                  required: ["name", "description"]
-                }
-              },
-              customerJourney: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    phase: { type: "string" },
-                    stage: { type: "string" },
-                    action: { type: "string" },
-                    touchpoints: { type: "array", items: { type: "string" } },
-                    kpis: { type: "array", items: { type: "string" } },
-                    insights: { type: "string" }
-                  },
-                  required: ["phase", "stage", "action", "touchpoints", "kpis", "insights"]
-                }
-              }
+              touchPoints: { type: "array" },
+              growthPrograms: { type: "array" },
+              partnerships: { type: "array" },
+              customerJourney: { type: "array" }
             },
             required: [
               "overview", "foundation", "coreIdea", "story", "audience", 
@@ -1006,7 +699,8 @@ export const brandService = {
               "identitySystem", "messaging", "experienceDesign", 
               "touchPoints", "growthPrograms", "partnerships", "customerJourney"
             ]
-          }
+          },
+          true
         );
         
         try {

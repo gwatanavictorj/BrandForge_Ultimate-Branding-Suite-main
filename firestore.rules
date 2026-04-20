@@ -87,13 +87,15 @@ service cloud.firestore {
     }
 
     function isValidProject(data) {
-      return hasOnlyAllowedFields(['id', 'ownerId', 'name', 'client', 'discovery', 'strategy', 'system', 'logoAssistant', 'tasks', 'tracking', 'selectedTools', 'createdAt']) &&
+      return hasOnlyAllowedFields(['id', 'ownerId', 'name', 'client', 'discovery', 'strategy', 'system', 'logoAssistant', 'tasks', 'tracking', 'selectedTools', 'createdAt', 'isDeleted', 'deletedAt']) &&
              data.id is string && data.id.size() > 0 &&
              data.ownerId is string && data.ownerId == request.auth.uid &&
              data.name is string && data.name.size() > 0 && data.name.size() < 200 &&
              (data.client == null || (data.client is string && data.client.size() < 200)) &&
              data.selectedTools is list && data.selectedTools.size() > 0 &&
-             data.createdAt is number;
+             data.createdAt is number &&
+             (data.isDeleted == null || data.isDeleted is bool) &&
+             (data.deletedAt == null || data.deletedAt is number);
     }
 
     // ===============================================================

@@ -2,7 +2,7 @@
 
 [![Production Roadmap](https://img.shields.io/badge/Roadmap-v1.4.2-brand.svg)](docs/user_guide.md)
 [![Operational Manual](https://img.shields.io/badge/Ops-Certified-emerald.svg)](docs/operations.md)
-[![Deployment Guide](https://img.shields.io/badge/Deploy-Docker-blue.svg)](docs/production_transition.md)
+[![Live Site](https://img.shields.io/badge/Live-brand--forge.xyz-blueviolet.svg)](https://brand-forge.xyz)
 
 BrandForge is a state-aware branding intelligence engine designed to eliminate the strategic gap between abstract brand theory and high-fidelity visual execution. Developed for elite design environments, the platform orchestrates a **Sequential Intelligence Pipeline (S.I.P)** to ensure every design asset is architecturally anchored in psychological and strategic data.
 
@@ -64,6 +64,7 @@ BrandForge utilizes a **Sequential Intelligence Pipeline (S.I.P)**—a state-awa
 | 📐 [**Technical Architecture**](docs/architecture.md) | S.I.P logic, service map, and data schema reference. |
 | 🔐 [**Security & Vault**](docs/security_and_environment.md) | AI Key management and OAuth configuration reference. |
 | 📋 [**History & Roadmap**](docs/history_and_milestones.md) | Phase-based evolution and future feature pipeline. |
+| 🧬 [**Google Verification Guide**](docs/google_verification_guide.md) | Handbook for OAuth verification and demo video script. |
 | 🔬 [**Technical White Paper**](docs/case_study.md) | Intelligence model performance and problem-solving vignettes. |
 
 ---
@@ -87,3 +88,4 @@ BrandForge utilizes a **Sequential Intelligence Pipeline (S.I.P)**—a state-awa
 ---
 
 *Copyright © 2026 TANATEQ INNOVATIONS LTD. All Rights Reserved.*
+*Support: hello@brand-forge.xyz*

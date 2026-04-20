@@ -146,11 +146,15 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
   const fetchForms = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/google/forms');
-      const { forms } = await res.json();
-      setForms(forms || []);
-    } catch (err) {
-      setError('Failed to fetch Google Forms');
+      const res = await fetch('/api/google/forms', { credentials: 'include' });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || `Error ${res.status}`);
+      }
+      setForms(data.forms || []);
+    } catch (err: any) {
+      console.error('Failed to fetch Google Forms:', err);
+      setError(`Failed to fetch Google Forms: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -159,7 +163,7 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
   useEffect(() => {
     const checkStatus = async () => {
       try {
-        const res = await fetch('/api/auth/status');
+        const res = await fetch('/api/auth/status', { credentials: 'include' });
         const { connected } = await res.json();
         setGoogleConnected(connected);
         if (connected) fetchForms();
@@ -173,7 +177,16 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       const origin = event.origin;
-      if (!origin.endsWith('.run.app') && !origin.includes('localhost')) return;
+      
+      // Trust any origin that is a variation of BrandForge
+      const isTrustedOrigin = 
+        origin === window.location.origin ||
+        origin.includes('brandforge-492618') ||
+        origin.includes('brand-forge.xyz') ||
+        origin.includes('localhost');
+
+      if (!isTrustedOrigin) return;
+      
       if (event.data?.type === 'OAUTH_AUTH_SUCCESS') {
         setGoogleConnected(true);
         fetchForms();
@@ -185,8 +198,8 @@ export const BrandDiscoveryForm = ({ initialData, onUpdate, onComplete, addNotif
 
   const handleConnectGoogle = async () => {
     try {
-      const res = await fetch('/api/auth/google/url');
-      const { url } = await res.json();
+      const authRes = await fetch(`/api/auth/google/url?origin=${encodeURIComponent(window.location.origin)}`);
+      const { url } = await authRes.json();
       window.open(url, 'google_oauth', 'width=600,height=700');
     } catch (err) {
       setError('Failed to get authentication URL');
